@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_dashboard"
+    android:layout_height="match_parent"
+
+    tools:context="com.app.devrah.Dashboard">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
+        app:srcCompat="@drawable/logo_y_axis"
+        android:layout_marginBottom="189dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/bg_circle"
+
+        android:layout_marginTop="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/dashboard_projects" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/bg__dashboard_calender"
+        android:layout_marginBottom="11dp"
+        android:layout_marginStart="25dp"
+        android:layout_above="@+id/imageView8"
+        android:layout_alignStart="@+id/imageView8" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/bg_dshboard_more"
+        android:layout_alignTop="@+id/imageView6"
+        android:layout_alignStart="@+id/imageView10" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginRight="5dp"
+        app:srcCompat="@drawable/bg_email_dashboard"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/imageView9"
+        android:layout_toStartOf="@+id/imageView5" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/bg_dashboard_star"
+        android:layout_below="@+id/imageView5"
+        android:layout_alignStart="@+id/imageView6" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+
+        app:srcCompat="@drawable/bg_dashboard_bell"
+        android:layout_below="@+id/imageView5"
+        android:layout_toEndOf="@+id/imageView6"
+        android:layout_marginStart="14dp" />
+
+    <ImageView
+        android:id="@+id/dashboard_projects"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="5dp"
+        app:srcCompat="@drawable/bg_dashboard_project"
+        android:layout_alignTop="@+id/imageView8"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_alignEnd="@+id/imageView10"
+        android:layout_marginBottom="68dp"
+        android:textSize="30sp"
+
+        android:textStyle="bold"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvQuote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="TextView"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tvTime"
+        android:layout_alignStart="@+id/tvTime" />
+
+
+</RelativeLayout>
