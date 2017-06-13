@@ -3,37 +3,39 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.app.devrah.BoardExtended;
 import com.app.devrah.BoardsActivity;
 import com.app.devrah.R;
+import com.app.devrah.pojo.GroupProjectsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
 
 /**
- * Created by AQSA SHaaPARR on 5/31/2017.
+ * Created by AQSA SHaaPARR on 6/1/2017.
  */
 
-public class ProjectsAdapter extends BaseAdapter {
+public class BoardsAdapter extends BaseAdapter {
+
+
 
     List<ProjectsPojo> projectsList;
+    String ListItemString;
     Activity activity;
     private LayoutInflater inflater;
 
 
-    public ProjectsAdapter(Activity activity, List<ProjectsPojo> projectsList) {
+    public BoardsAdapter(Activity activity, List<ProjectsPojo> projectsList) {
         this.activity = activity;
         this.projectsList = projectsList;
 
-      //  super(activity,R.layout.custom_layout_for_projects,projectsList);
+        //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
 
 
@@ -44,7 +46,7 @@ public class ProjectsAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-      return   projectsList.get(position);
+        return   projectsList.get(position);
     }
 
     @Override
@@ -61,17 +63,19 @@ public class ProjectsAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.custom_layout_for_projects, null);
+            convertView = inflater.inflate(R.layout.row_boards, null);
 
-        holder.data = (TextView) convertView.findViewById(R.id.tvProjectsData);
-        holder.data.setText(projectsList.get(position).getData());
+        holder.data = (TextView) convertView.findViewById(R.id.tvBoardsData);
+        ListItemString = projectsList.get(position).getData();
+        holder.data.setText(ListItemString);
 
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity,BoardsActivity.class);
+                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
+                Intent intent = new Intent(activity,BoardExtended.class);
+                intent.putExtra("TitleData",ListItemString);
                 activity.startActivity(intent);
 
             }
@@ -84,5 +88,14 @@ public class ProjectsAdapter extends BaseAdapter {
     public static class ViewHolder{
         TextView data;
     }
+
+
+
+
+
+
+
+
+
 
 }

@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.app.devrah.WorkBoard">
+
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:textColor="#000"
+          android:layout_marginTop="59dp"
+          android:layout_marginLeft="10dp"
+        android:padding="3dp"
+        android:text="Work Board"
+          android:id="@+id/tvReferenceBoard" />
+
+      <ImageView
+          android:id="@+id/searchBar"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+         android:layout_marginRight="20dp"
+      android:layout_marginBottom="10dp"
+          android:src="@drawable/search_workboard"
+
+          android:layout_alignTop="@+id/tvReferenceBoard"
+          android:layout_alignParentEnd="true" />
+    <ListView
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="3dp"
+        android:id="@+id/lvRBoard"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/searchBar" />
+
+
+    <Button
+        android:id="@+id/buttonAddRBoard"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/add_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="10dp"
+        />
+
+   <EditText
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Find Board"
+        android:backgroundTint="#008080"
+       android:textColorHint="#A9A9A9"
+       android:id="@+id/etSearchWBoard"
+       android:textColor="#000"
+       android:layout_above="@+id/lvRBoard"
+       android:layout_alignStart="@+id/tvReferenceBoard"
+       android:layout_alignEnd="@+id/lvRBoard" />
+
+
+
+</RelativeLayout>

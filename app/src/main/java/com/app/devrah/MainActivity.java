@@ -27,19 +27,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnSignUp, btnLogin;
-    private PrefManager prefManager;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-//        prefManager = new PrefManager(this);
-//        if (!prefManager.isFirstTimeLaunch()) {
-//            launchHomeScreen();
-//            finish();
-//        }
 
 
         if (Build.VERSION.SDK_INT >= 21) {

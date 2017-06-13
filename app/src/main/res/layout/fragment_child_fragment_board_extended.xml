@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+
+    android:padding="2dp"
+
+
+    tools:context="com.app.devrah.ChildFragmentBoardExtended">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_boards_extended_list"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="TextView"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+
+
+
+
+    <ListView
+        android:id="@+id/boardFragmentListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textName"
+
+        android:background="#DCDCDC"
+        android:dividerHeight="3dp" />
+
+
+    <TextView
+        android:id="@+id/addCard"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/boardFragmentListView"
+        android:background="@drawable/bg_boards_extended_list"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Add Card"
+        android:textColor="#00FA9A" />
+
+
+</RelativeLayout>

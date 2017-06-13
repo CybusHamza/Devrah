@@ -13,42 +13,44 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectsActivity extends AppCompatActivity {
+public class BoardsActivity extends AppCompatActivity {
+
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-//    private int[] tabIcons = {
-//            R.drawable.project_group,
-//            R.drawable.bg_dashboard_project,
-//          //  R.drawable.ic_tab_contacts
-//    };
+    private int[] tabIcons = {
+            R.drawable.work_boards,
+            R.drawable.reference_boards,
+            //  R.drawable.ic_tab_contacts
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projects);
+        setContentView(R.layout.activity_boards);
 
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpagerBoards);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabsBoards);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
     }
 
+
+
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabOne.setText("Group Projects");
+        tabOne.setText("Work Boards");
 
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
+        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.work_boards, 0, 0);
         tabLayout.getTabAt(0).setCustomView(tabOne);
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabTwo.setText("Projects");
+        tabTwo.setText("Reference Boards");
 
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
+        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.reference_boards, 0, 0);
         tabLayout.getTabAt(1).setCustomView(tabTwo);
 
 //        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
@@ -58,12 +60,18 @@ public class ProjectsActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new GroupProjects(), "Group Projects");
-        adapter.addFrag(new Projects(), "Projects");
-      //  adapter.addFrag(new ThreeFragment(), "THREE");
+        ViewPagerAdapter adapter =new  ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new WorkBoard(), "Work Boards");
+        adapter.addFrag(new ReferenceBoard(), "Reference Boards");
+        //  adapter.addFrag(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter);
     }
+
+
+
+
+
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -93,4 +101,7 @@ public class ProjectsActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
+
 }
+
