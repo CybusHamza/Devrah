@@ -22,7 +22,7 @@ public class Dashboard extends AppCompatActivity {
 
     TextView tvTime, tvQuote;
     String[] quotes;
-    ImageView imgProjects;
+    ImageView imgProjects,imgFavourites,imgMyCards,imgNotifications;
     String quote;
     Random rand;
    // int random;
@@ -37,13 +37,44 @@ public class Dashboard extends AppCompatActivity {
         tvTime = (TextView)findViewById(R.id.tvTime);
         tvQuote = (TextView)findViewById(R.id.tvQuote);
         imgProjects = (ImageView)findViewById(R.id.dashboard_projects);
+        imgFavourites = (ImageView)findViewById(R.id.imageFavourites);
+        imgMyCards = (ImageView)findViewById(R.id.imageView6);
+        imgNotifications = (ImageView)findViewById(R.id.imageNotification);
 
         imgProjects.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 Intent intent = new Intent(getApplicationContext(),ProjectsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        imgFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(),FavouritesActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        imgMyCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(getApplicationContext(),MyCardsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        imgNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(getApplicationContext(),NotificationsActivity.class);
                 startActivity(intent);
                 finish();
             }

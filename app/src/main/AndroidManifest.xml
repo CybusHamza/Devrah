@@ -9,7 +9,6 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".SignUpActivity" />
         <activity android:name=".Login" />
@@ -24,8 +23,10 @@
         <activity android:name=".ProjectsActivity" />
         <activity android:name=".BoardsActivity" />
         <activity android:name=".BoardExtended" />
-        <activity android:name=".CardActivity"
-            ></activity>
+        <activity android:name=".CardActivity" />
+        <activity android:name=".FavouritesActivity" />
+        <activity android:name=".MyCardsActivity" />
+        <activity android:name=".NotificationsActivity"></activity>
     </application>
 
 </manifest>

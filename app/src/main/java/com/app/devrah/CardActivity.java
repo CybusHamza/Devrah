@@ -197,9 +197,6 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
-
                 ProjectsPojo cardCommentData = new ProjectsPojo();
                 //  cardCommentData.setCardCommentid("Id Ov Person");
 //                cardCommentData.setCardName(CardHeading);
@@ -218,23 +215,11 @@ public class CardActivity extends AppCompatActivity {
                 rvAdapterChecklist = new RVadapterCheckList(checkListPojo, getApplicationContext());
                 rvChecklist.setAdapter(rvAdapterChecklist);
 
-
-
                 rvAdapterChecklist.notifyDataSetChanged();
               //  adapter.notifyDataSetChanged();
 
-
-
-
-
             }
         });
-
-
-
-
-
-
 
         FABdueDate.setOnClickListener(new View.OnClickListener() {
             @Override

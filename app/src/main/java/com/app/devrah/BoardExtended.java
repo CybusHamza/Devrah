@@ -49,17 +49,5 @@ public class BoardExtended extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-        
-
-
-
-
-
-
     }
 }

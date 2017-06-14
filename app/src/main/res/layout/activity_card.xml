@@ -1,7 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-
     android:fitsSystemWindows="true"
     tools:context="com.app.devrah.CardActivity">
-
 
 <android.support.design.widget.CoordinatorLayout
     android:layout_height="match_parent"
@@ -23,7 +17,6 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:background="#6897BB"
-
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -68,9 +61,6 @@
         android:background="#fff"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-
 
 
 
@@ -172,8 +162,6 @@
                     android:text="enter"/>
 
 
-
-
             </LinearLayout>
 
 
@@ -183,10 +171,6 @@
                 android:layout_height="wrap_content"
 
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-
-
-
 
 
             <LinearLayout
@@ -206,7 +190,8 @@
                     android:text="Activity"
                     android:paddingLeft="10dp"
                     android:textColor="#000"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 
@@ -224,7 +209,6 @@
                     android:id="@+id/etComment"
                     android:textColor="#000"
                     android:hint="Enter Your Comment"
-
                     android:layout_weight="1.57" />
                 <Button
                     android:layout_width="wrap_content"
@@ -232,12 +216,7 @@
                   android:layout_weight="1"
                     android:id="@+id/addDatainPojo"
                     android:background="#6897BB"
-
                     android:text="enter"/>
-
-
-
-
             </LinearLayout>
 
 

@@ -7,32 +7,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.devrah.BoardExtended;
 import com.app.devrah.BoardsActivity;
 import com.app.devrah.R;
-import com.app.devrah.pojo.GroupProjectsPojo;
+import com.app.devrah.pojo.AcitivitiesPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
 
 /**
- * Created by AQSA SHaaPARR on 6/1/2017.
+ * Created by Rizwan Butt on 14-Jun-17.
  */
 
-public class BoardsAdapter extends BaseAdapter {
+public class ActivitiesAdpater extends BaseAdapter {
 
-
-
-    List<ProjectsPojo> projectsList;
-    String ListItemString;
+    List<AcitivitiesPojo> projectsList;
     Activity activity;
     private LayoutInflater inflater;
 
 
-    public BoardsAdapter(Activity activity, List<ProjectsPojo> projectsList) {
+    public ActivitiesAdpater(Activity activity, List<AcitivitiesPojo> projectsList) {
         this.activity = activity;
         this.projectsList = projectsList;
 
@@ -64,18 +59,17 @@ public class BoardsAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.row_boards, null);
+            convertView = inflater.inflate(R.layout.custom_layout_for_activities_list_item, null);
 
-        holder.data = (TextView) convertView.findViewById(R.id.tvBoardsData);
-        ListItemString = projectsList.get(position).getData();
-        holder.data.setText(ListItemString);
+        holder.data = (TextView) convertView.findViewById(R.id.activities_data);
+        holder.data.setText(projectsList.get(position).getData());
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
-                Intent intent = new Intent(activity,BoardExtended.class);
-                intent.putExtra("TitleData",ListItemString);
+                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity,BoardsActivity.class);
                 activity.startActivity(intent);
 
             }
@@ -87,16 +81,6 @@ public class BoardsAdapter extends BaseAdapter {
 
     public static class ViewHolder{
         TextView data;
-        ImageView favouriteIcon;
     }
-
-
-
-
-
-
-
-
-
 
 }

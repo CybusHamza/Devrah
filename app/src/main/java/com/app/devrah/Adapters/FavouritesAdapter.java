@@ -1,5 +1,6 @@
 package com.app.devrah.Adapters;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,29 +11,24 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.devrah.BoardExtended;
 import com.app.devrah.BoardsActivity;
 import com.app.devrah.R;
-import com.app.devrah.pojo.GroupProjectsPojo;
+import com.app.devrah.pojo.FavouritesPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
 
 /**
- * Created by AQSA SHaaPARR on 6/1/2017.
+ * Created by Rizwan Butt on 13-Jun-17.
  */
 
-public class BoardsAdapter extends BaseAdapter {
-
-
-
-    List<ProjectsPojo> projectsList;
-    String ListItemString;
+public class FavouritesAdapter extends BaseAdapter {
+    List<FavouritesPojo> projectsList;
     Activity activity;
     private LayoutInflater inflater;
 
 
-    public BoardsAdapter(Activity activity, List<ProjectsPojo> projectsList) {
+    public FavouritesAdapter(Activity activity, List<FavouritesPojo> projectsList) {
         this.activity = activity;
         this.projectsList = projectsList;
 
@@ -58,24 +54,23 @@ public class BoardsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = new ViewHolder();
+        FavouritesAdapter.ViewHolder holder = new FavouritesAdapter.ViewHolder();
         if (inflater== null)
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.row_boards, null);
+            convertView = inflater.inflate(R.layout.custom_layout_for_favourites, null);
 
-        holder.data = (TextView) convertView.findViewById(R.id.tvBoardsData);
-        ListItemString = projectsList.get(position).getData();
-        holder.data.setText(ListItemString);
+        holder.data = (TextView) convertView.findViewById(R.id.tvFavouritesData);
+        holder.data.setText(projectsList.get(position).getData());
+
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
-                Intent intent = new Intent(activity,BoardExtended.class);
-                intent.putExtra("TitleData",ListItemString);
+                Intent intent = new Intent(activity,BoardsActivity.class);
                 activity.startActivity(intent);
 
             }
@@ -89,14 +84,5 @@ public class BoardsAdapter extends BaseAdapter {
         TextView data;
         ImageView favouriteIcon;
     }
-
-
-
-
-
-
-
-
-
 
 }
