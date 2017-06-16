@@ -37,7 +37,9 @@
         <activity android:name=".CardActivity" />
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".MyCardsActivity" />
-        <activity android:name=".NotificationsActivity"></activity>
+        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".MessagesActivity" />
+        <activity android:name=".SendNewMessageActivity"></activity>
     </application>
 
 </manifest>

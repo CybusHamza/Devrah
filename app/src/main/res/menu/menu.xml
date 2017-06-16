@@ -4,14 +4,26 @@
 
 
 
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="Setting"
+        app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:orderInCategory="200"
+        android:icon="@drawable/search_workboard"
+        app:showAsAction="ifRoom"
+        />
 
 
     <item
         android:id="@+id/tick"
         android:icon="@drawable/tick_btn_icon"
+        android:orderInCategory="300"
         app:showAsAction="ifRoom"
-
         android:title="Compose">
     </item>
 
