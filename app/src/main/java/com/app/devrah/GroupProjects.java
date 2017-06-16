@@ -136,8 +136,8 @@ pojoList = new ArrayList<>();
 
         final EditText edt = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
 
-        dialogBuilder.setTitle("Custom dialog");
-        dialogBuilder.setMessage("Enter text below");
+        dialogBuilder.setTitle("Enter Data");
+        dialogBuilder.setMessage("Enter Group Project Name");
         dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //do something with edt.getText().toString();

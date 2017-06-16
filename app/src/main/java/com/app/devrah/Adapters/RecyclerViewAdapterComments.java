@@ -10,7 +10,6 @@ import com.app.devrah.Holders.View_Holder;
 import com.app.devrah.R;
 import com.app.devrah.pojo.CardCommentData;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +19,8 @@ import java.util.List;
 
 public class RecyclerViewAdapterComments extends RecyclerView.Adapter<View_Holder> {
 
+
+    LayoutInflater inflater;
     List<CardCommentData> cardCommenList= Collections.emptyList();
     Context context;
 
@@ -35,7 +36,7 @@ public class RecyclerViewAdapterComments extends RecyclerView.Adapter<View_Holde
 
     @Override
     public View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recycler_view_cardscreen,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recycler_view_cardscreen_comment,parent,false);
         View_Holder holder = new View_Holder(view);
 
 
@@ -43,11 +44,25 @@ public class RecyclerViewAdapterComments extends RecyclerView.Adapter<View_Holde
     }
 
     @Override
-    public void onBindViewHolder(View_Holder holder, int position) {
+    public void onBindViewHolder(View_Holder holder, final int position) {
         holder.tvcardName.setText(cardCommenList.get(position).getCardName());
         holder.idCardComment.setText(cardCommenList.get(position).getCardCommentid());
        // holder.imgCard.setImageBitmap();
         holder.comment.setText(cardCommenList.get(position).getComment());
+        holder.CommentMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//               CardCommentData cardCommentData = cardCommenList.get(position);
+//                remove(cardCommentData);
+
+
+//                if (inflater==null)
+//               inflater  = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                inflater.inflate(R.layout.custom_dialog_for_edit_delete_comment,null);
+
+                removeAt(position);
+            }
+        });
 
 
 
@@ -67,6 +82,14 @@ public class RecyclerViewAdapterComments extends RecyclerView.Adapter<View_Holde
         int position = cardCommenList.indexOf(data);
         cardCommenList.remove(position);
         notifyItemRemoved(position);
+    }
+    public void removeAt(int position){
+
+
+        cardCommenList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,cardCommenList.size());
+
     }
 
 

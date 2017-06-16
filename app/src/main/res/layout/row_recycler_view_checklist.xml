@@ -7,7 +7,7 @@
     android:id="@+id/cvRVChecklist"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
        android:background="#fff"
         android:layout_height="wrap_content">
@@ -23,14 +23,35 @@
             android:textColor="#000"
             android:buttonTint="#000"
             android:id="@+id/checklistDataForRV"
-            android:text="sxcvbn"
+
             android:layout_marginLeft="10dp"/>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:longClickable="false"
+            android:clickable="false"
+            android:backgroundTint="#fff"
+            android:cursorVisible="false"
+            android:editable="false"
+            android:id="@+id/etChecklist"
+            android:layout_toRightOf="@+id/checklistDataForRV"
+            android:textSize="18sp"/>
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:src="@drawable/menu_dlt"
+    android:id="@+id/checkListDltMenu"
+    android:layout_centerVertical="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="10dp"
+    android:padding="5dp"/>
 
 
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 

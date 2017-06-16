@@ -80,6 +80,15 @@
             android:text="Comment"
             android:textColor="#000" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_dlt"
+            android:id="@+id/commentMenu"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"/>
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

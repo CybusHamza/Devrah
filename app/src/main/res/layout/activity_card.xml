@@ -43,6 +43,23 @@
                 app:layout_collapseMode="parallax" />
 
 
+            <!--<include-->
+                <!--layout="@layout/app_bar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+
+
+                <!--/>-->
+
+
+
+
+
+
+
+            
+
+
 
 
             <android.support.v7.widget.Toolbar
@@ -81,12 +98,38 @@
                 android:padding="5dp"
                 android:layout_marginTop="5dp"/>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_recycler_labels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:visibility="gone"
+                android:id="@+id/labelDone"
+                android:layout_gravity="right"/>
+
+
+           <android.support.v7.widget.RecyclerView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="left"
+               android:clickable="true"
+               android:id="@+id/rv_labels_card_screen_result"/>
+
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Members"
                 android:layout_marginLeft="10dp"
-
+                android:visibility="gone"
                 android:id="@+id/tvMembers"
                 android:textColor="#000"
                 android:textSize="15sp"
@@ -134,6 +177,16 @@
                     />
 
             </LinearLayout>
+
+
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+
+                android:progressTint="#fac903"
+                android:id="@+id/simpleProgressBar"/>
 
 
             <LinearLayout
@@ -225,7 +278,6 @@
             android:id="@+id/rv_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
@@ -241,7 +293,7 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
 
         android:layout_alignParentBottom="true"
@@ -288,7 +340,7 @@
         app:fab_progress="50"
 
         app:menu_backgroundColor="#4D000000"
-        app:menu_fab_label="your_label_here">
+       >
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/labels"

@@ -15,7 +15,7 @@ import com.app.devrah.R;
 public class View_Holder extends RecyclerView.ViewHolder {
 
    public TextView tvcardName,idCardComment,comment;
-   public ImageView imgCard;
+   public ImageView imgCard,CommentMenu;
    public CardView cv;
 
 
@@ -26,6 +26,7 @@ public class View_Holder extends RecyclerView.ViewHolder {
         idCardComment  =  (TextView)itemView.findViewById(R.id.id_of_person);
         tvcardName   = (TextView)itemView.findViewById(R.id.name_of_card);
         comment = (TextView)itemView.findViewById(R.id.comment);
+        CommentMenu = (ImageView)itemView.findViewById(R.id.commentMenu);
 
 
         imgCard = (ImageView)itemView.findViewById(R.id.imageCardView);
