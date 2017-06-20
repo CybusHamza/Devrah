@@ -26,17 +26,38 @@ public class BoardExtended extends AppCompatActivity {
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
-
+    String title;
+    View logo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_extended);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        String s = getIntent().getStringExtra("TitleData");
-        toolbar.setTitle(s);
+        title = getIntent().getStringExtra("TitleData");
+        toolbar.setTitle(title);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
-        toolbar.inflateMenu(R.menu.menu);
+        logo = getLayoutInflater().inflate(R.layout.search_bar, null);
+        toolbar.addView(logo);
+        logo.setVisibility(View.INVISIBLE);
+        edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
+        toolbar.inflateMenu(R.menu.search_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                switch (id) {
+                    case R.id.action_settings:
+                        return true;
+                    case R.id.action_search:
+                        handleMenuSearch();
+                        return true;
+                }
+
+                return true;
+            }
+        });
         fragment = (ParentBoardExtendedFragment)this.getSupportFragmentManager().findFragmentById(R.id.ajeebFrag);
     //..    lastFrag = (FragmentBoardExtendedLast)this.getSupportFragmentManager().;
         etPageName =(EditText)findViewById(R.id.editTextPageName);
@@ -70,44 +91,36 @@ public class BoardExtended extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_settings:
-                return true;
-            case R.id.action_search:
-                handleMenuSearch();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
     protected void handleMenuSearch(){
-        ActionBar action = getSupportActionBar(); //get the actionbar
+       //ActionBar action = getSupportActionBar(); //get the actionbar
 
         if(isSearchOpened){ //test if the search is open
 
-            action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true); //show the title in the action bar
-
+            //action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
+            // action.setDisplayShowTitleEnabled(true); //show the title in the action bar
             //hides the keyboard
+
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
+            toolbar.setTitle(title);
+            logo.setVisibility(View.INVISIBLE);
+            edtSeach.setText("");
 
             //add the search icon in the action bar
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
+            // mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
 
             isSearchOpened = false;
         } else { //open the search entry
 
-            action.setDisplayShowCustomEnabled(true); //enable it to display a
+       //     action.setDisplayShowCustomEnabled(true); //enable it to display a
             // custom view in the action bar.
-            action.setCustomView(R.layout.search_bar);//add the custom view
-            action.setDisplayShowTitleEnabled(false); //hide the title
+            logo.setVisibility(View.VISIBLE);
 
-            edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
+         //  action.setCustomView(R.layout.search_bar);//add the custom view
+           // action.setDisplayShowTitleEnabled(false); //hide the title
+            toolbar.setTitle("");
+
+             //the text editor
 
             //this is a listener to do a search when the user clicks on search button
             edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -130,7 +143,7 @@ public class BoardExtended extends AppCompatActivity {
 
 
             //add the close icon
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
+//            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
 
             isSearchOpened = true;
         }

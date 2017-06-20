@@ -22,7 +22,7 @@ public class Dashboard extends AppCompatActivity {
 
     TextView tvTime, tvQuote;
     String[] quotes;
-    ImageView imgProjects,imgFavourites,imgMyCards,imgNotifications,imgInbox;
+    ImageView imgProjects,imgFavourites,imgMyCards,imgNotifications,imgInbox,imgMenu;
     String quote;
     Random rand;
    // int random;
@@ -41,6 +41,7 @@ public class Dashboard extends AppCompatActivity {
         imgMyCards = (ImageView)findViewById(R.id.imageView6);
         imgNotifications = (ImageView)findViewById(R.id.imageNotification);
         imgInbox = (ImageView)findViewById(R.id.imageInbox);
+        imgMenu = (ImageView)findViewById(R.id.imageMenu);
 
         imgProjects.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +87,16 @@ public class Dashboard extends AppCompatActivity {
 
 
                 Intent intent = new Intent(getApplicationContext(),MessagesActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        imgMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(getApplicationContext(),CreateNewTeamActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -1,5 +1,6 @@
 package com.app.devrah;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,16 +8,32 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ProjectsActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    Toolbar toolbar;
+
+    private MenuItem mSearchAction;
+    private boolean isSearchOpened = false;
+    private EditText edtSeach;
+    String title;
+    View logo;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
 //            R.drawable.bg_dashboard_project,
@@ -28,7 +45,30 @@ public class ProjectsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
 
+        toolbar = (Toolbar) findViewById(R.id.header);
+        toolbar.setTitle("Projects");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        logo = getLayoutInflater().inflate(R.layout.search_bar, null);
+        toolbar.addView(logo);
+        logo.setVisibility(View.INVISIBLE);
+        edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
+        toolbar.inflateMenu(R.menu.search_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
 
+                switch (id) {
+                    case R.id.action_settings:
+                        return true;
+                    case R.id.action_search:
+                        handleMenuSearch();
+                        return true;
+                }
+
+                return true;
+            }
+        });
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -92,5 +132,80 @@ public class ProjectsActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mSearchAction = menu.findItem(R.id.action_search);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
+    protected void handleMenuSearch(){
+        //ActionBar action = getSupportActionBar(); //get the actionbar
+
+        if(isSearchOpened){ //test if the search is open
+
+            //action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
+            // action.setDisplayShowTitleEnabled(true); //show the title in the action bar
+            //hides the keyboard
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
+            toolbar.setTitle("Projects");
+            logo.setVisibility(View.INVISIBLE);
+            edtSeach.setText("");
+
+            //add the search icon in the action bar
+            // mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
+
+            isSearchOpened = false;
+        } else { //open the search entry
+
+            //     action.setDisplayShowCustomEnabled(true); //enable it to display a
+            // custom view in the action bar.
+            logo.setVisibility(View.VISIBLE);
+
+            //  action.setCustomView(R.layout.search_bar);//add the custom view
+            // action.setDisplayShowTitleEnabled(false); //hide the title
+            toolbar.setTitle("");
+
+            //the text editor
+
+            //this is a listener to do a search when the user clicks on search button
+            edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        doSearch();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+
+            edtSeach.requestFocus();
+
+            //open the keyboard focused in the edtSearch
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
+
+
+            //add the close icon
+//            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
+
+            isSearchOpened = true;
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if(isSearchOpened) {
+            handleMenuSearch();
+            return;
+        }
+        super.onBackPressed();
+    }
+    private void doSearch() {
+//
     }
 }

@@ -37,7 +37,7 @@
         android:layout_alignStart="@+id/imageInbox" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/imageMenu"
         android:layout_width="35dp"
         android:layout_height="35dp"
         app:srcCompat="@drawable/bg_dshboard_more"
