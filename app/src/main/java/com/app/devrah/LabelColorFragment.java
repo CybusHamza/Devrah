@@ -202,7 +202,6 @@ public class LabelColorFragment extends Fragment {
 
 
 
-
                 }
 
             }
