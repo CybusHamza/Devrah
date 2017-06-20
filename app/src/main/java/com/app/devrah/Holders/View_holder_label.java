@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.app.devrah.R;
 
@@ -14,7 +16,8 @@ import com.app.devrah.R;
 public class View_holder_label extends RecyclerView.ViewHolder {
 
    public ImageView imgLabel;
-  public   LinearLayout rowLabel;
+  public RelativeLayout rowLabel;
+    public TextView tvLabelNames;
 
     public View_holder_label(View itemView) {
 
@@ -22,7 +25,7 @@ public class View_holder_label extends RecyclerView.ViewHolder {
         super(itemView);
 
         imgLabel = (ImageView)itemView.findViewById(R.id.img_tick);
-        rowLabel = (LinearLayout)itemView.findViewById(R.id.labels_row);
-
+        rowLabel = (RelativeLayout)itemView.findViewById(R.id.labels_row);
+     //   tvLabelNames = (TextView)itemView.findViewById(R.id.tvLabelName);
     }
 }

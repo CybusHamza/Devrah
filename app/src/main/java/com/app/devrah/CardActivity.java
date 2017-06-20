@@ -2,11 +2,15 @@ package com.app.devrah;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.SwipeDismissBehavior;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +34,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -53,6 +58,9 @@ import java.util.List;
 public class CardActivity extends AppCompatActivity {
 
     CollapsingToolbarLayout collapsingToolbarLayout;
+public  static View view;
+
+
 
         public static   boolean onFocus = false;
     public static Context mcontext;
@@ -63,6 +71,7 @@ public class CardActivity extends AppCompatActivity {
 
     ProjectsPojo projectPojoData;
     String  projectData;
+    List<String> labelNameList;
     List<Integer> ResultColorList;
     ListView lv;
     List<MembersPojo> membersPojoList;
@@ -98,11 +107,9 @@ public class CardActivity extends AppCompatActivity {
     List<CardCommentData> listPojo;
     static List<Integer> colorList;
     static List<Integer> listt;
-    List<Integer> resultColorList;
+    static List<Integer> resultColorList;
+   public static TextView labelAdd;
     List<ProjectsPojo> checkListPojo;
-//    Toolbar toolbar;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,42 +117,41 @@ public class CardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card);
 
 
-
         mcontext = getApplicationContext();
       listPojo = new ArrayList<>();
         checkListPojo = new ArrayList<>();
         membersPojoList = new ArrayList<>();
+        labelNameList = new ArrayList<>();
         colorList = new ArrayList<>();
+
         resultColorList = new ArrayList<>();
         listt = new ArrayList<>();
         colorList.add(getResources().getColor(R.color.colorAccent));
 
-
+        labelAdd = (TextView)findViewById(R.id.tvAddLabel);
         Mactivity = CardActivity.this;
         colorList.add(getResources().getColor(R.color.colorPrimaryDark));
          colorList.add(getResources().getColor(R.color.colorGreen));
         colorList.add(getResources().getColor(R.color.colorOrangeRed));
         colorList.add(getResources().getColor(R.color.colorOrange));
         colorList.add(getResources().getColor(R.color.colorYellow));
+        colorList.add(LabelColorFragment.color);
+
+//        labelNameList.add("Complete");
+//        labelNameList.add("In Progress");
+//
 
 
 
-        //colorList.add(Color.RED);
 
         LACheckList = (LinearLayout)findViewById(R.id.LinearLayoutChecklist);
         rvCard = (RelativeLayout)findViewById(R.id.bg_card);
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
         simpleProgressBar.setScaleY(3f);    //height of progress bar
-//        tvDue = (TextView)findViewById(R.id.tvDue);
-
-
-        labelDone = (Button)findViewById(R.id.labelDone);
-       // laToolbar = (LinearLayout) findViewById(R.id.laToolbar);
-
         staticCheckList = (LinearLayout)findViewById(R.id.linearLayoutCheckboxHeading);
         cbDueDate = (CheckBox) findViewById(R.id.tvDue);
         etCheckList = (EditText) findViewById(R.id.etCheckBox);
-        checklistAddBtn = (Button)findViewById(R.id.addChecklist);
+       // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         rvLabelResult = (RecyclerView)findViewById(R.id.rv_labels_card_screen_result);
@@ -179,48 +185,8 @@ public class CardActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(CardHeading);
 
         etComment = (EditText)findViewById(R.id.etComment);
-        addBtn = (Button)findViewById(R.id.addDatainPojo);
 
 
-
-        etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-
-                    MenuItem btn = menu.findItem(R.id.menu);
-                    btn.setVisible(false);
-                }
-            }
-        });
-
-
-
-//////////////////////////////////////////
-        labelDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                menu.clear();
-                onFocus = false;
-                labelDone.setVisibility(View.GONE);
-
-                Toast.makeText(getApplicationContext(),"Label Done Clicked",Toast.LENGTH_SHORT).show();
-
-                rvLabel.setVisibility(View.GONE);
-                rvLabelResult.setLayoutManager(new LinearLayoutManager(CardActivity.this,LinearLayoutManager.HORIZONTAL,true));
-
-
-                 listt=  rvAdapterLabel.getData(resultColorList);
-
-
-
-                RVLabelResultAdapter adapter = new RVLabelResultAdapter(activity,listt);
-                rvLabelResult.setAdapter(adapter);
-                menuChanger(menu,onFocus);
-
-            }
-        });
 
 
 
@@ -255,6 +221,22 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
+        labelAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+
+                LabelColorFragment colorFragment = new LabelColorFragment();
+
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.add(R.id.fragmentContainer,colorFragment).addToBackStack("Frag1").commit();
+
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                Fragment fragment = new LabelColorFragment();
+            }
+        });
+
+
 
         FABchecklist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,37 +266,6 @@ public class CardActivity extends AppCompatActivity {
         });
 
 
-        checklistAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            fabm.setVisibility(View.VISIBLE);
-
-
-                ProjectsPojo cardCommentData = new ProjectsPojo();
-                //  cardCommentData.setCardCommentid("Id Ov Person");
-//                cardCommentData.setCardName(CardHeading);
-//                cardCommentData.setComment(etComment.getText().toString());
-//               // listPojo.add(cardCommentData);
-                cardCommentData.setData(etCheckList.getText().toString());
-                checkListPojo.add(cardCommentData);
-                // adapter = new RecyclerViewAdapterComments();
-                //  adapter = new RecyclerViewAdapterComments();
-
-                rvChecklist.setLayoutManager(layoutManager);
-
-                rvAdapterChecklist = new RVadapterCheckList(checkListPojo, getApplicationContext());
-                rvChecklist.setAdapter(rvAdapterChecklist);
-
-                rvAdapterChecklist.notifyDataSetChanged();
-
-                //////////////////////////////////////////////////////////////////////////////////////////////////////
-              //  adapter.notifyDataSetChanged();
-
-
-
-            }
-        });
 
         cbDueDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -332,12 +283,7 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-        //fab1 = (FloatingActionButton)findViewById(R.id.)
-       fabm = (FloatingActionMenu)findViewById(R.id.menu);
+        fabm = (FloatingActionMenu)findViewById(R.id.menu);
 
 
 
@@ -346,36 +292,38 @@ public class CardActivity extends AppCompatActivity {
 
 
 
-
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-               // CardCommentData card = new CardCommentData("Id of Person",CardHeading,etComment.getText().toString());
-                menu.clear();
-                etComment.clearFocus();
-
-
-                fabm.setVisibility(View.VISIBLE);
-
-                CardCommentData cardCommentData = new CardCommentData();
-                cardCommentData.setCardCommentid("Id Ov Person");
-                cardCommentData.setCardName(CardHeading);
-                cardCommentData.setComment(etComment.getText().toString());
-                listPojo.add(cardCommentData);
-           // adapter = new RecyclerViewAdapterComments();
-              //  adapter = new RecyclerViewAdapterComments();
-
-                rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                adapter = new RecyclerViewAdapterComments(listPojo, getApplicationContext());
-                rv.setAdapter(adapter);
-
-
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
+
+    public void addDataInComments(){
+
+
+       /// menu.clear();
+       // etComment.clearFocus();
+
+
+        fabm.setVisibility(View.VISIBLE);
+
+        CardCommentData cardCommentData = new CardCommentData();
+        cardCommentData.setCardCommentid("Id Ov Person");
+        cardCommentData.setCardName(CardHeading);
+        cardCommentData.setComment(etComment.getText().toString());
+        listPojo.add(cardCommentData);
+        // adapter = new RecyclerViewAdapterComments();
+        //  adapter = new RecyclerViewAdapterComments();
+
+        rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        adapter = new RecyclerViewAdapterComments(listPojo, getApplicationContext());
+        rv.setAdapter(adapter);
+
+
+        adapter.notifyDataSetChanged();
+
+    }
+
+
+
+
     public void showMembersDialog(){
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
         View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout,null);
@@ -431,10 +379,8 @@ public class CardActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu){
+    public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
-
-
 
 
         etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -442,28 +388,97 @@ public class CardActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
 
 
-                menuChanger(menu,hasFocus);
+                menuChanger(menu, hasFocus);
+
+
+                if (hasFocus == true) {
+
+                    MenuItem menuItem = menu.findItem(R.id.tick);
+                    menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Toast.makeText(CardActivity.this, "asdfghj", Toast.LENGTH_SHORT).show();
+                            addDataInComments();
+                            etComment.clearFocus();
+                            return true;
+                        }
+
+                    });
+
+                } else
+                    menuChanger(menu, hasFocus);
+
+
             }
         });
-        etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+
+        rvLabel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
+
                 menuChanger(menu,hasFocus);
+                if (hasFocus){
+
+                    MenuItem item = (MenuItem)findViewById(R.id.tick);
+                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                           addLabel();
+                            rvLabel.clearFocus();
+
+                            return true;
+                        }
+                    });
+                }
+                else {
+
+                    menuChanger(menu, hasFocus);
+
+
+                }
             }
         });
-//       rvLabelResult.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//           @Override
-//           public void onFocusChange(View v, boolean hasFocus) {
-//
-//               if (hasFocus)
-//                   Toast.makeText(getApplicationContext(),"Has focus",Toast.LENGTH_SHORT).show();
-//               else
-//                   Toast.makeText(getApplicationContext(),"No focus",Toast.LENGTH_SHORT).show();
-//
-//
-//               menuChanger(menu,hasFocus);
-//           }
-//       });
+
+
+
+        etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, final boolean hasFocus) {
+                menuChanger(menu, hasFocus);
+
+                if (hasFocus==true){
+
+
+                    MenuItem tick = menu.findItem(R.id.tick);
+                    tick.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
+
+                                addDataInChecklist();
+                                menuChanger(menu, hasFocus);
+                                etCheckList.clearFocus();
+
+
+                                return true;
+
+                        }
+                    });
+
+
+
+                }
+                else {
+                    // addDataInChecklist();
+                    menuChanger(menu, false);
+                    // etCheckList.clearFocus();
+                }
+
+
+            }
+        });
 
 
         FABLabel.setOnClickListener(new View.OnClickListener() {
@@ -483,25 +498,102 @@ public class CardActivity extends AppCompatActivity {
 //                onFocus = true;
 //                menuChanger(menu,onFocus);
                 showLabelsMenu();
+            //    doneLabelResult();
 
             }
         });
 
 
+    return true;
+    }
 
-        return true;
-            }
+
+    public static void addLabel(){
 
 
+        menu.clear();
+        onFocus = false;
+///        labelDone.setVisibility(View.GONE);
+
+        Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
+
+        rvLabel.setVisibility(View.GONE);
+        rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
+
+
+        listt=  rvAdapterLabel.getData(resultColorList);
+
+
+
+        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt);
+        rvLabelResult.setAdapter(adapter);
+        menuChanger(menu,onFocus);
+
+
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (getSupportFragmentManager().findFragmentByTag("Frag1") != null) {
+            getSupportFragmentManager().popBackStackImmediate("Frag1",0);
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+
+    public void addDataInChecklist(){
+
+        ProjectsPojo cardCommentData = new ProjectsPojo();
+        //  cardCommentData.setCardCommentid("Id Ov Person");
+//                cardCommentData.setCardName(CardHeading);
+//                cardCommentData.setComment(etComment.getText().toString());
+//               // listPojo.add(cardCommentData);
+        cardCommentData.setData(etCheckList.getText().toString());
+        checkListPojo.add(cardCommentData);
+        // adapter = new RecyclerViewAdapterComments();
+        //  adapter = new RecyclerViewAdapterComments();
+
+        rvChecklist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        rvAdapterChecklist = new RVadapterCheckList(checkListPojo, getApplicationContext());
+        rvChecklist.setAdapter(rvAdapterChecklist);
+
+        rvAdapterChecklist.notifyDataSetChanged();
+
+
+
+    }
 
         public static void showLabelsMenu(){
 
             menuChanger(menu,true);
-            labelDone.setVisibility(View.VISIBLE);
+//            labelDone.setVisibility(View.VISIBLE);
             if (rvLabel.getVisibility()== View.GONE){
                 rvLabel.setVisibility(View.VISIBLE);
+                labelAdd.setVisibility(View.VISIBLE);
+            }
+            if (labelAdd.getVisibility()== View.GONE){
+                labelAdd.setVisibility(View.VISIBLE);
+
+
             }
 
+                MenuItem menuItem = menu.findItem(R.id.tick);
+
+                menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                      Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
+                        addLabel();
+
+                        return true;
+                    }
+                });
 
             rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
 
@@ -513,7 +605,7 @@ public class CardActivity extends AppCompatActivity {
 
         }
 
-
+    //    public void doneLabelResult(){}
 
     public void dueDate(){
 
@@ -604,10 +696,6 @@ public class CardActivity extends AppCompatActivity {
 
                 }
 
-
-
-
-
             }
 
             @Override
@@ -648,10 +736,6 @@ public class CardActivity extends AppCompatActivity {
                         break;
                 }
 
-
-//                        spinnertTimeList.remove(spinnertTimeList.size() - 1);
-
-
             }
 
             @Override
@@ -688,26 +772,20 @@ public class CardActivity extends AppCompatActivity {
         alertDialog.show();
 
 
-
-
-
-
     }
 
     public static void menuChanger(Menu menu, boolean hasFocus){
 
         menu.clear();
-        if (hasFocus)
+        if (hasFocus) {
 
             Mactivity.getMenuInflater().inflate(R.menu.menu, menu);
-        else
+        }
+
+            else {
             Mactivity.getMenuInflater().inflate(R.menu.my_menu, menu);
 
-
-
+        }
     }
-
-
-
 
 }

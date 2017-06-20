@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -47,10 +48,22 @@ public class RVadapterCheckList extends RecyclerView.Adapter<View_Holder_Checkli
     }
 
     @Override
-    public void onBindViewHolder(View_Holder_Checklist holder, final int position) {
+    public void onBindViewHolder(final View_Holder_Checklist holder, final int position) {
 
 
         holder.etChecklist.setText(dataList.get(position).getData());
+
+        holder.etChecklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CardActivity.onFocus = true;
+                CardActivity.menuChanger(CardActivity.menu,CardActivity.onFocus);
+                holder.etChecklist.setClickable(true);
+                holder.etChecklist.setLongClickable(true);
+                holder.etChecklist.setCursorVisible(true);
+                holder.etChecklist.setEnabled(true);
+            }
+        });
         //holder.cb.setText(dataList.get(position).getData());
 //        holder.cb.setOnClickListener(new View.OnClickListener() {
 //            @Override
