@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.devrah.pojo.ColorsPojo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -249,7 +251,7 @@ public class LabelColorFragment extends Fragment {
                         layout.setVisibility(View.GONE);
 
 
-                        int color = Color.TRANSPARENT;
+                         color = Color.TRANSPARENT;
                         Drawable background = rFive.getBackground();
                         if (background instanceof ColorDrawable)
                             color = ((ColorDrawable) background).getColor();
@@ -279,7 +281,7 @@ public class LabelColorFragment extends Fragment {
                         layout.setVisibility(View.GONE);
 
 
-                        int color = Color.TRANSPARENT;
+                         color = Color.TRANSPARENT;
                         Drawable background = rSix.getBackground();
                         if (background instanceof ColorDrawable)
                             color = ((ColorDrawable) background).getColor();
@@ -307,7 +309,7 @@ public class LabelColorFragment extends Fragment {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
-                        int color = Color.TRANSPARENT;
+                         color = Color.TRANSPARENT;
                         Drawable background = rSeven.getBackground();
                         if (background instanceof ColorDrawable)
                             color = ((ColorDrawable) background).getColor();
@@ -335,7 +337,7 @@ public class LabelColorFragment extends Fragment {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
-                        int color = Color.TRANSPARENT;
+                         color = Color.TRANSPARENT;
                         Drawable background = rEight.getBackground();
                         if (background instanceof ColorDrawable)
                             color = ((ColorDrawable) background).getColor();
@@ -362,7 +364,7 @@ public class LabelColorFragment extends Fragment {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
-                        int color = Color.TRANSPARENT;
+                        color = Color.TRANSPARENT;
                         Drawable background = rNine.getBackground();
                         if (background instanceof ColorDrawable)
                             color = ((ColorDrawable) background).getColor();
@@ -402,10 +404,12 @@ public class LabelColorFragment extends Fragment {
 
               //  getActivity().onBackPressed();
                 FragmentManager fm = getFragmentManager();
+                ColorsPojo colorsPojo = new ColorsPojo();
 //              //  getActivity().getSupportFragmentManager().popBackStack();
 //              //  getFragmentManager().popBackStackImmediate();
 //                //getActivity().finish();
 //
+                colorsPojo.setColor(color);
 //                getFragmentManager().
                 fm.popBackStack();
 //
@@ -428,30 +432,13 @@ public class LabelColorFragment extends Fragment {
         }
     }
 
-
-//
-//    public void changeVisibility( ImageView tick){
-//
-//
-//                if (tick.getVisibility()==View.GONE){
-//                    tick.setVisibility(View.VISIBLE);
-//                }
-//                if (tick.getVisibility()==View.VISIBLE){
-//                    tick.setVisibility(View.GONE);
-//                }
-//
-//
-//
-//
-//    }
-
-    public void findingItemWithTick(){
+        public static int getColor(){
 
 
 
+            return color;
 
-    }
-
+        }
 
     @Override
     public void onDetach() {

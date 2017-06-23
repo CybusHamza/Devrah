@@ -21,7 +21,7 @@
 
         android:layout_gravity="right"
         android:id="@+id/img_tick"
-android:background="#fac903"
+
 
         android:visibility="gone"
         android:src="@drawable/tick_btn_icon"

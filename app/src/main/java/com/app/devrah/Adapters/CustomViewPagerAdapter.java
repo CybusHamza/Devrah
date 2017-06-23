@@ -82,7 +82,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
 
    // public View getTabView(final int position) {
-      //  View view = LayoutInflater.from(context).inflate(R.layout.custom_tab_item, null);
+      //  View view = LayoutInflater.from(activity).inflate(R.layout.custom_tab_item, null);
        // TextView tabItemName = (TextView) view.findViewById(R.id.textViewTabItemName);
 //        CircleImageView tabItemAvatar =
 //                (CircleImageView) view.findViewById(R.id.imageViewTabItemAvatar);
@@ -96,7 +96,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
 
 //        tabItemName.setText(mFragmentTitleList.get(position));
-//        tabItemName.setTextColor(context.getResources().getColor(android.R.color.background_light));
+//        tabItemName.setTextColor(activity.getResources().getColor(android.R.color.background_light));
 
      //   return view;
     //}
@@ -111,7 +111,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 //    }
 
 //    public View getTabView(final int position) {
-//        View view = LayoutInflater.from(context).inflate(R.layout.custom_tab_item, null);
+//        View view = LayoutInflater.from(activity).inflate(R.layout.custom_tab_item, null);
 //        TextView tabItemName = (TextView) view.findViewById(R.id.textViewTabItemName);
 //       //ImageButton remove = (ImageButton) view.findViewById(R.id.imageButtonRemove);
 //        remove.setOnClickListener(new View.OnClickListener() {

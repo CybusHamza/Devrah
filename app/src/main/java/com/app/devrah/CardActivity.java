@@ -2,23 +2,26 @@ package com.app.devrah;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.SwipeDismissBehavior;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.ShowableListMenu;
-import android.support.v7.widget.ForwardingListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,41 +32,60 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import org.apache.commons.io.FilenameUtils;
+
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.app.devrah.Adapters.AdapterMembers;
+import com.app.devrah.Adapters.AttachmentImageAdapter;
+import com.app.devrah.Adapters.FilesAdapter;
 import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Adapters.RVLabelResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
+import com.app.devrah.pojo.AttachmentsPojo;
 import com.app.devrah.pojo.CardCommentData;
+import com.app.devrah.pojo.ColorsPojo;
 import com.app.devrah.pojo.MembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
+
+//import static android.R.attr.orientation;
+//import static android.R.attr.width;
+//import static android.R.attr.x;
+//import static android.R.attr.y;
+//import static android.media.ExifInterface.ORIENTATION_ROTATE_180;
+//import static android.media.ExifInterface.ORIENTATION_ROTATE_270;
+//import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
+//import static android.support.design.R.attr.height;
 
 public class CardActivity extends AppCompatActivity {
 
     CollapsingToolbarLayout collapsingToolbarLayout;
 public  static View view;
+    List<File> fileList;
 
 
 
         public static   boolean onFocus = false;
     public static Context mcontext;
+    AttachmentImageAdapter imageAdapter;
 
        public static CardActivity Mactivity;
     LinearLayout LACheckList,staticCheckList;
@@ -92,6 +114,8 @@ public  static View view;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
 
+
+    public static RelativeLayout container;
     TextView tvMembers;
 
     static Button labelDone;
@@ -101,37 +125,47 @@ public  static View view;
    public static Menu menu;
     RecyclerViewAdapterComments adapter;
     RVadapterCheckList rvAdapterChecklist;
-
+    public List<Bitmap> bitmapList;
+    private static final int READ_REQUEST_CODE = 42;
     static RVLabelAdapter rvAdapterLabel;
-   public static RecyclerView rv,rvChecklist,rvLabel,rvLabelResult;
+   public static RecyclerView rv,rvChecklist,rvLabel,rvLabelResult,rvAttachmentImages;
     List<CardCommentData> listPojo;
     static List<Integer> colorList;
+    RecyclerView rvFiles;
+    FragmentManager fm;
     static List<Integer> listt;
     static List<Integer> resultColorList;
    public static TextView labelAdd;
     List<ProjectsPojo> checkListPojo;
-
+    List<AttachmentsPojo> attachmentsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
 
+        container = (RelativeLayout)findViewById(R.id.fragmentContainer);
+        rvFiles = (RecyclerView)findViewById(R.id.rv_files_cardscreen);
+        fileList = new ArrayList<>();
+        attachmentsList = new ArrayList<>();
 
         mcontext = getApplicationContext();
       listPojo = new ArrayList<>();
+        bitmapList = new ArrayList<>();
         checkListPojo = new ArrayList<>();
         membersPojoList = new ArrayList<>();
         labelNameList = new ArrayList<>();
         colorList = new ArrayList<>();
-
+        rvAttachmentImages =(RecyclerView) findViewById(R.id.rvImagesAttachment);
         resultColorList = new ArrayList<>();
         listt = new ArrayList<>();
         colorList.add(getResources().getColor(R.color.colorAccent));
 
+        fm = getSupportFragmentManager();
         labelAdd = (TextView)findViewById(R.id.tvAddLabel);
         Mactivity = CardActivity.this;
         colorList.add(getResources().getColor(R.color.colorPrimaryDark));
          colorList.add(getResources().getColor(R.color.colorGreen));
+
         colorList.add(getResources().getColor(R.color.colorOrangeRed));
         colorList.add(getResources().getColor(R.color.colorOrange));
         colorList.add(getResources().getColor(R.color.colorYellow));
@@ -198,15 +232,30 @@ public  static View view;
                 View view = inflater.inflate(R.layout.custom_attachments_layout_dialog,null);
 
 
-                AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
+                final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
 
                 LinearLayout linearLayoutCamera = (LinearLayout)view.findViewById(R.id.linearLayoutCamera);
+                LinearLayout otherFiles = (LinearLayout)view.findViewById(R.id.otherFiles);
 
                 linearLayoutCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, 1);
+                        alertDialog.dismiss();
+
+
+                    }
+                });
+                otherFiles.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        alertDialog.dismiss();
+                        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                        chooseFile.setType("*/*");
+                        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+                        startActivityForResult(chooseFile, READ_REQUEST_CODE);
 
 
                     }
@@ -294,11 +343,113 @@ public  static View view;
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+
+
+
+
+            Uri selectedImage = data.getData();
+          //  File imageFile = new File(selectedImage.toString());
+
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+          //  rotateImage(bitmap,selectedImage.toString());
+
+
+            rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
+            bitmapList.add(rotateBitmap(bitmap));
+            imageAdapter = new AttachmentImageAdapter(Mactivity,bitmapList,fm);
+            rvAttachmentImages.setAdapter(imageAdapter);
+
+
+        }
+        if (requestCode==READ_REQUEST_CODE && resultCode ==Activity.RESULT_OK){
+
+            Uri uri = data.getData();
+            String src = uri.getPath();
+           // String fileName = FilenameUtils.getName(src);
+
+
+
+
+
+
+
+
+
+            String fileName = null;
+            if (uri.getScheme().equals("file")) {
+                fileName = uri.getLastPathSegment();
+            } else {
+                Cursor cursor = null;
+                try {
+                    cursor = getContentResolver().query(uri, new String[]{
+                            MediaStore.Images.ImageColumns.DISPLAY_NAME
+                    }, null, null, null);
+
+                    if (cursor != null && cursor.moveToFirst()) {
+                        fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
+                   //     Log.d("Name", "name is " + fileName);
+                    }
+                } finally {
+
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
+            }
+
+
+            Calendar c = Calendar.getInstance();
+
+
+            AttachmentsPojo attachmentsPojo = new AttachmentsPojo();
+            attachmentsPojo.setNameOfFile(fileName);
+            attachmentsPojo.setDateUpload(c.get(Calendar.DATE) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.YEAR));
+
+            attachmentsList.add(attachmentsPojo);
+            rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            FilesAdapter adapter = new FilesAdapter(attachmentsList,Mactivity);
+            rvFiles.setAdapter(adapter);
+            Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
+
+
+
+        }
+
+        }
+
+    private Bitmap rotateBitmap(Bitmap image){
+        int width=image.getHeight();
+        int height=image.getWidth();
+
+        Bitmap srcBitmap=Bitmap.createBitmap(width, height, image.getConfig());
+
+        for (int y=width-1;y>=0;y--)
+            for(int x=0;x<height;x++)
+                srcBitmap.setPixel(width-y-1, x,image.getPixel(x, y));
+        return srcBitmap;
+
+    }
+
+//        public void ListDir(File file){
+//
+//        File[] files = file.listFiles();
+//            fileList.clear();
+//            for(File f :files){
+//
+//                fileList.add(f.getPath());
+//
+//            }
+//
+//
+//
+//        }
+
     public void addDataInComments(){
-
-
-       /// menu.clear();
-       // etComment.clearFocus();
 
 
         fabm.setVisibility(View.VISIBLE);
@@ -308,8 +459,6 @@ public  static View view;
         cardCommentData.setCardName(CardHeading);
         cardCommentData.setComment(etComment.getText().toString());
         listPojo.add(cardCommentData);
-        // adapter = new RecyclerViewAdapterComments();
-        //  adapter = new RecyclerViewAdapterComments();
 
         rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -518,6 +667,7 @@ public  static View view;
         Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
 
         rvLabel.setVisibility(View.GONE);
+        labelAdd.setVisibility(View.GONE);
         rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
 
 
@@ -539,6 +689,8 @@ public  static View view;
 
         if (getSupportFragmentManager().findFragmentByTag("Frag1") != null) {
             getSupportFragmentManager().popBackStackImmediate("Frag1",0);
+            colorList.add(LabelColorFragment.getColor());
+            showLabelsMenu();
         } else {
             super.onBackPressed();
         }
@@ -572,6 +724,7 @@ public  static View view;
         public static void showLabelsMenu(){
 
             menuChanger(menu,true);
+
 //            labelDone.setVisibility(View.VISIBLE);
             if (rvLabel.getVisibility()== View.GONE){
                 rvLabel.setVisibility(View.VISIBLE);
@@ -596,8 +749,8 @@ public  static View view;
                 });
 
             rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
-
-
+            ColorsPojo colorsPojo = new ColorsPojo();
+            colorList.add(colorsPojo.getColor());
             rvAdapterLabel = new RVLabelAdapter(Mactivity,colorList,listt);
             rvLabel.setAdapter(rvAdapterLabel);
             fabm.close(true);
