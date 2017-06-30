@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 R.layout.slide2,
                 R.layout.slide3,
                 R.layout.slide4,
-                R.layout.slide5
-        ,R.layout.slide6};
+                R.layout.slide5,
+                R.layout.slide6};
 
         addBottomDots(0);
 
@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                // launchHomeScreen();
-
-
                 Intent intent = new Intent(MainActivity.this,SignUpActivity.class);
                 startActivity(intent);
                 finish();

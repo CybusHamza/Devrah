@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="58dp"
         android:orientation="horizontal"
-        android:background="#fff">
+        android:background="#fff"
+        android:weightSum="1">
         <ImageView
             android:id="@+id/memberProfilePic"
             android:layout_width="50dp"
@@ -23,24 +24,22 @@
 
         <TextView
             android:id="@+id/memberName"
-            android:layout_width="254dp"
+            android:layout_width="194dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingTop="20dp"
             android:text="test"
             android:textColor="#000"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_weight="0.54" />
+
         <ImageView
             android:id="@+id/removeAccessTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="3dp"
-            android:src="@drawable/remove_user"
-            android:textColor="#fff" />
-
-
-
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/remove_user" />
     </LinearLayout>
 
 

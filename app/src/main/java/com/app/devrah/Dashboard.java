@@ -1,11 +1,16 @@
 package com.app.devrah;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,12 +27,12 @@ public class Dashboard extends AppCompatActivity {
 
     TextView tvTime, tvQuote;
     String[] quotes;
-    ImageView imgProjects,imgFavourites,imgMyCards,imgNotifications,imgInbox,imgMenu;
+    ImageView imgProjects,imgFavourites,imgMyCards,imgNotifications,imgInbox,imgMenu,imgProfile;
     String quote;
     Random rand;
    // int random;
     Activity mActivity;
-
+   String[] ProfileArray={"Edit Profile","Logoff","Change Password"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class Dashboard extends AppCompatActivity {
         imgNotifications = (ImageView)findViewById(R.id.imageNotification);
         imgInbox = (ImageView)findViewById(R.id.imageInbox);
         imgMenu = (ImageView)findViewById(R.id.imageMenu);
+        imgProfile = (ImageView)findViewById(R.id.imageProfile);
 
         imgProjects.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +105,35 @@ public class Dashboard extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),CreateNewTeamActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                    builder.setTitle("")
+                            .setItems(ProfileArray, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // The 'which' argument contains the index position
+                                    // of the selected item
+                                    switch (which){
+                                        case 0:
+                                            Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                                            startActivity(intent);
+                                            break;
+                                        case 1:
+                                            break;
+                                        case 2:
+                                            changePasswordDialog();
+                                            break;
+                                    }
+
+                                }
+                            });
+                    builder.show();
+                    //return builder.create();
+
             }
         });
 
@@ -196,11 +231,34 @@ public class Dashboard extends AppCompatActivity {
         timer.start();
 
 
+    }
+    private void changePasswordDialog(){
+        LayoutInflater inflater = LayoutInflater.from(Dashboard.this);
+        View subView = inflater.inflate(R.layout.custom_dialog_for_change_password, null);
+        final EditText changePassword = (EditText)subView.findViewById(R.id.etPass);
 
 
+       AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Change Password");
+        builder.setMessage("");
+        builder.setView(subView);
+        AlertDialog alertDialog = builder.create();
 
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
 
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.show();
     }
 
 
