@@ -106,13 +106,18 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Done"
+                android:text="CREATE A NEW LABEL"
+                android:textColor="#00FA9A"
                 android:visibility="gone"
-                android:id="@+id/labelDone"
-                android:layout_gravity="right"/>
+                android:id="@+id/tvAddLabel"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"/>
+
+
+
 
 
            <android.support.v7.widget.RecyclerView
@@ -121,6 +126,20 @@
                android:layout_gravity="left"
                android:clickable="true"
                android:id="@+id/rv_labels_card_screen_result"/>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:clickable="true"
+                android:id="@+id/rv_files_cardscreen"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+android:layout_gravity="left"
+                android:id="@+id/rvImagesAttachment"/>
 
 
 
@@ -199,20 +218,22 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:layout_width="275dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/etCheckBox"
                     android:textColor="#000"
-                    android:hint="Enter Your Comment"
+                    android:backgroundTint="#A9A9A9"
+                    android:textColorHint="#D3D3D3"
+                    android:hint="Enter Your Check list"
 
                     android:layout_weight="1.57" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/addChecklist"
-                    android:background="#6897BB"
-                    android:text="enter"/>
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:id="@+id/addChecklist"-->
+                    <!--android:background="#6897BB"-->
+                    <!--android:text="enter"/>-->
 
 
             </LinearLayout>
@@ -256,21 +277,26 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/comment"/>
+
+
+
                 <EditText
                     android:layout_width="275dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/etComment"
                     android:textColor="#000"
+                    android:backgroundTint="#A9A9A9"
+
                     android:hint="Enter Your Comment"
+                    android:textColorHint="#D3D3D3"
                     android:layout_weight="1.57" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                    android:id="@+id/addDatainPojo"
-                    android:background="#6897BB"
-                    android:text="enter"/>
-            </LinearLayout>
+                 </LinearLayout>
 
 
 
@@ -293,7 +319,7 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         android:layout_alignParentBottom="true"
@@ -379,6 +405,16 @@
             app:fab_label="Attachments" />
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragmentContainer"
+        android:layout_alignParentBottom="true"
+        />
+
+
+
 
 </RelativeLayout>
 

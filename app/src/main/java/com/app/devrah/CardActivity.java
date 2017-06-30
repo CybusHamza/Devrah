@@ -5,16 +5,23 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.ShowableListMenu;
-import android.support.v7.widget.ForwardingListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +32,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import org.apache.commons.io.FilenameUtils;
+
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -35,27 +44,48 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.app.devrah.Adapters.AdapterMembers;
+import com.app.devrah.Adapters.AttachmentImageAdapter;
+import com.app.devrah.Adapters.FilesAdapter;
 import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Adapters.RVLabelResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
+import com.app.devrah.pojo.AttachmentsPojo;
 import com.app.devrah.pojo.CardCommentData;
+import com.app.devrah.pojo.ColorsPojo;
 import com.app.devrah.pojo.MembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
+
+//import static android.R.attr.orientation;
+//import static android.R.attr.width;
+//import static android.R.attr.x;
+//import static android.R.attr.y;
+//import static android.media.ExifInterface.ORIENTATION_ROTATE_180;
+//import static android.media.ExifInterface.ORIENTATION_ROTATE_270;
+//import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
+//import static android.support.design.R.attr.height;
 
 public class CardActivity extends AppCompatActivity {
 
     CollapsingToolbarLayout collapsingToolbarLayout;
+public  static View view;
+    List<File> fileList;
+
+
 
         public static   boolean onFocus = false;
     public static Context mcontext;
+    AttachmentImageAdapter imageAdapter;
 
        public static CardActivity Mactivity;
     LinearLayout LACheckList,staticCheckList;
@@ -63,6 +93,7 @@ public class CardActivity extends AppCompatActivity {
 
     ProjectsPojo projectPojoData;
     String  projectData;
+    List<String> labelNameList;
     List<Integer> ResultColorList;
     ListView lv;
     List<MembersPojo> membersPojoList;
@@ -83,6 +114,8 @@ public class CardActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
 
+
+    public static RelativeLayout container;
     TextView tvMembers;
 
     static Button labelDone;
@@ -92,60 +125,67 @@ public class CardActivity extends AppCompatActivity {
    public static Menu menu;
     RecyclerViewAdapterComments adapter;
     RVadapterCheckList rvAdapterChecklist;
-
+    public List<Bitmap> bitmapList;
+    private static final int READ_REQUEST_CODE = 42;
     static RVLabelAdapter rvAdapterLabel;
-   public static RecyclerView rv,rvChecklist,rvLabel,rvLabelResult;
+   public static RecyclerView rv,rvChecklist,rvLabel,rvLabelResult,rvAttachmentImages;
     List<CardCommentData> listPojo;
     static List<Integer> colorList;
+    RecyclerView rvFiles;
+    FragmentManager fm;
     static List<Integer> listt;
-    List<Integer> resultColorList;
+    static List<Integer> resultColorList;
+   public static TextView labelAdd;
     List<ProjectsPojo> checkListPojo;
-//    Toolbar toolbar;
-
-
-
+    List<AttachmentsPojo> attachmentsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
 
-
+        container = (RelativeLayout)findViewById(R.id.fragmentContainer);
+        rvFiles = (RecyclerView)findViewById(R.id.rv_files_cardscreen);
+        fileList = new ArrayList<>();
+        attachmentsList = new ArrayList<>();
 
         mcontext = getApplicationContext();
       listPojo = new ArrayList<>();
+        bitmapList = new ArrayList<>();
         checkListPojo = new ArrayList<>();
         membersPojoList = new ArrayList<>();
+        labelNameList = new ArrayList<>();
         colorList = new ArrayList<>();
+        rvAttachmentImages =(RecyclerView) findViewById(R.id.rvImagesAttachment);
         resultColorList = new ArrayList<>();
         listt = new ArrayList<>();
         colorList.add(getResources().getColor(R.color.colorAccent));
 
-
+        fm = getSupportFragmentManager();
+        labelAdd = (TextView)findViewById(R.id.tvAddLabel);
         Mactivity = CardActivity.this;
         colorList.add(getResources().getColor(R.color.colorPrimaryDark));
          colorList.add(getResources().getColor(R.color.colorGreen));
+
         colorList.add(getResources().getColor(R.color.colorOrangeRed));
         colorList.add(getResources().getColor(R.color.colorOrange));
         colorList.add(getResources().getColor(R.color.colorYellow));
+        colorList.add(LabelColorFragment.color);
+
+//        labelNameList.add("Complete");
+//        labelNameList.add("In Progress");
+//
 
 
 
-        //colorList.add(Color.RED);
 
         LACheckList = (LinearLayout)findViewById(R.id.LinearLayoutChecklist);
         rvCard = (RelativeLayout)findViewById(R.id.bg_card);
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
         simpleProgressBar.setScaleY(3f);    //height of progress bar
-//        tvDue = (TextView)findViewById(R.id.tvDue);
-
-
-        labelDone = (Button)findViewById(R.id.labelDone);
-       // laToolbar = (LinearLayout) findViewById(R.id.laToolbar);
-
         staticCheckList = (LinearLayout)findViewById(R.id.linearLayoutCheckboxHeading);
         cbDueDate = (CheckBox) findViewById(R.id.tvDue);
         etCheckList = (EditText) findViewById(R.id.etCheckBox);
-        checklistAddBtn = (Button)findViewById(R.id.addChecklist);
+       // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         rvLabelResult = (RecyclerView)findViewById(R.id.rv_labels_card_screen_result);
@@ -179,48 +219,8 @@ public class CardActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(CardHeading);
 
         etComment = (EditText)findViewById(R.id.etComment);
-        addBtn = (Button)findViewById(R.id.addDatainPojo);
 
 
-
-        etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-
-                    MenuItem btn = menu.findItem(R.id.menu);
-                    btn.setVisible(false);
-                }
-            }
-        });
-
-
-
-//////////////////////////////////////////
-        labelDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                menu.clear();
-                onFocus = false;
-                labelDone.setVisibility(View.GONE);
-
-                Toast.makeText(getApplicationContext(),"Label Done Clicked",Toast.LENGTH_SHORT).show();
-
-                rvLabel.setVisibility(View.GONE);
-                rvLabelResult.setLayoutManager(new LinearLayoutManager(CardActivity.this,LinearLayoutManager.HORIZONTAL,true));
-
-
-                 listt=  rvAdapterLabel.getData(resultColorList);
-
-
-
-                RVLabelResultAdapter adapter = new RVLabelResultAdapter(activity,listt);
-                rvLabelResult.setAdapter(adapter);
-                menuChanger(menu,onFocus);
-
-            }
-        });
 
 
 
@@ -232,15 +232,30 @@ public class CardActivity extends AppCompatActivity {
                 View view = inflater.inflate(R.layout.custom_attachments_layout_dialog,null);
 
 
-                AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
+                final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
 
                 LinearLayout linearLayoutCamera = (LinearLayout)view.findViewById(R.id.linearLayoutCamera);
+                LinearLayout otherFiles = (LinearLayout)view.findViewById(R.id.otherFiles);
 
                 linearLayoutCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, 1);
+                        alertDialog.dismiss();
+
+
+                    }
+                });
+                otherFiles.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        alertDialog.dismiss();
+                        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                        chooseFile.setType("*/*");
+                        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+                        startActivityForResult(chooseFile, READ_REQUEST_CODE);
 
 
                     }
@@ -254,6 +269,22 @@ public class CardActivity extends AppCompatActivity {
 
             }
         });
+
+        labelAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+
+                LabelColorFragment colorFragment = new LabelColorFragment();
+
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.add(R.id.fragmentContainer,colorFragment).addToBackStack("Frag1").commit();
+
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                Fragment fragment = new LabelColorFragment();
+            }
+        });
+
 
 
         FABchecklist.setOnClickListener(new View.OnClickListener() {
@@ -284,37 +315,6 @@ public class CardActivity extends AppCompatActivity {
         });
 
 
-        checklistAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            fabm.setVisibility(View.VISIBLE);
-
-
-                ProjectsPojo cardCommentData = new ProjectsPojo();
-                //  cardCommentData.setCardCommentid("Id Ov Person");
-//                cardCommentData.setCardName(CardHeading);
-//                cardCommentData.setComment(etComment.getText().toString());
-//               // listPojo.add(cardCommentData);
-                cardCommentData.setData(etCheckList.getText().toString());
-                checkListPojo.add(cardCommentData);
-                // adapter = new RecyclerViewAdapterComments();
-                //  adapter = new RecyclerViewAdapterComments();
-
-                rvChecklist.setLayoutManager(layoutManager);
-
-                rvAdapterChecklist = new RVadapterCheckList(checkListPojo, getApplicationContext());
-                rvChecklist.setAdapter(rvAdapterChecklist);
-
-                rvAdapterChecklist.notifyDataSetChanged();
-
-                //////////////////////////////////////////////////////////////////////////////////////////////////////
-              //  adapter.notifyDataSetChanged();
-
-
-
-            }
-        });
 
         cbDueDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -332,12 +332,7 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-        //fab1 = (FloatingActionButton)findViewById(R.id.)
-       fabm = (FloatingActionMenu)findViewById(R.id.menu);
+        fabm = (FloatingActionMenu)findViewById(R.id.menu);
 
 
 
@@ -346,36 +341,138 @@ public class CardActivity extends AppCompatActivity {
 
 
 
-
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-               // CardCommentData card = new CardCommentData("Id of Person",CardHeading,etComment.getText().toString());
-                menu.clear();
-                etComment.clearFocus();
-
-
-                fabm.setVisibility(View.VISIBLE);
-
-                CardCommentData cardCommentData = new CardCommentData();
-                cardCommentData.setCardCommentid("Id Ov Person");
-                cardCommentData.setCardName(CardHeading);
-                cardCommentData.setComment(etComment.getText().toString());
-                listPojo.add(cardCommentData);
-           // adapter = new RecyclerViewAdapterComments();
-              //  adapter = new RecyclerViewAdapterComments();
-
-                rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                adapter = new RecyclerViewAdapterComments(listPojo, getApplicationContext());
-                rv.setAdapter(adapter);
-
-
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+
+
+
+
+            Uri selectedImage = data.getData();
+          //  File imageFile = new File(selectedImage.toString());
+
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+          //  rotateImage(bitmap,selectedImage.toString());
+
+
+            rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
+            bitmapList.add(rotateBitmap(bitmap));
+            imageAdapter = new AttachmentImageAdapter(Mactivity,bitmapList,fm);
+            rvAttachmentImages.setAdapter(imageAdapter);
+
+
+        }
+        if (requestCode==READ_REQUEST_CODE && resultCode ==Activity.RESULT_OK){
+
+            Uri uri = data.getData();
+            String src = uri.getPath();
+           // String fileName = FilenameUtils.getName(src);
+
+
+
+
+
+
+
+
+
+            String fileName = null;
+            if (uri.getScheme().equals("file")) {
+                fileName = uri.getLastPathSegment();
+            } else {
+                Cursor cursor = null;
+                try {
+                    cursor = getContentResolver().query(uri, new String[]{
+                            MediaStore.Images.ImageColumns.DISPLAY_NAME
+                    }, null, null, null);
+
+                    if (cursor != null && cursor.moveToFirst()) {
+                        fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
+                   //     Log.d("Name", "name is " + fileName);
+                    }
+                } finally {
+
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
+            }
+
+
+            Calendar c = Calendar.getInstance();
+
+
+            AttachmentsPojo attachmentsPojo = new AttachmentsPojo();
+            attachmentsPojo.setNameOfFile(fileName);
+            attachmentsPojo.setDateUpload(c.get(Calendar.DATE) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.YEAR));
+
+            attachmentsList.add(attachmentsPojo);
+            rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            FilesAdapter adapter = new FilesAdapter(attachmentsList,Mactivity);
+            rvFiles.setAdapter(adapter);
+            Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
+
+
+
+        }
+
+        }
+
+    private Bitmap rotateBitmap(Bitmap image){
+        int width=image.getHeight();
+        int height=image.getWidth();
+
+        Bitmap srcBitmap=Bitmap.createBitmap(width, height, image.getConfig());
+
+        for (int y=width-1;y>=0;y--)
+            for(int x=0;x<height;x++)
+                srcBitmap.setPixel(width-y-1, x,image.getPixel(x, y));
+        return srcBitmap;
+
+    }
+
+//        public void ListDir(File file){
+//
+//        File[] files = file.listFiles();
+//            fileList.clear();
+//            for(File f :files){
+//
+//                fileList.add(f.getPath());
+//
+//            }
+//
+//
+//
+//        }
+
+    public void addDataInComments(){
+
+
+        fabm.setVisibility(View.VISIBLE);
+
+        CardCommentData cardCommentData = new CardCommentData();
+        cardCommentData.setCardCommentid("Id Ov Person");
+        cardCommentData.setCardName(CardHeading);
+        cardCommentData.setComment(etComment.getText().toString());
+        listPojo.add(cardCommentData);
+
+        rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        adapter = new RecyclerViewAdapterComments(listPojo, getApplicationContext());
+        rv.setAdapter(adapter);
+
+
+        adapter.notifyDataSetChanged();
+
+    }
+
+
+
+
     public void showMembersDialog(){
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
         View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout,null);
@@ -431,10 +528,8 @@ public class CardActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu){
+    public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
-
-
 
 
         etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -442,28 +537,97 @@ public class CardActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
 
 
-                menuChanger(menu,hasFocus);
+                menuChanger(menu, hasFocus);
+
+
+                if (hasFocus == true) {
+
+                    MenuItem menuItem = menu.findItem(R.id.tick);
+                    menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Toast.makeText(CardActivity.this, "asdfghj", Toast.LENGTH_SHORT).show();
+                            addDataInComments();
+                            etComment.clearFocus();
+                            return true;
+                        }
+
+                    });
+
+                } else
+                    menuChanger(menu, hasFocus);
+
+
             }
         });
-        etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+
+        rvLabel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
+
                 menuChanger(menu,hasFocus);
+                if (hasFocus){
+
+                    MenuItem item = (MenuItem)findViewById(R.id.tick);
+                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                           addLabel();
+                            rvLabel.clearFocus();
+
+                            return true;
+                        }
+                    });
+                }
+                else {
+
+                    menuChanger(menu, hasFocus);
+
+
+                }
             }
         });
-//       rvLabelResult.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//           @Override
-//           public void onFocusChange(View v, boolean hasFocus) {
-//
-//               if (hasFocus)
-//                   Toast.makeText(getApplicationContext(),"Has focus",Toast.LENGTH_SHORT).show();
-//               else
-//                   Toast.makeText(getApplicationContext(),"No focus",Toast.LENGTH_SHORT).show();
-//
-//
-//               menuChanger(menu,hasFocus);
-//           }
-//       });
+
+
+
+        etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, final boolean hasFocus) {
+                menuChanger(menu, hasFocus);
+
+                if (hasFocus==true){
+
+
+                    MenuItem tick = menu.findItem(R.id.tick);
+                    tick.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
+
+                                addDataInChecklist();
+                                menuChanger(menu, hasFocus);
+                                etCheckList.clearFocus();
+
+
+                                return true;
+
+                        }
+                    });
+
+
+
+                }
+                else {
+                    // addDataInChecklist();
+                    menuChanger(menu, false);
+                    // etCheckList.clearFocus();
+                }
+
+
+            }
+        });
 
 
         FABLabel.setOnClickListener(new View.OnClickListener() {
@@ -483,29 +647,110 @@ public class CardActivity extends AppCompatActivity {
 //                onFocus = true;
 //                menuChanger(menu,onFocus);
                 showLabelsMenu();
+            //    doneLabelResult();
 
             }
         });
 
 
+    return true;
+    }
 
-        return true;
-            }
+
+    public static void addLabel(){
 
 
+        menu.clear();
+        onFocus = false;
+///        labelDone.setVisibility(View.GONE);
+
+        Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
+
+        rvLabel.setVisibility(View.GONE);
+        labelAdd.setVisibility(View.GONE);
+        rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
+
+
+        listt=  rvAdapterLabel.getData(resultColorList);
+
+
+
+        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt);
+        rvLabelResult.setAdapter(adapter);
+        menuChanger(menu,onFocus);
+
+
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (getSupportFragmentManager().findFragmentByTag("Frag1") != null) {
+            getSupportFragmentManager().popBackStackImmediate("Frag1",0);
+            colorList.add(LabelColorFragment.getColor());
+            showLabelsMenu();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+
+    public void addDataInChecklist(){
+
+        ProjectsPojo cardCommentData = new ProjectsPojo();
+        //  cardCommentData.setCardCommentid("Id Ov Person");
+//                cardCommentData.setCardName(CardHeading);
+//                cardCommentData.setComment(etComment.getText().toString());
+//               // listPojo.add(cardCommentData);
+        cardCommentData.setData(etCheckList.getText().toString());
+        checkListPojo.add(cardCommentData);
+        // adapter = new RecyclerViewAdapterComments();
+        //  adapter = new RecyclerViewAdapterComments();
+
+        rvChecklist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        rvAdapterChecklist = new RVadapterCheckList(checkListPojo, getApplicationContext());
+        rvChecklist.setAdapter(rvAdapterChecklist);
+
+        rvAdapterChecklist.notifyDataSetChanged();
+
+
+
+    }
 
         public static void showLabelsMenu(){
 
             menuChanger(menu,true);
-            labelDone.setVisibility(View.VISIBLE);
+
+//            labelDone.setVisibility(View.VISIBLE);
             if (rvLabel.getVisibility()== View.GONE){
                 rvLabel.setVisibility(View.VISIBLE);
+                labelAdd.setVisibility(View.VISIBLE);
+            }
+            if (labelAdd.getVisibility()== View.GONE){
+                labelAdd.setVisibility(View.VISIBLE);
+
+
             }
 
+                MenuItem menuItem = menu.findItem(R.id.tick);
+
+                menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                      Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
+                        addLabel();
+
+                        return true;
+                    }
+                });
 
             rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
-
-
+            ColorsPojo colorsPojo = new ColorsPojo();
+            colorList.add(colorsPojo.getColor());
             rvAdapterLabel = new RVLabelAdapter(Mactivity,colorList,listt);
             rvLabel.setAdapter(rvAdapterLabel);
             fabm.close(true);
@@ -513,7 +758,7 @@ public class CardActivity extends AppCompatActivity {
 
         }
 
-
+    //    public void doneLabelResult(){}
 
     public void dueDate(){
 
@@ -604,10 +849,6 @@ public class CardActivity extends AppCompatActivity {
 
                 }
 
-
-
-
-
             }
 
             @Override
@@ -648,10 +889,6 @@ public class CardActivity extends AppCompatActivity {
                         break;
                 }
 
-
-//                        spinnertTimeList.remove(spinnertTimeList.size() - 1);
-
-
             }
 
             @Override
@@ -688,26 +925,20 @@ public class CardActivity extends AppCompatActivity {
         alertDialog.show();
 
 
-
-
-
-
     }
 
     public static void menuChanger(Menu menu, boolean hasFocus){
 
         menu.clear();
-        if (hasFocus)
+        if (hasFocus) {
 
             Mactivity.getMenuInflater().inflate(R.menu.menu, menu);
-        else
+        }
+
+            else {
             Mactivity.getMenuInflater().inflate(R.menu.my_menu, menu);
 
-
-
+        }
     }
-
-
-
 
 }

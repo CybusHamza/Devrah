@@ -57,7 +57,7 @@ public class RecyclerViewAdapterComments extends RecyclerView.Adapter<View_Holde
 
 
 //                if (inflater==null)
-//               inflater  = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//               inflater  = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //                inflater.inflate(R.layout.custom_dialog_for_edit_delete_comment,null);
 
                 removeAt(position);

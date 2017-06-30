@@ -30,11 +30,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:longClickable="false"
-            android:clickable="false"
+            android:longClickable="true"
+            android:clickable="true"
             android:backgroundTint="#fff"
             android:cursorVisible="false"
-            android:editable="false"
+
             android:id="@+id/etChecklist"
             android:layout_toRightOf="@+id/checklistDataForRV"
             android:textSize="18sp"/>
