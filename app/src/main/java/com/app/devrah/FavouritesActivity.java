@@ -35,7 +35,6 @@ public class FavouritesActivity extends AppCompatActivity {
         listPojo.add(favouritesPojoData);
         adapter = new FavouritesAdapter(this, listPojo);
 
-
         lv.setAdapter(adapter);
 
     }
