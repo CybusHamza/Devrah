@@ -1,10 +1,15 @@
 package com.app.devrah.Adapters;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.app.devrah.Holders.View_Holder;
 import com.app.devrah.R;
@@ -44,7 +49,7 @@ public class RecyclerViewAdapterComments extends RecyclerView.Adapter<View_Holde
     }
 
     @Override
-    public void onBindViewHolder(View_Holder holder, final int position) {
+    public void onBindViewHolder(final View_Holder holder, final int position) {
         holder.tvcardName.setText(cardCommenList.get(position).getCardName());
         holder.idCardComment.setText(cardCommenList.get(position).getCardCommentid());
        // holder.imgCard.setImageBitmap();
@@ -60,7 +65,46 @@ public class RecyclerViewAdapterComments extends RecyclerView.Adapter<View_Holde
 //               inflater  = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //                inflater.inflate(R.layout.custom_dialog_for_edit_delete_comment,null);
 
-                removeAt(position);
+//
+//                LayoutInflater inflater = LayoutInflater.from(context);
+//                View view = inflater.inflate(R.layout.custom_dialog_for_edit_delete_comment,null);
+//                holder.laEditDelete.addView(view);
+
+               // removeAt(position);
+
+
+                final PopupMenu popup = new PopupMenu(v.getContext(), holder.CommentMenu);
+              //  MenuInflater inflater = popup.getMenuInflater();
+
+
+
+
+                popup.getMenuInflater().inflate(R.menu.popup_edit_delete, popup.getMenu());
+               // inflater.inflate(R.menu.popup_edit_delete, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+
+                            case R.id.edit:
+                                Toast.makeText(context.getApplicationContext(),"EDitttttttt",Toast.LENGTH_SHORT).show();
+                            break;
+
+                            case R.id.delete:
+                                removeAt(position);
+                                Toast.makeText(context.getApplicationContext(),"DElete",Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        return true;
+                    }
+                });
+
+
+                popup.show();
+
+
             }
         });
 

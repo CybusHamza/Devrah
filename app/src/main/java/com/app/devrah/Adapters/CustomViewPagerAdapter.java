@@ -6,14 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.app.devrah.FragmentBoardExtendedLast;
-import com.app.devrah.R;
+import com.app.devrah.LastItemBoardFragment;
 
 import java.util.ArrayList;
 
@@ -23,21 +17,27 @@ import java.util.ArrayList;
 
 public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final ArrayList<Fragment> mFragmentList = new ArrayList<>();
+    public static final ArrayList<Fragment> mFragmentList = new ArrayList<>();
     private final ArrayList<String> mFragmentTitleList = new ArrayList<>();
+    LastItemBoardFragment lastFrag = new LastItemBoardFragment();
     Context context;
     ViewPager viewPager;
 
     TabLayout tabLayout;
 
+  //  public CustomViewPagerAdapter(FragmentManager manager, Context context){}
+        public CustomViewPagerAdapter(FragmentManager manager){
+            super(manager);
 
-    public CustomViewPagerAdapter(FragmentManager manager, Context context, ViewPager viewPager,
-                                  TabLayout tabLayout) {
+        }
+
+    public CustomViewPagerAdapter(FragmentManager manager, Context context, ViewPager viewPager
+                                 ) {            // TabLayout tabLayout
         super(manager);
 
         this.context = context;
         this.viewPager = viewPager;
-        this.tabLayout = tabLayout;
+      //  this.tabLayout = tabLayout;
 
 
     }
@@ -55,16 +55,46 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
         return mFragmentList.size();
     }
 
+        public static int customCount(){
+
+
+         return mFragmentList.size();
+        }
+//    public void addLast(Fragment fragment){
+//        mFragmentList.add(mFragmentList.size(),fragment);
+//        notifyDataSetChanged();
+//
+//    }
+
+    public int getItemPosition (Object object) { return POSITION_NONE; }
+
+
+    public void addFragAt(Fragment fragment,int position){
+        mFragmentList.add(position,fragment);
+        notifyDataSetChanged();
+    }
+    public void removeFragAt(int position){
+
+        mFragmentList.remove(position);
+        notifyDataSetChanged();
+
+    }
+
     public void addFrag(Fragment fragment, String title) {
 
 
 
-        FragmentBoardExtendedLast lastFrag = new FragmentBoardExtendedLast();
+        //FragmentBoardExtendedLast lastFrag = new FragmentBoardExtendedLast();
 
         mFragmentList.add(fragment);
+
            mFragmentTitleList.add(title);
 
+notifyDataSetChanged();
 
+
+      // mFragmentList.add(mFragmentList.size(),lastFrag);
+/////////////////////////////////////////////////////
 //        if(== mFragmentList.size())
 //        {
 //
@@ -81,6 +111,16 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
 
+
+    public void deletePage(int position)
+    {
+            mFragmentList.remove(position);
+        mFragmentTitleList.remove(position);
+            notifyDataSetChanged();
+        }
+
+
+}
    // public View getTabView(final int position) {
       //  View view = LayoutInflater.from(activity).inflate(R.layout.custom_tab_item, null);
        // TextView tabItemName = (TextView) view.findViewById(R.id.textViewTabItemName);
@@ -100,7 +140,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
      //   return view;
     //}
-
+//
 //    public void removeFrag(int position) {
 //        removeTab(position);
 //        Fragment fragment = mFragmentList.get(position);
@@ -123,4 +163,4 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 //        });
 
 
-}
+//}

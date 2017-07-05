@@ -2,10 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fac"
+ android:background="#fff"
+    android:clickable="true"
     android:padding="20dp"
+
     android:id="@+id/mainContainer"
     tools:context="com.app.devrah.LabelColorFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Label"
+        android:textColor="#000"
+
+        android:id="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+      />
+
 
     <!-- TODO: Update blank fragment layout -->
     <EditText
@@ -14,10 +28,9 @@
             android:backgroundTint="#000"
         android:textColor="#000"
         android:textSize="20sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="22dp"
-        android:id="@+id/etLabelName" />
+        android:id="@+id/etLabelName"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true" />
 
 
 
@@ -27,7 +40,7 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:id="@+id/rvOne"
-        android:background="#fac903"
+        android:background="#000"
         android:layout_alignTop="@+id/relativeLayout8"
         android:layout_alignStart="@+id/relativeLayout9">
 
@@ -49,7 +62,7 @@
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:background="@color/lightGreen"
+        android:background="#000"
         android:layout_alignTop="@+id/relativeLayout6"
         android:layout_alignStart="@+id/relativeLayout7"
         android:id="@+id/relativeLayout9">
@@ -72,7 +85,7 @@
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:background="@color/wierdBlue"
+        android:background="#000"
         android:layout_alignTop="@+id/relativeLayout4"
         android:layout_toEndOf="@+id/relativeLayout4"
         android:layout_marginStart="23dp"
@@ -119,11 +132,11 @@
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:background="@color/colorPrimary"
+        android:background="#000"
         android:id="@+id/relativeLayout5"
+        android:layout_marginTop="35dp"
         android:layout_below="@+id/relativeLayout3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp">
+        android:layout_alignParentStart="true">
 
 
         <ImageView
@@ -192,9 +205,9 @@
         android:layout_height="50dp"
         android:background="@color/colorGreen"
         android:id="@+id/relativeLayout3"
+        android:layout_marginTop="42dp"
         android:layout_below="@+id/relativeLayout2"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="24dp">
+        android:layout_alignParentStart="true">
 
 
         <ImageView
@@ -218,9 +231,9 @@
         android:background="@color/colorAccent"
 
         android:id="@+id/relativeLayout2"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="47dp">
+        android:layout_marginTop="38dp"
+        android:layout_below="@+id/etLabelName"
+        android:layout_alignParentStart="true">
 
 
         <ImageView
@@ -244,10 +257,10 @@
     android:text="Done"
     android:id="@+id/doneLabelName"
 android:textColor="@color/colorGreen"
-    android:layout_marginTop="56dp"
     android:textSize="20sp"
-    android:layout_below="@+id/rvOne"
-    android:layout_alignParentEnd="true" />
+    android:layout_alignBaseline="@+id/tvCancel"
+    android:layout_alignBottom="@+id/tvCancel"
+    android:layout_alignEnd="@+id/rvOne" />
 
 <TextView
     android:layout_width="wrap_content"
@@ -255,8 +268,23 @@ android:textColor="@color/colorGreen"
     android:text="Cancel"
     android:textSize="20sp"
     android:textColor="@color/colorGreen"
-    android:layout_alignBaseline="@+id/doneLabelName"
-    android:layout_alignBottom="@+id/doneLabelName"
+    android:layout_marginEnd="11dp"
+    android:layout_below="@+id/relativeLayout8"
     android:layout_toStartOf="@+id/rvOne"
-    android:layout_marginEnd="11dp" />
+    android:layout_marginTop="19dp"
+    android:id="@+id/tvCancel" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DELETE"
+        android:id="@+id/tvDelete"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:textColor="#ff0000"
+        android:layout_alignBaseline="@+id/tvCancel"
+        android:layout_alignBottom="@+id/tvCancel"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

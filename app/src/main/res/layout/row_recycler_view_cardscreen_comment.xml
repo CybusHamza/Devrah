@@ -87,6 +87,13 @@
             android:id="@+id/commentMenu"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/edit_delete_layout"
+            android:layout_below="@+id/id_of_person"
+            android:layout_alignEnd="@+id/comment"></LinearLayout>
 
 
         <View

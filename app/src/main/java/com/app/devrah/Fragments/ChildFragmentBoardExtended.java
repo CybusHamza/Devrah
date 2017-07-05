@@ -1,6 +1,5 @@
-package com.app.devrah;
+package com.app.devrah.Fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,15 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Adapters.FragmentBoardsAdapter;
-import com.app.devrah.Adapters.ProjectsAdapter;
+import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
+
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.attr.id;
-import static android.R.id.empty;
 
 
 public class ChildFragmentBoardExtended extends Fragment {
@@ -31,9 +29,10 @@ public class ChildFragmentBoardExtended extends Fragment {
         View view;
     TextView tvAddCard;
     String childname;
-
+    public     TextView tvName;
     FragmentBoardsAdapter adapter;
     List<ProjectsPojo> listPojo;
+    CustomViewPagerAdapter VPadapter;
     ProjectsPojo boardsFragmentPojoData;
     ListView lv;
 
@@ -70,11 +69,17 @@ public class ChildFragmentBoardExtended extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+      //  adapter = new FragmentBoardsAdapter();
         view =inflater.inflate(R.layout.fragment_child_fragment_board_extended, container, false);
         View emV = inflater.inflate(R.layout.empty_list_bg,null);
 
+
+      //  VPadapter = new CustomViewPagerAdapter(getFragmentManager(),getContext());
      //   View emptyView = inflater.inflate(R.layout.empty_list_view,container,false);
-        TextView tvName = (TextView)view.findViewById(R.id.textName);
+         tvName = (TextView)view.findViewById(R.id.textName);
+
+
+
 
        // boardsFragmentPojoData = new ProjectsPojo();
         listPojo = new ArrayList<>();
@@ -84,7 +89,29 @@ public class ChildFragmentBoardExtended extends Fragment {
         tvName.setText(childname);
 
 
-        lv = (ListView)view.findViewById(R.id.boardFragmentListView);
+        lv = (ListView) view.findViewById(R.id.boardFragmentListView);
+
+//
+//        lv.setDragListListener(new DragListView.DragListListener() {
+//            @Override
+//            public void onItemDragStarted(int position) {
+//                Toast.makeText(getActivity(), "Start - position: " + position, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onItemDragging(int itemPosition, float x, float y) {
+//
+//            }
+//
+//            @Override
+//            public void onItemDragEnded(int fromPosition, int toPosition) {
+//                if (fromPosition != toPosition) {
+//                    Toast.makeText(getActivity(), "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
+
         lv.setEmptyView(emV);
 
        // lv.setEmptyView(view.findViewById(R.id.empty));
@@ -97,6 +124,8 @@ public class ChildFragmentBoardExtended extends Fragment {
 
             }
         });
+
+
 
 
         return view;

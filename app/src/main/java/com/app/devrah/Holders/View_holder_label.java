@@ -15,7 +15,7 @@ import com.app.devrah.R;
 
 public class View_holder_label extends RecyclerView.ViewHolder {
 
-   public ImageView imgLabel;
+   public ImageView imgLabel,editLabel;
   public RelativeLayout rowLabel;
     public TextView tvLabelNames;
 
@@ -26,6 +26,7 @@ public class View_holder_label extends RecyclerView.ViewHolder {
 
         imgLabel = (ImageView)itemView.findViewById(R.id.img_tick);
         rowLabel = (RelativeLayout)itemView.findViewById(R.id.labels_row);
-     //   tvLabelNames = (TextView)itemView.findViewById(R.id.tvLabelName);
+        editLabel = (ImageView)itemView.findViewById(R.id.edit_label);
+       tvLabelNames = (TextView)itemView.findViewById(R.id.tvLabelName);
     }
 }

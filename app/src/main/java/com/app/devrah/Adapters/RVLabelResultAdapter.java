@@ -21,12 +21,14 @@ import java.util.List;
 public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardScreenLabelResult> {
 
    List<Integer> myResultantList;
+    List<String> resultantLabelNames;
     Activity activity;
 
-  public   RVLabelResultAdapter(Activity activity,List<Integer> myResultantList){
+  public   RVLabelResultAdapter(Activity activity,List<Integer> myResultantList,List<String> labelNameResultList){ //, List<String> resultantLabelNames
 
         this.activity = activity;
         this.myResultantList = myResultantList;
+      this.resultantLabelNames = labelNameResultList;
 
 
     }
@@ -46,6 +48,11 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
     public void onBindViewHolder(ViewHolderRVcardScreenLabelResult holder, int position) {
 
         holder.rvLabel.setBackgroundColor(myResultantList.get(position));
+        if (!(resultantLabelNames.get(position).isEmpty())) {
+          //  holder.tvLabelName.setTextColor(activity.getResources().getColor(R.color.colorOrangeRed));
+            holder.tvLabelName.setText(resultantLabelNames.get(position));
+        }
+//        holder.tvLabelName.setText(resultantLabelNames.get(position));
 //        holder.rvLabel.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

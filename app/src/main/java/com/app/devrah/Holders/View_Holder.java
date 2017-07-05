@@ -4,6 +4,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.devrah.R;
@@ -16,6 +17,7 @@ public class View_Holder extends RecyclerView.ViewHolder {
 
    public TextView tvcardName,idCardComment,comment;
    public ImageView imgCard,CommentMenu;
+    public LinearLayout laEditDelete;
    public CardView cv;
 
 
@@ -27,7 +29,7 @@ public class View_Holder extends RecyclerView.ViewHolder {
         tvcardName   = (TextView)itemView.findViewById(R.id.name_of_card);
         comment = (TextView)itemView.findViewById(R.id.comment);
         CommentMenu = (ImageView)itemView.findViewById(R.id.commentMenu);
-
+laEditDelete = (LinearLayout)itemView.findViewById(R.id.edit_delete_layout);
 
         imgCard = (ImageView)itemView.findViewById(R.id.imageCardView);
 

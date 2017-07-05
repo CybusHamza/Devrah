@@ -16,10 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.devrah.Adapters.CustomViewPagerAdapter;
+
 public class BoardExtended extends AppCompatActivity {
 
     ParentBoardExtendedFragment fragment;
-    FragmentBoardExtendedLast lastFrag;
+    //FragmentBoardExtendedLast lastFrag;
     EditText etPageName;
     Button addFrag;
     Toolbar toolbar;
@@ -27,6 +29,7 @@ public class BoardExtended extends AppCompatActivity {
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     String title;
+    CustomViewPagerAdapter adapter;
     View logo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class BoardExtended extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         title = getIntent().getStringExtra("TitleData");
         toolbar.setTitle(title);
+       // adapter = new CustomViewPagerAdapter(getFragmentManager(),getApplicationContext(),)
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
@@ -60,27 +64,31 @@ public class BoardExtended extends AppCompatActivity {
         });
         fragment = (ParentBoardExtendedFragment)this.getSupportFragmentManager().findFragmentById(R.id.ajeebFrag);
     //..    lastFrag = (FragmentBoardExtendedLast)this.getSupportFragmentManager().;
-        etPageName =(EditText)findViewById(R.id.editTextPageName);
-        addFrag = (Button)findViewById(R.id.btnAddFrag);
+      //  etPageName =(EditText)findViewById(R.id.editTextPageName);
+      //  addFrag = (Button)findViewById(R.id.btnAddFrag);
 
         fragment.addPage("To Do");
         fragment.addPage("Doing");
         fragment.addPage("Done");
+        fragment.addPage("Add Page");
 
-        addFrag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//Toast.makeText(getApplicationContext(),String.valueOf(),Toast.LENGTH_SHORT).show();  ;
 
-                if (!etPageName.getText().toString().equals("")) {
-                    fragment.addPage(etPageName.getText() + "");
-                  //  etPageName.setText(etPageName.getText() + "");
-                } else {
-                    Toast.makeText(BoardExtended.this, "Page name is empty", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });
+        fragment.addPageAt(CustomViewPagerAdapter.customCount());   //CustomView PagerAdapter last index
+//        addFrag.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (!etPageName.getText().toString().equals("")) {
+//                    fragment.addPage(etPageName.getText() + "");
+//                  //  etPageName.setText(etPageName.getText() + "");
+//                } else {
+//                    Toast.makeText(BoardExtended.this, "Page name is empty", Toast.LENGTH_SHORT).show();
+//                }
+//
+//
+//            }
+//        });
 
 
     }

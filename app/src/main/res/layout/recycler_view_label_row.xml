@@ -3,16 +3,28 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_marginLeft="5dp"
-    android:id="@+id/labels_row"
+
     android:layout_marginRight="5dp"
-        android:background="#000"
+
     android:layout_marginTop="10dp">
 
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_edit"
+        android:id="@+id/edit_label"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/labels_row"
+        android:layout_marginStart="25dp" />
 
 
-
+    <RelativeLayout
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:id="@+id/labels_row"
+    >
 
 
     <ImageView
@@ -32,8 +44,20 @@
         android:layout_alignParentEnd="true" />
 
 
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:textColor="#fff"
+    android:textSize="20sp"
+    android:visibility="gone"
+    android:id="@+id/tvLabelName"
+    android:textStyle="bold"
+    android:paddingLeft="10dp"
+    android:text="TEXT"
+    />
 
 
-
+</RelativeLayout>
 
 </RelativeLayout>

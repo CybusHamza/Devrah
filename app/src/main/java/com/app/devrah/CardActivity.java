@@ -13,11 +13,14 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
+
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -64,16 +67,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Logger;
-
-//import static android.R.attr.orientation;
-//import static android.R.attr.width;
-//import static android.R.attr.x;
-//import static android.R.attr.y;
-//import static android.media.ExifInterface.ORIENTATION_ROTATE_180;
-//import static android.media.ExifInterface.ORIENTATION_ROTATE_270;
-//import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
-//import static android.support.design.R.attr.height;
 
 public class CardActivity extends AppCompatActivity {
 
@@ -81,26 +74,19 @@ public class CardActivity extends AppCompatActivity {
 public  static View view;
     List<File> fileList;
 
-
-
         public static   boolean onFocus = false;
     public static Context mcontext;
     AttachmentImageAdapter imageAdapter;
 
        public static CardActivity Mactivity;
     LinearLayout LACheckList,staticCheckList;
-    //ProjectsAdapter adapter;
 
-    ProjectsPojo projectPojoData;
-    String  projectData;
-    List<String> labelNameList;
-    List<Integer> ResultColorList;
-    ListView lv;
     List<MembersPojo> membersPojoList;
     CheckBox cbDueDate;
     RelativeLayout rvCard;
     FloatingActionButton FABdueDate,FABmembers,FABattachments,FABchecklist,FABLabel;
     Toolbar  toolbar;
+    public static String labelName;
     RVadapterCheckList rVadapterCheckList;
 
     Spinner spinnerDate,spinnerTime;
@@ -109,19 +95,17 @@ public  static View view;
     private static FloatingActionMenu fabm;
         EditText etComment,etCheckList;
     String CardHeading;
-    LinearLayout laToolbar;
-    Button addBtn,checklistAddBtn;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
+   static List<String> asliList;
 
 
     public static RelativeLayout container;
     TextView tvMembers;
 
-    static Button labelDone;
    public static ProgressBar simpleProgressBar;
 
-
+    static  List<String> labelNameList;
    public static Menu menu;
     RecyclerViewAdapterComments adapter;
     RVadapterCheckList rvAdapterChecklist;
@@ -135,6 +119,7 @@ public  static View view;
     FragmentManager fm;
     static List<Integer> listt;
     static List<Integer> resultColorList;
+    List<String> manhusLabelList;
    public static TextView labelAdd;
     List<ProjectsPojo> checkListPojo;
     List<AttachmentsPojo> attachmentsList;
@@ -142,18 +127,22 @@ public  static View view;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
+        RVLabelAdapter adapter = new RVLabelAdapter();
 
+
+        labelNameList = new ArrayList<>();
+        asliList = new ArrayList<>();
         container = (RelativeLayout)findViewById(R.id.fragmentContainer);
         rvFiles = (RecyclerView)findViewById(R.id.rv_files_cardscreen);
         fileList = new ArrayList<>();
         attachmentsList = new ArrayList<>();
-
+        labelName = null;
         mcontext = getApplicationContext();
       listPojo = new ArrayList<>();
         bitmapList = new ArrayList<>();
         checkListPojo = new ArrayList<>();
         membersPojoList = new ArrayList<>();
-        labelNameList = new ArrayList<>();
+       // labelNameList = new ArrayList<>();
         colorList = new ArrayList<>();
         rvAttachmentImages =(RecyclerView) findViewById(R.id.rvImagesAttachment);
         resultColorList = new ArrayList<>();
@@ -169,11 +158,13 @@ public  static View view;
         colorList.add(getResources().getColor(R.color.colorOrangeRed));
         colorList.add(getResources().getColor(R.color.colorOrange));
         colorList.add(getResources().getColor(R.color.colorYellow));
-        colorList.add(LabelColorFragment.color);
 
-//        labelNameList.add("Complete");
-//        labelNameList.add("In Progress");
-//
+        labelNameList.add("");
+        labelNameList.add("");
+        labelNameList.add("");
+        labelNameList.add("");
+        labelNameList.add("");
+        labelNameList.add("");
 
 
 
@@ -194,6 +185,9 @@ public  static View view;
         rvChecklist = (RecyclerView)findViewById(R.id.rv_recycler_checklist);
         rvLabel = (RecyclerView)findViewById(R.id.rv_recycler_labels);
         tvMembers = (TextView)findViewById(R.id.tvMembers);
+
+      //  colorList.add(colorList.size()-1,tag);   //Hamza ka code
+
 
 
         tvMembers.setOnClickListener(new View.OnClickListener() {
@@ -349,9 +343,6 @@ public  static View view;
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
-
-
-
             Uri selectedImage = data.getData();
           //  File imageFile = new File(selectedImage.toString());
 
@@ -371,13 +362,6 @@ public  static View view;
             Uri uri = data.getData();
             String src = uri.getPath();
            // String fileName = FilenameUtils.getName(src);
-
-
-
-
-
-
-
 
 
             String fileName = null;
@@ -435,19 +419,7 @@ public  static View view;
 
     }
 
-//        public void ListDir(File file){
-//
-//        File[] files = file.listFiles();
-//            fileList.clear();
-//            for(File f :files){
-//
-//                fileList.add(f.getPath());
-//
-//            }
-//
-//
-//
-//        }
+
 
     public void addDataInComments(){
 
@@ -540,7 +512,7 @@ public  static View view;
                 menuChanger(menu, hasFocus);
 
 
-                if (hasFocus == true) {
+                if (hasFocus) {
 
                     MenuItem menuItem = menu.findItem(R.id.tick);
                     menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -570,16 +542,27 @@ public  static View view;
                 menuChanger(menu,hasFocus);
                 if (hasFocus){
 
-                    MenuItem item = (MenuItem)findViewById(R.id.tick);
-                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                           addLabel();
-                            rvLabel.clearFocus();
+                    View item = findViewById(R.id.tick);
 
-                            return true;
+
+                    item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addLabel();
+                          rvLabel.clearFocus();
+
+                          //  return true;
                         }
                     });
+//                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                           addLabel();
+//                           rvLabel.clearFocus();
+//
+//                            return true;
+//                        }
+//                    });
                 }
                 else {
 
@@ -672,10 +655,17 @@ public  static View view;
 
 
         listt=  rvAdapterLabel.getData(resultColorList);
+        asliList = rvAdapterLabel.getDataString();
+       // labelNameList = rvAdapterLabel
 
 
 
-        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt);
+//        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,labelNameList);
+//        rvLabelResult.setAdapter(adapter);
+//        menuChanger(menu,onFocus);
+
+//
+        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,asliList);
         rvLabelResult.setAdapter(adapter);
         menuChanger(menu,onFocus);
 
@@ -688,10 +678,33 @@ public  static View view;
     public void onBackPressed() {
 
         if (getSupportFragmentManager().findFragmentByTag("Frag1") != null) {
+//            CardActivity.showLabelsMenu();
+
             getSupportFragmentManager().popBackStackImmediate("Frag1",0);
-            colorList.add(LabelColorFragment.getColor());
+//            showLabelsMenu();
+
+
+         //   colorList.add(LabelColorFragment.getColor());
+//            ColorsPojo colorsPojo = new ColorsPojo();
+//            colorList.add(colorsPojo.getColor());
+//            showLabelsMenu();
+        }
+
+
+        if (getSupportFragmentManager().findFragmentByTag("Frag2") != null) {
+//            CardActivity.showLabelsMenu();
+
+            getSupportFragmentManager().popBackStackImmediate("Frag2",0);
             showLabelsMenu();
-        } else {
+
+
+            //   colorList.add(LabelColorFragment.getColor());
+//            ColorsPojo colorsPojo = new ColorsPojo();
+//            colorList.add(colorsPojo.getColor());
+//            showLabelsMenu();
+        }
+
+        else {
             super.onBackPressed();
         }
 
@@ -721,7 +734,7 @@ public  static View view;
 
     }
 
-        public static void showLabelsMenu(){
+    public static void showLabelsMenu(){
 
             menuChanger(menu,true);
 
@@ -750,12 +763,14 @@ public  static View view;
 
             rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
             ColorsPojo colorsPojo = new ColorsPojo();
-            colorList.add(colorsPojo.getColor());
-            rvAdapterLabel = new RVLabelAdapter(Mactivity,colorList,listt);
+         //   colorList.add(colorsPojo.getColor());
+            rvAdapterLabel = new RVLabelAdapter(Mactivity,colorList,listt,labelNameList,asliList);
+
             rvLabel.setAdapter(rvAdapterLabel);
+        asliList = rvAdapterLabel.getDataString();
             fabm.close(true);
 
-
+        rvAdapterLabel.notifyDataSetChanged();
         }
 
     //    public void doneLabelResult(){}
@@ -940,5 +955,10 @@ public  static View view;
 
         }
     }
+//    public static void startFrag(){
+//
+//
+//
+//    }
 
 }

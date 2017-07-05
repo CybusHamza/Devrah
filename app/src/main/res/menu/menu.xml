@@ -8,6 +8,7 @@
         android:id="@+id/tick"
         android:icon="@drawable/tick_btn_icon"
         app:showAsAction="ifRoom"
+
         android:title="Compose">
     </item>
 

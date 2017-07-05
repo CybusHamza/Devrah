@@ -17,16 +17,31 @@
         <activity android:name=".Login" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Dashboard">
+           <!--Launcher-->
+
+
+
+        </activity>
+        <activity android:name=".ProjectsActivity" />
+        <activity android:name=".BoardsActivity" />
+        <activity android:name=".BoardExtended" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
+
         </activity>
-        <activity android:name=".ProjectsActivity" />
-        <activity android:name=".BoardsActivity" />
-        <activity android:name=".BoardExtended" />
-        <activity android:name=".CardActivity" />
+        <activity android:name=".CardActivity" >
+
+
+
+
+
+        </activity>
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".MyCardsActivity" />
         <activity android:name=".NotificationsActivity" />
