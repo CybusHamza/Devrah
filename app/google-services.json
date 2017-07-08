@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "768671972263",
+    "project_id": "devrah-7b661"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768671972263:android:1aca0cdc466be197",
+        "android_client_info": {
+          "package_name": "com.app.devrah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768671972263-a059rcofkjhq98ava2983cg6353vumm3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.devrah",
+            "certificate_hash": "ab3a366d60663e6b98adf1c8697152e8b86f1683"
+          }
+        },
+        {
+          "client_id": "768671972263-hh911po1vuuu8mbf80drbtirr0qn5ma1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHJsz0db1xiuImw9UmrK4dx7j8ci2BdjQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
