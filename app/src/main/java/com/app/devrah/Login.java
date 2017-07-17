@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -37,6 +39,10 @@ public class Login extends AppCompatActivity {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
 
     EditText etEmail,etPsw;
+    TextView tvCancel;
+    boolean checkBoxValue;
+    SharedPreferences.Editor editor;
+    CheckBox cbRememberMe;
     String strEmail,strPassword;
     Button btnLogin,btnSignUp;
     ImageView googleSignIn;
@@ -47,9 +53,18 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         etEmail= (EditText) findViewById(R.id.input_email);
         etPsw= (EditText) findViewById(R.id.input_password);
+        tvCancel = (TextView)findViewById(R.id.tvCancel);
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         btnLogin= (Button) findViewById(R.id.btn_login);
         btnSignUp= (Button) findViewById(R.id.btn_signup);
+        cbRememberMe = (CheckBox) findViewById(R.id.cbrememberMe);
+
 
         googleSignIn= (ImageView) findViewById(R.id.imgViewGSignIn);
         googleSignIn.setOnClickListener(new View.OnClickListener() {
@@ -114,21 +129,58 @@ public class Login extends AppCompatActivity {
 
                             try {
 
-                                String firstname,email;
+                                String firstname,email,lastName,profilePic;
 
                                 JSONObject object = new JSONObject(response);
 
                                 userid = object.getString("id");
                                 firstname = object.getString("first_name");
                                 email = object.getString("email");
+                                lastName= object.getString("last_name");
+                                profilePic = object.getString("profile_pic");
+
 
 
                                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = pref.edit();
+                             editor = pref.edit();
+//
+//                                SharedPreferences.Editor
 
                                 editor.putString("user_id", userid);// Saving string
-                                editor.putString("user_name", email);
+                                editor.putString("email", email);
+                                editor.putString("first_name",firstname);
+                                editor.putString("last_name",lastName);
+                                editor.putString("profile_pic",profilePic);
                                 editor.apply();
+
+                                if (cbRememberMe.isChecked()){
+                                    checkBoxValue =true;
+
+                                    editor.putString("Checkbox_value",String.valueOf(checkBoxValue));
+                                    editor.apply();
+                                }
+                                else
+                                {
+                                    checkBoxValue = false;
+                                    editor.putString("Checkbox_value",String.valueOf(checkBoxValue));
+                                    editor.apply();
+                                }
+
+
+//                                if (checkBoxValue== true){
+//
+//                                    Intent intent = new Intent(Login.this,Dashboard.class);
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                                else {
+//
+//
+//                                }
+
+
+
+
 
                                 Intent intent = new Intent(Login.this, Dashboard.class);
                                 intent.putExtra("activityName","");

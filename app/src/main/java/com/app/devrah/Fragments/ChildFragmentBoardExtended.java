@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.devrah.Adapters.BoardsAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Adapters.FragmentBoardsAdapter;
 import com.app.devrah.R;
@@ -29,6 +30,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         View view;
     TextView tvAddCard;
     String childname;
+    EditText   edt;
     public     TextView tvName;
     FragmentBoardsAdapter adapter;
     List<ProjectsPojo> listPojo;
@@ -120,7 +122,7 @@ public class ChildFragmentBoardExtended extends Fragment {
             @Override
             public void onClick(View v) {
 
-                showDialog();
+                showCustomDialog();
 
             }
         });
@@ -151,25 +153,25 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
 
-
-    public void  showDialog(){
-
+    public void showCustomDialog(){
 
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext());
-        LayoutInflater inflater = this.getActivity().
-                getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.alert_dialogbox_layout, null);
-        dialogBuilder.setView(dialogView);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View customView = inflater.inflate(R.layout.custom_alert_dialogbox,null);
+        final AlertDialog alertDialog = new  AlertDialog.Builder(getContext()).create();
 
-        final EditText edt = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
 
-        dialogBuilder.setTitle("Custom dialog");
-        dialogBuilder.setMessage("Enter text below");
-        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //do something with edt.getText().toString();
-              String  boardsFragmentData = edt.getText().toString();
+        edt = (EditText)customView.findViewById(R.id.input_watever);
+        TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        addCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String projectData = edt.getText().toString();
+
+
+                String  boardsFragmentData = edt.getText().toString();
 
                 if (!(boardsFragmentData.isEmpty())) {
                     boardsFragmentPojoData = new ProjectsPojo();
@@ -184,22 +186,91 @@ public class ChildFragmentBoardExtended extends Fragment {
                     Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
                 }
 
-                dialog.dismiss();
+
+//
+//                if (!(projectData.isEmpty())) {
+//
+//                    ProjectsPojo projectPojoData = new ProjectsPojo();
+//                    projectPojoData.setData(projectData);
+//                    myList.add(projectPojoData);
+//                    adapter = new BoardsAdapter(getActivity(), myList);
+//
+//
+//                    lvWBoard.setAdapter(adapter);
+//
+//                }
+//                else {
+//
+//
+//                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
+//                }
+                alertDialog.dismiss();
+
+
+
+
 
 
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //pass
-            }
-        });
-        AlertDialog b = dialogBuilder.create();
-        b.show();
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
 
 
     }
 
+
+//
+//    public void  showDialog(){
+//
+//
+//
+//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext());
+//        LayoutInflater inflater = this.getActivity().
+//                getLayoutInflater();
+//        final View dialogView = inflater.inflate(R.layout.alert_dialogbox_layout, null);
+//        dialogBuilder.setView(dialogView);
+//
+//        final EditText edt = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
+//
+//        dialogBuilder.setTitle("Custom dialog");
+//        dialogBuilder.setMessage("Enter text below");
+//        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                //do something with edt.getText().toString();
+//              String  boardsFragmentData = edt.getText().toString();
+//
+//                if (!(boardsFragmentData.isEmpty())) {
+//                    boardsFragmentPojoData = new ProjectsPojo();
+//                    boardsFragmentPojoData.setData(boardsFragmentData);
+//                    listPojo.add(boardsFragmentPojoData);
+//                    adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
+//
+//
+//                    lv.setAdapter(adapter);
+//                }
+//                else {
+//                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
+//                }
+//
+//                dialog.dismiss();
+//
+//
+//            }
+//        });
+//        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                //pass
+//            }
+//        });
+//        AlertDialog b = dialogBuilder.create();
+//        b.show();
+//
+//
+//    }
+//
 
 
 

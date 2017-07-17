@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.app.devrah.CreateNewTeamActivity"
+    android:background="@drawable/bg_dashboard">
+    <include
+        android:id="@+id/header"
+        layout="@layout/app_bar">
+    </include>
+    <RelativeLayout
+        android:id="@+id/innerLayout"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp">
+        <ImageView
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/search_workboard"
+            android:layout_alignParentEnd="true"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Find Members By Name"
+            android:backgroundTint="#008080"
+            android:textColorHint="#fff"
+            android:id="@+id/etSearch"
+            android:textColor="#000" />
+        <View
+            android:id="@+id/view"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/searchBtn"
+            android:background="#fff"/>
+        <Button
+            android:id="@+id/btnAddMember"
+            android:layout_below="@+id/view"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Add By Name or Email"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorPrimary" />
+        <Button
+            android:id="@+id/btnAddBulk"
+            android:layout_below="@+id/btnAddMember"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Bulk Add Members"
+            android:layout_marginTop="30dp"
+            android:background="#449d44"/>
+
+        <TextView
+            android:id="@+id/listName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnAddBulk"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:text="Members List"
+            android:gravity="center"/>
+        <ListView
+            android:id="@+id/membersListView"
+            android:layout_below="@+id/listName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+    </RelativeLayout>
+</RelativeLayout>

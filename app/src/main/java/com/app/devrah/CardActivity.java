@@ -208,6 +208,14 @@ public  static View view;
         FABLabel = (FloatingActionButton)findViewById(R.id.labels);
 
 
+//        collapsingToolbarLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//
+
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         CardHeading = getIntent().getStringExtra("CardHeaderData");
         collapsingToolbarLayout.setTitle(CardHeading);
@@ -351,7 +359,8 @@ public  static View view;
 
 
             rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
-            bitmapList.add(rotateBitmap(bitmap));
+        //    bitmapList.add(rotateBitmap(bitmap));
+            bitmapList.add(bitmap);
             imageAdapter = new AttachmentImageAdapter(Mactivity,bitmapList,fm);
             rvAttachmentImages.setAdapter(imageAdapter);
 
@@ -398,7 +407,7 @@ public  static View view;
             rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             FilesAdapter adapter = new FilesAdapter(attachmentsList,Mactivity);
             rvFiles.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
 
 
 
@@ -406,18 +415,18 @@ public  static View view;
 
         }
 
-    private Bitmap rotateBitmap(Bitmap image){
-        int width=image.getHeight();
-        int height=image.getWidth();
-
-        Bitmap srcBitmap=Bitmap.createBitmap(width, height, image.getConfig());
-
-        for (int y=width-1;y>=0;y--)
-            for(int x=0;x<height;x++)
-                srcBitmap.setPixel(width-y-1, x,image.getPixel(x, y));
-        return srcBitmap;
-
-    }
+//    private Bitmap rotateBitmap(Bitmap image){
+//        int width=image.getHeight();
+//        int height=image.getWidth();
+//
+//        Bitmap srcBitmap=Bitmap.createBitmap(width, height, image.getConfig());
+//
+//        for (int y=width-1;y>=0;y--)
+//            for(int x=0;x<height;x++)
+//                srcBitmap.setPixel(width-y-1, x,image.getPixel(x, y));
+//        return srcBitmap;
+//
+//    }
 
 
 
@@ -427,17 +436,13 @@ public  static View view;
         fabm.setVisibility(View.VISIBLE);
 
         CardCommentData cardCommentData = new CardCommentData();
-        cardCommentData.setCardCommentid("Id Ov Person");
+        cardCommentData.setCardCommentid("Id Ov Person ");
         cardCommentData.setCardName(CardHeading);
         cardCommentData.setComment(etComment.getText().toString());
         listPojo.add(cardCommentData);
-
         rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
         adapter = new RecyclerViewAdapterComments(listPojo, getApplicationContext());
         rv.setAdapter(adapter);
-
-
         adapter.notifyDataSetChanged();
 
     }
@@ -456,7 +461,6 @@ public  static View view;
         for (int i=0;i<=5;i++) {
             membersPojo.setName("Aqsa");
             membersPojo.setUserId("asdfgh");
-
             membersPojoList.add(membersPojo);
         }
         final AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this,membersPojoList);
@@ -513,19 +517,21 @@ public  static View view;
 
 
                 if (hasFocus) {
-
                     MenuItem menuItem = menu.findItem(R.id.tick);
                     menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            Toast.makeText(CardActivity.this, "asdfghj", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(CardActivity.this, "asdfghj", Toast.LENGTH_SHORT).show();
                             addDataInComments();
+
+                         //   etComment.setText("");
+                          //  etComment.clearComposingText();
+                           // menuChanger(menu,false);
                             etComment.clearFocus();
                             return true;
                         }
 
                     });
-
                 } else
                     menuChanger(menu, hasFocus);
 
@@ -537,7 +543,7 @@ public  static View view;
         rvLabel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
 
                 menuChanger(menu,hasFocus);
                 if (hasFocus){
@@ -587,7 +593,7 @@ public  static View view;
                     tick.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
 
                                 addDataInChecklist();
                                 menuChanger(menu, hasFocus);
@@ -647,7 +653,7 @@ public  static View view;
         onFocus = false;
 ///        labelDone.setVisibility(View.GONE);
 
-        Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
 
         rvLabel.setVisibility(View.GONE);
         labelAdd.setVisibility(View.GONE);
@@ -754,7 +760,7 @@ public  static View view;
                 menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                      Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
+                     // Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
                         addLabel();
 
                         return true;
@@ -778,7 +784,7 @@ public  static View view;
     public void dueDate(){
 
         fabm.close(true);
-        Toast.makeText(getApplicationContext(),"Due Date Button Pressed",Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),"Due Date Button Pressed",Toast.LENGTH_LONG).show();
 
 
 

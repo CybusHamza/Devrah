@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -123,6 +124,15 @@ public class Dashboard extends AppCompatActivity {
                                             startActivity(intent);
                                             break;
                                         case 1:
+
+                                            SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = pref.edit();
+                                            editor.clear();
+                                            editor.commit();
+                                            Intent logOutIntent = new Intent(Dashboard.this,MainActivity.class);
+                                            startActivity(logOutIntent);
+                                            finish();
+
                                             break;
                                         case 2:
                                             changePasswordDialog();

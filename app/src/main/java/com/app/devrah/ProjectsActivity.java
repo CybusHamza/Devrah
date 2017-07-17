@@ -1,6 +1,7 @@
 package com.app.devrah;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -52,15 +53,15 @@ public class ProjectsActivity extends AppCompatActivity {
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
         edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
-        toolbar.inflateMenu(R.menu.search_menu);
+        toolbar.inflateMenu(R.menu.menu_with_back_button);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
 
                 switch (id) {
-                    case R.id.action_settings:
-                        return true;
+//                    case R.id.action_settings:
+//                        return true;
                     case R.id.action_search:
                         handleMenuSearch();
                         return true;
@@ -69,17 +70,33 @@ public class ProjectsActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ProjectsActivity.this,Dashboard.class);
+                finish();
+                startActivity(intent);
+              //  onBackPressed();
+            }
+        });
+
+
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
         setupTabIcons();
     }
 
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+
         tabOne.setText("Group Projects");
 
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);

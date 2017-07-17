@@ -7,6 +7,16 @@ package com.app.devrah.pojo;
 public class GroupProjectsPojo {
 
 
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String groupName;
+
     public String getGroupProjectData() {
         return GroupProjectData;
     }

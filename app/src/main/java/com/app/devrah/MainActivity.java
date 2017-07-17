@@ -2,8 +2,10 @@ package com.app.devrah;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.BoolRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +35,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+     String cbValue= pref.getString("Checkbox_value","");
+        if (cbValue.equals("true")){
+            Intent intent = new Intent(MainActivity.this,Dashboard.class);
+                                    startActivity(intent);
+                                    finish();
+
+
+        }
 
 
 

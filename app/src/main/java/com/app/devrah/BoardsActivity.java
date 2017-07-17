@@ -1,5 +1,6 @@
 package com.app.devrah;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,8 +8,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +25,8 @@ public class BoardsActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    Toolbar toolbar;
+    Menu menu;
     private int[] tabIcons = {
             R.drawable.work_boards,
             R.drawable.reference_boards,
@@ -32,11 +41,224 @@ public class BoardsActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpagerBoards);
         setupViewPager(viewPager);
 
+
+      //  toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+      //  toolbar.inflateMenu(R.menu.back_button_menu);
+//        setSupportActionBar(toolbar);
+
+
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+//        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+//
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"LALALA",Toast.LENGTH_SHORT).show();
+//                onBackPressed();
+//            }
+//        });
+//
+//
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
+
+
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        toolbar.setNavigationIcon(R.drawable.back_arrow_white);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"dcvnm",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+        });
+
+
+//        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //What to do on back clicked
+//
+//                Toast.makeText(getApplicationContext(),"poiuytr",Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+
+
+
+
+//        toolbar = (Toolbar) findViewById(R.id.app_bar);
+//
+//
+//        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+//        toolbar.setTitle("sxcvbn");
+
+
+//        toolbar = (Toolbar) findViewById(R.id.boards_appbar);
+//        toolbar.inflateMenu(R.menu.back_button_menu);
+//       // toolbar.inflateMenu(R.menu.menu_with_back_button);
+//        toolbar.setTitle("Select Information");
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        toolbar.setNavigationIcon(R.drawable.back_arrow_white);
+
+//        if (getSupportActionBar()!= null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
+
+
+//       setSupportActionBar(toolbar);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow_white);
+//
+//      //  toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+       // toolbar.setNavigationIcon();
+      //  toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                int id = item.getItemId();
+//
+//                switch (id) {
+////                    case R.id.action_settings:
+////                        return true;
+//                    case R.id.back_btn:
+//                        Toast.makeText(getApplicationContext(),"poiuytr",Toast.LENGTH_SHORT).show();
+//                        return true;
+//                }
+//
+//                return true;
+//            }
+//        });
+
+
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"sdfnm",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(BoardsActivity.this,Projects.class);
+//                startActivity(intent);
+//            }
+//        });
+
+
+
+
+
         tabLayout = (TabLayout) findViewById(R.id.tabsBoards);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
     }
 
+//
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+//        getMenuInflater().inflate(R.menu.back_button_menu,menu);
+//
+//
+//
+//
+//        MenuItem item = menu.findItem(R.id.back_btn);
+//        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//
+//                Toast.makeText(getApplicationContext(),"Whatever",Toast.LENGTH_SHORT).show();
+//
+//                return true;
+//            }
+//        });
+//        this.menu = menu;
+//super
+
+
+return super.onCreateOptionsMenu(menu);
+    }
+//MenuItem
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        /*int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        else if(id == android.R.id.home){
+            Intent i= new Intent(this, Dashboard.class);
+            //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+             startActivity(i);
+            finish();
+            return true;
+        }
+*/
+
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//        @Override
+//   public boolean onOptionsItemSelected(MenuItem m){
+//
+//            if (m.getItemId() == R.id.back_btn){
+//              Toast.makeText(getApplicationContext(),"Heyyy",Toast.LENGTH_SHORT).show();
+//                finish();
+//            }
+//
+//            return super.onOptionsItemSelected(m);
+//        }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//     //   finish();
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//@Override
+//public boolean onSupportNavigateUp() {
+//    onBackPressed();
+//    return true;
+//}
+
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//      //  mSearchAction = menu.findItem(R.id.action_search);
+//        return super.onPrepareOptionsMenu(menu);
+//    }
 
 
     private void setupTabIcons() {

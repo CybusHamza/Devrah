@@ -24,14 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link WorkBoard.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link WorkBoard#newInstance} factory method to
- * create an instance of this fragment.
- */
+
+
 public class WorkBoard extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -53,14 +47,6 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WorkBoard.
-     */
     // TODO: Rename and change types and number of parameters
     public static WorkBoard newInstance(String param1, String param2) {
         WorkBoard fragment = new WorkBoard();
@@ -226,14 +212,14 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 //        final View dialogView = inflater.inflate(R.layout.alert_dialogbox_layout, null);
 //        dialogBuilder.setView(dialogView);
 //
-//        final EditText edt = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
+//        final EditText title = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
 //
 //        dialogBuilder.setTitle("Custom dialog");
 //        dialogBuilder.setMessage("Enter text below");
 //        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
 //            public void onClick(DialogInterface dialog, int whichButton) {
-//                //do something with edt.getText().toString();
-//               String projectData = edt.getText().toString();
+//                //do something with title.getText().toString();
+//               String projectData = title.getText().toString();
 //
 //                if (!(projectData.isEmpty())) {
 //

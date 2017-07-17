@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_signup"
+    android:layout_height="match_parent"
+    tools:context="com.app.devrah.Login">
+
+
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_Email"
+        android:layout_width="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColorHint="#BFBFBF"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_watever"
+            android:layout_width="match_parent"
+            android:hint="Email or Username"
+            android:backgroundTint="#fff"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_password"
+        android:layout_width="match_parent"
+        android:textColorHint="#BFBFBF"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorAccent"
+            android:hint="Password"
+            android:backgroundTint="#fff"
+            android:layout_height="wrap_content"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:padding="20dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCEL"
+            android:layout_marginRight="20dp"
+            android:textColor="#fff"
+            android:textSize="15sp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn_create_signup"
+            android:text="Login"
+            android:textColor="#fff"
+            />
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="63dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="-5dp"
+
+            android:src="@drawable/bg_btn_signup_loginwith_gmail" />
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

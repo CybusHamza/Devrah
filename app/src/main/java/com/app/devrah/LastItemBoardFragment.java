@@ -134,7 +134,7 @@ showDialog();
 
 //                fragment = (ParentBoardExtendedFragment) new ParentBoardExtendedFragment().getFragmentManager().findFragmentById(R.id.ajeebFrag);
 //
-//                String projectData = edt.getText().toString();
+//                String projectData = title.getText().toString();
 //                fragment.addPage(projectData);
 //
 //                fragment.addPageAt(CustomViewPagerAdapter.customCount());

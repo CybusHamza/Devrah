@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private static int IMG_RESULT = 2;
@@ -41,8 +43,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         toolbar = (Toolbar) findViewById(R.id.header);
-        toolbar.setTitle("Update Profile");
+
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Update Profile");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         chooseFile= (Button) findViewById(R.id.btnchoosePic);
@@ -158,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
 
 
-                ImageView imageView=(ImageView) findViewById(R.id.profilePic);
+                CircleImageView imageView=(CircleImageView) findViewById(R.id.profilePic);
                 imageView.setImageBitmap(imageBitmap);
                 //imageView.setImageBitmap(imageBitmap);
 
@@ -183,7 +186,7 @@ public class ProfileActivity extends AppCompatActivity {
                 int columnIndex = cursor.getColumnIndex(FILE[0]);
                 ImageDecode = cursor.getString(columnIndex);
                 cursor.close();
-                ImageView imageView=(ImageView) findViewById(R.id.profilePic);
+                CircleImageView imageView=(CircleImageView) findViewById(R.id.profilePic);
 
                 Bitmap unscaled= BitmapFactory.decodeFile(ImageDecode);
                 int w=imageView.getWidth();

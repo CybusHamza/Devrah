@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_projects"
+    android:layout_height="match_parent"
+    tools:context="com.app.devrah.BoardExtended">
+
+    <include
+
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar">
+
+
+    </include>
+
+
+    <fragment
+        android:id="@+id/ajeebFrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:name="com.app.devrah.ParentBoardExtendedFragment"
+        android:layout_below="@+id/app_bar"
+        android:layout_alignParentStart="true"
+        />
+
+    <!--<fragment-->
+    <!--android:id="@+id/lastFrag"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+
+    <!--android:name="com.app.devrah.FragmentBoardExtendedLast"-->
+    <!--android:layout_below="@+id/app_bar"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--/>-->
+
+
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="add Fragment"-->
+    <!--android:id="@+id/btnAddFrag"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentEnd="true" />-->
+
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextPageName"-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:hint="Page Name" />-->
+
+</RelativeLayout>

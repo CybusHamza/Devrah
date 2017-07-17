@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColorHint="#BFBFBF"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_title"
+            android:layout_width="match_parent"
+            android:hint="Title"
+            android:textColorHint="#00FA9A"
+            android:backgroundTint="#00FA9A"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Project Groups:"
+        android:textColor="#000"
+        android:textSize="17sp"
+        android:layout_margin="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/laSpinner"
+
+        >
+    <Spinner android:id="@+id/spinProjectGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:id="@+id/showET"
+            android:src="@drawable/add_data_in_spinner"/>
+
+
+    </LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:gravity="center"
+    android:id="@+id/laEt"
+    android:layout_margin="10dp"
+    android:orientation="horizontal">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:textColorHint="#000"
+        android:textColor="#000"
+        android:layout_weight="1"
+        android:id="@+id/etCustomSpinnerData"
+        android:hint="Enter project Group"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:id="@+id/imageShowSpinner"
+        android:src="@drawable/left_arrow"/>
+
+
+
+</LinearLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColorHint="#BFBFBF"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_description"
+            android:layout_width="match_parent"
+            android:hint="Description"
+            android:textColorHint="#00FA9A"
+            android:backgroundTint="#00FA9A"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Add Board"
+        android:id="@+id/addProject"
+        android:paddingLeft="20dp"
+        android:textSize="20sp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColor="#00FA9A"/>
+
+
+
+
+</LinearLayout>

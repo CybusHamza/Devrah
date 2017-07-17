@@ -5,14 +5,19 @@
     tools:context="com.app.devrah.GroupProjects">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="62dp"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
-        android:id="@+id/groupProjectsListView"/>
+    <!--<ListView-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_marginBottom="62dp"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:dividerHeight="3dp"-->
+        <!--android:id="@+id/groupProjectsListView"/>-->
+
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 
 
     <Button

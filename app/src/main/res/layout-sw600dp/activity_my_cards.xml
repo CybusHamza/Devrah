@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dashboard"
+    tools:context="com.app.devrah.FavouritesActivity">
+    <include
+        android:id="@+id/header"
+        layout="@layout/app_bar">
+    </include>
+
+    <TextView
+        android:layout_below="@+id/header"
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Cards"
+        android:textSize="30dp"
+        android:paddingLeft="10dp"/>
+    <ListView
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="62dp"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="3dp"
+        android:layout_below="@+id/label"
+        android:id="@+id/cardListView"/>
+
+</RelativeLayout>

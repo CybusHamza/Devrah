@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="Add Board"
+        android:id="@+id/addProject"
         android:paddingLeft="20dp"
         android:textSize="20sp"
         android:paddingRight="20dp"

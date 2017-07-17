@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/bg_card_layout_projects"
+
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Group projects"
+        android:textColor="#000"
+        android:layout_margin="10dp"
+        android:id="@+id/projectGroupName"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textColor="#fff"
+        android:id="@+id/btnActive"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:text="Active"
+        android:background="#009192"
+        android:layout_marginTop="15dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="3dp"
+        android:layout_marginTop="10dp"
+        android:text="sdfghj"
+        android:background="@drawable/inner_drawable_for_card"
+        android:id="@+id/tvProjectsData"
+        android:gravity="center"
+        android:textColor="#000"
+        />
+</LinearLayout>

@@ -1,0 +1,441 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#6897BB"
+    android:id="@+id/bg_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:gravity="bottom"
+    android:fitsSystemWindows="true"
+    tools:context="com.app.devrah.CardActivity">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
+            android:background="#6897BB"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:fitsSystemWindows="true">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleMarginEnd="64dp"
+                app:title="Collapsing Toolbar">
+
+                <ImageView
+                    android:id="@+id/toolbarImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"
+
+                    app:layout_collapseMode="parallax" />
+
+
+                <!--<include-->
+                <!--layout="@layout/app_bar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+
+
+                <!--/>-->
+
+
+
+
+
+
+
+
+
+
+
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:text="Labels"
+                    android:id="@+id/tvLabels"
+                    android:textColor="#000"
+                    android:visibility="gone"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recycler_labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CREATE A NEW LABEL"
+                    android:textColor="#00FA9A"
+                    android:visibility="gone"
+                    android:id="@+id/tvAddLabel"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"/>
+
+
+
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:clickable="true"
+                    android:id="@+id/rv_labels_card_screen_result"/>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:clickable="true"
+                    android:id="@+id/rv_files_cardscreen"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:id="@+id/rvImagesAttachment"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Members"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone"
+                    android:id="@+id/tvMembers"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="boom boom"
+                    android:id="@+id/tvDue"
+                    android:textColor="#000"
+                    android:buttonTint="#000"
+                    android:visibility="gone"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    android:layout_marginLeft="10dp"
+
+                    android:layout_marginTop="5dp"/>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/linearLayoutCheckboxHeading"
+                    android:padding="5dp"
+                    android:visibility="gone"
+                    android:layout_marginLeft="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/checkbox_icon"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Checklist"
+                        android:textSize="20sp"
+                        android:textColor="#000"
+                        />
+
+                </LinearLayout>
+
+
+
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+
+                    android:progressTint="#fac903"
+                    android:id="@+id/simpleProgressBar"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:id="@+id/LinearLayoutChecklist"
+                    android:visibility="gone"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etCheckBox"
+                        android:textColor="#000"
+                        android:backgroundTint="#A9A9A9"
+                        android:textColorHint="#D3D3D3"
+                        android:hint="Enter Your Check list"
+
+                        android:layout_weight="1.57" />
+                    <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:id="@+id/addChecklist"-->
+                    <!--android:background="#6897BB"-->
+                    <!--android:text="enter"/>-->
+
+
+                </LinearLayout>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recycler_checklist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="-50dp"
+                        android:gravity="end"
+                        android:layout_gravity="end"
+                        android:src="@drawable/card_activity_icon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:text="Activity"
+                        android:gravity="start"
+                        android:layout_weight="1"
+                        android:layout_gravity="start"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:text="Show Details"
+
+                        android:gravity="start"
+
+                        android:layout_gravity="start"
+                        android:textColor="#00BFFF"
+                        android:textSize="20sp"
+                        />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/comment"/>
+
+
+
+                    <EditText
+                        android:layout_width="275dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etComment"
+                        android:textColor="#000"
+                        android:backgroundTint="#A9A9A9"
+
+                        android:hint="Enter Your Comment"
+                        android:textColorHint="#D3D3D3"
+                        android:layout_weight="1.57" />
+                </LinearLayout>
+
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+
+        app:menu_fab_size="normal"
+        app:menu_showShadow="true"
+        app:menu_shadowColor="#66000000"
+        app:menu_shadowRadius="4dp"
+        app:menu_shadowXOffset="1dp"
+        app:menu_shadowYOffset="3dp"
+        app:menu_colorNormal="#DA4336"
+        app:menu_colorPressed="#E75043"
+        app:menu_colorRipple="#99FFFFFF"
+        app:menu_animationDelayPerItem="50"
+        app:menu_icon="@drawable/fab_add"
+        app:menu_buttonSpacing="0dp"
+        app:menu_labels_margin="0dp"
+        app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        app:menu_labels_paddingTop="4dp"
+        app:menu_labels_paddingRight="8dp"
+        app:menu_labels_paddingBottom="4dp"
+        app:menu_labels_paddingLeft="8dp"
+        app:menu_labels_padding="8dp"
+        app:menu_labels_textColor="#FFFFFF"
+        app:menu_labels_textSize="14sp"
+        app:menu_labels_cornerRadius="3dp"
+        app:menu_labels_colorNormal="#333333"
+        app:menu_labels_colorPressed="#444444"
+        app:menu_labels_colorRipple="#66FFFFFF"
+        app:menu_labels_showShadow="true"
+        app:menu_labels_singleLine="false"
+        app:menu_labels_ellipsize="none"
+        app:menu_labels_maxLines="-1"
+
+        app:menu_labels_position="left"
+        app:menu_openDirection="up"
+
+        app:fab_progress_showBackground="false"
+
+
+        app:fab_progress_max="100"
+        app:fab_progress="50"
+
+        app:menu_backgroundColor="#4D000000"
+        >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/labels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_star"
+            app:fab_size="mini"
+            app:fab_label="Labels" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_star"
+            app:fab_size="mini"
+            app:fab_label="Members" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/dueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_star"
+            app:fab_size="mini"
+            app:fab_label="Due Date" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/CheckList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_star"
+            app:fab_size="mini"
+            app:fab_label="Check List" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/attachments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_star"
+            app:fab_size="mini"
+            app:fab_label="Attachments" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragmentContainer"
+        android:layout_alignParentBottom="true"
+        />
+
+
+
+
+</RelativeLayout>
+

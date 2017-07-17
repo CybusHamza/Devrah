@@ -1,6 +1,7 @@
 package com.app.devrah;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,16 +45,18 @@ public class BoardExtended extends AppCompatActivity {
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
+
+
         edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
-        toolbar.inflateMenu(R.menu.search_menu);
+        toolbar.inflateMenu(R.menu.menu_with_back_button);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
 
                 switch (id) {
-                    case R.id.action_settings:
-                        return true;
+//                    case R.id.action_settings:
+//                        return true;
                     case R.id.action_search:
                         handleMenuSearch();
                         return true;
@@ -62,6 +65,17 @@ public class BoardExtended extends AppCompatActivity {
                 return true;
             }
         });
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+//                finish();
+//                startActivity(intent);
+                onBackPressed();
+            }
+        });
+
         fragment = (ParentBoardExtendedFragment)this.getSupportFragmentManager().findFragmentById(R.id.ajeebFrag);
     //..    lastFrag = (FragmentBoardExtendedLast)this.getSupportFragmentManager().;
       //  etPageName =(EditText)findViewById(R.id.editTextPageName);
@@ -70,7 +84,7 @@ public class BoardExtended extends AppCompatActivity {
         fragment.addPage("To Do");
         fragment.addPage("Doing");
         fragment.addPage("Done");
-        fragment.addPage("Add Page");
+//      //  fragment.addPage("Add Page");
 
 //Toast.makeText(getApplicationContext(),String.valueOf(),Toast.LENGTH_SHORT).show();  ;
 

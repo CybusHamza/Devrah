@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_dashboard"
+    android:layout_height="match_parent"
+    tools:context="com.app.devrah.Dashboard">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_height="300dp"
+        android:layout_width="75dp"
+        android:layout_marginStart="25dp"
+        app:srcCompat="@drawable/logo_y_axis"
+        android:layout_below="@+id/imageFavourites"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="341dp" />
+
+    <ImageView
+        android:id="@+id/imageProfile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/bg_circle"
+        android:layout_marginTop="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/dashboard_projects" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:srcCompat="@drawable/bg__dashboard_calender"
+        android:layout_marginStart="26dp"
+        android:layout_alignTop="@+id/imageMenu"
+        android:layout_alignStart="@+id/imageInbox" />
+
+    <ImageView
+        android:id="@+id/imageMenu"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/bg_dshboard_more"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/imageNotification" />
+
+    <ImageView
+        android:id="@+id/imageInbox"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="5dp"
+        app:srcCompat="@drawable/bg_email_dashboard"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/imageFavourites"
+        android:layout_toStartOf="@+id/imageProfile" />
+
+    <ImageView
+        android:id="@+id/imageFavourites"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:srcCompat="@drawable/bg_dashboard_star"
+        android:layout_below="@+id/imageProfile"
+        android:layout_alignStart="@+id/imageView6" />
+
+    <ImageView
+        android:id="@+id/imageNotification"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+
+        app:srcCompat="@drawable/bg_dashboard_bell"
+        android:layout_marginStart="26dp"
+        android:layout_below="@+id/imageProfile"
+        android:layout_toEndOf="@+id/imageFavourites" />
+
+    <ImageView
+        android:id="@+id/dashboard_projects"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:srcCompat="@drawable/bg_dashboard_project"
+        android:layout_alignTop="@+id/imageInbox"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="TextView"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_toStartOf="@+id/imageMenu" />
+
+    <TextView
+        android:id="@+id/tvQuote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="TextView"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/tvTime"
+        android:layout_alignStart="@+id/tvTime"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/tvTime"
+        android:layout_marginBottom="20dp"
+        android:layout_toStartOf="@+id/imageMenu" />
+</RelativeLayout>

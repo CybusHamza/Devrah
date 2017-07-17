@@ -185,16 +185,8 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -251,14 +243,14 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 //        final View dialogView = inflater.inflate(R.layout.alert_dialogbox_layout, null);
 //        dialogBuilder.setView(dialogView);
 //
-//        final EditText edt = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
+//        final EditText title = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
 //
 //        dialogBuilder.setTitle("Custom dialog");
 //        dialogBuilder.setMessage("Enter text below");
 //        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
 //            public void onClick(DialogInterface dialog, int whichButton) {
-//                //do something with edt.getText().toString();
-//                String projectData = edt.getText().toString();
+//                //do something with title.getText().toString();
+//                String projectData = title.getText().toString();
 //                if (!(projectData.isEmpty())) {
 //                    ProjectsPojo projectPojoData = new ProjectsPojo();
 //                    projectPojoData.setData(projectData);

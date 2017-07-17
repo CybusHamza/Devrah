@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/back_btn"
+        android:title="back"
+        android:icon="@drawable/back_arrow_white"
+        android:orderInCategory="200"
+        app:showAsAction="always" />
+
+
+</menu>
