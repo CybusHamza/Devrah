@@ -231,7 +231,7 @@ public class Projects extends Fragment implements View.OnClickListener{
         View customView = layoutInflater.inflate(R.layout.custom_alert_for_projects,null);
         final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
         title = (EditText)customView.findViewById(R.id.input_title);
-        etDescription = (EditText)customView.findViewById(R.id.input_description);
+        etDescription = (EditText)customView.findViewById(R.id.etEmail);
 
         laEt = (LinearLayout)customView.findViewById(R.id.laEt);
         laSpinner = (LinearLayout) customView.findViewById(R.id.laSpinner);

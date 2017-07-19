@@ -5,34 +5,72 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.app.devrah.Network.End_Points;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileActivity extends AppCompatActivity {
 
     private static int IMG_RESULT = 2;
     Intent intent;
+
+    Calendar calendar;
+    CircleImageView imageView;
+    String dateAndTime;
+    String img;
+    String b64;
     String mCurrentPhotoPath,ImageDecode;
 
-    Button chooseFile;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String currentImage;
+
+    EditText etEmail,etF_name,etL_name,etPhoneNumber,etDevrahTag,etCompany,etPosition,etWebsite;
+    String email,f_name,l_name,f_num,devrah_tag,s_company,s_position,s_website,initials,id;
+
+    Button chooseFile,updateProfile;
     private static final int REQUEST_PERMISSIONS=0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -43,8 +81,32 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         toolbar = (Toolbar) findViewById(R.id.header);
+        updateProfile = (Button) findViewById(R.id.btnUpdate);
+
+        etF_name = (EditText)findViewById(R.id.etFname);
+        etL_name = (EditText)findViewById(R.id.etLName);
+        etEmail = (EditText)findViewById(R.id.etEmail);
+        etCompany = (EditText)findViewById(R.id.etCompany);
+        etDevrahTag = (EditText)findViewById(R.id.etDevrahTag);
+        etPhoneNumber = (EditText)findViewById(R.id.etPhoneNum);
+        etPosition = (EditText)findViewById(R.id.etPosition);
+        etWebsite = (EditText)findViewById(R.id.etWebsite);
+        imageView=(CircleImageView) findViewById(R.id.profilePic);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        currentImage =pref.getString("profile_pic","");
+
+
+       // img = SharedPreferences.get
+
+
+       // imageView.setImageBitmap();
+        Picasso.with(getApplicationContext()).load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage).into(imageView);
+
+
+
 
         setSupportActionBar(toolbar);
+
         toolbar.setTitle("Update Profile");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -56,7 +118,130 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+        calendar = Calendar.getInstance();
+        dateAndTime=String.valueOf(calendar.get(Calendar.DATE))
+                +String.valueOf(calendar.get(Calendar.MONTH))
+                + String.valueOf(calendar.get(Calendar.YEAR))
+                + String.valueOf(calendar.get(Calendar.HOUR))
+                + String.valueOf(calendar.get(Calendar.MINUTE))
+                + String.valueOf(calendar.get(Calendar.SECOND));
+
+       // SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+//                                SharedPreferences.Editor
+      email=  pref.getString("email","");
+       f_name= pref.getString("first_name","");
+       l_name=  pref.getString("last_name","");
+        id = pref.getString("user_id","");
+
+        etEmail.setText(email);
+        etF_name.setText( f_name);
+        etL_name.setText(l_name);
+
+
+
+        updateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = etEmail.getText().toString();
+               // if (email.matches(emailPattern)){
+
+
+
+                if (b64 != null){
+                    LoadImage();
+                }
+                uploadData();
+
+                //}
+               // else {
+                 //   Toast.makeText(getApplicationContext(),"Enter Valid Data",Toast.LENGTH_SHORT).show();
+               // }
+
+
+
+            }
+        });
+
     }
+
+    public void uploadData(){
+
+        email = etEmail.getText().toString();
+        l_name= etL_name.getText().toString();
+        f_name= etF_name.getText().toString();
+        s_website= etWebsite.getText().toString();
+        s_company = etCompany.getText().toString();
+        s_position = etPosition.getText().toString();
+        s_website = etWebsite.getText().toString();
+        f_num =etPhoneNumber.getText().toString();
+        devrah_tag = etDevrahTag.getText().toString();
+      //  img = PreferenceManager.getDefaultSharedPreferencesName(getApplicationContext())
+      //  img =
+        initials = String.valueOf(l_name.charAt(0)) +String.valueOf( f_name.charAt(0));
+
+      //  Toast.makeText(getApplicationContext(),"Upadte Pro",Toast.LENGTH_SHORT).show();
+        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/Api_service/updateUserProfile",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                    Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(getApplicationContext(),"No connection",Toast.LENGTH_SHORT).show();
+
+            } else if (error instanceof TimeoutError) {
+
+                 Toast.makeText(getApplicationContext(),"Time Out error",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("id",id);
+                params.put("last_name",l_name);
+                params.put("first_name",f_name);
+                params.put("website",s_website);
+                params.put("company",s_company);
+                params.put("position",s_position);
+                params.put("email",email);
+                params.put("dev_tag",devrah_tag);
+                params.put("phone",f_num);
+                params.put("profile_pic",img);
+                params.put("initials","AB");
+
+//                params.put("user_name",strEmail);
+//                params.put("password",strPassword );
+                return params;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+
+
+    }
+
+
+
+
     private void startDialogForProfile() {
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(
                 ProfileActivity.this);
@@ -161,8 +346,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
 
 
-                CircleImageView imageView=(CircleImageView) findViewById(R.id.profilePic);
                 imageView.setImageBitmap(imageBitmap);
+                b64 = encodeImage(imageBitmap);
                 //imageView.setImageBitmap(imageBitmap);
 
                 // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
@@ -186,7 +371,7 @@ public class ProfileActivity extends AppCompatActivity {
                 int columnIndex = cursor.getColumnIndex(FILE[0]);
                 ImageDecode = cursor.getString(columnIndex);
                 cursor.close();
-                CircleImageView imageView=(CircleImageView) findViewById(R.id.profilePic);
+               // CircleImageView imageView=(CircleImageView) findViewById(R.id.profilePic);
 
                 Bitmap unscaled= BitmapFactory.decodeFile(ImageDecode);
                 int w=imageView.getWidth();
@@ -196,6 +381,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 //                imageView=(DrawingView)findViewById(R.id.drawingview);
                 mCurrentPhotoPath=ImageDecode;
+                b64 = encodeImage(scaled);
+
                 imageView.setImageBitmap(scaled);
 //
                 // imageView.setImageBitmap(BitmapFactory
@@ -213,6 +400,20 @@ public class ProfileActivity extends AppCompatActivity {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+
+    ////CONVERT TO BITMAP////
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
+    }
+
+
+
     public String getPathFromURI(Uri contentUri) {
         String res = null;
         String[] proj = {MediaStore.Images.Media.DATA};
@@ -239,4 +440,65 @@ public class ProfileActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void LoadImage(){
+
+        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_mobile.php", new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                // loading.dismiss();
+                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+
+                if (!(response.equals(""))) {
+                    Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                    SharedPreferences.Editor editor = preferences.edit();
+//                    editor.putString("img",response);
+//                    editor.apply();
+
+                    img = response.trim();
+
+
+
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Picture not uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                String message = null;
+                if (error instanceof NetworkError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("image", b64);
+                map.put("name", dateAndTime);
+                return map;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(ProfileActivity.this);
+        requestQueue.add(request);
+
+
+
+
+
+    }
+
 }

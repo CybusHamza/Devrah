@@ -24,14 +24,20 @@ import java.util.Random;
 
 import android.os.Handler;
 
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Dashboard extends AppCompatActivity {
 
     TextView tvTime, tvQuote;
     String[] quotes;
-    ImageView imgProjects,imgFavourites,imgMyCards,imgNotifications,imgInbox,imgMenu,imgProfile;
+    ImageView imgProjects,imgFavourites,imgMyCards,imgNotifications,imgInbox,imgMenu;
     String quote;
     Random rand;
+    CircleImageView imgProfile;
    // int random;
+    String currentImage;
     Activity mActivity;
    String[] ProfileArray={"Edit Profile","Logoff","Change Password"};
 
@@ -48,7 +54,16 @@ public class Dashboard extends AppCompatActivity {
         imgNotifications = (ImageView)findViewById(R.id.imageNotification);
         imgInbox = (ImageView)findViewById(R.id.imageInbox);
         imgMenu = (ImageView)findViewById(R.id.imageMenu);
-        imgProfile = (ImageView)findViewById(R.id.imageProfile);
+        imgProfile = (CircleImageView)findViewById(R.id.imageProfile);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        currentImage = pref.getString("profile_pic","");
+
+
+
+        Picasso.with(getApplicationContext())
+                .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+                .into(imgProfile);
 
         imgProjects.setOnClickListener(new View.OnClickListener() {
             @Override

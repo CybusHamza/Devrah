@@ -56,9 +56,10 @@
             android:layout_alignParentStart="true">
 
             <EditText
-                android:id="@+id/input_description"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:hint="E-mail"
+
                 android:textColorHint="#00FA9A"
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
@@ -86,6 +87,7 @@
 
                 android:layout_width="match_parent"
                 android:hint="First Name"
+                android:id="@+id/etFname"
                 android:textColorHint="#00FA9A"
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
@@ -110,6 +112,7 @@
 
                 android:layout_width="match_parent"
                 android:hint="Last Name"
+                android:id="@+id/etLName"
                 android:textColorHint="#00FA9A"
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
@@ -137,6 +140,7 @@
 
                 android:layout_width="match_parent"
                 android:hint="Phone Number"
+                android:id="@+id/etPhoneNum"
                 android:textColorHint="#00FA9A"
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
@@ -163,6 +167,7 @@
 
                     android:layout_width="match_parent"
                     android:hint="Devrah Tag"
+                    android:id="@+id/etDevrahTag"
                     android:textColorHint="#00FA9A"
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"
@@ -190,6 +195,7 @@
 
                     android:layout_width="match_parent"
                     android:hint="Company"
+                    android:id="@+id/etCompany"
                     android:textColorHint="#00FA9A"
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"
@@ -214,6 +220,7 @@
 
                     android:layout_width="match_parent"
                     android:hint="Position"
+                    android:id="@+id/etPosition"
                     android:textColorHint="#00FA9A"
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"
@@ -239,6 +246,7 @@
 
                     android:layout_width="match_parent"
                     android:hint="Website"
+                    android:id="@+id/etWebsite"
                     android:textColorHint="#00FA9A"
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"

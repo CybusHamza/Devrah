@@ -137,7 +137,7 @@ public class Login extends AppCompatActivity {
                                 firstname = object.getString("first_name");
                                 email = object.getString("email");
                                 lastName= object.getString("last_name");
-                                profilePic = object.getString("profile_pic");
+                                profilePic = object.getString("profile_pic").trim();
 
 
 

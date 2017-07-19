@@ -60,6 +60,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
     ListView AddGroupProjectListView;
     List<GroupProjectsPojo> pojoList;
      List<String> MyList;
+    JSONArray projectsArray;
     String projectNameS, projectHeading;
 
     ArrayList<String> projectName;
@@ -69,7 +70,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
 
 
     /////////////////////////////////////////
-    ArrayList<String> whatever, whateverId, projectId, projectNames, dummy, projectsArray;
+   public ArrayList<String> whatever, whateverId, projectId, projectNames, dummy;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -114,7 +115,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
         AddGroupProjectListView = (ListView) view.findViewById(R.id.groupProjectsListView);
         pojoList = new ArrayList<>();
 
-        //prepareDataList();
+        prepareDataList();
 
         expandableLv = (ExpandableListView) view.findViewById(R.id.lvExp);
         addGrouProjects.setOnClickListener(this);
@@ -253,6 +254,16 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
 
                                 JSONArray projectsArray = object.getJSONArray("group_projects");
 
+
+                                for (int i = 0; i < projectsArray.length(); i++) {
+
+                                    JSONObject obj = new JSONObject(projectsArray.getString(i));
+
+                                    projectName.add(obj.getString("project_name"));
+                                    projectId.add(obj.getString("project_group"));
+                                }
+
+
                                 for (int i = 0; i < array.length(); i++) {
 
                                     MyList = new ArrayList<>();
@@ -273,13 +284,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
                                 }
 
 
-                                for (int i = 0; i < projectsArray.length(); i++) {
 
-                                    JSONObject obj = new JSONObject(projectsArray.getString(i));
-
-                                    projectName.add(obj.getString("project_name"));
-                                    projectId.add(obj.getString("project_group"));
-                                }
 
 //                            for (int p = 0; p< whatever.size(); p++)
 //
@@ -424,7 +429,9 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
 
         {
 
-            for (int i = 0; i < projectsArray.size(); i++) {
+//            for (int i = 0; i < projectsArray.size(); i++) {
+
+            for (int i = 0; i < projectName.size(); i++) {
 
                 if (projectId.get(i).equals(whateverId.get(p))) {
 
