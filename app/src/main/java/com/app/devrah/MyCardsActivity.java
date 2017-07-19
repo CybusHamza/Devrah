@@ -117,9 +117,6 @@ public class MyCardsActivity extends AppCompatActivity {
 
         if(isSearchOpened){ //test if the search is open
 
-            //action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
-            // action.setDisplayShowTitleEnabled(true); //show the title in the action bar
-            //hides the keyboard
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);

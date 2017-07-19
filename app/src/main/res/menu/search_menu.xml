@@ -4,11 +4,6 @@
 
     <!--android:icon="@drawable/search_workboard"-->
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="Setting"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_search"
@@ -18,6 +13,12 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="300"
+        android:icon="@drawable/menu_dlt"
+        app:showAsAction="always"
+        android:title="jbh"/>
 
 
 

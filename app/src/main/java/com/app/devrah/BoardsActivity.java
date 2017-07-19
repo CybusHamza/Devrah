@@ -6,16 +6,23 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.app.devrah.Adapters.CustomDrawerAdapter;
+import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +33,11 @@ public class BoardsActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     Toolbar toolbar;
+
+    View logo;
+    EditText edtSeach;
+
+    List<DrawerPojo> dataList;
     Menu menu;
     private int[] tabIcons = {
             R.drawable.work_boards,
@@ -33,16 +45,85 @@ public class BoardsActivity extends AppCompatActivity {
             //  R.drawable.ic_tab_contacts
     };
 
+
+    CustomDrawerAdapter adapter;
+    private ListView mDrawerList;
+
+    DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boards);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList= (ListView) findViewById(R.id.left_drawer);
+
+
         viewPager = (ViewPager) findViewById(R.id.viewpagerBoards);
         setupViewPager(viewPager);
 
+        toolbar = (Toolbar) findViewById(R.id.header);
+        toolbar.setTitle("Projects");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-      //  toolbar = (Toolbar) findViewById(R.id.toolbar);
+        dataList = new ArrayList<>();
+
+
+        dataList.add(new DrawerPojo("Filter Cards"));
+        dataList.add(new DrawerPojo("Copy"));
+        dataList.add(new DrawerPojo("Move"));
+        dataList.add(new DrawerPojo("Manage Members"));
+        dataList.add(new DrawerPojo("Leave Board"));
+        //   getSupportActionBar().setDisplayShowHomeEnabled(true);
+        logo = getLayoutInflater().inflate(R.layout.search_bar, null);
+        toolbar.addView(logo);
+        logo.setVisibility(View.INVISIBLE);
+        edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
+        toolbar.inflateMenu(R.menu.search_menu);
+
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                switch (id) {
+
+//                    case R.id.action_search:
+//                        handleMenuSearch();
+//                        return true;
+
+                    case R.id.action_settings:
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+
+                        openDrawer();
+
+                        Toast.makeText(getApplicationContext(),"Menu",Toast.LENGTH_LONG).show();
+                        return true;
+                }
+
+                return true;
+            }
+        });
+
+
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(BoardsActivity.this,Dashboard.class);
+                finish();
+                startActivity(intent);
+                //  onBackPressed();
+            }
+        });
+
+
+
+        //  toolbar = (Toolbar) findViewById(R.id.toolbar);
 
       //  toolbar.inflateMenu(R.menu.back_button_menu);
 //        setSupportActionBar(toolbar);
@@ -65,25 +146,25 @@ public class BoardsActivity extends AppCompatActivity {
 //
 //
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+//        setSupportActionBar(toolbar);
 
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setHomeButtonEnabled(true);
 
+//
+//        toolbar.setNavigationIcon(R.drawable.back_arrow_white);
+//
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"dcvnm",Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//            }
+//        });
 
-        toolbar.setNavigationIcon(R.drawable.back_arrow_white);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"dcvnm",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            }
-        });
-
-
+        openDrawer();
 //        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -168,9 +249,27 @@ public class BoardsActivity extends AppCompatActivity {
         setupTabIcons();
     }
 
-//
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    public void  openDrawer(){
+        adapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
+        mDrawerList.setAdapter(adapter);
+
+    }
+
+
+    //
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
 
 //        getMenuInflater().inflate(R.menu.back_button_menu,menu);
 //
@@ -191,34 +290,34 @@ public class BoardsActivity extends AppCompatActivity {
 //super
 
 
-return super.onCreateOptionsMenu(menu);
-    }
+//return super.onCreateOptionsMenu(menu);
+//    }
 //MenuItem
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        else if(id == android.R.id.home){
-            Intent i= new Intent(this, Dashboard.class);
-            //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
-             startActivity(i);
-            finish();
-            return true;
-        }
-*/
-
-        finish();
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        /*int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        else if(id == android.R.id.home){
+//            Intent i= new Intent(this, Dashboard.class);
+//            //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//
+//             startActivity(i);
+//            finish();
+//            return true;
+//        }
+//*/
+//
+//        finish();
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     @Override

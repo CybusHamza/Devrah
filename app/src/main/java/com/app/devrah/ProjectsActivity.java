@@ -6,19 +6,28 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.app.devrah.Adapters.CustomDrawerAdapter;
+import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,40 +39,83 @@ public class ProjectsActivity extends AppCompatActivity {
     private ViewPager viewPager;
     Toolbar toolbar;
 
-    private MenuItem mSearchAction;
+   // DrawerPojo drawerPojo;
+   List<DrawerPojo> dataList;
+
+    private MenuItem mSearchAction,mDrawer;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     String title;
     View logo;
+    CustomDrawerAdapter adapter;
+    private ListView mDrawerList;
+ //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
 //            R.drawable.bg_dashboard_project,
 //          //  R.drawable.ic_tab_contacts
 //    };
-
+ DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
 
+
+ drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList= (ListView) findViewById(R.id.left_drawer);
+//        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+//                GravityCompat.START);
+
+
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Projects");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // drawerPojo = new DrawerPojo();
+
+        dataList = new ArrayList<>();
+
+
+        dataList.add(new DrawerPojo("Filter Cards"));
+        dataList.add(new DrawerPojo("Copy"));
+        dataList.add(new DrawerPojo("Move"));
+        dataList.add(new DrawerPojo("Manage Members"));
+        dataList.add(new DrawerPojo("Leave Board"));
+     //   getSupportActionBar().setDisplayShowHomeEnabled(true);
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
         edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
-        toolbar.inflateMenu(R.menu.menu_with_back_button);
+        toolbar.inflateMenu(R.menu.search_menu);
+
+        openDrawer();
+
+//        adapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
+//        mDrawerList.setAdapter(adapter);
+//        //drawerFragment = new NavigationDrawerFragment();
+
+       // drawerFragment.setup((DrawerLayout) findViewById(R.id.drawerlayout), toolbar);
+
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
 
                 switch (id) {
-//                    case R.id.action_settings:
-//                        return true;
+
                     case R.id.action_search:
                         handleMenuSearch();
+                        return true;
+
+                    case R.id.action_settings:
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+
+                        openDrawer();
+
+                        Toast.makeText(getApplicationContext(),"Menu",Toast.LENGTH_LONG).show();
                         return true;
                 }
 
@@ -150,10 +202,22 @@ public class ProjectsActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        mSearchAction = menu.findItem(R.id.action_search);
+//        mDrawer = menu.findItem(R.id.action_settings);
+//
+//        return super.onPrepareOptionsMenu(menu);
+//    }
+
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        mSearchAction = menu.findItem(R.id.action_search);
-        return super.onPrepareOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+
     }
 
 
@@ -225,4 +289,11 @@ public class ProjectsActivity extends AppCompatActivity {
     private void doSearch() {
 //
     }
+
+    public void  openDrawer(){
+        adapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
+        mDrawerList.setAdapter(adapter);
+
+    }
+
 }

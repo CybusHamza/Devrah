@@ -2,10 +2,12 @@ package com.app.devrah;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,10 +16,16 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
+import com.app.devrah.pojo.DrawerPojo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardExtended extends AppCompatActivity {
 
@@ -32,10 +40,28 @@ public class BoardExtended extends AppCompatActivity {
     String title;
     CustomViewPagerAdapter adapter;
     View logo;
+
+
+    List<DrawerPojo> dataList;
+
+    CustomDrawerAdapter DrawerAdapter;
+    private ListView mDrawerList;
+    //   NavigationDrawerFragment drawerFragment;
+//    private int[] tabIcons = {
+//            R.drawable.project_group,
+//            R.drawable.bg_dashboard_project,
+//          //  R.drawable.ic_tab_contacts
+//    };
+    DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_extended);
+
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList= (ListView) findViewById(R.id.left_drawer);
+
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         title = getIntent().getStringExtra("TitleData");
@@ -45,6 +71,16 @@ public class BoardExtended extends AppCompatActivity {
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
+
+        dataList = new ArrayList<>();
+
+
+        dataList.add(new DrawerPojo("Filter Cards"));
+        dataList.add(new DrawerPojo("Copy"));
+        dataList.add(new DrawerPojo("Move"));
+        dataList.add(new DrawerPojo("Manage Members"));
+        dataList.add(new DrawerPojo("Leave Board"));
+
 
 
         edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
@@ -60,6 +96,13 @@ public class BoardExtended extends AppCompatActivity {
                     case R.id.action_search:
                         handleMenuSearch();
                         return true;
+
+                    case R.id.action_settings:
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                        openDrawer();
+                        return true;
+
+
                 }
 
                 return true;
@@ -80,6 +123,8 @@ public class BoardExtended extends AppCompatActivity {
     //..    lastFrag = (FragmentBoardExtendedLast)this.getSupportFragmentManager().;
       //  etPageName =(EditText)findViewById(R.id.editTextPageName);
       //  addFrag = (Button)findViewById(R.id.btnAddFrag);
+
+        openDrawer();
 
         fragment.addPage("To Do");
         fragment.addPage("Doing");
@@ -181,4 +226,11 @@ public class BoardExtended extends AppCompatActivity {
     private void doSearch() {
 //
     }
+
+    public void  openDrawer(){
+        DrawerAdapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
+        mDrawerList.setAdapter( DrawerAdapter);
+
+    }
+
 }
