@@ -59,9 +59,11 @@ public class MyCardsAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.custom_layout_for_my_cards, null);
 
         holder.data = (TextView) convertView.findViewById(R.id.projectName);
-        holder.data.setText(projectsList.get(position).getData());
+        holder.data.setText("Project Name : "+projectsList.get(position).getProjectname());
         holder.boardData = (TextView) convertView.findViewById(R.id.boardName);
-        holder.boardData.setText(projectsList.get(position).getBoardData());
+        holder.boardData.setText("Board Name : "+projectsList.get(position).getBoardname());
+        holder.cardName = (TextView) convertView.findViewById(R.id.tvFavouritesData);
+        holder.cardName.setText(projectsList.get(position).getCard_name());
 
 
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +80,7 @@ public class MyCardsAdapter extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data,boardData;
+        TextView data,boardData,cardName;
     }
 
 }
