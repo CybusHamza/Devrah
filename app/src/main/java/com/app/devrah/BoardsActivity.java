@@ -92,6 +92,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                 switch (id) {
 
+
 //                    case R.id.action_search:
 //                        handleMenuSearch();
 //                        return true;
