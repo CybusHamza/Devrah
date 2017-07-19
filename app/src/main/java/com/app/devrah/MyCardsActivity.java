@@ -1,9 +1,11 @@
 package com.app.devrah;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -15,15 +17,30 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.app.devrah.Adapters.FavouritesAdapter;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.MyCardsAdapter;
-import com.app.devrah.pojo.FavouritesPojo;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.pojo.MyCardsPojo;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import static com.app.devrah.R.id.toolbar;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MyCardsActivity extends AppCompatActivity {
 
@@ -32,7 +49,9 @@ public class MyCardsActivity extends AppCompatActivity {
     MyCardsPojo myCardsPojoData;
     MyCardsAdapter adapter;
     Toolbar toolbar;
-
+    ProgressDialog ringProgressDialog;
+    String userID;
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
@@ -80,46 +99,27 @@ public class MyCardsActivity extends AppCompatActivity {
        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listPojo = new ArrayList<>();
         lv = (ListView) findViewById(R.id.cardListView);
-        myCardsPojoData = new MyCardsPojo();
-        myCardsPojoData.setData("Project:test");
-        myCardsPojoData.setBoardData("Board:Test");
-        listPojo.add(myCardsPojoData);
-        adapter = new MyCardsAdapter(this, listPojo);
+
+        getMyCards();
 
 
-        lv.setAdapter(adapter);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        userID = pref.getString("user_id","");
+
+
     }
 
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                //NavUtils.navigateUpFromSameTask(this);
-                Intent intent=new Intent(this,Dashboard.class);
-                finish();
-                startActivity(intent);
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mSearchAction = menu.findItem(R.id.action_search);
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     protected void handleMenuSearch(){
-        //ActionBar action = getSupportActionBar(); //get the actionbar
 
         if(isSearchOpened){ //test if the search is open
 
-            //action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
-            // action.setDisplayShowTitleEnabled(true); //show the title in the action bar
-            //hides the keyboard
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
@@ -127,17 +127,9 @@ public class MyCardsActivity extends AppCompatActivity {
             logo.setVisibility(View.INVISIBLE);
             edtSeach.setText("");
 
-            //add the search icon in the action bar
-            // mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
-
             isSearchOpened = false;
-        } else { //open the search entry
-
-            //     action.setDisplayShowCustomEnabled(true); //enable it to display a
-            // custom view in the action bar.
+        } else {
             logo.setVisibility(View.VISIBLE);
-            //  action.setCustomView(R.layout.search_bar);//add the custom view
-            // action.setDisplayShowTitleEnabled(false); //hide the title
             toolbar.setTitle("");
 
             //the text editor
@@ -162,8 +154,6 @@ public class MyCardsActivity extends AppCompatActivity {
             imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
 
 
-            //add the close icon
-//            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
 
             isSearchOpened = true;
         }
@@ -178,5 +168,101 @@ public class MyCardsActivity extends AppCompatActivity {
     }
     private void doSearch() {
     //
+    }
+
+
+    public void getMyCards() {
+
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        String URL =  End_Points.GETMYCARDS+userID;
+        StringRequest request = new StringRequest(Request.Method.POST,URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for(int i=0 ; i <= jsonArray.length();i++)
+                            {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                MyCardsPojo myCardsPojo = new MyCardsPojo();
+
+                                myCardsPojo.setBoardname(jsonObject.getString("board_name"));
+                                myCardsPojo.setBoradid(jsonObject.getString("board_id"));
+                                myCardsPojo.setCard_name(jsonObject.getString("card_name"));
+                                myCardsPojo.setCardId(jsonObject.getString("card_id"));
+                                myCardsPojo.setListid(jsonObject.getString("list_id"));
+                                myCardsPojo.setProjecct_id(jsonObject.getString("project_id"));
+                                myCardsPojo.setProjectname(jsonObject.getString("project_name"));
+                                myCardsPojo.setListname(jsonObject.getString("list_name"));
+
+                                listPojo.add(myCardsPojo);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        adapter = new MyCardsAdapter(MyCardsActivity.this, listPojo);
+                        lv.setAdapter(adapter);
+                        ringProgressDialog.dismiss();
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(MyCardsActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(MyCardsActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("","");
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
     }
 }

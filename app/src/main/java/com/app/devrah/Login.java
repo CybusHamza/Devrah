@@ -34,26 +34,24 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Login extends AppCompatActivity {
-    ProgressDialog ringProgressDialog;
-
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
-
-    EditText etEmail,etPsw;
+    ProgressDialog ringProgressDialog;
+    EditText etEmail, etPsw;
     TextView tvCancel;
     boolean checkBoxValue;
     SharedPreferences.Editor editor;
     CheckBox cbRememberMe;
-    String strEmail,strPassword;
-    Button btnLogin,btnSignUp;
+    String strEmail, strPassword;
+    Button btnLogin, btnSignUp;
     ImageView googleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        etEmail= (EditText) findViewById(R.id.input_email);
-        etPsw= (EditText) findViewById(R.id.input_password);
-        tvCancel = (TextView)findViewById(R.id.tvCancel);
+        etEmail = (EditText) findViewById(R.id.input_email);
+        etPsw = (EditText) findViewById(R.id.input_password);
+        tvCancel = (TextView) findViewById(R.id.tvCancel);
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,16 +59,16 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        btnLogin= (Button) findViewById(R.id.btn_login);
-        btnSignUp= (Button) findViewById(R.id.btn_signup);
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnSignUp = (Button) findViewById(R.id.btn_signup);
         cbRememberMe = (CheckBox) findViewById(R.id.cbrememberMe);
 
 
-        googleSignIn= (ImageView) findViewById(R.id.imgViewGSignIn);
+        googleSignIn = (ImageView) findViewById(R.id.imgViewGSignIn);
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Login.this,TestActivity.class);
+                Intent intent = new Intent(Login.this, TestActivity.class);
                 startActivity(intent);
             }
         });
@@ -78,7 +76,7 @@ public class Login extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Login.this,SignUpActivity.class);
+                Intent intent = new Intent(Login.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
@@ -87,17 +85,15 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 strEmail = etEmail.getText().toString();
                 strPassword = etPsw.getText().toString();
-                if(strEmail.equals("") || strPassword.equals(""))
-                {
+                if (strEmail.equals("") || strPassword.equals("")) {
                     Toast.makeText(Login.this, "Fields cannot be empty ", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                } else {
                     login();
                 }
             }
         });
     }
+
     public void login() {
 
         ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Checking Credentials ...", true);
@@ -122,47 +118,43 @@ public class Login extends AppCompatActivity {
                                         }
                                     })
                                     .show();
-                        }
-                        else {
+                        } else {
 
                             String userid;
 
                             try {
 
-                                String firstname,email,lastName,profilePic;
+                                String firstname, email, lastName, profilePic;
 
                                 JSONObject object = new JSONObject(response);
 
                                 userid = object.getString("id");
                                 firstname = object.getString("first_name");
                                 email = object.getString("email");
-                                lastName= object.getString("last_name");
+                                lastName = object.getString("last_name");
                                 profilePic = object.getString("profile_pic").trim();
 
 
-
-                               SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                             editor = pref.edit();
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                editor = pref.edit();
 //
 //                                SharedPreferences.Editor
 
                                 editor.putString("user_id", userid);// Saving string
                                 editor.putString("email", email);
-                                editor.putString("first_name",firstname);
-                                editor.putString("last_name",lastName);
-                                editor.putString("profile_pic",profilePic);
+                                editor.putString("first_name", firstname);
+                                editor.putString("last_name", lastName);
+                                editor.putString("profile_pic", profilePic);
                                 editor.apply();
 
-                                if (cbRememberMe.isChecked()){
-                                    checkBoxValue =true;
+                                if (cbRememberMe.isChecked()) {
+                                    checkBoxValue = true;
 
-                                    editor.putString("Checkbox_value",String.valueOf(checkBoxValue));
+                                    editor.putString("Checkbox_value", String.valueOf(checkBoxValue));
                                     editor.apply();
-                                }
-                                else
-                                {
+                                } else {
                                     checkBoxValue = false;
-                                    editor.putString("Checkbox_value",String.valueOf(checkBoxValue));
+                                    editor.putString("Checkbox_value", String.valueOf(checkBoxValue));
                                     editor.apply();
                                 }
 
@@ -179,11 +171,8 @@ public class Login extends AppCompatActivity {
 //                                }
 
 
-
-
-
                                 Intent intent = new Intent(Login.this, Dashboard.class);
-                                intent.putExtra("activityName","");
+                                intent.putExtra("activityName", "");
                                 startActivity(intent);
                                 finish();
 
@@ -228,8 +217,8 @@ public class Login extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("user_name",strEmail);
-                params.put("password",strPassword );
+                params.put("user_name", strEmail);
+                params.put("password", strPassword);
                 return params;
             }
         };
