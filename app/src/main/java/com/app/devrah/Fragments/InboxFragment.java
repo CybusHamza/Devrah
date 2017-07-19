@@ -1,6 +1,8 @@
 package com.app.devrah.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,15 +14,40 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.ActivitiesAdpater;
+import com.app.devrah.Adapters.InboxAdapter;
+import com.app.devrah.Adapters.NotificationAdapter;
 import com.app.devrah.Adapters.ProjectsAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.SendNewMessageActivity;
 import com.app.devrah.pojo.AcitivitiesPojo;
+import com.app.devrah.pojo.InboxPojo;
+import com.app.devrah.pojo.NotificationsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Rizwan Butt on 14-Jun-17.
@@ -30,17 +57,17 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
 
     Button btnSendNewMessage;
     View view;
-    ActivitiesAdpater adapter;
-    List<AcitivitiesPojo> listPojo;
-    AcitivitiesPojo projectPojoData;
+    InboxAdapter adapter;
+    List<InboxPojo> listPojo;
+    InboxPojo projectPojoData;
     ListView lv;
     EditText edt;
 
     String projectData;
 
+    ProgressDialog ringProgressDialog;
 
-
-
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -97,8 +124,9 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
         }
         adapter = new ActivitiesAdpater(getActivity(), listPojo);
 
-
         lv.setAdapter(adapter);*/
+
+        getNotifications();
         btnSendNewMessage.setOnClickListener(this);
         return  view;
     }
@@ -138,5 +166,86 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
         void onFragmentInteraction(Uri uri);
     }
 
+    public void getNotifications(){
+        SharedPreferences pref = getContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        final String userid=pref.getString("user_id","");
+        ringProgressDialog = ProgressDialog.show(getContext(), "Please wait ...","", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_NOTIFICATIONS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        try {
+                            JSONArray array = new JSONArray(response);
+                            for (int i = 0;i<array.length();i++){
+
+                                JSONObject object = new JSONObject(array.getString(i));
+
+                                projectPojoData = new InboxPojo();
+                                projectPojoData.setData("Subject: "+object.getString("message_subject"));
+                                //projectPojoData.setId(object.getString("project_id"));
+                                listPojo.add(projectPojoData);
+
+
+
+                            }
+                            adapter = new InboxAdapter(getActivity(), listPojo);
+                            lv.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id","2");
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(request);
+
+    }
 
 }

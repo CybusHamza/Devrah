@@ -8,6 +8,8 @@ public class End_Points {
     public static final String LOGIN = BASE_URL + "login";
     public static final String SIGN_UP = BASE_URL + "addUserSignUp";
     public static final String GET_MEMBER_PROJECTS = BASE_URL + "getProjectsToMembers";
+    public static final String GET_NOTIFICATIONS = BASE_URL + "getNotifications";
+    public static final String SENT_MESSAGES = BASE_URL + "sentMessages";
 
 
     public static final String ADD_NEW_PROJECT = BASE_URL + "addNewProject";

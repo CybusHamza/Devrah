@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.devrah.Fragments.ActivitiesFragment;
 import com.app.devrah.Fragments.InboxFragment;
@@ -39,8 +41,28 @@ public class MessagesActivity extends AppCompatActivity {
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.notifications_tabs);
+
         tabLayout.setupWithViewPager(viewPager);
+
         setupTabIcons();
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setupTabIcons() {
@@ -113,4 +135,13 @@ public class MessagesActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void OnPageSelected (int position) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        switch (position){
+
+            case 0 : ((InboxFragment)adapter.getItem(position)).getNotifications();
+            case 1 : ((SentMessagesFragment)adapter.getItem(position)).sentMessages();
+        }
+    }
+
 }

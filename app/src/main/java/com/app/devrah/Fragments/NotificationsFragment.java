@@ -1,5 +1,8 @@
 package com.app.devrah.Fragments;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,16 +13,39 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.ActivitiesAdpater;
 import com.app.devrah.Adapters.NotificationAdapter;
 import com.app.devrah.Adapters.ProjectsAdapter;
+import com.app.devrah.Dashboard;
+import com.app.devrah.Login;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.AcitivitiesPojo;
 import com.app.devrah.pojo.NotificationsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Rizwan Butt on 14-Jun-17.
@@ -46,6 +72,7 @@ private static final String ARG_PARAM2 = "param2";
 
 private String mParam1;
 private String mParam2;
+
 
 private NotificationsFragment.OnFragmentInteractionListener mListener;
 
@@ -78,6 +105,7 @@ public void onCreate(Bundle savedInstanceState) {
         mParam1 = getArguments().getString(ARG_PARAM1);
         mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
         }
 
 @Override
@@ -88,23 +116,17 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
         // btnAddProject = (Button)view.findViewById(R.id.buttonAddProject);
         listPojo = new ArrayList<>();
         lv = (ListView)view.findViewById(R.id.notificationsListView);
-        projectPojoData = new NotificationsPojo();
-        for(int i=0;i<3;i++) {
-                projectPojoData.setData("test" + i);
-                listPojo.add(projectPojoData);
-
-        }
-        adapter = new NotificationAdapter(getActivity(), listPojo);
 
 
-        lv.setAdapter(adapter);
         return  view;
         }
+
 
 // TODO: Rename method, update argument and hook method into UI event
 public void onButtonPressed(Uri uri) {
         if (mListener != null) {
         mListener.onFragmentInteraction(uri);
+
         }
         }
 
@@ -117,7 +139,6 @@ public void onDetach() {
 
 @Override
 public void onClick(View v) {
-
         }
 
 

@@ -54,6 +54,7 @@
 
         </activity>
         <activity android:name=".ImageDescription"/>
+        <activity android:name=".TestActivity"/>
         <activity android:name=".FavouritesActivity" />
         <activity android:name=".MyCardsActivity" />
         <activity android:name=".NotificationsActivity" />
