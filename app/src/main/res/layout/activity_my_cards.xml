@@ -22,6 +22,7 @@
         android:layout_marginBottom="62dp"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
+        android:longClickable="true"
         android:layout_height="wrap_content"
         android:dividerHeight="3dp"
         android:layout_below="@+id/label"

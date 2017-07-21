@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,13 +13,14 @@ import android.widget.TextView;
 import com.app.devrah.BoardsActivity;
 import com.app.devrah.R;
 import com.app.devrah.pojo.MyCardsPojo;
+
 import java.util.List;
 
 /**
  * Created by Rizwan Butt on 14-Jun-17.
  */
 
-public class MyCardsAdapter extends BaseAdapter {
+public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener {
     List<MyCardsPojo> projectsList;
     Activity activity;
     private LayoutInflater inflater;
@@ -50,6 +52,7 @@ public class MyCardsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder vh;
         MyCardsAdapter.ViewHolder holder = new MyCardsAdapter.ViewHolder();
         if (inflater== null)
             inflater = (LayoutInflater) activity
@@ -58,6 +61,11 @@ public class MyCardsAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.custom_layout_for_my_cards, null);
 
+
+        vh = new ViewHolder();
+        convertView.setTag(vh);
+
+        convertView.setOnTouchListener(this);
         holder.data = (TextView) convertView.findViewById(R.id.projectName);
         holder.data.setText("Project Name : "+projectsList.get(position).getProjectname());
         holder.boardData = (TextView) convertView.findViewById(R.id.boardName);
@@ -81,6 +89,26 @@ public class MyCardsAdapter extends BaseAdapter {
 
     public static class ViewHolder{
         TextView data,boardData,cardName;
+
+        public float lastTouchedX;
+        public float lastTouchedY;
+
     }
+
+    public void reLoadView()
+    {
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        ViewHolder vh = (ViewHolder) view.getTag();
+
+        vh.lastTouchedX = motionEvent.getX();
+        vh.lastTouchedY = motionEvent.getY();
+
+        return false;
+    }
+
 
 }

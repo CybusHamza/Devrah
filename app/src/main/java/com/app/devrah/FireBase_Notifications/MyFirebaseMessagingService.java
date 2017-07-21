@@ -12,6 +12,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.app.devrah.MainActivity;
+import com.app.devrah.MyCardsActivity;
 import com.app.devrah.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -24,9 +25,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-      //  showNotification(remoteMessage.getData().get(""), remoteMessage.getData().get("body"),remoteMessage.getData().get("important"));
-        showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),"important");
-    /*    SharedPreferences preferences = getSharedPreferences("Notifications",MODE_PRIVATE);
+        //  showNotification(remoteMessage.getData().get(""), remoteMessage.getData().get("body"),remoteMessage.getData().get("important"));
+
+        //   showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),"important");
+
+        // Volley_helper volley_helper = new Volley_helper();
+        Intent intent = null;
+
+        if (remoteMessage.getNotification().getTitle().equals("mycards")) {
+
+            String[] id = remoteMessage.getNotification().getBody().split("%");
+            intent = new Intent(this, MyCardsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("mycards", "mycards");
+            intent.putExtra("id", id[1]);
+            startActivity(intent);
+
+        }
+
+
+        /*    SharedPreferences preferences = getSharedPreferences("Notifications",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
         if (remoteMessage.getNotification().getTitle().startsWith("Friend Request"))
@@ -44,13 +62,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(String title, String messageBody, String type) {
         Intent intent = null;
 
-        if (title.startsWith("Friend Request"))
-        {
-      //      intent = new Intent(this, Friend_Request.class);
+        if (title.startsWith("Friend Request")) {
+            //      intent = new Intent(this, Friend_Request.class);
 
-        }
-        else if(title.startsWith("message"))
-        {
+        } else if (title.startsWith("message")) {
             // do message
         }
         intent.putExtra("type", type);
