@@ -72,7 +72,7 @@ public class BoardsActivity extends AppCompatActivity {
         dataList = new ArrayList<>();
 
 
-        dataList.add(new DrawerPojo("Filter Cards"));
+        dataList.add(new DrawerPojo("Manage Status"));
         dataList.add(new DrawerPojo("Copy"));
         dataList.add(new DrawerPojo("Move"));
         dataList.add(new DrawerPojo("Manage Members"));

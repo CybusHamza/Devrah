@@ -83,7 +83,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CreateNewTeamActivity.this,Dashboard.class);
+                Intent intent=new Intent(CreateNewTeamActivity.this,MenuActivity.class);
                 finish();
                 startActivity(intent);
                 onBackPressed();

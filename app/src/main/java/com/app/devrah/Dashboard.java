@@ -110,8 +110,9 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
 
-                Intent intent = new Intent(getApplicationContext(), CreateNewTeamActivity.class);
+                //  Intent intent = new Intent(getApplicationContext(), CreateNewTeamActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -17,6 +17,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +50,7 @@ import android.widget.Toast;
 
 import com.app.devrah.Adapters.AdapterMembers;
 import com.app.devrah.Adapters.AttachmentImageAdapter;
+import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.FilesAdapter;
 import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Adapters.RVLabelResultAdapter;
@@ -56,6 +59,7 @@ import com.app.devrah.Adapters.RecyclerViewAdapterComments;
 import com.app.devrah.pojo.AttachmentsPojo;
 import com.app.devrah.pojo.CardCommentData;
 import com.app.devrah.pojo.ColorsPojo;
+import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.MembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.github.clans.fab.FloatingActionButton;
@@ -74,7 +78,15 @@ public class CardActivity extends AppCompatActivity {
 public  static View view;
     List<File> fileList;
 
-        public static   boolean onFocus = false;
+
+    List<DrawerPojo> dataList;
+    CustomDrawerAdapter DrawerAdapter;
+    private ListView mDrawerList;
+
+    DrawerLayout drawerLayout;
+
+
+    public static   boolean onFocus = false;
     public static Context mcontext;
     AttachmentImageAdapter imageAdapter;
 
@@ -179,15 +191,33 @@ public  static View view;
        // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.back_arrow_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        dataList = new ArrayList<>();
+
+
+
+        dataList.add(new DrawerPojo("Copy"));
+        dataList.add(new DrawerPojo("Move"));
+        dataList.add(new DrawerPojo("Subscribe"));
+        dataList.add(new DrawerPojo("Lock Card"));
+
+        dataList.add(new DrawerPojo("Leave Card"));
+
+
         rvLabelResult = (RecyclerView)findViewById(R.id.rv_labels_card_screen_result);
 //
 //        setTitle();
         rvChecklist = (RecyclerView)findViewById(R.id.rv_recycler_checklist);
         rvLabel = (RecyclerView)findViewById(R.id.rv_recycler_labels);
         tvMembers = (TextView)findViewById(R.id.tvMembers);
-
-      //  colorList.add(colorList.size()-1,tag);   //Hamza ka code
-
 
 
         tvMembers.setOnClickListener(new View.OnClickListener() {
@@ -199,13 +229,17 @@ public  static View view;
 
 
 
-      //  checklistAddBtn = (Button)findViewById(R.id.)
         collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsingToolbar);
         FABdueDate = (FloatingActionButton)findViewById(R.id.dueDate);
         FABmembers = (FloatingActionButton)findViewById(R.id.members);
         FABattachments = (FloatingActionButton)findViewById(R.id.attachments);
         FABchecklist = (FloatingActionButton)findViewById(R.id.CheckList);
         FABLabel = (FloatingActionButton)findViewById(R.id.labels);
+
+
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList= (ListView) findViewById(R.id.left_drawer);
 
 
 //        collapsingToolbarLayout.setOnClickListener(new View.OnClickListener() {
@@ -215,12 +249,12 @@ public  static View view;
 //            }
 //        });
 //
-
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         CardHeading = getIntent().getStringExtra("CardHeaderData");
         collapsingToolbarLayout.setTitle(CardHeading);
 
         etComment = (EditText)findViewById(R.id.etComment);
+
 
 
 
@@ -340,12 +374,18 @@ public  static View view;
 
         rv = (RecyclerView)findViewById(R.id.rv_recycler_view);
 
+//        menuChanger(menu,false);
 
-
+        openDrawer();
 
     }
 
 
+    public void  openDrawer(){
+        DrawerAdapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
+        mDrawerList.setAdapter( DrawerAdapter);
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -415,18 +455,6 @@ public  static View view;
 
         }
 
-//    private Bitmap rotateBitmap(Bitmap image){
-//        int width=image.getHeight();
-//        int height=image.getWidth();
-//
-//        Bitmap srcBitmap=Bitmap.createBitmap(width, height, image.getConfig());
-//
-//        for (int y=width-1;y>=0;y--)
-//            for(int x=0;x<height;x++)
-//                srcBitmap.setPixel(width-y-1, x,image.getPixel(x, y));
-//        return srcBitmap;
-//
-//    }
 
 
 
@@ -507,6 +535,18 @@ public  static View view;
     public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
 
+menuChanger(menu,false);
+        MenuItem DrawerLabel = menu.findItem(R.id.menu);
+
+        DrawerLabel.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                drawerLayout.openDrawer(Gravity.RIGHT);
+                openDrawer();
+             //   Toast.makeText(getApplicationContext(),"Nothing",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
         etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

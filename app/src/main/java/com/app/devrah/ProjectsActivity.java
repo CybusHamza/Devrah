@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -76,14 +77,9 @@ public class ProjectsActivity extends AppCompatActivity {
        // drawerPojo = new DrawerPojo();
 
         dataList = new ArrayList<>();
+View header = getLayoutInflater().inflate(R.layout.header_for_drawer,null);
 
-
-        dataList.add(new DrawerPojo("Filter Cards"));
-        dataList.add(new DrawerPojo("Copy"));
-        dataList.add(new DrawerPojo("Move"));
-        dataList.add(new DrawerPojo("Manage Members"));
-        dataList.add(new DrawerPojo("Leave Board"));
-     //   getSupportActionBar().setDisplayShowHomeEnabled(true);
+        dataList.add(new DrawerPojo("Create New Team"));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
@@ -91,6 +87,7 @@ public class ProjectsActivity extends AppCompatActivity {
         toolbar.inflateMenu(R.menu.search_menu);
 
         openDrawer();
+        mDrawerList.addHeaderView(header);
 
 //        adapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
 //        mDrawerList.setAdapter(adapter);
@@ -151,14 +148,16 @@ public class ProjectsActivity extends AppCompatActivity {
 
         tabOne.setText("Group Projects");
 
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
-        tabLayout.getTabAt(0).setCustomView(tabOne);
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabTwo.setText("Projects");
 
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
-        tabLayout.getTabAt(1).setCustomView(tabTwo);
+        tabLayout.getTabAt(0).setCustomView(tabTwo);
+
+
+        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
+        tabLayout.getTabAt(1).setCustomView(tabOne);
 
 //        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
 //        tabThree.setText("THREE");
@@ -168,8 +167,9 @@ public class ProjectsActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new GroupProjects(), "Group Projects");
         adapter.addFrag(new Projects(), "Projects");
+        adapter.addFrag(new GroupProjects(), "Group Projects");
+
       //  adapter.addFrag(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter);
     }
@@ -293,6 +293,24 @@ public class ProjectsActivity extends AppCompatActivity {
     public void  openDrawer(){
         adapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
         mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+
+                    case 1:
+                        Toast.makeText(getApplicationContext(),"heyy",Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                        break;
+
+                }
+
+            }
+        });
 
     }
 

@@ -1,15 +1,27 @@
 package com.app.devrah.Fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.ActionMenuView;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +44,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     String childname;
     EditText   edt;
     public     TextView tvName;
+    ImageView boardMenu;
     FragmentBoardsAdapter adapter;
     List<ProjectsPojo> listPojo;
     CustomViewPagerAdapter VPadapter;
@@ -79,7 +92,7 @@ public class ChildFragmentBoardExtended extends Fragment {
       //  VPadapter = new CustomViewPagerAdapter(getFragmentManager(),getContext());
      //   View emptyView = inflater.inflate(R.layout.empty_list_view,container,false);
          tvName = (TextView)view.findViewById(R.id.textName);
-
+            boardMenu = (ImageView)view.findViewById(R.id.menuBoards);
 
 
 
@@ -92,26 +105,20 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
         lv = (ListView) view.findViewById(R.id.boardFragmentListView);
+        boardMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-//
-//        lv.setDragListListener(new DragListView.DragListListener() {
-//            @Override
-//            public void onItemDragStarted(int position) {
-//                Toast.makeText(getActivity(), "Start - position: " + position, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onItemDragging(int itemPosition, float x, float y) {
-//
-//            }
-//
-//            @Override
-//            public void onItemDragEnded(int fromPosition, int toPosition) {
-//                if (fromPosition != toPosition) {
-//                    Toast.makeText(getActivity(), "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+                Toast.makeText(getActivity(), "Start - position: " , Toast.LENGTH_SHORT).show();
+
+                View popupView =getActivity().getLayoutInflater().inflate(R.layout.ui_for_popup_view, null);
+                PopupWindow popupWindow = new PopupWindow(popupView, ActionMenuView.LayoutParams.WRAP_CONTENT, ActionMenuView.LayoutParams.WRAP_CONTENT);
+                popupWindow.setFocusable(true);
+
+
+
+            }
+        });
 
 
         lv.setEmptyView(emV);
@@ -132,6 +139,18 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.popup_edit_delete, menu);
+
+        int positionOfMenuItem = 0; // or whatever...
+        MenuItem item = menu.getItem(positionOfMenuItem);
+        SpannableString s = new SpannableString("My red MenuItem");
+        s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+        item.setTitle(s);
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -187,23 +206,6 @@ public class ChildFragmentBoardExtended extends Fragment {
                 }
 
 
-//
-//                if (!(projectData.isEmpty())) {
-//
-//                    ProjectsPojo projectPojoData = new ProjectsPojo();
-//                    projectPojoData.setData(projectData);
-//                    myList.add(projectPojoData);
-//                    adapter = new BoardsAdapter(getActivity(), myList);
-//
-//
-//                    lvWBoard.setAdapter(adapter);
-//
-//                }
-//                else {
-//
-//
-//                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
-//                }
                 alertDialog.dismiss();
 
 
@@ -222,55 +224,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     }
 
 
-//
-//    public void  showDialog(){
-//
-//
-//
-//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext());
-//        LayoutInflater inflater = this.getActivity().
-//                getLayoutInflater();
-//        final View dialogView = inflater.inflate(R.layout.alert_dialogbox_layout, null);
-//        dialogBuilder.setView(dialogView);
-//
-//        final EditText edt = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
-//
-//        dialogBuilder.setTitle("Custom dialog");
-//        dialogBuilder.setMessage("Enter text below");
-//        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                //do something with edt.getText().toString();
-//              String  boardsFragmentData = edt.getText().toString();
-//
-//                if (!(boardsFragmentData.isEmpty())) {
-//                    boardsFragmentPojoData = new ProjectsPojo();
-//                    boardsFragmentPojoData.setData(boardsFragmentData);
-//                    listPojo.add(boardsFragmentPojoData);
-//                    adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
-//
-//
-//                    lv.setAdapter(adapter);
-//                }
-//                else {
-//                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
-//                }
-//
-//                dialog.dismiss();
-//
-//
-//            }
-//        });
-//        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                //pass
-//            }
-//        });
-//        AlertDialog b = dialogBuilder.create();
-//        b.show();
-//
-//
-//    }
-//
+
 
 
 

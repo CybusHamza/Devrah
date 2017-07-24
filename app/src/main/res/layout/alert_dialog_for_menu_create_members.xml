@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create New Team"
+        android:textColor="#000"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20sp"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/Team"
+        android:layout_width="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColorHint="#BFBFBF"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_teamName"
+            android:layout_width="match_parent"
+            android:hint="Team Name"
+            android:textColorHint="#00FA9A"
+            android:backgroundTint="#00FA9A"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TeamDescription"
+        android:layout_width="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColorHint="#BFBFBF"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_team_description"
+            android:layout_width="match_parent"
+            android:hint="Team Description"
+            android:textColorHint="#00FA9A"
+            android:backgroundTint="#00FA9A"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:text="Cancel"
+    android:gravity="center"
+    android:id="@+id/cancel"
+
+    android:textColor="#00FA9A"
+  android:layout_weight="0.75"
+    android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:padding="20dp"
+            android:id="@+id/addMember"
+            android:textColor="#00FA9A"
+            android:textSize="20sp"
+            android:layout_weight="0.25"/>
+    </LinearLayout>
+
+</LinearLayout>

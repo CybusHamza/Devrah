@@ -17,16 +17,19 @@
         android:icon="@drawable/logo_devrh"
         android:label="@string/app_name"
         android:largeHeap="true"
-
         android:roundIcon="@mipmap/ic_launcher_round"
-
-
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:replace="android:icon,android:label">
         <activity android:name=".SignUpActivity" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity">
+
+            <!-- Launcher -->
+
+
+        </activity>
+        <activity android:name=".Dashboard">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,21 +39,10 @@
 
 
         </activity>
-        <activity android:name=".Dashboard">
-            <!--Launcher-->
-
-
-        </activity>
         <activity android:name=".ProjectsActivity" />
         <activity android:name=".BoardsActivity" />
-        <activity android:name=".BoardExtended">
-
-
-        </activity>
-        <activity android:name=".CardActivity">
-
-
-        </activity>
+        <activity android:name=".BoardExtended"></activity>
+        <activity android:name=".CardActivity"></activity>
         <activity android:name=".ImageDescription" />
         <activity android:name=".TestActivity" />
         <activity android:name=".FavouritesActivity" />
@@ -59,7 +51,7 @@
         <activity android:name=".MessagesActivity" />
         <activity android:name=".SendNewMessageActivity" />
         <activity android:name=".CreateNewTeamActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
 
         <service
             android:name=".FireBase_Notifications.MyFirebaseMessagingService"
@@ -78,6 +70,10 @@
             android:name=".FireBase_Notifications.RegistrationIntentService"
             android:exported="false" />
 
+        <activity android:name=".MenuActivity">
+
+
+        </activity>
     </application>
 
 </manifest>
