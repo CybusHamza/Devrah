@@ -58,8 +58,8 @@ public class ChildFragmentBoardExtended extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public ChildFragmentBoardExtended() {
-        // Required empty public constructor
-    }
+
+         }
 
 
     public static ChildFragmentBoardExtended newInstance(String param1, String param2) {
@@ -83,20 +83,17 @@ public class ChildFragmentBoardExtended extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-      //  adapter = new FragmentBoardsAdapter();
+
+
+
         view =inflater.inflate(R.layout.fragment_child_fragment_board_extended, container, false);
         View emV = inflater.inflate(R.layout.empty_list_bg,null);
 
 
-      //  VPadapter = new CustomViewPagerAdapter(getFragmentManager(),getContext());
-     //   View emptyView = inflater.inflate(R.layout.empty_list_view,container,false);
          tvName = (TextView)view.findViewById(R.id.textName);
             boardMenu = (ImageView)view.findViewById(R.id.menuBoards);
 
 
-
-       // boardsFragmentPojoData = new ProjectsPojo();
         listPojo = new ArrayList<>();
         tvAddCard = (TextView)view.findViewById(R.id.addCard);
         Bundle bundle = getArguments();
@@ -110,11 +107,10 @@ public class ChildFragmentBoardExtended extends Fragment {
             public void onClick(View v) {
 
                 Toast.makeText(getActivity(), "Start - position: " , Toast.LENGTH_SHORT).show();
-
-                View popupView =getActivity().getLayoutInflater().inflate(R.layout.ui_for_popup_view, null);
-                PopupWindow popupWindow = new PopupWindow(popupView, ActionMenuView.LayoutParams.WRAP_CONTENT, ActionMenuView.LayoutParams.WRAP_CONTENT);
-                popupWindow.setFocusable(true);
-
+//
+//                View popupView =getActivity().getLayoutInflater().inflate(R.layout.ui_for_popup_view, null);
+//                PopupWindow popupWindow = new PopupWindow(popupView, ActionMenuView.LayoutParams.WRAP_CONTENT, ActionMenuView.LayoutParams.WRAP_CONTENT);
+//                popupWindow.setFocusable(true);
 
 
             }
@@ -123,7 +119,6 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         lv.setEmptyView(emV);
 
-       // lv.setEmptyView(view.findViewById(R.id.empty));
 
         tvAddCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,26 +129,23 @@ public class ChildFragmentBoardExtended extends Fragment {
             }
         });
 
-
-
-
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.popup_edit_delete, menu);
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.popup_edit_delete, menu);
+//
+//        int positionOfMenuItem = 0;
+//        MenuItem item = menu.getItem(positionOfMenuItem);
+//        SpannableString s = new SpannableString("My red MenuItem");
+//        s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+//        item.setTitle(s);
+//    }
 
-        int positionOfMenuItem = 0; // or whatever...
-        MenuItem item = menu.getItem(positionOfMenuItem);
-        SpannableString s = new SpannableString("My red MenuItem");
-        s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
-        item.setTitle(s);
-    }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -166,7 +158,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         mListener = null;
     }
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         void onFragmentInteraction(Uri uri);
     }
 
@@ -186,10 +178,7 @@ public class ChildFragmentBoardExtended extends Fragment {
             @Override
             public void onClick(View v) {
 
-
                 String projectData = edt.getText().toString();
-
-
                 String  boardsFragmentData = edt.getText().toString();
 
                 if (!(boardsFragmentData.isEmpty())) {
@@ -208,32 +197,13 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                 alertDialog.dismiss();
 
-
-
-
-
-
             }
         });
 
         alertDialog.setView(customView);
         alertDialog.show();
 
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -94,7 +94,6 @@
             android:layout_height="63dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="-5dp"
-
             android:src="@drawable/bg_btn_signup_loginwith_gmail" />
     </LinearLayout>
 
