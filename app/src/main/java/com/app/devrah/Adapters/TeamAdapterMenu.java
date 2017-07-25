@@ -9,10 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.app.devrah.BoardsActivity;
 import com.app.devrah.CreateNewTeamActivity;
 import com.app.devrah.R;
-import com.app.devrah.pojo.ProjectsPojo;
+import com.app.devrah.pojo.All_Teams;
 
 import java.util.List;
 
@@ -22,12 +21,12 @@ import java.util.List;
 
 public class TeamAdapterMenu extends BaseAdapter {
 
-    List<ProjectsPojo> projectsList;
+    List<All_Teams> projectsList;
     Activity activity;
     private LayoutInflater inflater;
 
 
-    public TeamAdapterMenu(Activity activity, List<ProjectsPojo> projectsList) {
+    public TeamAdapterMenu(Activity activity, List<All_Teams> projectsList) {
         this.activity = activity;
         this.projectsList = projectsList;
 
@@ -62,7 +61,7 @@ public class TeamAdapterMenu extends BaseAdapter {
             convertView = inflater.inflate(R.layout.row_list_menu_team, null);
 
         holder.data = (TextView) convertView.findViewById(R.id.tvProjectsData);
-        holder.data.setText(projectsList.get(position).getData());
+        holder.data.setText(projectsList.get(position).getName());
 
 
         convertView.setOnClickListener(new View.OnClickListener() {

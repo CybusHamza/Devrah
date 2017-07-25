@@ -12,6 +12,8 @@ public class End_Points {
     public static final String GETMYCARDS = BASE_URL + "getMyCards/";
     public static final String SENT_MESSAGES = BASE_URL + "sentMessages";
     public static final String INSERT_TOKEN_ID = BASE_URL + "insertTokenid";
+    public static final String GET_TEAMS = BASE_URL + "getAllTeams";
+    public static final String ADD_NEW_TRAM = BASE_URL + "addNewTeam";
 
 
     public static final String ADD_NEW_PROJECT = BASE_URL + "addNewProject";

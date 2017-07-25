@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
     android:background="@drawable/bg_card_layout_projects"
-        android:layout_marginBottom="15dp"
 
-    android:layout_height="match_parent">
-
+    android:orientation="vertical">
 
 
     <TextView
+        android:id="@+id/tvProjectsData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:padding="3dp"
-
         android:layout_marginTop="40dp"
-        android:text="sdfghj"
+
         android:background="@drawable/inner_drawable_for_card"
-        android:id="@+id/tvProjectsData"
         android:gravity="center"
+        android:padding="3dp"
+        android:text="sdfghj"
         android:textColor="#000"
-        />
-
-
-
-
-
+        android:textSize="15sp" />
 
 
 </LinearLayout>
