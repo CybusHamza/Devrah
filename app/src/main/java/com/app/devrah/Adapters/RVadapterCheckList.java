@@ -1,25 +1,19 @@
 package com.app.devrah.Adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ListAdapter;
 
-import com.app.devrah.CardActivity;
-import com.app.devrah.Holders.View_Holder;
+import com.app.devrah.Views.CardActivity;
 import com.app.devrah.Holders.View_Holder_Checklist;
 import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.Collections;
 import java.util.List;
-
-import static java.lang.Math.ceil;
 
 /**
  * Created by AQSA SHaaPARR on 6/12/2017.

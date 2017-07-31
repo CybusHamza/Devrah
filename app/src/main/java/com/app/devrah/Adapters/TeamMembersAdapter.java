@@ -10,9 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.devrah.BoardsActivity;
+import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
-import com.app.devrah.pojo.AcitivitiesPojo;
 import com.app.devrah.pojo.TeamMembersPojo;
 
 import java.util.List;

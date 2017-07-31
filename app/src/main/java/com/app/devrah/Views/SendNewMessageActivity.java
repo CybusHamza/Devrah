@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.app.devrah.R;
 
 import jp.wasabeef.richeditor.RichEditor;
 

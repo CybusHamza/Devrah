@@ -7,7 +7,7 @@
     android:orientation="vertical"
 
     android:background="@drawable/bg_signup"
-    tools:context="com.app.devrah.SignUpActivity">
+    tools:context="com.app.devrah.Views.SignUpActivity">
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_name"
         android:layout_width="match_parent"

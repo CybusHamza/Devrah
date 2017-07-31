@@ -1,9 +1,7 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,10 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
+import com.app.devrah.R;
 import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;

@@ -1,7 +1,5 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -29,10 +26,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomExpandableListAdapter;
 import com.app.devrah.Adapters.GroupProjectAdapter;
-import com.app.devrah.Adapters.ProjectsAdapter;
-import com.app.devrah.Network.End_Points;
+import com.app.devrah.R;
 import com.app.devrah.pojo.GroupProjectsPojo;
-import com.app.devrah.pojo.ProjectsPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

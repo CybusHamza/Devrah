@@ -1,8 +1,6 @@
 package com.app.devrah.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,18 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Toast;
 
-import com.app.devrah.CardActivity;
-import com.app.devrah.Holders.View_Holder_Checklist;
 import com.app.devrah.Holders.View_holder_label;
-import com.app.devrah.LabelColorFragment;
+import com.app.devrah.Views.LabelColorFragment;
 import com.app.devrah.R;
-import com.app.devrah.pojo.CardCommentData;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**

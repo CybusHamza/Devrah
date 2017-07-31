@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Fragments.ChildFragmentBoardExtended;
+import com.app.devrah.R;
 
 
 public class ParentBoardExtendedFragment extends Fragment {

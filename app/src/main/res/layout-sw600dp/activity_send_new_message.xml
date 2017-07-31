@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e6e6e6"
-    tools:context="com.app.devrah.SendNewMessageActivity">
+    tools:context="com.app.devrah.Views.SendNewMessageActivity">
     <include
         android:id="@+id/header"
         layout="@layout/app_bar">

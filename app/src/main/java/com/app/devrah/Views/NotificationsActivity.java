@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.app.devrah.Fragments.ActivitiesFragment;
 import com.app.devrah.Fragments.NotificationsFragment;
+import com.app.devrah.R;
 
 import java.util.ArrayList;
 import java.util.List;

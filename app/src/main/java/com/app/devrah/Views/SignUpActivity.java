@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
+import com.app.devrah.R;
 
 import java.util.HashMap;
 import java.util.Map;

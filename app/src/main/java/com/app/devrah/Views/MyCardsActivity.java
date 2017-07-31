@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.MyCardsAdapter;
 import com.app.devrah.Network.End_Points;
+import com.app.devrah.R;
 import com.app.devrah.pojo.MyCardsPojo;
 
 import org.json.JSONArray;

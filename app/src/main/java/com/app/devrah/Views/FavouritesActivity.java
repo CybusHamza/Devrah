@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.app.devrah.Adapters.FavouritesAdapter;
+import com.app.devrah.R;
 import com.app.devrah.pojo.FavouritesPojo;
 import java.util.ArrayList;
 import java.util.List;

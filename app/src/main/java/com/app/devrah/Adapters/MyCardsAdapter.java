@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.app.devrah.BoardsActivity;
+import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
 import com.app.devrah.pojo.MyCardsPojo;
 

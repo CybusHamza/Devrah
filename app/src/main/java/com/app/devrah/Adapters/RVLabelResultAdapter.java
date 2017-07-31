@@ -1,14 +1,12 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
-import android.app.ApplicationErrorReport;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.app.devrah.CardActivity;
+import com.app.devrah.Views.CardActivity;
 import com.app.devrah.Holders.ViewHolderRVcardScreenLabelResult;
 import com.app.devrah.R;
 

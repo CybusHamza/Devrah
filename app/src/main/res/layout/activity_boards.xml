@@ -15,7 +15,7 @@
     android:background="@drawable/bg_projects"
     android:layout_height="match_parent"
 
-    tools:context="com.app.devrah.BoardsActivity">
+    tools:context="com.app.devrah.Views.BoardsActivity">
 
 
 

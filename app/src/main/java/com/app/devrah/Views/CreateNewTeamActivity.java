@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,11 +23,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.devrah.Adapters.BoardsAdapter;
-import com.app.devrah.Adapters.FavouritesAdapter;
 import com.app.devrah.Adapters.TeamMembersAdapter;
-import com.app.devrah.pojo.FavouritesPojo;
-import com.app.devrah.pojo.ProjectsPojo;
+import com.app.devrah.R;
 import com.app.devrah.pojo.TeamMembersPojo;
 
 import java.util.ArrayList;

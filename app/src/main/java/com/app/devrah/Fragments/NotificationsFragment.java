@@ -1,8 +1,5 @@
 package com.app.devrah.Fragments;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,39 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NoConnectionError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.ActivitiesAdpater;
 import com.app.devrah.Adapters.NotificationAdapter;
-import com.app.devrah.Adapters.ProjectsAdapter;
-import com.app.devrah.Dashboard;
-import com.app.devrah.Login;
-import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.pojo.AcitivitiesPojo;
 import com.app.devrah.pojo.NotificationsPojo;
-import com.app.devrah.pojo.ProjectsPojo;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Rizwan Butt on 14-Jun-17.

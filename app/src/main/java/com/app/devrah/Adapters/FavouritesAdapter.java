@@ -11,10 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.devrah.BoardsActivity;
+import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
 import com.app.devrah.pojo.FavouritesPojo;
-import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.FireBase_Notifications.RegistrationIntentService;
+import com.app.devrah.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;

@@ -10,10 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.devrah.BoardExtended;
-import com.app.devrah.BoardsActivity;
+import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.R;
-import com.app.devrah.pojo.GroupProjectsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;

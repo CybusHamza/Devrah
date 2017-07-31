@@ -8,7 +8,7 @@
 
     android:gravity="bottom"
     android:fitsSystemWindows="true"
-    tools:context="com.app.devrah.CardActivity">
+    tools:context="com.app.devrah.Views.CardActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_height="match_parent"

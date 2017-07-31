@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -11,14 +11,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.app.devrah.Fragments.ActivitiesFragment;
 import com.app.devrah.Fragments.InboxFragment;
-import com.app.devrah.Fragments.NotificationsFragment;
 import com.app.devrah.Fragments.SentMessagesFragment;
+import com.app.devrah.R;
 
 import java.util.ArrayList;
 import java.util.List;

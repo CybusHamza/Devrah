@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.devrah.Holders.ImageAttachmentsHolder;
-import com.app.devrah.ImageDescription;
+import com.app.devrah.Views.ImageDescription;
 import com.app.devrah.R;
 
 import java.util.Collections;

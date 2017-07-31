@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -24,17 +23,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.ActivitiesAdpater;
 import com.app.devrah.Adapters.InboxAdapter;
-import com.app.devrah.Adapters.NotificationAdapter;
-import com.app.devrah.Adapters.ProjectsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.SendNewMessageActivity;
-import com.app.devrah.pojo.AcitivitiesPojo;
+import com.app.devrah.Views.SendNewMessageActivity;
 import com.app.devrah.pojo.InboxPojo;
-import com.app.devrah.pojo.NotificationsPojo;
-import com.app.devrah.pojo.ProjectsPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

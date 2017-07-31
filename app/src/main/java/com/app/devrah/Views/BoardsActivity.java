@@ -1,4 +1,4 @@
-package com.app.devrah;
+package com.app.devrah.Views;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
+import com.app.devrah.R;
 import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;
