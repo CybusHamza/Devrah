@@ -1,8 +1,10 @@
 package com.app.devrah.Views;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,12 +25,33 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.app.devrah.Adapters.TeamAdapterMenu;
 import com.app.devrah.Adapters.TeamMembersAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.pojo.All_Teams;
 import com.app.devrah.pojo.TeamMembersPojo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class CreateNewTeamActivity extends AppCompatActivity implements View.OnClickListener{
     Toolbar toolbar;
@@ -47,11 +70,18 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
 
     ImageView search;
     EditText etSearch;
+    ProgressDialog ringProgressDialog;
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    String teamId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_team);
+
+        Intent intent=getIntent();
+        teamId=intent.getStringExtra("teamMemberId");
+        getTeamMembers();
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Add Members");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -141,13 +171,13 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
 
         listPojo = new ArrayList<>();
         lv = (ListView)findViewById(R.id.membersListView);
-        membersPojoData = new TeamMembersPojo();
+       /* membersPojoData = new TeamMembersPojo();
         membersPojoData.setData("rizwan");
         listPojo.add(membersPojoData);
         adapter = new TeamMembersAdapter(this, listPojo);
 
 
-        lv.setAdapter(adapter);
+        lv.setAdapter(adapter);*/
     }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -307,5 +337,95 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
             case R.id.searchBtn:
                 etSearch.setVisibility(View.VISIBLE);
         }
+    }
+    public void getTeamMembers() {
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_TEAM_MEMBERS_BY_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        listPojo=new ArrayList<>();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            String data = jsonObject.getString("Team_Associations");
+
+                            JSONArray jsonArray=new JSONArray(data);
+                            for(int j=0;j<jsonArray.length();j++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(j);
+                                //for (int i = 0; i < jsonObject1.length(); i++) {
+
+                                    membersPojoData = new TeamMembersPojo();
+                                    membersPojoData.setData(jsonObject1.getString("first_name") + " " + jsonObject1.getString("last_name"));
+                                    membersPojoData.setImage(jsonObject1.getString("profile_pic"));
+                                    membersPojoData.setId(jsonObject1.getString("id"));
+                                    listPojo.add(membersPojoData);
+                                //}
+                            }
+
+                            adapter = new TeamMembersAdapter(CreateNewTeamActivity.this, listPojo);
+                            lv.setAdapter(adapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CreateNewTeamActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CreateNewTeamActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("team_id",teamId);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
     }
 }

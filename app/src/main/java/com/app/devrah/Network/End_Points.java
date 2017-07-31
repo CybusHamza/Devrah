@@ -13,6 +13,8 @@ public class End_Points {
     public static final String SENT_MESSAGES = BASE_URL + "sentMessages";
     public static final String INSERT_TOKEN_ID = BASE_URL + "insertTokenid";
     public static final String GET_TEAMS = BASE_URL + "getAllTeams";
+    public static final String GET_TEAM_MEMBERS_BY_ID = BASE_URL + "teamDetailById";
+    public static final String DELETE_USER_FROM_TEAM = BASE_URL + "deleteUserFromTeam";
     public static final String ADD_NEW_TRAM = BASE_URL + "addNewTeam";
 
 

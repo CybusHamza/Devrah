@@ -50,7 +50,7 @@ public class TeamAdapterMenu extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ProjectsAdapter.ViewHolder holder = new ProjectsAdapter.ViewHolder();
         if (inflater== null)
@@ -70,6 +70,7 @@ public class TeamAdapterMenu extends BaseAdapter {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(activity,CreateNewTeamActivity.class);
+                intent.putExtra("teamMemberId",projectsList.get(position).getId());
                 activity.startActivity(intent);
 
             }

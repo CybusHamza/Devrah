@@ -8,7 +8,17 @@ import android.widget.ImageView;
 
 public class TeamMembersPojo {
     public String data;
-    ImageView imageView;
+    String imageView;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    String id;
 
     TeamMembersPojo(String Data){
         this.data=Data;
@@ -26,10 +36,10 @@ public class TeamMembersPojo {
     public void setData(String data) {
         this.data = data;
     }
-    public ImageView getImage(){
+    public String getImage(){
         return imageView;
     }
-    public void setImage(ImageView imageView){
+    public void setImage(String imageView){
         this.imageView=imageView;
     }
 
