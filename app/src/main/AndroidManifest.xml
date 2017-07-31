@@ -22,23 +22,17 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:replace="android:icon,android:label">
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".Login" />
+        <activity android:name=".Login" >
+
+            </activity>
         <activity android:name=".MainActivity">
-
-            <!-- Launcher -->
-
-
-        </activity>
-        <activity android:name=".Dashboard">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
+        <activity android:name=".Dashboard"></activity>
         <activity android:name=".ProjectsActivity" />
         <activity android:name=".BoardsActivity" />
         <activity android:name=".BoardExtended"></activity>

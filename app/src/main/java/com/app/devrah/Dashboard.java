@@ -137,7 +137,7 @@ public class Dashboard extends AppCompatActivity {
                                         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = pref.edit();
                                         editor.clear();
-                                        editor.commit();
+                                        editor.apply();
                                         Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
                                         startActivity(logOutIntent);
                                         finish();
