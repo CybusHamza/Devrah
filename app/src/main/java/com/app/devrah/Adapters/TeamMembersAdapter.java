@@ -131,19 +131,38 @@ public class TeamMembersAdapter extends BaseAdapter {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
-                                .setTitleText("Success!")
-                                .setConfirmText("OK").setContentText("Removed User Successfully")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if(jsonObject.getString("member_deleted").equals("1")){
+                                new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("Success!")
+                                        .setConfirmText("OK").setContentText("Removed User Successfully")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
 
-                                        membersList.remove(position);
-                                        notifyDataSetChanged();
-                                    }
-                                })
-                                .show();
+                                                membersList.remove(position);
+                                                notifyDataSetChanged();
+                                            }
+                                        })
+                                        .show();
+                            }else {
+                                new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("Error!")
+                                        .setConfirmText("OK").setContentText("Not deleted")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
 
 
                     }

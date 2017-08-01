@@ -21,13 +21,31 @@
             android:id="@+id/input_name"
             android:layout_width="match_parent"
             android:textColor="@color/colorAccent"
-            android:hint="Name"
+            android:hint="First Name"
             android:backgroundTint="#fff"
             android:layout_height="wrap_content"
             />
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_last_name"
+        android:layout_width="match_parent"
+        android:textColorHint="#BFBFBF"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_last_name"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorAccent"
+            android:hint="Last Name"
+            android:backgroundTint="#fff"
+            android:layout_height="wrap_content"
+            />
+
+    </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_Email"
         android:layout_width="match_parent"
@@ -87,52 +105,52 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
+
+ <!--   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
-        android:padding="20dp"
-        android:gravity="right"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="20dp">
 
-        <TextView
+        &lt;!&ndash;<TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:text="CANCEL"
             android:textColor="#fff"
-            android:textSize="15sp" />
-
+            android:textSize="15sp" />&ndash;&gt;
         <Button
-            android:id="@+id/btn_signup"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_btn_create_signup"
-    android:text="CREATE"
-    android:textColor="#fff"
-    />
+            android:id="@+id/uploadImagebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_btn_create_signup"
+            android:text="Add Profile"
+            android:textColor="#fff" />
 
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="70dp" />
 
-
-
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+       android:layout_marginTop="80dp">
+        <Button
+            android:id="@+id/btn_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn_create_signup"
+            android:text="SIGNUP"
+            android:textColor="#fff"
+            />
 
-        android:layout_weight="1">
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="63dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="-5dp"
-
-        android:src="@drawable/bg_btn_signup_loginwith_gmail" />
     </LinearLayout>
 
 

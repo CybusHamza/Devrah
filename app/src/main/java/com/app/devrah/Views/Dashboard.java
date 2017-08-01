@@ -41,6 +41,8 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
 
+
+
         tvTime = (TextView) findViewById(R.id.tvTime);
         tvQuote = (TextView) findViewById(R.id.tvQuote);
         imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
@@ -58,6 +60,15 @@ public class Dashboard extends AppCompatActivity {
         Picasso.with(getApplicationContext())
                 .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
                 .into(imgProfile);
+        /*Intent intent1=getIntent();
+        if(intent1.getStringExtra("Glogin").equals("true")){
+            String url=intent1.getStringExtra("Gprofile");
+            if(!url.equals("")) {
+                Picasso.with(getApplicationContext())
+                        .load(url)
+                        .into(imgProfile);
+            }
+        }*/
 
         imgProjects.setOnClickListener(new View.OnClickListener() {
             @Override

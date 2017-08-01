@@ -7,6 +7,7 @@ public class End_Points {
 
     public static final String LOGIN = BASE_URL + "login";
     public static final String SIGN_UP = BASE_URL + "addUserSignUp";
+    public static final String SIGN_UP_GOOGLE = BASE_URL + "addGoogleSignUp";
     public static final String GET_MEMBER_PROJECTS = BASE_URL + "getProjectsToMembers";
     public static final String GET_NOTIFICATIONS = BASE_URL + "getNotifications";
     public static final String GETMYCARDS = BASE_URL + "getMyCards/";
@@ -14,6 +15,9 @@ public class End_Points {
     public static final String INSERT_TOKEN_ID = BASE_URL + "insertTokenid";
     public static final String GET_TEAMS = BASE_URL + "getAllTeams";
     public static final String GET_TEAM_MEMBERS_BY_ID = BASE_URL + "teamDetailById";
+    public static final String ADD_SINGLE_TEAM_MEMBER = BASE_URL + "addSingleTeamMember";
+    public static final String ADD_BULK_TEAM_MEMBERS = BASE_URL + "bulkAddMembers";
+    public static final String SEARCH_USER = BASE_URL + "searchuser";
     public static final String DELETE_USER_FROM_TEAM = BASE_URL + "deleteUserFromTeam";
     public static final String ADD_NEW_TRAM = BASE_URL + "addNewTeam";
 
