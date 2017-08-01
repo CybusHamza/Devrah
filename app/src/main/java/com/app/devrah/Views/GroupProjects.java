@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,6 +42,7 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.app.devrah.Network.End_Points.GET_GROUP_PROJECTS;
 
 public class GroupProjects extends Fragment implements View.OnClickListener {
 
@@ -55,9 +57,11 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
     ListView AddGroupProjectListView;
     List<GroupProjectsPojo> pojoList;
      List<String> MyList;
+     List<String> MYIDS;
     JSONArray projectsArray;
     String projectNameS, projectHeading;
 
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ArrayList<String> projectName;
     String groupProjectData;
     GroupProjectsPojo groupProjectsPojo;
@@ -155,12 +159,6 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
     public void showDialog() {
 
 
-//        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext());
-//        LayoutInflater inflater = this.getActivity().
-//                getLayoutInflater();
-//        final View dialogView = inflater.inflate(R.layout.custom_alert_dialogbox, null);
-//        dialogBuilder.setView(dialogView);
-
 
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View customView = layoutInflater.inflate(R.layout.custom_alert_dialogbox, null);
@@ -216,7 +214,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
         ////////////////////////// STRING REQUEST ////////////////////////////GET_GROUP_PROJECTS
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, "http://m1.cybussolutions.com/kanban/Api_service/fahim",
+        StringRequest request = new StringRequest(Request.Method.POST,GET_GROUP_PROJECTS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -245,122 +243,52 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
 
                                 //  JSONArray array = new JSONArray(response);
                                 JSONObject object = new JSONObject(response);
-                                JSONArray array = object.getJSONArray("group_name");
 
-                                JSONArray projectsArray = object.getJSONArray("group_projects");
+                                String data =  object.getString("group_name");
+
+                                JSONArray jsonArray = new JSONArray(data);
 
 
-                                for (int i = 0; i < projectsArray.length(); i++) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
 
-                                    JSONObject obj = new JSONObject(projectsArray.getString(i));
+                                    JSONObject obj = new JSONObject(jsonArray.getString(i));
 
-                                    projectName.add(obj.getString("project_name"));
-                                    projectId.add(obj.getString("project_group"));
+                                    projectName.add(obj.getString("pg_id"));
+                                    projectId.add(obj.getString("pg_name"));
+
+                                    listDataChild.put(obj.getString("pg_id"),null);
                                 }
 
 
-                                for (int i = 0; i < array.length(); i++) {
+                                String data2 =  object.getString("group_projects");
+
+                                JSONArray jsonArray1 = new JSONArray(data2);
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
 
                                     MyList = new ArrayList<>();
-                                    JSONObject obj = new JSONObject(array.getString(i));
-
-                                    // obj.get("pg_name");
-
-                                    whateverId.add(obj.getString("pg_id"));
-                                    whatever.add(obj.getString("pg_name"));
-                                    MyList = gth();
-                                    listDataChild.put(whatever.get(i), MyList);
-                                    customAdapter = new CustomExpandableListAdapter(getActivity().getApplicationContext(),MyList,listDataChild);
-////
-//
-                                    expandableLv.setAdapter(customAdapter);
+                                    for (int j = 0 ; j<jsonArray1.length();j++)
+                                    {
+                                        JSONObject jsonObject = jsonArray1.getJSONObject(j);
+                                        String id = jsonObject.getString("project_group");
+                                        String projectid =projectName.get(i) ;
+                                        if(projectid.equals(id))
+                                        {
+                                            MyList.add( jsonObject.getString("project_name"));
+                                        }
 
 
+                                    }
+
+                                    listDataChild.put(projectName.get(i)+"", MyList);
                                 }
 
-
-
-
-//                            for (int p = 0; p< whatever.size(); p++)
-//
-//                            {
-//
-//                                for (int i = 0; i<projectsArray.length();i++)  {
-//
-//                                    if (projectId.get(i).equals(whateverId.get(p))) {
-//
-//                                        dummy.add(projectName.get(i));
-//                                    }
-//
-//                                    listDataChild.put(whatever.get(p),dummy);
-//                                    customAdapter = new CustomExpandableListAdapter(getActivity().getApplicationContext(),whatever,listDataChild);
-////
-//
-//                                    expandableLv.setAdapter(customAdapter);
-//                                   // dummy.clear();
-//                                }
-//
-//
-//                              //  dummy.clear();
-//
-//                            }
-//
-
-
-                                //  listDataChild.put(listDataHeader.get(listDataHeader.indexOf(p)), projectNames);
-
-
-                                //   int len = object.length();
-
-
-                                //    for (int i = 0;i<array.length();i++){
-
-
-                                //  JSONObject object = new JSONObject(array.getString(i));
-
-                                //   if (!(listDataHeader.contains(object.getString("pg_name")))){
-//                                String p = object.getString("pg_name");
-//
-//                                if (listDataHeader.contains(p)){
-//                                    projectNames.add(object.getString("project_name"));
-//                                    listDataChild.put(listDataHeader.get(listDataHeader.indexOf(p)),projectNames);
-//                                  //  projectNames = new ArrayList<>();
-//                                }
-//                                else {
-//
-//                                    listDataHeader.add(object.getString("pg_name"));
-//                                    projectNames.add(object.getString("project_name"));
-//                                    listDataChild.put(listDataHeader.get(listDataHeader.indexOf(p)), projectNames);
-//
-//                                    listDataChild.containsKey()
-//                                }
-
-
-                                // }
-
-
-//                                projectPojoData = new ProjectsPojo();
-//                                projectPojoData.setData(object.getString("project_name"));
-//                                projectPojoData.setId(object.getString("project_id"));
-//                                listPojo.add(projectPojoData);
-
-
-                                //    }
-
-
-//                            adapter = new ProjectsAdapter(getActivity(), listPojo);
-//
-//
-//                            lv.setAdapter(adapter);
-//
-//
-//
-//
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            customAdapter = new CustomExpandableListAdapter(getActivity().getApplicationContext(), whatever, listDataChild);
+
+                            customAdapter = new CustomExpandableListAdapter(getActivity().getApplicationContext(), projectId, listDataChild , projectName);
                             expandableLv.setAdapter(customAdapter);
                         }
                     }
@@ -412,14 +340,21 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
                 return params;
             }
         };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         requestQueue.add(request);
 
 
     }
 
-    public List<String> gth() {
-        List<String>   projectName = new ArrayList<>();
+    public ArrayList<String> gth() {
+        ArrayList<String>   projectName = new ArrayList<>();
 
 
         for (int p = 0; p < whatever.size(); p++)

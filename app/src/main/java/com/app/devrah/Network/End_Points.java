@@ -26,7 +26,10 @@ public class End_Points {
     public static final String GET_SPINNER_GROUP_PROJECTS = BASE_URL + "getSpinnerGroupData";
 
 
-    public static final String GET_GROUP_PROJECTS = BASE_URL + "gettingGroupProjects";
+    public static final String GET_GROUP_PROJECTS = BASE_URL + "projectGroupsAndProjectsByGroups";
+    public static final String GET_WORK_BOARD = BASE_URL + "getWorkBoardsByProjects";
+    public static final String GET_REFRENCE_BOARD = BASE_URL + "getRefrenceBoardsByProjects";
+    public static final String ADD_WORK_BOARD = BASE_URL + "addNewWorkBoard";
 
     public static final String UPDATE_USER_PROFILE= BASE_URL + "updateUserProfile";
 

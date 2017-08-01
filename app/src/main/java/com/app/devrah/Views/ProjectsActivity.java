@@ -146,7 +146,7 @@ View header = getLayoutInflater().inflate(R.layout.header_for_drawer,null);
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
 
-        tabOne.setText("Group Projects");
+        tabOne.setText("Projects Groups");
 
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);

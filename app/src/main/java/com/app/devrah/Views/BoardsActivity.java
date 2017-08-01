@@ -1,6 +1,7 @@
 package com.app.devrah.Views;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,6 +34,7 @@ public class BoardsActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     Toolbar toolbar;
+    String projectID;
 
     View logo;
     EditText edtSeach;
@@ -60,6 +61,9 @@ public class BoardsActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList= (ListView) findViewById(R.id.left_drawer);
 
+
+        Intent intent  = getIntent();
+        projectID = intent.getStringExtra("pid");
 
         viewPager = (ViewPager) findViewById(R.id.viewpagerBoards);
         setupViewPager(viewPager);
@@ -383,9 +387,20 @@ public class BoardsActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("pid",projectID);
         ViewPagerAdapter adapter =new  ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new WorkBoard(), "Work Boards");
-        adapter.addFrag(new ReferenceBoard(), "Reference Boards");
+
+        WorkBoard workBoard = new WorkBoard();
+        workBoard.setArguments(bundle);
+
+
+        ReferenceBoard referenceBoard= new ReferenceBoard();
+        referenceBoard.setArguments(bundle);
+
+        adapter.addFrag(workBoard, "Work Boards");
+        adapter.addFrag(referenceBoard, "Archive Boards");
         //  adapter.addFrag(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter);
     }

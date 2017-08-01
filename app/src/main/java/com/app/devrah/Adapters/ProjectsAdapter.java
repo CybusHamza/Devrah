@@ -50,7 +50,7 @@ public class ProjectsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = new ViewHolder();
         if (inflater== null)
@@ -67,8 +67,8 @@ public class ProjectsAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity,BoardsActivity.class);
+                intent.putExtra("pid",projectsList.get(position).getId());
                 activity.startActivity(intent);
 
             }

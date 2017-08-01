@@ -7,13 +7,15 @@
     <!-- TODO: Update blank fragment layout -->
 
     <ListView
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="62dp"
-        android:layout_margin="10dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
-       android:id="@+id/projectsListView"/>
+        android:dividerHeight="7dp"
+        android:id="@+id/projectsListView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 
 
     <Button

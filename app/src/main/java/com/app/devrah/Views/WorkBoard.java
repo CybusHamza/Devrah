@@ -1,5 +1,7 @@
 package com.app.devrah.Views;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,14 +18,32 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.BoardsAdapter;
 import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-
+import static android.content.Context.MODE_PRIVATE;
+import static com.app.devrah.Network.End_Points.ADD_WORK_BOARD;
+import static com.app.devrah.Network.End_Points.GET_WORK_BOARD;
 
 
 public class WorkBoard extends Fragment implements View.OnClickListener {
@@ -38,7 +58,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
     BoardsAdapter adapter;
     List<ProjectsPojo> myList;
     private String mParam1;
-
+    String projectid;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -46,6 +66,8 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
     public WorkBoard() {
         // Required empty public constructor
     }
+
+
 
     // TODO: Rename and change types and number of parameters
     public static WorkBoard newInstance(String param1, String param2) {
@@ -76,12 +98,14 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         etSearch = (EditText)view.findViewById(R.id.etSearchWBoard);
         tvWorkBoard = (TextView)view.findViewById(R.id.tvReferenceBoard);
         etSearch.setVisibility(View.INVISIBLE);
-        myList = new ArrayList<>();
         addBoard.setOnClickListener(this);
-
+        Bundle bundle = this.getArguments();
+        projectid = bundle.getString("pid");
 
         search.setOnClickListener(this);
 
+
+        getWorkBoards();
 
 
 
@@ -104,9 +128,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
 
                 }
-                /*leaveDatas.clear();
-                leaveDatas.addAll(filteredLeaves);
-                leaves_adapter.notifyDataSetChanged();*/
+
                 adapter = new BoardsAdapter(getActivity(),filteredLeaves);
                 lvWBoard.setAdapter(adapter);
 
@@ -168,23 +190,27 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
 
         edt = (EditText)customView.findViewById(R.id.input_watever);
-        TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 String projectData = edt.getText().toString();
-
                 if (!(projectData.isEmpty())) {
 
+                    addNewBoard(projectData);
+
+/*
                     ProjectsPojo projectPojoData = new ProjectsPojo();
                     projectPojoData.setData(projectData);
                     myList.add(projectPojoData);
                     adapter = new BoardsAdapter(getActivity(), myList);
 
 
-                    lvWBoard.setAdapter(adapter);
+                    lvWBoard.setAdapter(adapter);*/
+
+
 
                 }
                 else {
@@ -251,6 +277,188 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 //        b.show();
 //
 
+    }
+
+    public void addNewBoard(final String board)
+    {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST,ADD_WORK_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        getWorkBoards();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity().getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("No Internet Connection")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity().getApplicationContext(),"TimeOut eRROR",Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("user_id", userId);
+                 params.put("board_name",board );
+                 params.put("project_id",projectid );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+    }
+
+    public  void getWorkBoards()
+    {
+
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST,GET_WORK_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+
+                        myList = new ArrayList<>() ;
+                        if(response.equals("{\"nodata\":0}"))
+                        {
+                            Toast.makeText(getActivity(), "No Data Found", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+
+
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    ProjectsPojo projectsPojo = new ProjectsPojo();
+
+                                    projectsPojo.setId(jsonObject.getString("id"));
+                                    projectsPojo.setData(jsonObject.getString("board_name"));
+
+                                    myList.add(projectsPojo);
+
+                                }
+
+                                adapter = new BoardsAdapter(getActivity(), myList);
+                                lvWBoard.setAdapter(adapter);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity().getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("No Internet Connection")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity().getApplicationContext(),"TimeOut eRROR",Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("p_id", projectid);
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
     }
 
 

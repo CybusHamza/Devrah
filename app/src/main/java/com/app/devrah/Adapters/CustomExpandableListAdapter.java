@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.app.devrah.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,16 +23,18 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> listDataHeader; // header titles
+    private List<String> ids; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
 
-public CustomExpandableListAdapter(Context context,List<String> listDataHeader,HashMap<String, List<String>> listChildData){
+public CustomExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData , ArrayList<String> ids){
 
 
     this.context = context;
     this._listDataChild = listChildData;
     this.listDataHeader = listDataHeader;
+    this.ids = ids;
 
 
 }
@@ -47,7 +50,11 @@ public CustomExpandableListAdapter(Context context,List<String> listDataHeader,H
     @Override
     public int getChildrenCount(int groupPosition) {
 
-        return this._listDataChild.get(this.listDataHeader.get(groupPosition)).size();
+        String data = ids.get(groupPosition);
+
+            return this._listDataChild.get(data).size();
+
+
         // 0;
     }
 
@@ -60,7 +67,11 @@ public CustomExpandableListAdapter(Context context,List<String> listDataHeader,H
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this._listDataChild.get(this.listDataHeader.get(groupPosition))
+
+        String data = ids.get(groupPosition);
+
+
+        return this._listDataChild.get(data)
                 .get(childPosition);
     }
 

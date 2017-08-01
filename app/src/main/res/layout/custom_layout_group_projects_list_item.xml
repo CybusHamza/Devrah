@@ -5,26 +5,18 @@
 
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Group projects"
-        android:textColor="#000"
-        android:layout_margin="10dp"
-        android:id="@+id/projectGroupName"/>
-
 
     <TextView
+        android:id="@+id/btnActive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:textColor="#fff"
-        android:id="@+id/btnActive"
-        android:padding="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/lightGreen"
+        android:padding="5dp"
         android:text="Active"
-        android:background="#009192"
-        android:layout_marginTop="15dp"/>
+        android:textColor="#fff" />
 
 
     <TextView

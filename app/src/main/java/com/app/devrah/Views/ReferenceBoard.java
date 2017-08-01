@@ -1,5 +1,6 @@
 package com.app.devrah.Views;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,12 +17,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.BoardsAdapter;
 import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.app.devrah.Network.End_Points.GET_REFRENCE_BOARD;
 
 
 /**
@@ -43,10 +63,8 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
     BoardsAdapter adapter;
     ImageView search;
     EditText etSearch;
-    TextView tvReferenceBoard;
-
-
-
+    TextView tvReferenceBoard,hidentxt;
+    String projectid;
     EditText edt;
 
 
@@ -108,15 +126,18 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         myList = new ArrayList<>();
         btnAddWBoard.setOnClickListener(this);
 
+        Bundle bundle = this.getArguments();
+        projectid = bundle.getString("pid");
 
         tvReferenceBoard =(TextView) view.findViewById(R.id.tvReferenceBoard);
+        hidentxt =(TextView) view.findViewById(R.id.hidentxt);
         search = (ImageView)view.findViewById(R.id.searchBar);
         etSearch = (EditText)view.findViewById(R.id.etSearchBarRB);
 
         etSearch.setVisibility(View.INVISIBLE);
         search.setOnClickListener(this);
 
-
+        Refrence();
 
 
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -281,6 +302,103 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
     }
 
+    public  void Refrence()
+    {
+        StringRequest request = new StringRequest(Request.Method.POST,GET_REFRENCE_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if(response.equals("{\"nodata\":0}"))
+                        {
+                          hidentxt.setVisibility(View.VISIBLE);
+                                 }
+                        else {
+
+
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+
+                            for(int i = 0 ; i < jsonArray.length();i++)
+                            {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                ProjectsPojo projectsPojo = new ProjectsPojo();
+
+                                projectsPojo.setId(jsonObject.getString("id"));
+                                projectsPojo.setData(jsonObject.getString("board_name"));
+
+                                myList.add(projectsPojo);
+
+                            }
+
+                            adapter = new BoardsAdapter(getActivity(), myList);
+                            lv.setAdapter(adapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity().getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("No Internet Connection")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity().getApplicationContext(),"TimeOut eRROR",Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("p_id", projectid);
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+    }
 
 
 
