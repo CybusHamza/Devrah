@@ -6,6 +6,7 @@ public class End_Points {
     public static final String BASE_URL = "http://m1.cybussolutions.com/kanban/Api_service/";
 
     public static final String LOGIN = BASE_URL + "login";
+    public static final String FORGOT_PASSWORD = BASE_URL + "forgot";
     public static final String SIGN_UP = BASE_URL + "addUserSignUp";
     public static final String SIGN_UP_GOOGLE = BASE_URL + "addGoogleSignUp";
     public static final String GET_MEMBER_PROJECTS = BASE_URL + "getProjectsToMembers";

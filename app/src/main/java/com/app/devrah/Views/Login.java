@@ -1,6 +1,8 @@
 package com.app.devrah.Views;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,8 +49,10 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class Login extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
+
+
     EditText etEmail, etPsw;
-    TextView tvCancel;
+    TextView tvCancel,tvForgotPass;
     boolean checkBoxValue;
     SharedPreferences.Editor editor;
     CheckBox cbRememberMe;
@@ -67,6 +72,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         etEmail = (EditText) findViewById(R.id.input_email);
         etPsw = (EditText) findViewById(R.id.input_password);
         tvCancel = (TextView) findViewById(R.id.tvCancel);
+        tvForgotPass = (TextView) findViewById(R.id.forgotPassword);
+        tvForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forgotPasswordDialog();
+            }
+        });
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +140,42 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             }
         });
     }
+    public void forgotPasswordDialog() {
+        // canvas.setMode(CanvasView.Mode.TEXT);
+        AlertDialog.Builder alert = new AlertDialog.Builder(Login.this);
+        alert.setTitle("Forgot Password"); //Set Alert dialog title here
+        alert.setMessage("Enter Your Email Here"); //Message here
 
+        // Set an EditText view to get user input
+        final EditText input = new EditText(Login.this);
+        alert.setView(input);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //You will get as string input data in this variable.
+                // here we convert the input to a string and show in a toast.
+                String srt = input.getEditableText().toString();
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if(!srt.matches(emailPattern)) {
+                    Toast.makeText(Login.this, "Please enter a valid Email", Toast.LENGTH_LONG).show();
+                    return;
+                }else {
+                    forgotPass(srt);
+                }
+
+
+            } // End of onClick(DialogInterface dialog, int whichButton)
+        }); //End of alert.setPositiveButton
+        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+                dialog.cancel();
+            }
+        }); //End of alert.setNegativeButton
+        AlertDialog alertDialog = alert.create();
+        alertDialog.show();
+
+    }
     public void login() {
 
         ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Checking Credentials ...", true);
@@ -454,5 +501,101 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         requestQueue.add(request);
 
 
+    }
+    public void forgotPass(final String email){
+        final ProgressDialog loading = ProgressDialog.show(Login.this, "", "Please wait...", false, false);
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.FORGOT_PASSWORD, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                loading.dismiss();
+                if(response.trim().equals("notexist")){
+                    new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Your Email is Incorrect")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else if(response.trim().equals("1")){
+                    new SweetAlertDialog(Login.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Success")
+                            .setConfirmText("OK").setContentText("Check Your Email to Reset Password")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else {
+                    new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Something Wrong")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+
+
+                // dbManager.delete_both_history_tables();
+                //getHistory();
+                // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        loading.dismiss();
+                        String message = null;
+                        if (error instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                            new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Error!")
+                                    .setConfirmText("OK").setContentText("No Internet Connection")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        } else if (error instanceof TimeoutError) {
+
+                            new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Error!")
+                                    .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismiss();
+
+                                        }
+                                    })
+                                    .show();
+                            //  Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+
+                map.put("forgot_email",email);
+//                map.put("user_id", userId);
+                return map;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 }
