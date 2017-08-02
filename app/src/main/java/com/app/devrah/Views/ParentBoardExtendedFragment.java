@@ -16,8 +16,8 @@ import com.app.devrah.R;
 
 public class ParentBoardExtendedFragment extends Fragment {
 
-      private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+      private static final String b_id = "b_id";
+    private static final String p_id = "p_id";
     int selectedTabPosition;
 
    public static CustomViewPagerAdapter adapter;
@@ -26,8 +26,8 @@ public class ParentBoardExtendedFragment extends Fragment {
    static TabLayout tabLayout;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static String b_id1;
+    private static String p_id1;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,8 +39,8 @@ public class ParentBoardExtendedFragment extends Fragment {
     public static ParentBoardExtendedFragment newInstance(String param1, String param2) {
         ParentBoardExtendedFragment fragment = new ParentBoardExtendedFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(b_id, param1);
+        args.putString(p_id, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,8 +49,8 @@ public class ParentBoardExtendedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            b_id1 = getArguments().getString(b_id);
+            p_id1 = getArguments().getString(p_id);
         }
     }
 
@@ -64,7 +64,16 @@ public class ParentBoardExtendedFragment extends Fragment {
         viewPager = (ViewPager)view.findViewById(R.id.my_viewpager);
        // tabLayout = (TabLayout)view.findViewById(R.id.my_tab_layout); tabLayout
         adapter = new CustomViewPagerAdapter(getFragmentManager(), getActivity(), viewPager);
-        viewPager.setPageMargin(80);
+
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null)
+        {
+            b_id1 = bundle.getString("p_id");
+            p_id1 = bundle.getString("b_id");
+        }
+
+
 
         viewPager.setAdapter(adapter);
        LastItemBoardFragment fragment = new LastItemBoardFragment();
@@ -107,6 +116,8 @@ public class ParentBoardExtendedFragment extends Fragment {
        //this.adapter = adapter;
         Bundle bundle = new Bundle();
         bundle.putString("data", pagename);
+        bundle.putString("p_id", p_id1);
+        bundle.putString("b_id", b_id1);
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         fragmentChild.setArguments(bundle);
         adapter.addFrag(fragmentChild, pagename);
@@ -124,6 +135,12 @@ public class ParentBoardExtendedFragment extends Fragment {
 
 
         //setupTabLayout();
+    }
+
+    public static void  removeAllFrags(){
+        ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
+        adapter.renewPage();
+        adapter.notifyDataSetChanged();
     }
 
 

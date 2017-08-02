@@ -25,26 +25,34 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
     TabLayout tabLayout;
 
-  //  public CustomViewPagerAdapter(FragmentManager manager, Context context){}
-        public CustomViewPagerAdapter(FragmentManager manager){
-            super(manager);
+    //  public CustomViewPagerAdapter(FragmentManager manager, Context context){}
+    public CustomViewPagerAdapter(FragmentManager manager) {
+        super(manager);
 
-        }
+    }
 
     public CustomViewPagerAdapter(FragmentManager manager, Context context, ViewPager viewPager
-                                 ) {            // TabLayout tabLayout
+    ) {            // TabLayout tabLayout
         super(manager);
 
         this.context = context;
         this.viewPager = viewPager;
-      //  this.tabLayout = tabLayout;
+        //  this.tabLayout = tabLayout;
 
 
     }
+
+    public static int customCount() {
+
+
+        return mFragmentList.size();
+    }
+
     @Override
     public float getPageWidth(int position) {
         return 0.8f;
     }
+
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
@@ -54,26 +62,23 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return mFragmentList.size();
     }
-
-        public static int customCount(){
-
-
-         return mFragmentList.size();
-        }
 //    public void addLast(Fragment fragment){
 //        mFragmentList.add(mFragmentList.size(),fragment);
 //        notifyDataSetChanged();
 //
 //    }
 
-    public int getItemPosition (Object object) { return POSITION_NONE; }
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 
 
-    public void addFragAt(Fragment fragment,int position){
-        mFragmentList.add(position,fragment);
+    public void addFragAt(Fragment fragment, int position) {
+        mFragmentList.add(position, fragment);
         notifyDataSetChanged();
     }
-    public void removeFragAt(int position){
+
+    public void removeFragAt(int position) {
 
         mFragmentList.remove(position);
         notifyDataSetChanged();
@@ -83,17 +88,16 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
     public void addFrag(Fragment fragment, String title) {
 
 
-
         //FragmentBoardExtendedLast lastFrag = new FragmentBoardExtendedLast();
 
         mFragmentList.add(fragment);
 
-           mFragmentTitleList.add(title);
+        mFragmentTitleList.add(title);
 
-notifyDataSetChanged();
+        notifyDataSetChanged();
 
 
-      // mFragmentList.add(mFragmentList.size(),lastFrag);
+        // mFragmentList.add(mFragmentList.size(),lastFrag);
 /////////////////////////////////////////////////////
 //        if(== mFragmentList.size())
 //        {
@@ -111,19 +115,25 @@ notifyDataSetChanged();
     }
 
 
-
-    public void deletePage(int position)
-    {
-            mFragmentList.remove(position);
+    public void deletePage(int position) {
+        mFragmentList.remove(position);
         mFragmentTitleList.remove(position);
-            notifyDataSetChanged();
-        }
+        notifyDataSetChanged();
+    }
 
+    public void  renewPage()
+    {
+         mFragmentList.clear();
+        mFragmentTitleList.clear();
+
+        notifyDataSetChanged();
+
+    }
 
 }
-   // public View getTabView(final int position) {
-      //  View view = LayoutInflater.from(activity).inflate(R.layout.custom_tab_item, null);
-       // TextView tabItemName = (TextView) view.findViewById(R.id.textViewTabItemName);
+// public View getTabView(final int position) {
+//  View view = LayoutInflater.from(activity).inflate(R.layout.custom_tab_item, null);
+// TextView tabItemName = (TextView) view.findViewById(R.id.textViewTabItemName);
 //        CircleImageView tabItemAvatar =
 //                (CircleImageView) view.findViewById(R.id.imageViewTabItemAvatar);
 //        ImageButton remove = (ImageButton) view.findViewById(R.id.imageButtonRemove);
@@ -132,14 +142,14 @@ notifyDataSetChanged();
 //            public void onClick(View v) {
 //                Log.d("Remove", "Remove");
 //                removeFrag(position);
-        //}
+//}
 
 
 //        tabItemName.setText(mFragmentTitleList.get(position));
 //        tabItemName.setTextColor(activity.getResources().getColor(android.R.color.background_light));
 
-     //   return view;
-    //}
+//   return view;
+//}
 //
 //    public void removeFrag(int position) {
 //        removeTab(position);

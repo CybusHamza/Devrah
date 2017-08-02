@@ -35,6 +35,8 @@ public class End_Points {
     public static final String GET_WORK_BOARD = BASE_URL + "getWorkBoardsByProjects";
     public static final String GET_REFRENCE_BOARD = BASE_URL + "getRefrenceBoardsByProjects";
     public static final String ADD_WORK_BOARD = BASE_URL + "addNewWorkBoard";
+    public static final String  GET_ALL_BOARD_LIST = BASE_URL + "getBoardAllLists";
+    public static final String  GET_CARDS_FOR_LIST = BASE_URL + "cardsAssociationList";
 
     public static final String UPDATE_USER_PROFILE= BASE_URL + "updateUserProfile";
 

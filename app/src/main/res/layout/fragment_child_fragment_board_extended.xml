@@ -31,10 +31,9 @@
         android:id="@+id/menuBoards"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp" /><!--android:layout_above="@+id/boardFragmentListView"-->
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        />
+        android:layout_marginEnd="18dp" />
+
+
 
 
 

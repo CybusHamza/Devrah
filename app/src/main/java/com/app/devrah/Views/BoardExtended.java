@@ -1,9 +1,10 @@
 package com.app.devrah.Views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -12,59 +13,82 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.R;
 import com.app.devrah.pojo.DrawerPojo;
+import com.app.devrah.pojo.ProjectsPojo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.app.devrah.Network.End_Points.GET_ALL_BOARD_LIST;
 
 public class BoardExtended extends AppCompatActivity {
 
     ParentBoardExtendedFragment fragment;
     //FragmentBoardExtendedLast lastFrag;
-    EditText etPageName;
-    Button addFrag;
+
     Toolbar toolbar;
-    private MenuItem mSearchAction;
-    private boolean isSearchOpened = false;
-    private EditText edtSeach;
     String title;
     CustomViewPagerAdapter adapter;
     View logo;
-
-
     List<DrawerPojo> dataList;
-
+    String b_id, p_id;
     CustomDrawerAdapter DrawerAdapter;
-    private ListView mDrawerList;
-    //   NavigationDrawerFragment drawerFragment;
+     //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
 //            R.drawable.bg_dashboard_project,
 //          //  R.drawable.ic_tab_contacts
 //    };
     DrawerLayout drawerLayout;
+    private MenuItem mSearchAction;
+    private boolean isSearchOpened = false;
+    private EditText edtSeach;
+    private ListView mDrawerList;
+    Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_extended);
 
+        getList();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList= (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        Intent intent = this.getIntent();
+        b_id = intent.getStringExtra("b_id");
+        p_id = intent.getStringExtra("p_id");
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         title = getIntent().getStringExtra("TitleData");
         toolbar.setTitle(title);
-       // adapter = new CustomViewPagerAdapter(getFragmentManager(),getApplicationContext(),)
+        // adapter = new CustomViewPagerAdapter(getFragmentManager(),getApplicationContext(),)
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
@@ -80,8 +104,7 @@ public class BoardExtended extends AppCompatActivity {
         dataList.add(new DrawerPojo("Leave Board"));
 
 
-
-        edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
+        edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
         toolbar.inflateMenu(R.menu.menu_with_back_button);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -96,7 +119,7 @@ public class BoardExtended extends AppCompatActivity {
                         return true;
 
                     case R.id.action_settings:
-                        drawerLayout.openDrawer(Gravity.RIGHT);
+                        drawerLayout.openDrawer(Gravity.END);
                         openDrawer();
                         return true;
 
@@ -117,21 +140,29 @@ public class BoardExtended extends AppCompatActivity {
             }
         });
 
-        fragment = (ParentBoardExtendedFragment)this.getSupportFragmentManager().findFragmentById(R.id.ajeebFrag);
-    //..    lastFrag = (FragmentBoardExtendedLast)this.getSupportFragmentManager().;
-      //  etPageName =(EditText)findViewById(R.id.editTextPageName);
-      //  addFrag = (Button)findViewById(R.id.btnAddFrag);
+        fragment = new ParentBoardExtendedFragment();
+        fragment = (ParentBoardExtendedFragment) this.getSupportFragmentManager().findFragmentById(R.id.ajeebFrag);
+
+        bundle = new Bundle();
+
+        bundle.putString("b_id",b_id);
+        bundle.putString("p_id",p_id);
+
+
+
+        //..    lastFrag = (FragmentBoardExtendedLast)this.getSupportFragmentManager().;
+        //  etPageName =(EditText)findViewById(R.id.editTextPageName);
+        //  addFrag = (Button)findViewById(R.id.btnAddFrag);
 
         openDrawer();
 
-        fragment.addPage("To Do");
+       /* fragment.addPage("To Do");
         fragment.addPage("Doing");
-        fragment.addPage("Done");
+        fragment.addPage("Done");*/
 //      //  fragment.addPage("Add Page");
 
 //Toast.makeText(getApplicationContext(),String.valueOf(),Toast.LENGTH_SHORT).show();  ;
-
-        fragment.addPageAt(CustomViewPagerAdapter.customCount());   //CustomView PagerAdapter last index
+        //CustomView PagerAdapter last index
 //        addFrag.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -149,6 +180,7 @@ public class BoardExtended extends AppCompatActivity {
 
 
     }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mSearchAction = menu.findItem(R.id.action_search);
@@ -156,10 +188,10 @@ public class BoardExtended extends AppCompatActivity {
     }
 
 
-    protected void handleMenuSearch(){
-       //ActionBar action = getSupportActionBar(); //get the actionbar
+    protected void handleMenuSearch() {
+        //ActionBar action = getSupportActionBar(); //get the actionbar
 
-        if(isSearchOpened){ //test if the search is open
+        if (isSearchOpened) { //test if the search is open
 
             //action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
             // action.setDisplayShowTitleEnabled(true); //show the title in the action bar
@@ -177,15 +209,15 @@ public class BoardExtended extends AppCompatActivity {
             isSearchOpened = false;
         } else { //open the search entry
 
-       //     action.setDisplayShowCustomEnabled(true); //enable it to display a
+            //     action.setDisplayShowCustomEnabled(true); //enable it to display a
             // custom view in the action bar.
             logo.setVisibility(View.VISIBLE);
 
-         //  action.setCustomView(R.layout.search_bar);//add the custom view
-           // action.setDisplayShowTitleEnabled(false); //hide the title
+            //  action.setCustomView(R.layout.search_bar);//add the custom view
+            // action.setDisplayShowTitleEnabled(false); //hide the title
             toolbar.setTitle("");
 
-             //the text editor
+            //the text editor
 
             //this is a listener to do a search when the user clicks on search button
             edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -213,22 +245,127 @@ public class BoardExtended extends AppCompatActivity {
             isSearchOpened = true;
         }
     }
+
     @Override
     public void onBackPressed() {
-        if(isSearchOpened) {
+        if (isSearchOpened) {
             handleMenuSearch();
             return;
         }
         super.onBackPressed();
     }
+
     private void doSearch() {
 //
     }
 
-    public void  openDrawer(){
-        DrawerAdapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
-        mDrawerList.setAdapter( DrawerAdapter);
+    public void openDrawer() {
+        DrawerAdapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
+        mDrawerList.setAdapter(DrawerAdapter);
 
     }
+
+    public void getList() {
+        StringRequest request = new StringRequest(Request.Method.POST, GET_ALL_BOARD_LIST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+
+                        if (response.equals("false")) {
+                            ParentBoardExtendedFragment.removeAllFrags();
+                            ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
+
+                        } else {
+
+
+                            ParentBoardExtendedFragment.removeAllFrags();
+
+
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    ProjectsPojo projectsPojo = new ProjectsPojo();
+
+                                    projectsPojo.setId(jsonObject.getString("list_id"));
+                                    projectsPojo.setData(jsonObject.getString("list_name"));
+
+                                    ParentBoardExtendedFragment.addPage(jsonObject.getString("list_name"));
+                               //     parentBoardExtendedFragment.setArguments(bundle);
+
+                                }
+
+
+                                ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+
+
+                            }
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(BoardExtended.this.getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("No Internet Connection")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(BoardExtended.this.getApplicationContext(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", b_id);
+                params.put("project_id", p_id);
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
+        requestQueue.add(request);
+    }
+
 
 }

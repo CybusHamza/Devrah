@@ -65,67 +65,138 @@ import java.util.List;
 
 public class CardActivity extends AppCompatActivity {
 
+    private static final int READ_REQUEST_CODE = 42;
+    public static View view;
+    public static boolean onFocus = false;
+    public static Context mcontext;
+    public static CardActivity Mactivity;
+    public static String labelName;
+    public static RelativeLayout container;
+    public static ProgressBar simpleProgressBar;
+    public static Menu menu;
+    public static RecyclerView rv, rvChecklist, rvLabel, rvLabelResult, rvAttachmentImages;
+    public static TextView labelAdd;
+    static List<String> asliList;
+    static List<String> labelNameList;
+    static RVLabelAdapter rvAdapterLabel;
+    static List<Integer> colorList;
+    static List<Integer> listt;
+    static List<Integer> resultColorList;
+    private static FloatingActionMenu fabm;
+    public List<Bitmap> bitmapList;
     CollapsingToolbarLayout collapsingToolbarLayout;
-public  static View view;
     List<File> fileList;
-
-
     List<DrawerPojo> dataList;
     CustomDrawerAdapter DrawerAdapter;
-    private ListView mDrawerList;
-
     DrawerLayout drawerLayout;
-
-
-    public static   boolean onFocus = false;
-    public static Context mcontext;
     AttachmentImageAdapter imageAdapter;
-
-       public static CardActivity Mactivity;
-    LinearLayout LACheckList,staticCheckList;
-
+    LinearLayout LACheckList, staticCheckList;
     List<MembersPojo> membersPojoList;
     CheckBox cbDueDate;
     RelativeLayout rvCard;
-    FloatingActionButton FABdueDate,FABmembers,FABattachments,FABchecklist,FABLabel;
-    Toolbar  toolbar;
-    public static String labelName;
+    FloatingActionButton FABdueDate, FABmembers, FABattachments, FABchecklist, FABLabel;
+    Toolbar toolbar;
     RVadapterCheckList rVadapterCheckList;
-
-    Spinner spinnerDate,spinnerTime;
-    List<String> spinnerDateList,spinnertTimeList;
+    Spinner spinnerDate, spinnerTime;
+    List<String> spinnerDateList, spinnertTimeList;
     Activity activity;
-    private static FloatingActionMenu fabm;
-        EditText etComment,etCheckList;
+    EditText etComment, etCheckList;
     String CardHeading;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
-   static List<String> asliList;
-
-
-    public static RelativeLayout container;
     TextView tvMembers;
-
-   public static ProgressBar simpleProgressBar;
-
-    static  List<String> labelNameList;
-   public static Menu menu;
     RecyclerViewAdapterComments adapter;
     RVadapterCheckList rvAdapterChecklist;
-    public List<Bitmap> bitmapList;
-    private static final int READ_REQUEST_CODE = 42;
-    static RVLabelAdapter rvAdapterLabel;
-   public static RecyclerView rv,rvChecklist,rvLabel,rvLabelResult,rvAttachmentImages;
     List<CardCommentData> listPojo;
-    static List<Integer> colorList;
     RecyclerView rvFiles;
     FragmentManager fm;
-    static List<Integer> listt;
-    static List<Integer> resultColorList;
     List<String> manhusLabelList;
-   public static TextView labelAdd;
     List<ProjectsPojo> checkListPojo;
     List<AttachmentsPojo> attachmentsList;
+    private ListView mDrawerList;
+
+    public static void addLabel() {
+
+
+        menu.clear();
+        onFocus = false;
+///        labelDone.setVisibility(View.GONE);
+
+        //  Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
+
+        rvLabel.setVisibility(View.GONE);
+        labelAdd.setVisibility(View.GONE);
+        rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
+
+
+        listt = rvAdapterLabel.getData(resultColorList);
+        asliList = rvAdapterLabel.getDataString();
+        // labelNameList = rvAdapterLabel
+
+
+//        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,labelNameList);
+//        rvLabelResult.setAdapter(adapter);
+//        menuChanger(menu,onFocus);
+
+//
+        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList);
+        rvLabelResult.setAdapter(adapter);
+        menuChanger(menu, onFocus);
+
+
+    }
+
+    public static void showLabelsMenu() {
+
+        menuChanger(menu, true);
+
+//            labelDone.setVisibility(View.VISIBLE);
+        if (rvLabel.getVisibility() == View.GONE) {
+            rvLabel.setVisibility(View.VISIBLE);
+            labelAdd.setVisibility(View.VISIBLE);
+        }
+        if (labelAdd.getVisibility() == View.GONE) {
+            labelAdd.setVisibility(View.VISIBLE);
+
+
+        }
+
+        MenuItem menuItem = menu.findItem(R.id.tick);
+
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
+                addLabel();
+
+                return true;
+            }
+        });
+
+        rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
+        ColorsPojo colorsPojo = new ColorsPojo();
+        //   colorList.add(colorsPojo.getColor());
+        rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList);
+
+        rvLabel.setAdapter(rvAdapterLabel);
+        asliList = rvAdapterLabel.getDataString();
+        fabm.close(true);
+
+        rvAdapterLabel.notifyDataSetChanged();
+    }
+
+    public static void menuChanger(Menu menu, boolean hasFocus) {
+
+        menu.clear();
+        if (hasFocus) {
+
+            Mactivity.getMenuInflater().inflate(R.menu.menu, menu);
+        } else {
+            Mactivity.getMenuInflater().inflate(R.menu.my_menu, menu);
+
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,28 +206,28 @@ public  static View view;
 
         labelNameList = new ArrayList<>();
         asliList = new ArrayList<>();
-        container = (RelativeLayout)findViewById(R.id.fragmentContainer);
-        rvFiles = (RecyclerView)findViewById(R.id.rv_files_cardscreen);
+        container = (RelativeLayout) findViewById(R.id.fragmentContainer);
+        rvFiles = (RecyclerView) findViewById(R.id.rv_files_cardscreen);
         fileList = new ArrayList<>();
         attachmentsList = new ArrayList<>();
         labelName = null;
         mcontext = getApplicationContext();
-      listPojo = new ArrayList<>();
+        listPojo = new ArrayList<>();
         bitmapList = new ArrayList<>();
         checkListPojo = new ArrayList<>();
         membersPojoList = new ArrayList<>();
-       // labelNameList = new ArrayList<>();
+        // labelNameList = new ArrayList<>();
         colorList = new ArrayList<>();
-        rvAttachmentImages =(RecyclerView) findViewById(R.id.rvImagesAttachment);
+        rvAttachmentImages = (RecyclerView) findViewById(R.id.rvImagesAttachment);
         resultColorList = new ArrayList<>();
         listt = new ArrayList<>();
         colorList.add(getResources().getColor(R.color.colorAccent));
 
         fm = getSupportFragmentManager();
-        labelAdd = (TextView)findViewById(R.id.tvAddLabel);
+        labelAdd = (TextView) findViewById(R.id.tvAddLabel);
         Mactivity = CardActivity.this;
         colorList.add(getResources().getColor(R.color.colorPrimaryDark));
-         colorList.add(getResources().getColor(R.color.colorGreen));
+        colorList.add(getResources().getColor(R.color.colorGreen));
 
         colorList.add(getResources().getColor(R.color.colorOrangeRed));
         colorList.add(getResources().getColor(R.color.colorOrange));
@@ -170,16 +241,14 @@ public  static View view;
         labelNameList.add("");
 
 
-
-
-        LACheckList = (LinearLayout)findViewById(R.id.LinearLayoutChecklist);
-        rvCard = (RelativeLayout)findViewById(R.id.bg_card);
+        LACheckList = (LinearLayout) findViewById(R.id.LinearLayoutChecklist);
+        rvCard = (RelativeLayout) findViewById(R.id.bg_card);
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
         simpleProgressBar.setScaleY(3f);    //height of progress bar
-        staticCheckList = (LinearLayout)findViewById(R.id.linearLayoutCheckboxHeading);
+        staticCheckList = (LinearLayout) findViewById(R.id.linearLayoutCheckboxHeading);
         cbDueDate = (CheckBox) findViewById(R.id.tvDue);
         etCheckList = (EditText) findViewById(R.id.etCheckBox);
-       // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
+        // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -194,7 +263,6 @@ public  static View view;
         dataList = new ArrayList<>();
 
 
-
         dataList.add(new DrawerPojo("Copy"));
         dataList.add(new DrawerPojo("Move"));
         dataList.add(new DrawerPojo("Subscribe"));
@@ -203,12 +271,12 @@ public  static View view;
         dataList.add(new DrawerPojo("Leave Card"));
 
 
-        rvLabelResult = (RecyclerView)findViewById(R.id.rv_labels_card_screen_result);
+        rvLabelResult = (RecyclerView) findViewById(R.id.rv_labels_card_screen_result);
 //
 //        setTitle();
-        rvChecklist = (RecyclerView)findViewById(R.id.rv_recycler_checklist);
-        rvLabel = (RecyclerView)findViewById(R.id.rv_recycler_labels);
-        tvMembers = (TextView)findViewById(R.id.tvMembers);
+        rvChecklist = (RecyclerView) findViewById(R.id.rv_recycler_checklist);
+        rvLabel = (RecyclerView) findViewById(R.id.rv_recycler_labels);
+        tvMembers = (TextView) findViewById(R.id.tvMembers);
 
 
         tvMembers.setOnClickListener(new View.OnClickListener() {
@@ -219,18 +287,16 @@ public  static View view;
         });
 
 
-
-        collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsingToolbar);
-        FABdueDate = (FloatingActionButton)findViewById(R.id.dueDate);
-        FABmembers = (FloatingActionButton)findViewById(R.id.members);
-        FABattachments = (FloatingActionButton)findViewById(R.id.attachments);
-        FABchecklist = (FloatingActionButton)findViewById(R.id.CheckList);
-        FABLabel = (FloatingActionButton)findViewById(R.id.labels);
-
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
+        FABdueDate = (FloatingActionButton) findViewById(R.id.dueDate);
+        FABmembers = (FloatingActionButton) findViewById(R.id.members);
+        FABattachments = (FloatingActionButton) findViewById(R.id.attachments);
+        FABchecklist = (FloatingActionButton) findViewById(R.id.CheckList);
+        FABLabel = (FloatingActionButton) findViewById(R.id.labels);
 
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList= (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
 
 //        collapsingToolbarLayout.setOnClickListener(new View.OnClickListener() {
@@ -244,11 +310,7 @@ public  static View view;
         CardHeading = getIntent().getStringExtra("CardHeaderData");
         collapsingToolbarLayout.setTitle(CardHeading);
 
-        etComment = (EditText)findViewById(R.id.etComment);
-
-
-
-
+        etComment = (EditText) findViewById(R.id.etComment);
 
 
         FABattachments.setOnClickListener(new View.OnClickListener() {
@@ -256,13 +318,13 @@ public  static View view;
             public void onClick(View v) {
                 fabm.close(true);
                 LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
-                View view = inflater.inflate(R.layout.custom_attachments_layout_dialog,null);
+                View view = inflater.inflate(R.layout.custom_attachments_layout_dialog, null);
 
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
 
-                LinearLayout linearLayoutCamera = (LinearLayout)view.findViewById(R.id.linearLayoutCamera);
-                LinearLayout otherFiles = (LinearLayout)view.findViewById(R.id.otherFiles);
+                LinearLayout linearLayoutCamera = (LinearLayout) view.findViewById(R.id.linearLayoutCamera);
+                LinearLayout otherFiles = (LinearLayout) view.findViewById(R.id.otherFiles);
 
                 linearLayoutCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -289,7 +351,6 @@ public  static View view;
                 });
 
 
-
                 alertDialog.setView(view);
                 alertDialog.show();
 
@@ -305,13 +366,12 @@ public  static View view;
                 LabelColorFragment colorFragment = new LabelColorFragment();
 
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.add(R.id.fragmentContainer,colorFragment).addToBackStack("Frag1").commit();
+                fragmentTransaction.add(R.id.fragmentContainer, colorFragment).addToBackStack("Frag1").commit();
 
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 //                Fragment fragment = new LabelColorFragment();
             }
         });
-
 
 
         FABchecklist.setOnClickListener(new View.OnClickListener() {
@@ -320,7 +380,7 @@ public  static View view;
 
 
                 onFocus = true;
-                menuChanger(menu,onFocus);
+                menuChanger(menu, onFocus);
                 LACheckList.setVisibility(View.VISIBLE);
                 staticCheckList.setVisibility(View.VISIBLE);
                 fabm.close(true);
@@ -330,17 +390,15 @@ public  static View view;
         });
 
 
-
         FABmembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onFocus = true;
+                onFocus = true;
 
                 showMembersDialog();
                 fabm.close(true);
             }
         });
-
 
 
         cbDueDate.setOnClickListener(new View.OnClickListener() {
@@ -359,11 +417,10 @@ public  static View view;
             }
         });
 
-        fabm = (FloatingActionMenu)findViewById(R.id.menu);
+        fabm = (FloatingActionMenu) findViewById(R.id.menu);
 
 
-
-        rv = (RecyclerView)findViewById(R.id.rv_recycler_view);
+        rv = (RecyclerView) findViewById(R.id.rv_recycler_view);
 
 //        menuChanger(menu,false);
 
@@ -371,37 +428,37 @@ public  static View view;
 
     }
 
-
-    public void  openDrawer(){
-        DrawerAdapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
-        mDrawerList.setAdapter( DrawerAdapter);
+    public void openDrawer() {
+        DrawerAdapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
+        mDrawerList.setAdapter(DrawerAdapter);
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
             Uri selectedImage = data.getData();
-          //  File imageFile = new File(selectedImage.toString());
+            //  File imageFile = new File(selectedImage.toString());
 
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-          //  rotateImage(bitmap,selectedImage.toString());
+            //  rotateImage(bitmap,selectedImage.toString());
 
 
-            rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
-        //    bitmapList.add(rotateBitmap(bitmap));
+            rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
+            //    bitmapList.add(rotateBitmap(bitmap));
             bitmapList.add(bitmap);
-            imageAdapter = new AttachmentImageAdapter(Mactivity,bitmapList,fm);
+            imageAdapter = new AttachmentImageAdapter(Mactivity, bitmapList, fm);
             rvAttachmentImages.setAdapter(imageAdapter);
 
 
         }
-        if (requestCode==READ_REQUEST_CODE && resultCode ==Activity.RESULT_OK){
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
             Uri uri = data.getData();
             String src = uri.getPath();
-           // String fileName = FilenameUtils.getName(src);
+            // String fileName = FilenameUtils.getName(src);
 
 
             String fileName = null;
@@ -416,7 +473,7 @@ public  static View view;
 
                     if (cursor != null && cursor.moveToFirst()) {
                         fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
-                   //     Log.d("Name", "name is " + fileName);
+                        //     Log.d("Name", "name is " + fileName);
                     }
                 } finally {
 
@@ -436,20 +493,16 @@ public  static View view;
 
             attachmentsList.add(attachmentsPojo);
             rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            FilesAdapter adapter = new FilesAdapter(attachmentsList,Mactivity);
+            FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
             rvFiles.setAdapter(adapter);
-          //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
-
+            //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
 
 
         }
 
-        }
+    }
 
-
-
-
-    public void addDataInComments(){
+    public void addDataInComments() {
 
 
         fabm.setVisibility(View.VISIBLE);
@@ -466,23 +519,20 @@ public  static View view;
 
     }
 
-
-
-
-    public void showMembersDialog(){
+    public void showMembersDialog() {
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
-        View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout,null);
-        final  AlertDialog alertDialog = new  AlertDialog.Builder(CardActivity.this).create();
-        ListView lvMembers = (ListView)view.findViewById(R.id.membersListView);
-        TextView tvDone = (TextView)view.findViewById(R.id.addMember);
+        View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
+        ListView lvMembers = (ListView) view.findViewById(R.id.membersListView);
+        TextView tvDone = (TextView) view.findViewById(R.id.addMember);
 
         MembersPojo membersPojo = new MembersPojo();
-        for (int i=0;i<=5;i++) {
+        for (int i = 0; i <= 5; i++) {
             membersPojo.setName("Aqsa");
             membersPojo.setUserId("asdfgh");
             membersPojoList.add(membersPojo);
         }
-        final AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this,membersPojoList);
+        final AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this, membersPojoList);
 
         lvMembers.setAdapter(membersAdapter);
 
@@ -495,15 +545,14 @@ public  static View view;
         });
 
 
-
         lvMembers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              //  tvMembers.setText(parent.getSelectedItem().toString());
+                //  tvMembers.setText(parent.getSelectedItem().toString());
 
 
-                MembersPojo data = (MembersPojo)membersAdapter.getItem(position);
-              //  data.getName();
+                MembersPojo data = (MembersPojo) membersAdapter.getItem(position);
+                //  data.getName();
                 tvMembers.setVisibility(View.VISIBLE);
                 tvMembers.setText(data.getName());
                 alertDialog.dismiss();
@@ -514,19 +563,16 @@ public  static View view;
 
         alertDialog.setView(view);
 //
-                alertDialog.show();
+        alertDialog.show();
 
 
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
 
-menuChanger(menu,false);
+        menuChanger(menu, false);
         MenuItem DrawerLabel = menu.findItem(R.id.menu);
 
         DrawerLabel.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -534,7 +580,7 @@ menuChanger(menu,false);
             public boolean onMenuItemClick(MenuItem item) {
                 drawerLayout.openDrawer(Gravity.RIGHT);
                 openDrawer();
-             //   Toast.makeText(getApplicationContext(),"Nothing",Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(getApplicationContext(),"Nothing",Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -552,12 +598,12 @@ menuChanger(menu,false);
                     menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                           // Toast.makeText(CardActivity.this, "asdfghj", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(CardActivity.this, "asdfghj", Toast.LENGTH_SHORT).show();
                             addDataInComments();
 
-                         //   etComment.setText("");
-                          //  etComment.clearComposingText();
-                           // menuChanger(menu,false);
+                            //   etComment.setText("");
+                            //  etComment.clearComposingText();
+                            // menuChanger(menu,false);
                             etComment.clearFocus();
                             return true;
                         }
@@ -574,10 +620,10 @@ menuChanger(menu,false);
         rvLabel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-              //  Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
 
-                menuChanger(menu,hasFocus);
-                if (hasFocus){
+                menuChanger(menu, hasFocus);
+                if (hasFocus) {
 
                     View item = findViewById(R.id.tick);
 
@@ -586,9 +632,9 @@ menuChanger(menu,false);
                         @Override
                         public void onClick(View v) {
                             addLabel();
-                          rvLabel.clearFocus();
+                            rvLabel.clearFocus();
 
-                          //  return true;
+                            //  return true;
                         }
                     });
 //                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -600,8 +646,7 @@ menuChanger(menu,false);
 //                            return true;
 //                        }
 //                    });
-                }
-                else {
+                } else {
 
                     menuChanger(menu, hasFocus);
 
@@ -611,35 +656,32 @@ menuChanger(menu,false);
         });
 
 
-
         etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, final boolean hasFocus) {
                 menuChanger(menu, hasFocus);
 
-                if (hasFocus==true){
+                if (hasFocus == true) {
 
 
                     MenuItem tick = menu.findItem(R.id.tick);
                     tick.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                          //  Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
+                            //  Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
 
-                                addDataInChecklist();
-                                menuChanger(menu, hasFocus);
-                                etCheckList.clearFocus();
+                            addDataInChecklist();
+                            menuChanger(menu, hasFocus);
+                            etCheckList.clearFocus();
 
 
-                                return true;
+                            return true;
 
                         }
                     });
 
 
-
-                }
-                else {
+                } else {
                     // addDataInChecklist();
                     menuChanger(menu, false);
                     // etCheckList.clearFocus();
@@ -667,48 +709,13 @@ menuChanger(menu,false);
 //                onFocus = true;
 //                menuChanger(menu,onFocus);
                 showLabelsMenu();
-            //    doneLabelResult();
+                //    doneLabelResult();
 
             }
         });
 
 
-    return true;
-    }
-
-
-    public static void addLabel(){
-
-
-        menu.clear();
-        onFocus = false;
-///        labelDone.setVisibility(View.GONE);
-
-      //  Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
-
-        rvLabel.setVisibility(View.GONE);
-        labelAdd.setVisibility(View.GONE);
-        rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity,LinearLayoutManager.HORIZONTAL,true));
-
-
-        listt=  rvAdapterLabel.getData(resultColorList);
-        asliList = rvAdapterLabel.getDataString();
-       // labelNameList = rvAdapterLabel
-
-
-
-//        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,labelNameList);
-//        rvLabelResult.setAdapter(adapter);
-//        menuChanger(menu,onFocus);
-
-//
-        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,asliList);
-        rvLabelResult.setAdapter(adapter);
-        menuChanger(menu,onFocus);
-
-
-
-
+        return true;
     }
 
     @Override
@@ -717,11 +724,11 @@ menuChanger(menu,false);
         if (getSupportFragmentManager().findFragmentByTag("Frag1") != null) {
 //            CardActivity.showLabelsMenu();
 
-            getSupportFragmentManager().popBackStackImmediate("Frag1",0);
+            getSupportFragmentManager().popBackStackImmediate("Frag1", 0);
 //            showLabelsMenu();
 
 
-         //   colorList.add(LabelColorFragment.getColor());
+            //   colorList.add(LabelColorFragment.getColor());
 //            ColorsPojo colorsPojo = new ColorsPojo();
 //            colorList.add(colorsPojo.getColor());
 //            showLabelsMenu();
@@ -731,7 +738,7 @@ menuChanger(menu,false);
         if (getSupportFragmentManager().findFragmentByTag("Frag2") != null) {
 //            CardActivity.showLabelsMenu();
 
-            getSupportFragmentManager().popBackStackImmediate("Frag2",0);
+            getSupportFragmentManager().popBackStackImmediate("Frag2", 0);
             showLabelsMenu();
 
 
@@ -739,16 +746,15 @@ menuChanger(menu,false);
 //            ColorsPojo colorsPojo = new ColorsPojo();
 //            colorList.add(colorsPojo.getColor());
 //            showLabelsMenu();
-        }
-
-        else {
+        } else {
             super.onBackPressed();
         }
 
     }
 
+    //    public void doneLabelResult(){}
 
-    public void addDataInChecklist(){
+    public void addDataInChecklist() {
 
         ProjectsPojo cardCommentData = new ProjectsPojo();
         //  cardCommentData.setCardCommentid("Id Ov Person");
@@ -768,68 +774,25 @@ menuChanger(menu,false);
         rvAdapterChecklist.notifyDataSetChanged();
 
 
-
     }
 
-    public static void showLabelsMenu(){
-
-            menuChanger(menu,true);
-
-//            labelDone.setVisibility(View.VISIBLE);
-            if (rvLabel.getVisibility()== View.GONE){
-                rvLabel.setVisibility(View.VISIBLE);
-                labelAdd.setVisibility(View.VISIBLE);
-            }
-            if (labelAdd.getVisibility()== View.GONE){
-                labelAdd.setVisibility(View.VISIBLE);
-
-
-            }
-
-                MenuItem menuItem = menu.findItem(R.id.tick);
-
-                menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                     // Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
-                        addLabel();
-
-                        return true;
-                    }
-                });
-
-            rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
-            ColorsPojo colorsPojo = new ColorsPojo();
-         //   colorList.add(colorsPojo.getColor());
-            rvAdapterLabel = new RVLabelAdapter(Mactivity,colorList,listt,labelNameList,asliList);
-
-            rvLabel.setAdapter(rvAdapterLabel);
-        asliList = rvAdapterLabel.getDataString();
-            fabm.close(true);
-
-        rvAdapterLabel.notifyDataSetChanged();
-        }
-
-    //    public void doneLabelResult(){}
-
-    public void dueDate(){
+    public void dueDate() {
 
         fabm.close(true);
-       // Toast.makeText(getApplicationContext(),"Due Date Button Pressed",Toast.LENGTH_LONG).show();
-
+        // Toast.makeText(getApplicationContext(),"Due Date Button Pressed",Toast.LENGTH_LONG).show();
 
 
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
-        View customView = inflater.inflate(R.layout.custom_date_time_spinner_cards_screen,null);
+        View customView = inflater.inflate(R.layout.custom_date_time_spinner_cards_screen, null);
         // View nothingSelectedDate = inflater.inflate(R.layout.nothing_selected_spinnerdate,null);
         final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
 
 
         final Calendar myCurrentDT = Calendar.getInstance();
-        TextView tvCancel = (TextView)customView.findViewById(R.id.tvCancel);
-        TextView tvDone = (TextView)customView. findViewById(R.id.tvDone);
-        spinnerDate = (Spinner)customView.findViewById(R.id.spinnerDate);
-        spinnerTime = (Spinner)customView.findViewById(R.id.spinnerTime);
+        TextView tvCancel = (TextView) customView.findViewById(R.id.tvCancel);
+        TextView tvDone = (TextView) customView.findViewById(R.id.tvDone);
+        spinnerDate = (Spinner) customView.findViewById(R.id.spinnerDate);
+        spinnerTime = (Spinner) customView.findViewById(R.id.spinnerTime);
 
 
         // spinnerDate.setEmptyView(nothingSelectedDate);
@@ -850,10 +813,10 @@ menuChanger(menu,false);
         spinnertTimeList.add("Pick a time");
 
 
-        ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(CardActivity.this,R.layout.nothing_selected_spinnerdate,spinnerDateList);
+        ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(CardActivity.this, R.layout.nothing_selected_spinnerdate, spinnerDateList);
         dateAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
-        ArrayAdapter<String> timeAdapter = new ArrayAdapter<String>(CardActivity.this,R.layout.nothing_selected_spinnerdate,spinnertTimeList);
+        ArrayAdapter<String> timeAdapter = new ArrayAdapter<String>(CardActivity.this, R.layout.nothing_selected_spinnerdate, spinnertTimeList);
         timeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerDate.setSelection(0);
         spinnerTime.setSelection(0);
@@ -866,15 +829,15 @@ menuChanger(menu,false);
         final int mYear = c.get(Calendar.YEAR); // current year
         final int mMonth = c.get(Calendar.MONTH); // current month
         final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-        final  int mHour = c.get(Calendar.HOUR);
-        final  int mMin = c.get(Calendar.MINUTE);
+        final int mHour = c.get(Calendar.HOUR);
+        final int mMin = c.get(Calendar.MINUTE);
 
         spinnerDate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
 
-                switch (selectedItem){
+                switch (selectedItem) {
 
                     case "Pick a day":
 
@@ -888,7 +851,7 @@ menuChanger(menu,false);
 //                                                date.setText(dayOfMonth + "/"
 //                                                        + (monthOfYear + 1) + "/" + year);
                                         spinnerDateList.remove(0);
-                                        spinnerDateList.add(0,dayOfMonth +"/" + monthOfYear + "/" + year);
+                                        spinnerDateList.add(0, dayOfMonth + "/" + monthOfYear + "/" + year);
                                         spinnerDate.setSelection(0);
                                         // spinnerDate.setSelection(spinnerDateList.size() - 1);
 
@@ -896,7 +859,6 @@ menuChanger(menu,false);
                                 }, mYear, mMonth, mDay);
                         datePickerDialog.show();
                         break;
-
 
 
                 }
@@ -908,7 +870,6 @@ menuChanger(menu,false);
 
             }
         });
-
 
 
         spinnerTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -926,9 +887,8 @@ menuChanger(menu,false);
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
 
 
-
                                 spinnertTimeList.remove(0);
-                                spinnertTimeList.add(0,selectedHour + ":" + selectedMinute);
+                                spinnertTimeList.add(0, selectedHour + ":" + selectedMinute);
 
                                 //  spinnerTime.setSelection(spinnertTimeList.size() - 1);
 
@@ -948,8 +908,6 @@ menuChanger(menu,false);
 
             }
         });
-
-
 
 
         tvCancel.setOnClickListener(new View.OnClickListener() {
@@ -977,20 +935,6 @@ menuChanger(menu,false);
         alertDialog.show();
 
 
-    }
-
-    public static void menuChanger(Menu menu, boolean hasFocus){
-
-        menu.clear();
-        if (hasFocus) {
-
-            Mactivity.getMenuInflater().inflate(R.menu.menu, menu);
-        }
-
-            else {
-            Mactivity.getMenuInflater().inflate(R.menu.my_menu, menu);
-
-        }
     }
 //    public static void startFrag(){
 //

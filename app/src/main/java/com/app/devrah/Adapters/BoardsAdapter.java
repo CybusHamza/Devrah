@@ -54,7 +54,7 @@ public class BoardsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = new ViewHolder();
         if (inflater== null)
@@ -74,6 +74,9 @@ public class BoardsAdapter extends BaseAdapter {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
                 Intent intent = new Intent(activity,BoardExtended.class);
                 intent.putExtra("TitleData",ListItemString);
+                intent.putExtra("p_id",projectsList.get(position).getId());
+                intent.putExtra("b_id",projectsList.get(position).getBoardID());
+
                 activity.startActivity(intent);
 
             }
