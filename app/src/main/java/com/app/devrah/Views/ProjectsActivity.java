@@ -63,7 +63,7 @@ public class ProjectsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_projects);
 
 
- drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList= (ListView) findViewById(R.id.left_drawer);
 //        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 //                GravityCompat.START);
@@ -72,12 +72,20 @@ public class ProjectsActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Projects");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        /*final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
+        tv.setText("Projects");
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setText("Project updated");
+            }
+        });*/
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        // drawerPojo = new DrawerPojo();
 
         dataList = new ArrayList<>();
-View header = getLayoutInflater().inflate(R.layout.header_for_drawer,null);
+   View header = getLayoutInflater().inflate(R.layout.header_for_drawer,null);
 
         dataList.add(new DrawerPojo("Create New Team"));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);

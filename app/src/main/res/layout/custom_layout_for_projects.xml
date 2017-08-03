@@ -14,7 +14,7 @@
         android:padding="5dp"
         android:layout_marginRight="10dp"
         android:text="Active"
-        android:background="#009192"
+        android:background="@color/lightGreen"
         android:layout_marginTop="15dp"/>
 
 

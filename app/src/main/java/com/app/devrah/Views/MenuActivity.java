@@ -144,6 +144,7 @@ public class MenuActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         Intent intent = new Intent(MenuActivity.this, Dashboard.class);
+        finish();
         startActivity(intent);
 
     }

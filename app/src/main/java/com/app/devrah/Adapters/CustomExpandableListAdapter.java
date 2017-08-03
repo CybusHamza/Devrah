@@ -24,17 +24,19 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader; // header titles
     private List<String> ids; // header titles
+    private List<String> status; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
 
-public CustomExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData , ArrayList<String> ids){
+public CustomExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData , ArrayList<String> ids,ArrayList<String> status){
 
 
     this.context = context;
     this._listDataChild = listChildData;
     this.listDataHeader = listDataHeader;
     this.ids = ids;
+    this.status = status;
 
 
 }
@@ -124,6 +126,15 @@ public CustomExpandableListAdapter(Context context, List<String> listDataHeader,
                 .findViewById(R.id.tvProjectsData);
 
         txtListChild.setText(childText);
+        TextView statusList = (TextView) convertView
+                .findViewById(R.id.btnActive);
+        if(status.get(groupPosition).equals("1")) {
+            statusList.setText("Active");
+            statusList.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
+        }else {
+            statusList.setText("DeActive");
+            statusList.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
+        }
         return convertView;
 
       //  return null;

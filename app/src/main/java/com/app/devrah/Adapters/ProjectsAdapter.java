@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,15 @@ public class ProjectsAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.custom_layout_for_projects, null);
 
         holder.data = (TextView) convertView.findViewById(R.id.tvProjectsData);
+        holder.status = (TextView) convertView.findViewById(R.id.btnActive);
         holder.data.setText(projectsList.get(position).getData());
+        if(projectsList.get(position).getProjectStatus().equals("1")) {
+            holder.status.setText("Active");
+            holder.status.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+        }else {
+            holder.status.setText("DeActive");
+            holder.status.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+        }
 
 
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +78,7 @@ public class ProjectsAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(activity,BoardsActivity.class);
                 intent.putExtra("pid",projectsList.get(position).getId());
+                intent.putExtra("ptitle",projectsList.get(position).getData());
                 activity.startActivity(intent);
 
             }
@@ -79,7 +89,7 @@ public class ProjectsAdapter extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data;
+        TextView data,status;
     }
 
 }

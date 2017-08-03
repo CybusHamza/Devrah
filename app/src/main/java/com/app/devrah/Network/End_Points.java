@@ -10,6 +10,8 @@ public class End_Points {
     public static final String SIGN_UP = BASE_URL + "addUserSignUp";
     public static final String SIGN_UP_GOOGLE = BASE_URL + "addGoogleSignUp";
     public static final String GET_MEMBER_PROJECTS = BASE_URL + "getProjectsToMembers";
+    public static final String UPDATE_PROJECT_NAME = BASE_URL + "updateProjectName";
+    public static final String UPDATE_BOARD_NAME = BASE_URL + "updateBoardName";
     public static final String GET_NOTIFICATIONS = BASE_URL + "getNotifications";
     public static final String GETMYCARDS = BASE_URL + "getMyCards/";
     public static final String SENT_MESSAGES = BASE_URL + "sentMessages";

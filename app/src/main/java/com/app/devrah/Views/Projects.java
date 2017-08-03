@@ -409,6 +409,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                                     projectPojoData = new ProjectsPojo();
                                     projectPojoData.setData(object.getString("project_name"));
                                     projectPojoData.setId(object.getString("project_id"));
+                                    projectPojoData.setProjectStatus(object.getString("project_status"));
                                     listPojo.add(projectPojoData);
 
 

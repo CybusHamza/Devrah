@@ -76,6 +76,7 @@ public class BoardsAdapter extends BaseAdapter {
                 intent.putExtra("TitleData",ListItemString);
                 intent.putExtra("p_id",projectsList.get(position).getId());
                 intent.putExtra("b_id",projectsList.get(position).getBoardID());
+                intent.putExtra("ptitle",activity.getIntent().getStringExtra("ptitle"));
 
                 activity.startActivity(intent);
 

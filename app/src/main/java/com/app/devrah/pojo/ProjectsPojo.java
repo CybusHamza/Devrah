@@ -8,7 +8,19 @@ public class ProjectsPojo {
 
 
 
-    public String data,boardID;
+    public String data;
+    public String boardID;
+    public String projectStatus;
+
+    public String getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(String projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+
 
     public String getBoardID() {
         return boardID;

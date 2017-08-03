@@ -1,11 +1,14 @@
 package com.app.devrah.Views;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -30,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.ProjectsPojo;
@@ -43,9 +47,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static com.app.devrah.Network.End_Points.GET_ALL_BOARD_LIST;
 
 public class BoardExtended extends AppCompatActivity {
+
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    ProgressDialog ringProgressDialog;
 
     ParentBoardExtendedFragment fragment;
     //FragmentBoardExtendedLast lastFrag;
@@ -55,7 +64,7 @@ public class BoardExtended extends AppCompatActivity {
     CustomViewPagerAdapter adapter;
     View logo;
     List<DrawerPojo> dataList;
-    String b_id, p_id;
+    String b_id, p_id,projectTitle;
     CustomDrawerAdapter DrawerAdapter;
      //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
@@ -83,11 +92,37 @@ public class BoardExtended extends AppCompatActivity {
         Intent intent = this.getIntent();
         b_id = intent.getStringExtra("b_id");
         p_id = intent.getStringExtra("p_id");
+        projectTitle = intent.getStringExtra("ptitle");
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         title = getIntent().getStringExtra("TitleData");
-        toolbar.setTitle(title);
+        //toolbar.setTitle(title);
+        final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
+        tv.setText(title);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setCursorVisible(true);
+                tv.setFocusableInTouchMode(true);
+                tv.setInputType(InputType.TYPE_CLASS_TEXT);
+                tv.requestFocus();
+                //tv.setText(tv.getText().toString());
+            }
+        });
+        tv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId==6 ) {
+                    tv.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                    UpdateBoardName(tv.getText().toString());
+
+                }
+                return true;
+            }
+        });
         // adapter = new CustomViewPagerAdapter(getFragmentManager(),getApplicationContext(),)
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
@@ -133,9 +168,11 @@ public class BoardExtended extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
-//                finish();
-//                startActivity(intent);
+                Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+                intent.putExtra("pid",p_id);
+                intent.putExtra("ptitle",projectTitle);
+                finish();
+                startActivity(intent);
                 onBackPressed();
             }
         });
@@ -147,6 +184,7 @@ public class BoardExtended extends AppCompatActivity {
 
         bundle.putString("b_id",b_id);
         bundle.putString("p_id",p_id);
+        bundle.putString("ptitle",projectTitle);
 
 
 
@@ -251,6 +289,12 @@ public class BoardExtended extends AppCompatActivity {
         if (isSearchOpened) {
             handleMenuSearch();
             return;
+        }else{
+            Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+            intent.putExtra("pid",p_id);
+            intent.putExtra("ptitle",projectTitle);
+            finish();
+            startActivity(intent);
         }
         super.onBackPressed();
     }
@@ -366,6 +410,75 @@ public class BoardExtended extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
         requestQueue.add(request);
     }
+    public void UpdateBoardName(final String updatedText) {
+        final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_BOARD_NAME,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("updt_txt", updatedText);
+                params.put("board_id", b_id);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this);
+        requestQueue.add(request);
+
+
+    }
 
 }
