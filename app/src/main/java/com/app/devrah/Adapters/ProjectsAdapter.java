@@ -16,9 +16,6 @@ import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
 
-/**
- * Created by AQSA SHaaPARR on 5/31/2017.
- */
 
 public class ProjectsAdapter extends BaseAdapter {
 

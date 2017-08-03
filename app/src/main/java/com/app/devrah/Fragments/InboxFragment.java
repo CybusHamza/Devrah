@@ -162,7 +162,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
     public void getNotifications(){
         SharedPreferences pref = getContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         final String userid=pref.getString("user_id","");
-        ringProgressDialog = ProgressDialog.show(getContext(), "Please wait ...","", true);
+        ringProgressDialog = ProgressDialog.show(getContext(), "","Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -173,13 +173,22 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
                         ringProgressDialog.dismiss();
                         try {
                             JSONArray array = new JSONArray(response);
-                            for (int i = 0;i<array.length();i++){
+                            for (int i = 0;i<array.length();i++)
+                            {
 
                                 JSONObject object = new JSONObject(array.getString(i));
 
                                 projectPojoData = new InboxPojo();
-                                projectPojoData.setData("Subject: "+object.getString("message_subject"));
-                                //projectPojoData.setId(object.getString("project_id"));
+                                projectPojoData.setId(object.getString("id"));
+                                projectPojoData.setB_id(object.getString("board_name"));
+                                projectPojoData.setCardif(object.getString("card_name"));
+                                projectPojoData.setDate(object.getString("datetime"));
+                                projectPojoData.setFrom(object.getString("email"));
+                                projectPojoData.setIsread(object.getString("is_read"));
+                                projectPojoData.setMessage(object.getString("message"));
+                                projectPojoData.setP_id(object.getString("project_name"));
+                                projectPojoData.setSubject(object.getString("message_subject"));
+
                                 listPojo.add(projectPojoData);
 
 
@@ -227,7 +236,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("user_id","2");
+                params.put("userId","2");
                 return params;
             }
         };

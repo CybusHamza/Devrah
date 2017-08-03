@@ -23,11 +23,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.SentMessagesAdapter;
+import com.app.devrah.Adapters.InboxAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.SendNewMessageActivity;
-import com.app.devrah.pojo.SentMessagesPojo;
+import com.app.devrah.pojo.InboxPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,29 +46,20 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Rizwan Butt on 14-Jun-17.
  */
 
-public class SentMessagesFragment extends Fragment implements View.OnClickListener{
-
-    Button btnSendNewMessage;
-    ProgressDialog ringProgressDialog;
+public class SentMessagesFragment extends Fragment implements View.OnClickListener {
 
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
-
-    View view;
-    SentMessagesAdapter adapter;
-    List<SentMessagesPojo> listPojo;
-    SentMessagesPojo projectPojoData;
-    ListView lv;
-    EditText edt;
-
-    String projectData;
-
-
-
-
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    Button btnSendNewMessage;
+    ProgressDialog ringProgressDialog;
+    View view;
+    InboxAdapter adapter;
+    List<InboxPojo> listPojo;
+    InboxPojo projectPojoData;
+    ListView lv;
+    EditText edt;
+    String projectData;
     private String mParam1;
     private String mParam2;
 
@@ -111,9 +102,9 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
         view = inflater.inflate(R.layout.fragment_sent_messages, container, false);
 
-         btnSendNewMessage = (Button)view.findViewById(R.id.buttonSendNewMessage);
+        btnSendNewMessage = (Button) view.findViewById(R.id.buttonSendNewMessage);
         listPojo = new ArrayList<>();
-        lv = (ListView)view.findViewById(R.id.sentMessagesListView);
+        lv = (ListView) view.findViewById(R.id.sentMessagesListView);
 
 
         sentMessages();
@@ -129,7 +120,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
         lv.setAdapter(adapter);*/
         btnSendNewMessage.setOnClickListener(this);
 
-        return  view;
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -153,11 +144,10 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
 
             case R.id.buttonSendNewMessage:
-                Intent intent=new Intent(getActivity(), SendNewMessageActivity.class);
+                Intent intent = new Intent(getActivity(), SendNewMessageActivity.class);
                 startActivity(intent);
                 // showDialog();
                 //Toast.makeText(getContext(),"Button Pressed",Toast.LENGTH_LONG).show();
@@ -167,14 +157,10 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
     }
 
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-    public void sentMessages(){
+    public void sentMessages() {
         SharedPreferences pref = getContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        final String userid=pref.getString("user_id","");
-        ringProgressDialog = ProgressDialog.show(getContext(), "Please wait ...","", true);
+        final String userid = pref.getString("user_id", "");
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -185,19 +171,26 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                         ringProgressDialog.dismiss();
                         try {
                             JSONArray array = new JSONArray(response);
-                            for (int i = 0;i<array.length();i++){
+                            for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject object = new JSONObject(array.getString(i));
 
-                                projectPojoData = new SentMessagesPojo();
-                                projectPojoData.setData("Subject: "+object.getString("message_subject"));
-                                //projectPojoData.setId(object.getString("project_id"));
+                                projectPojoData = new InboxPojo();
+                                projectPojoData.setId(object.getString("id"));
+                                projectPojoData.setB_id(object.getString("board_name"));
+                                projectPojoData.setCardif(object.getString("card_name"));
+                                projectPojoData.setDate(object.getString("datetime"));
+                                projectPojoData.setFrom(object.getString("email"));
+                                projectPojoData.setIsread(object.getString("is_read"));
+                                projectPojoData.setMessage(object.getString("message"));
+                                projectPojoData.setP_id(object.getString("project_name"));
+                                projectPojoData.setSubject(object.getString("message_subject"));
+
                                 listPojo.add(projectPojoData);
 
 
-
                             }
-                            adapter = new SentMessagesAdapter(getActivity(), listPojo);
+                            adapter = new InboxAdapter(getActivity(), listPojo);
                             lv.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -239,7 +232,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("user_id","2");
+                params.put("userId", "2");
                 return params;
             }
         };
@@ -251,5 +244,9 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(request);
 
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
 }

@@ -28,6 +28,13 @@ public class SendNewMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_new_message);
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Send New Message");
+
+
+
+
+
+
+
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

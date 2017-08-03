@@ -500,7 +500,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getActivity().getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(getActivity().getApplicationContext(), response, Toast.LENGTH_SHORT).show();
 
                         ringProgressDialog.dismiss();
                         if (response.equals("false")) {
@@ -529,7 +529,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                                     JSONObject object = new JSONObject(array.getString(i));
                                     spinnerValues.add(String.valueOf(object.get("pg_name")));
                                     spinnerGroupIds.add(String.valueOf(object.get("pg_id")));
-                                    Toast.makeText(getActivity().getApplicationContext(), spinnerValues.get(i), Toast.LENGTH_SHORT).show();
+                                   // Toast.makeText(getActivity().getApplicationContext(), spinnerValues.get(i), Toast.LENGTH_SHORT).show();
                                     //spinnerValues[i] = String.valueOf(object.get("pg_name"));
 
 //                                    projectPojoData = new ProjectsPojo();
