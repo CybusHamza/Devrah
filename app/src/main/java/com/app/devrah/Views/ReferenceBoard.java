@@ -224,9 +224,6 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
     public void  showDialog(){
 
-
-
-
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.custom_alert_dialogbox,null);
         final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -242,13 +239,6 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 String projectData = edt.getText().toString();
                 if (!(projectData.isEmpty())) {
                     AddNewReferenceBoard(projectData);
-                    /*ProjectsPojo projectPojoData = new ProjectsPojo();
-                    projectPojoData.setData(projectData);
-                    myList.add(projectPojoData);
-                    adapter = new BoardsAdapter(getActivity(), myList);
-
-
-                    lv.setAdapter(adapter);*/
 
                 }
                 else {
@@ -262,48 +252,6 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         });
         alertDialog.setView(customView);
         alertDialog.show();
-//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getContext());
-//        LayoutInflater inflater = this.getActivity().
-//                getLayoutInflater();
-//        final View dialogView = inflater.inflate(R.layout.alert_dialogbox_layout, null);
-//        dialogBuilder.setView(dialogView);
-//
-//        final EditText title = (EditText) dialogView.findViewById(R.id.get_data_alertBox);
-//
-//        dialogBuilder.setTitle("Custom dialog");
-//        dialogBuilder.setMessage("Enter text below");
-//        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                //do something with title.getText().toString();
-//                String projectData = title.getText().toString();
-//                if (!(projectData.isEmpty())) {
-//                    ProjectsPojo projectPojoData = new ProjectsPojo();
-//                    projectPojoData.setData(projectData);
-//                    myList.add(projectPojoData);
-//                    adapter = new BoardsAdapter(getActivity(), myList);
-//
-//
-//                    lv.setAdapter(adapter);
-//
-//                }
-//                else {
-//                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
-//
-//                }
-//                    dialog.dismiss();
-//
-//
-//            }
-//        });
-//        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                //pass
-//            }
-//        });
-//        AlertDialog b = dialogBuilder.create();
-//        b.show();
-
-
     }
 
     public  void Refrence()
