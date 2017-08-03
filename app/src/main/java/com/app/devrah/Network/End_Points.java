@@ -12,9 +12,9 @@ public class End_Points {
     public static final String GET_MEMBER_PROJECTS = BASE_URL + "getProjectsToMembers";
     public static final String UPDATE_PROJECT_NAME = BASE_URL + "updateProjectName";
     public static final String UPDATE_BOARD_NAME = BASE_URL + "updateBoardName";
-    public static final String GET_NOTIFICATIONS = BASE_URL + "getNotifications";
+    public static final String GET_NOTIFICATIONS = BASE_URL + "getMyMessages";
     public static final String GETMYCARDS = BASE_URL + "getMyCards/";
-    public static final String SENT_MESSAGES = BASE_URL + "sentMessages";
+    public static final String SENT_MESSAGES = BASE_URL + "getSentMessagesById";
     public static final String INSERT_TOKEN_ID = BASE_URL + "insertTokenid";
     public static final String GET_TEAMS = BASE_URL + "getAllTeams";
     public static final String GET_TEAM_MEMBERS_BY_ID = BASE_URL + "teamDetailById";
