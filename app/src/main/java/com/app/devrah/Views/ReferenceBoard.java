@@ -1,5 +1,6 @@
 package com.app.devrah.Views;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.BoardsAdapter;
+import com.app.devrah.Adapters.ReferenceBoardAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
 
@@ -60,7 +63,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
     ListView lv;
     Button btnAddWBoard;
     List<ProjectsPojo> myList;
-    BoardsAdapter adapter;
+    ReferenceBoardAdapter adapter;
     ImageView search;
     EditText etSearch;
     TextView tvReferenceBoard,hidentxt;
@@ -123,7 +126,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
         lv = (ListView)view.findViewById(R.id.lvRBoard);
         btnAddWBoard = (Button)view.findViewById(R.id.buttonAddRBoard);
-        myList = new ArrayList<>();
+
         btnAddWBoard.setOnClickListener(this);
 
         Bundle bundle = this.getArguments();
@@ -162,7 +165,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 /*leaveDatas.clear();
                 leaveDatas.addAll(filteredLeaves);
                 leaves_adapter.notifyDataSetChanged();*/
-                adapter = new BoardsAdapter(getActivity(),filteredLeaves);
+                adapter = new ReferenceBoardAdapter(getActivity(),filteredLeaves);
                 lv.setAdapter(adapter);
 
             }
@@ -238,13 +241,14 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
                 String projectData = edt.getText().toString();
                 if (!(projectData.isEmpty())) {
-                    ProjectsPojo projectPojoData = new ProjectsPojo();
+                    AddNewReferenceBoard(projectData);
+                    /*ProjectsPojo projectPojoData = new ProjectsPojo();
                     projectPojoData.setData(projectData);
                     myList.add(projectPojoData);
                     adapter = new BoardsAdapter(getActivity(), myList);
 
 
-                    lv.setAdapter(adapter);
+                    lv.setAdapter(adapter);*/
 
                 }
                 else {
@@ -304,11 +308,16 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
     public  void Refrence()
     {
-        StringRequest request = new StringRequest(Request.Method.POST,GET_REFRENCE_BOARD,
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GET_REFRENCE_BOARD,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        ringProgressDialog.dismiss();
+                        myList = new ArrayList<>();
                         if(response.equals("{\"nodata\":0}"))
                         {
                           hidentxt.setVisibility(View.VISIBLE);
@@ -334,7 +343,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
                             }
 
-                            adapter = new BoardsAdapter(getActivity(), myList);
+                            adapter = new ReferenceBoardAdapter(getActivity(), myList);
                             lv.setAdapter(adapter);
 
                         } catch (JSONException e) {
@@ -346,7 +355,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                ringProgressDialog.dismiss();
 //                ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
@@ -400,27 +409,75 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         requestQueue.add(request);
     }
 
+    public  void AddNewReferenceBoard(final String boardName) {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_REFERENCE_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        Refrence();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
 
 
+                    Toast.makeText(getActivity().getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("No Internet Connection")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                } else if (error instanceof TimeoutError) {
 
 
+                    Toast.makeText(getActivity().getApplicationContext(),"TimeOut eRROR",Toast.LENGTH_SHORT).show();
+//                    new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Error!")
+//                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                @Override
+//                                public void onClick(SweetAlertDialog sDialog) {
+//                                    sDialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
 
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
 
+                params.put("user_id", userId);
+                params.put("board_name",boardName );
+                params.put("project_id",projectid );
+                return params;
+            }
+        };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+    }
 
 
 }

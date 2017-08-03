@@ -41,5 +41,6 @@ public class End_Points {
     public static final String  GET_CARDS_FOR_LIST = BASE_URL + "cardsAssociationList";
 
     public static final String UPDATE_USER_PROFILE= BASE_URL + "updateUserProfile";
+    public static final String ADD_NEW_REFERENCE_BOARD= BASE_URL + "addNewReferenceBoard";
 
 }

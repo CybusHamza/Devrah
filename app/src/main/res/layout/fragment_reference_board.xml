@@ -12,7 +12,7 @@
         android:layout_weight="0"
 
         android:textColor="#000"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:padding="3dp"
         android:text="Reference Board"
@@ -71,5 +71,6 @@
         android:id="@+id/lvRBoard"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="18dp"
         android:layout_below="@+id/searchBar" />
 </RelativeLayout>
