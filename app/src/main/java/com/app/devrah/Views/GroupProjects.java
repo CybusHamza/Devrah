@@ -111,14 +111,14 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_projects, container, false);
-        addGrouProjects = (Button) view.findViewById(R.id.buttonAddGroupProject);
+     //   addGrouProjects = (Button) view.findViewById(R.id.buttonAddGroupProject);
         AddGroupProjectListView = (ListView) view.findViewById(R.id.groupProjectsListView);
         pojoList = new ArrayList<>();
 
         prepareDataList();
 
         expandableLv = (ExpandableListView) view.findViewById(R.id.lvExp);
-        addGrouProjects.setOnClickListener(this);
+//        addGrouProjects.setOnClickListener(this);
         // Inflate the layout for this fragment
         return view;
 
@@ -141,7 +141,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
+       /* switch (v.getId()) {
             case R.id.buttonAddGroupProject:
                 //  Toast.makeText(getContext(),"Button Pressed", Toast.LENGTH_LONG).show();
                 showDialog();
@@ -149,7 +149,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
 
         }
 
-
+*/
     }
 
     public interface OnFragmentInteractionListener {
