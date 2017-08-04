@@ -42,5 +42,6 @@ public class End_Points {
 
     public static final String UPDATE_USER_PROFILE= BASE_URL + "updateUserProfile";
     public static final String ADD_NEW_REFERENCE_BOARD= BASE_URL + "addNewReferenceBoard";
+    public static final String SAVE_NEW_LIST_BY_BOARD_ID= BASE_URL + "saveNewListByBoardId";
 
 }

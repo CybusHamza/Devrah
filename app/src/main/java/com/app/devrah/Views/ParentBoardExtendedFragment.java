@@ -16,8 +16,8 @@ import com.app.devrah.R;
 
 public class ParentBoardExtendedFragment extends Fragment {
 
-      private static final String b_id = "b_id";
-    private static final String p_id = "p_id";
+      public static final String b_id = "b_id";
+    public static final String p_id = "p_id";
     int selectedTabPosition;
 
    public static CustomViewPagerAdapter adapter;
@@ -77,6 +77,8 @@ public class ParentBoardExtendedFragment extends Fragment {
 
         viewPager.setAdapter(adapter);
        LastItemBoardFragment fragment = new LastItemBoardFragment();
+
+
 //        adapter.addLast(fragment);
 
 
@@ -109,6 +111,10 @@ public class ParentBoardExtendedFragment extends Fragment {
 
         public static void addPageAt(int positiom){
             LastItemBoardFragment fragment = new LastItemBoardFragment();
+            Bundle bundl = new Bundle();
+            bundl.putString("p_id", p_id1);
+            bundl.putString("b_id", b_id1);
+            fragment.setArguments(bundl);
            // adapter.addFrag(fragment,"");
         adapter.addFragAt(fragment,positiom);
         }

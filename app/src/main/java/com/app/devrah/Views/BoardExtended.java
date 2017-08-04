@@ -65,6 +65,8 @@ public class BoardExtended extends AppCompatActivity {
     View logo;
     List<DrawerPojo> dataList;
     String b_id, p_id,projectTitle;
+    public static String projectId="";
+    public static String boardId="";
     CustomDrawerAdapter DrawerAdapter;
      //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
@@ -93,6 +95,8 @@ public class BoardExtended extends AppCompatActivity {
         b_id = intent.getStringExtra("b_id");
         p_id = intent.getStringExtra("p_id");
         projectTitle = intent.getStringExtra("ptitle");
+        projectId=p_id;
+        boardId=b_id;
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
