@@ -151,7 +151,6 @@ public class LastItemBoardFragment extends Fragment {
 //                fragment = new ParentBoardExtendedFragment().
 //                LastItemBoardFragment.this.getFragmentManager()
 //                        .findFragmentById(R.id.ajeebFrag);
-
 //                 fragment = LastItemBoardFragment.this.getFragmentManager().findFragmentById()
 
 //                fragment = (ParentBoardExtendedFragment) new ParentBoardExtendedFragment().getFragmentManager().findFragmentById(R.id.ajeebFrag);
