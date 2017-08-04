@@ -20,7 +20,7 @@
         android:dividerHeight="7dp"
         android:layout_width="match_parent"/>
 
-
+<!--
     <Button
         android:id="@+id/buttonAddGroupProject"
         android:layout_width="32dp"
@@ -31,7 +31,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="10dp"
-        />
+        />-->
 
 
 </RelativeLayout>
