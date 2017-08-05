@@ -58,7 +58,6 @@ public class ChildFragmentBoardExtended extends Fragment {
     ProjectsPojo boardsFragmentPojoData;
     ListView lv;
 
-
     String id,p_id,b_id,list_id;
 
 
