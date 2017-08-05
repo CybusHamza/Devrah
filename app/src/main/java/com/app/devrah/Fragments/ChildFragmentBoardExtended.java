@@ -160,7 +160,6 @@ public class ChildFragmentBoardExtended extends Fragment {
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
