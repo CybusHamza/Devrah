@@ -1,5 +1,6 @@
 package com.app.devrah.Fragments;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Adapters.FragmentBoardsAdapter;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import org.json.JSONArray;
@@ -37,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.GET_CARDS_FOR_LIST;
 
 
@@ -56,7 +59,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     ListView lv;
 
 
-    String id,p_id,b_id;
+    String id,p_id,b_id,list_id;
 
 
     private OnFragmentInteractionListener mListener;
@@ -94,17 +97,18 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
 
-        listPojo = new ArrayList<>();
+
         tvAddCard = (TextView)view.findViewById(R.id.addCard);
         Bundle bundle = this.getArguments();
         childname = bundle.getString("data");
         p_id = bundle.getString("p_id");
         b_id = bundle.getString("b_id");
-
+        list_id = bundle.getString("list_id");
 
 
         tvName.setText(childname);
 
+        getList(list_id);
 
         lv = (ListView) view.findViewById(R.id.boardFragmentListView);
         boardMenu.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +215,8 @@ public class ChildFragmentBoardExtended extends Fragment {
     }
 
 
-    public void getList() {
+    public void getList(final String lsitId) {
+        final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, GET_CARDS_FOR_LIST,
                 new Response.Listener<String>() {
                     @Override
@@ -220,7 +225,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                         if (!(response.equals("false"))) {
 
-
+                            listPojo = new ArrayList<>();
 
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
@@ -233,12 +238,12 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                                     projectsPojo.setId(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("card_name"));
-
-
+                                    listPojo.add(projectsPojo);
 
                                 }
 
-
+                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
+                                lv.setAdapter(adapter);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -270,9 +275,10 @@ public class ChildFragmentBoardExtended extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("board_id", b_id);
-                params.put("project_id", p_id);
-               /*   params.put("userId",strPassword );*/
+                params.put("board_id", BoardExtended.boardId);
+                params.put("project_id", BoardExtended.projectId);
+                 params.put("userId", pref.getString("user_id",""));
+                 params.put("list_id", lsitId);
                 return params;
             }
         };

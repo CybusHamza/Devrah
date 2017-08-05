@@ -32,35 +32,36 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp" />
-
-
-
-
-
-
-
-
+<LinearLayout
+    android:id="@+id/layoutListView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/textName"
+    android:orientation="vertical">
     <ListView
         android:id="@+id/boardFragmentListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:layout_below="@+id/textName"
-
         android:background="#DCDCDC"
-        android:dividerHeight="3dp" />
-
-
+        android:dividerHeight="3dp"
+        android:layout_weight="1"
+        />
     <TextView
         android:id="@+id/addCard"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/boardFragmentListView"
+        android:layout_weight="0"
         android:background="@drawable/bg_boards_extended_list"
         android:gravity="center"
         android:padding="5dp"
         android:text="Add Card"
-        android:textColor="#00FA9A" />
+        android:textColor="#00FA9A"
+        />
+</LinearLayout>
+
+
+
 
 
 </RelativeLayout>

@@ -28,6 +28,7 @@ public class ParentBoardExtendedFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private static String b_id1;
     private static String p_id1;
+    private static String list_id1;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,6 +72,7 @@ public class ParentBoardExtendedFragment extends Fragment {
         {
             b_id1 = bundle.getString("p_id");
             p_id1 = bundle.getString("b_id");
+            list_id1 = bundle.getString("list_id");
         }
 
 
@@ -118,12 +120,13 @@ public class ParentBoardExtendedFragment extends Fragment {
            // adapter.addFrag(fragment,"");
         adapter.addFragAt(fragment,positiom);
         }
-    public static void addPage(String pagename) {
+    public static void addPage(String pagename,String p_id1,String b_id1,String list_id1) {
        //this.adapter = adapter;
         Bundle bundle = new Bundle();
         bundle.putString("data", pagename);
         bundle.putString("p_id", p_id1);
         bundle.putString("b_id", b_id1);
+        bundle.putString("list_id", list_id1);
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         fragmentChild.setArguments(bundle);
         adapter.addFrag(fragmentChild, pagename);
@@ -153,6 +156,9 @@ public class ParentBoardExtendedFragment extends Fragment {
     public static void addPageAt(String pagename,int position) {
         //this.adapter = adapter;
         Bundle bundle = new Bundle();
+        bundle.putString("p_id", p_id1);
+        bundle.putString("b_id", b_id1);
+        bundle.putString("list_id", list_id1);
         bundle.putString("data", pagename);
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         fragmentChild.setArguments(bundle);

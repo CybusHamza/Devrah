@@ -64,9 +64,9 @@ public class BoardExtended extends AppCompatActivity {
     CustomViewPagerAdapter adapter;
     View logo;
     List<DrawerPojo> dataList;
-    String b_id, p_id,projectTitle;
-    public static String projectId="";
-    public static String boardId="";
+    String b_id, p_id,projectTitle,list_id;
+    public static String projectId;
+    public static String boardId;
     CustomDrawerAdapter DrawerAdapter;
      //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
@@ -94,6 +94,7 @@ public class BoardExtended extends AppCompatActivity {
         Intent intent = this.getIntent();
         b_id = intent.getStringExtra("b_id");
         p_id = intent.getStringExtra("p_id");
+        list_id = intent.getStringExtra("list_id");
         projectTitle = intent.getStringExtra("ptitle");
         projectId=p_id;
         boardId=b_id;
@@ -188,6 +189,7 @@ public class BoardExtended extends AppCompatActivity {
 
         bundle.putString("b_id",b_id);
         bundle.putString("p_id",p_id);
+        bundle.putString("list_id",list_id);
         bundle.putString("ptitle",projectTitle);
 
 
@@ -342,8 +344,9 @@ public class BoardExtended extends AppCompatActivity {
 
                                     projectsPojo.setId(jsonObject.getString("list_id"));
                                     projectsPojo.setData(jsonObject.getString("list_name"));
+                                    projectsPojo.setListId(jsonObject.getString("list_id"));
 
-                                    ParentBoardExtendedFragment.addPage(jsonObject.getString("list_name"));
+                                    ParentBoardExtendedFragment.addPage(jsonObject.getString("list_name"),p_id,b_id,jsonObject.getString("list_id"));
                                //     parentBoardExtendedFragment.setArguments(bundle);
 
                                 }

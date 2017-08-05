@@ -52,6 +52,9 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
     public float getPageWidth(int position) {
         return 0.8f;
     }
+    /*public static int getCustomPosition(){
+        return position;
+    }*/
 
     @Override
     public Fragment getItem(int position) {

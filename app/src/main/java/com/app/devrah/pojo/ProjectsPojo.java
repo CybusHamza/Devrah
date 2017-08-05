@@ -12,6 +12,16 @@ public class ProjectsPojo {
     public String boardID;
     public String projectStatus;
 
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
+    public String listId;
+
     public String getProjectStatus() {
         return projectStatus;
     }

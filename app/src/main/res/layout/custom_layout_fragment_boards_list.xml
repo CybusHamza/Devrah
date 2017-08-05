@@ -3,9 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="#fff"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_margin="10dp"
+        android:id="@+id/cardImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/labelsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardImage"
+        />
+
 
     <TextView
+        android:layout_below="@id/labelsListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
@@ -26,5 +40,23 @@
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="5dp"
         app:srcCompat="@drawable/star_default" />
+    <TextView
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:text="test"
+        android:id="@+id/dateLabel"
+        android:textColor="#000"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/dateLabel"
+        android:id="@+id/membersListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       />
+
 
 </RelativeLayout>
