@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         final BoardsAdapter.ViewHolder holder = new BoardsAdapter.ViewHolder();
 
@@ -66,6 +67,13 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             convertView = inflater.inflate(R.layout.custom_layout_fragment_boards_list, null);
 
         holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
+        holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
+        if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
+            holder.attachment.setVisibility(View.VISIBLE);
+            Picasso.with(activity)
+                    .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + projectsList.get(position).getAttachment())
+                    .into(holder.attachment);
+        }
         holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +101,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity,CardActivity.class);
                 intent.putExtra("CardHeaderData",BoardsListData);
+                intent.putExtra("card_id",projectsList.get(position).getId());
                 activity.startActivity(intent);
 
             }
@@ -105,6 +114,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     public static class ViewHolder{
         TextView data;
         ImageView favouriteIcon;
+        ImageView attachment;
 
     }
 

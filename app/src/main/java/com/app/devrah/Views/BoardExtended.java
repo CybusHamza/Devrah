@@ -367,35 +367,45 @@ public class BoardExtended extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-//                ringProgressDialog.dismiss();
+//             ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(BoardExtended.this.getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
-//                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
-//                            .setTitleText("Error!")
-//                            .setConfirmText("OK").setContentText("No Internet Connection")
-//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                                @Override
-//                                public void onClick(SweetAlertDialog sDialog) {
-//                                    sDialog.dismiss();
-//                                }
-//                            })
-//                            .show();
+                    Toast.makeText(BoardExtended.this, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+                                    intent.putExtra("pid",p_id);
+                                    intent.putExtra("ptitle",projectTitle);
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
                 } else if (error instanceof TimeoutError) {
 
 
-                    Toast.makeText(BoardExtended.this.getApplicationContext(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
-//                    new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
-//                            .setTitleText("Error!")
-//                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
-//                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                                @Override
-//                                public void onClick(SweetAlertDialog sDialog) {
-//                                    sDialog.dismiss();
-//                                }
-//                            })
-//                            .show();
+                    Toast.makeText(BoardExtended.this, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+                                    intent.putExtra("pid",p_id);
+                                    intent.putExtra("ptitle",projectTitle);
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
                 }
             }
         }) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -67,6 +68,7 @@ public class BoardsAdapter extends BaseAdapter {
         holder.data = (TextView) convertView.findViewById(R.id.tvBoardsData);
         ListItemString = projectsList.get(position).getData();
         holder.data.setText(ListItemString);
+        holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,16 +92,8 @@ public class BoardsAdapter extends BaseAdapter {
 
     public static class ViewHolder{
         TextView data;
-        ImageView favouriteIcon;
+        ImageView favouriteIcon,attachment;
     }
-
-
-
-
-
-
-
-
 
 
 }

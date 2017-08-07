@@ -1,5 +1,6 @@
 package com.app.devrah.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,8 +40,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.GET_CARDS_FOR_LIST;
+import static com.app.devrah.Network.End_Points.SAVE_CARD_BY_LIST_ID;
 
 
 public class ChildFragmentBoardExtended extends Fragment {
@@ -58,7 +62,11 @@ public class ChildFragmentBoardExtended extends Fragment {
     ProjectsPojo boardsFragmentPojoData;
     ListView lv;
 
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    ProgressDialog ringProgressDialog;
+
     String id,p_id,b_id,list_id;
+    int row;
 
 
     private OnFragmentInteractionListener mListener;
@@ -103,11 +111,11 @@ public class ChildFragmentBoardExtended extends Fragment {
         p_id = bundle.getString("p_id");
         b_id = bundle.getString("b_id");
         list_id = bundle.getString("list_id");
-
+        row=0;
 
         tvName.setText(childname);
 
-        getList(list_id);
+        getCardList(list_id);
 
         lv = (ListView) view.findViewById(R.id.boardFragmentListView);
         boardMenu.setOnClickListener(new View.OnClickListener() {
@@ -189,13 +197,15 @@ public class ChildFragmentBoardExtended extends Fragment {
                 String  boardsFragmentData = edt.getText().toString();
 
                 if (!(boardsFragmentData.isEmpty())) {
-                    boardsFragmentPojoData = new ProjectsPojo();
+                   /* boardsFragmentPojoData = new ProjectsPojo();
                     boardsFragmentPojoData.setData(boardsFragmentData);
                     listPojo.add(boardsFragmentPojoData);
                     adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
 
 
-                    lv.setAdapter(adapter);
+                    lv.setAdapter(adapter);*/
+                   row++;
+                   saveCardByListId(boardsFragmentData,row);
                 }
                 else {
                     Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
@@ -213,7 +223,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     }
 
 
-    public void getList(final String lsitId) {
+    public void getCardList(final String lsitId) {
         final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, GET_CARDS_FOR_LIST,
                 new Response.Listener<String>() {
@@ -228,7 +238,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
 
-
+                                row=jsonArray.length();
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
@@ -236,6 +246,8 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                                     projectsPojo.setId(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("card_name"));
+                                    projectsPojo.setAttachment(jsonObject.getString("file_name"));
+
                                     listPojo.add(projectsPojo);
 
                                 }
@@ -260,12 +272,32 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
                     Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
-
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();
                 } else if (error instanceof TimeoutError) {
 
 
                     Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
-
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();
                 }
             }
         }) {
@@ -277,6 +309,87 @@ public class ChildFragmentBoardExtended extends Fragment {
                 params.put("project_id", BoardExtended.projectId);
                  params.put("userId", pref.getString("user_id",""));
                  params.put("list_id", lsitId);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+    }
+    public void saveCardByListId(final String cardName, final int row) {
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, SAVE_CARD_BY_LIST_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        if (!(response.equals("false"))) {
+                            boardsFragmentPojoData = new ProjectsPojo();
+                            boardsFragmentPojoData.setData(cardName);
+                            listPojo.add(boardsFragmentPojoData);
+                            adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
+
+
+                            lv.setAdapter(adapter);
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", BoardExtended.boardId);
+                params.put("prjct_id", BoardExtended.projectId);
+                params.put("userId", pref.getString("user_id",""));
+                params.put("list_id", list_id);
+                params.put("name", cardName);
+                params.put("row", String.valueOf(row));
                 return params;
             }
         };

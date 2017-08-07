@@ -1,26 +1,13 @@
 package com.app.devrah.pojo;
 
 /**
- * Created by AQSA SHaaPARR on 5/31/2017.
+ * Created by Rizwan Butt on 07-Aug-17.
  */
 
-public class ProjectsPojo {
-
-
-
+public class BoardsPojo {
     public String data;
     public String boardID;
     public String projectStatus;
-
-    public String getAttachment() {
-        return attachment;
-    }
-
-    public void setAttachment(String attachment) {
-        this.attachment = attachment;
-    }
-
-    public String attachment;
 
     public String getListId() {
         return listId;
@@ -70,11 +57,11 @@ public class ProjectsPojo {
 
     public String id;
 
-    ProjectsPojo(String Data){
+    BoardsPojo(String Data){
         this.data=Data;
 
     }
-   public ProjectsPojo(){
+    public BoardsPojo(){
 
     }
 
@@ -86,8 +73,4 @@ public class ProjectsPojo {
     public void setData(String data) {
         this.data = data;
     }
-
-
-
-
 }
