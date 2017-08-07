@@ -1,27 +1,83 @@
 package com.app.devrah.Views;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import jp.wasabeef.richeditor.RichEditor;
+
+import static com.app.devrah.R.id.editor;
 
 public class SendNewMessageActivity extends AppCompatActivity {
 
     private RichEditor mEditor;
     private TextView mPreview;
     Toolbar toolbar;
+    EditText to,subject;
+    Spinner project,card,board;
+    Button send,cancel;
+
+    String message;
+
+    // projects arraylist
+
+    ArrayList<String> project_name ;
+    ArrayList<String> project_ids ;
+
+   // boards arraylist
+
+    ArrayList<String> boards_name ;
+    ArrayList<String> boards_ids ;
+
+    // cards arraylist
+
+    ArrayList<String> cards_name ;
+    ArrayList<String> cards_ids ;
+
+    long p_pos,b_pos,c_pos;
+
+    String strSubject ,strTO ,strproject,strboard,strcard;
+
+
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,16 +85,90 @@ public class SendNewMessageActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Send New Message");
 
+        to = (EditText) findViewById(R.id.etEmails);
+        subject = (EditText) findViewById(R.id.etSubject);
+        mEditor = (RichEditor) findViewById(R.id.editor);
+        project = (Spinner) findViewById(R.id.projectSpinner);
+        card = (Spinner) findViewById(R.id.cardSpinner);
+        board = (Spinner) findViewById(R.id.boardSpinner);
+        send = (Button) findViewById(R.id.send_button);
+        cancel = (Button) findViewById(R.id.cancel_button);
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                p_pos = project.getSelectedItemPosition();
+                b_pos = board.getSelectedItemPosition();
+                c_pos = card.getSelectedItemPosition();
+
+
+                strSubject = subject.getText().toString();
+                strTO = to.getText().toString();
+
+                if(c_pos == 0 ||c_pos ==-1 )
+                {
+                    strcard= "";
+
+                }
+                else {
+                    strcard =  cards_ids.get((int) p_pos);
+                }
+
+                if(b_pos == 0 ||b_pos ==-1  )
+                {
+                    strboard = "";
+                } else {
+                    strboard =  boards_ids.get((int) p_pos);
+                }
+
+                if(p_pos == 0||p_pos ==-1  )
+                {
+                    strproject = "" ;
+                } else {
+                    strproject = project_ids.get((int) p_pos);
+                }
+
+                if(subject.getText().toString().equals("") || to .getText().toString().equals(""))
+                {
+                    Toast.makeText(SendNewMessageActivity.this, "Fields are missing", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    sendMessage();
+                }
 
 
 
 
 
+            }
+        });
+
+
+        mEditor. setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
+            @Override
+            public void onTextChange(String text) {
+                // Do Something
+
+                message = text;
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+            }
+        });
+
+        getProjects();
 
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mEditor = (RichEditor) findViewById(R.id.editor);
+        mEditor = (RichEditor) findViewById(editor);
         mEditor.setEditorHeight(200);
         mEditor.setEditorFontSize(22);
         mEditor.setEditorFontColor(Color.BLACK);
@@ -268,4 +398,445 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    public void sendMessage () {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEND_NEW_MESSAGE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    ringProgressDialog.dismiss();
+
+                        finish();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+
+                Map<String, String> params = new HashMap<>();
+
+                SharedPreferences pref =getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+
+
+                params.put("messageContent",message);
+                params.put("subjct_email",strSubject);
+                params.put("userId",userId);
+                params.put("listofuserids",strTO);
+                params.put("add_msg_prjct",strproject);
+                params.put("add_msg_brd",strboard);
+                params.put("add_msg_crd",strcard);
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(SendNewMessageActivity.this);
+        requestQueue.add(request);
+
+
+    }
+
+
+    public void getProjects() {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_MEMBER_PROJECTS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        project_name = new ArrayList<>();
+                        project_ids = new ArrayList<>();
+
+                        project_name.add(0,"Select");
+                        project_ids.add(0,"0");
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0 ; i < jsonArray.length();i++)
+                            {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                project_name.add(jsonObject.getString("project_name"));
+                                project_ids.add(jsonObject.getString("project_id"));
+
+                            }
+
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (SendNewMessageActivity.this,android.R.layout.simple_spinner_dropdown_item,project_name);
+
+                            project.setAdapter(dataAdapter);
+
+                            project.setOnItemSelectedListener(new CustomOnItemSelectedListener_projects());
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref =getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("id", userId);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(SendNewMessageActivity.this);
+        requestQueue.add(request);
+
+
+    }
+
+    public void getBorads(final String p_Id) {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_WORK_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        boards_ids = new ArrayList<>();
+                        boards_name = new ArrayList<>();
+
+                        boards_name.add(0,"Select");
+                        boards_ids.add(0,"0");
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0 ; i < jsonArray.length();i++)
+                            {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                boards_name.add(jsonObject.getString("board_name"));
+                                boards_ids.add(jsonObject.getString("id"));
+
+                            }
+
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (SendNewMessageActivity.this,android.R.layout.simple_spinner_dropdown_item,boards_name);
+
+                            board.setAdapter(dataAdapter);
+
+                            board.setOnItemSelectedListener(new CustomOnItemSelectedListener_boards());
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("p_id",p_Id);
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(SendNewMessageActivity.this);
+        requestQueue.add(request);
+
+
+    }
+
+    public void getcards ( final String board_id) {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_ALL_CARDS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        cards_ids = new ArrayList<>();
+                        cards_name = new ArrayList<>();
+
+                        cards_name.add(0,"Select");
+                        cards_ids.add(0,"0");
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0 ; i < jsonArray.length();i++)
+                            {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                cards_name.add(jsonObject.getString("card_name"));
+                                cards_ids.add(jsonObject.getString("id"));
+
+                            }
+
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (SendNewMessageActivity.this,android.R.layout.simple_spinner_dropdown_item,cards_name);
+
+                            card.setAdapter(dataAdapter);
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("brd_id",board_id);
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(SendNewMessageActivity.this);
+        requestQueue.add(request);
+
+
+    }
+
+
+
+    public class CustomOnItemSelectedListener_projects implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, final int pos,
+                                   long id) {
+
+            if(pos == 0)
+            {
+                Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                getBorads(project_ids.get(pos));
+            }
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
+
+    public class CustomOnItemSelectedListener_boards implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, final int pos,
+                                   long id) {
+
+            if(pos == 0)
+            {
+                Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                getcards(boards_ids.get(pos));
+            }
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
+
 }

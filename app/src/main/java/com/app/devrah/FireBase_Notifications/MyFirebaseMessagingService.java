@@ -25,9 +25,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        //  showNotification(remoteMessage.getData().get(""), remoteMessage.getData().get("body"),remoteMessage.getData().get("important"));
+         showNotification(remoteMessage.getData().get(""), remoteMessage.getData().get("body"),remoteMessage.getData().get("important"));
 
-        //   showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),"important");
+           //showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),"important");
 
         // Volley_helper volley_helper = new Volley_helper();
         Intent intent = null;

@@ -15,6 +15,7 @@ public class End_Points {
     public static final String GET_NOTIFICATIONS = BASE_URL + "getMyMessages";
     public static final String GETMYCARDS = BASE_URL + "getMyCards/";
     public static final String SENT_MESSAGES = BASE_URL + "getSentMessagesById";
+    public static final String SEND_NEW_MESSAGE = BASE_URL + "sendMessage";
     public static final String INSERT_TOKEN_ID = BASE_URL + "insertTokenid";
     public static final String GET_TEAMS = BASE_URL + "getAllTeams";
     public static final String GET_TEAM_MEMBERS_BY_ID = BASE_URL + "teamDetailById";
@@ -43,6 +44,8 @@ public class End_Points {
     public static final String UPDATE_USER_PROFILE= BASE_URL + "updateUserProfile";
     public static final String ADD_NEW_REFERENCE_BOARD= BASE_URL + "addNewReferenceBoard";
     public static final String SAVE_NEW_LIST_BY_BOARD_ID= BASE_URL + "saveNewListByBoardId";
+    public static final String GET_ALL_PROJECS= BASE_URL + "getAllMyProjects";
+    public static final String GET_ALL_CARDS= BASE_URL + "getCardsByBoards";
     public static final String SAVE_CARD_BY_LIST_ID= BASE_URL + "saveCardByListId";
 
 }

@@ -41,8 +41,6 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
 
-
-
         tvTime = (TextView) findViewById(R.id.tvTime);
         tvQuote = (TextView) findViewById(R.id.tvQuote);
         imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
@@ -76,7 +74,7 @@ public class Dashboard extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), ProjectsActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
         imgFavourites.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +83,7 @@ public class Dashboard extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
         imgMyCards.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +93,7 @@ public class Dashboard extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), MyCardsActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
         imgNotifications.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +103,7 @@ public class Dashboard extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
         imgInbox.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +113,7 @@ public class Dashboard extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), MessagesActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
         imgMenu.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +124,7 @@ public class Dashboard extends AppCompatActivity {
 
                 //  Intent intent = new Intent(getApplicationContext(), CreateNewTeamActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
         imgProfile.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +150,7 @@ public class Dashboard extends AppCompatActivity {
                                         editor.apply();
                                         Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
                                         startActivity(logOutIntent);
-                                        finish();
+
 
                                         break;
                                     case 2:
