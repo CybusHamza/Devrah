@@ -316,12 +316,16 @@ public class BoardExtended extends AppCompatActivity {
     }
 
     public void getList() {
+
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, GET_ALL_BOARD_LIST,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-
+                        ringProgressDialog.dismiss();
 
                         if (response.equals("false")) {
                             ParentBoardExtendedFragment.removeAllFrags();
@@ -366,8 +370,7 @@ public class BoardExtended extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-//             ringProgressDialog.dismiss();
+                ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
 

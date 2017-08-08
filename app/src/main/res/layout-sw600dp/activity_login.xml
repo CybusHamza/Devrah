@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/bg_signup"
     android:layout_height="match_parent"
-    tools:context="com.app.devrah.Views.Login">
+    tools:context="com.app.devrah.Views.Login"
+    android:orientation="vertical">
 
 
 
@@ -22,11 +22,11 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/input_watever"
+            android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:hint="Email or Username"
             android:backgroundTint="#fff"
-            android:textColor="@color/colorAccent"
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             />
 
@@ -45,11 +45,11 @@
         <EditText
             android:id="@+id/input_password"
             android:layout_width="match_parent"
-            android:textColor="@color/colorAccent"
-            android:hint="Password"
-            android:backgroundTint="#fff"
             android:layout_height="wrap_content"
-            />
+            android:backgroundTint="#fff"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="#fff" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -65,10 +65,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CANCEL"
+            android:id="@+id/tvCancel"
             android:layout_marginRight="20dp"
             android:textColor="#fff"
             android:textSize="15sp"/>
         <Button
+            android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_btn_create_signup"
@@ -80,26 +82,66 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password"
+            android:textStyle="bold"
+
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"/>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:layout_width="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            android:text="Remember me"
+            android:layout_weight="0.5"
+            android:id="@+id/cbrememberMe"
+            />
+
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        android:layout_weight="1">
 
+
+        <Button
+            android:id="@+id/btn_signup"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:background="@drawable/bg_btn_create_signup"
+            android:text="SignUp"
+            android:layout_gravity="bottom"
+            android:textColor="#fff"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:id="@+id/imgViewGSignIn"
+            android:layout_width="600dp"
             android:layout_height="63dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="-5dp"
 
             android:src="@drawable/bg_btn_signup_loginwith_gmail" />
     </LinearLayout>
-
-
-
-
 
 </LinearLayout>

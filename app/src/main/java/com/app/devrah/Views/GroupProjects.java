@@ -112,7 +112,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_projects, container, false);
      //   addGrouProjects = (Button) view.findViewById(R.id.buttonAddGroupProject);
-        AddGroupProjectListView = (ListView) view.findViewById(R.id.groupProjectsListView);
+      //  AddGroupProjectListView = (ListView) view.findViewById(R.id.groupProjectsListView);
         pojoList = new ArrayList<>();
 
         prepareDataList();

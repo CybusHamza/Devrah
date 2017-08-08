@@ -228,7 +228,7 @@
         android:textSize="15sp"
         android:padding="5dp"
         android:layout_marginTop="10dp"
-        android:text="test"
+        android:text="due date"
         android:id="@+id/dateLabel"
         android:textColor="#000"
         />

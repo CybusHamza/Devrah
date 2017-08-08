@@ -47,6 +47,11 @@ public class End_Points {
     public static final String GET_ALL_PROJECS= BASE_URL + "getAllMyProjects";
     public static final String GET_ALL_CARDS= BASE_URL + "getCardsByBoards";
     public static final String SAVE_CARD_BY_LIST_ID= BASE_URL + "saveCardByListId";
+    public static final String GET_MEMBERS_PROJECT= BASE_URL + "getAllProjectMembers";
+    public static final String LEAVE_PROJECT= BASE_URL + "leave_project";
+    public static final String PROJECT_STATUS= BASE_URL + "updateProjectStatus";
+    public static final String COPY_PROJECT= BASE_URL + "copyInGroup";
+    public static final String MOVE_PROJECT= BASE_URL + "moveInGroup";
     public static final String GET_CARD_ASSOC_LABELS= BASE_URL + "getBoardAssociatedCardLabels";
 
 }

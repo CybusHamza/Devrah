@@ -27,10 +27,6 @@
         android:layout_height="62dp"
         app:tabMode="fixed"
         app:tabGravity="fill"
-
-
-        app:tabMaxWidth="0dp"
-
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 

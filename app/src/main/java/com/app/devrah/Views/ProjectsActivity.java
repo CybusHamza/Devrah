@@ -36,35 +36,34 @@ import java.util.List;
 
 public class ProjectsActivity extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     Toolbar toolbar;
-
-   // DrawerPojo drawerPojo;
-   List<DrawerPojo> dataList;
-
-    private MenuItem mSearchAction,mDrawer;
-    private boolean isSearchOpened = false;
-    private EditText edtSeach;
+    // DrawerPojo drawerPojo;
+    List<DrawerPojo> dataList;
     String title;
     View logo;
     CustomDrawerAdapter adapter;
-    private ListView mDrawerList;
- //   NavigationDrawerFragment drawerFragment;
+    //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
 //            R.drawable.bg_dashboard_project,
 //          //  R.drawable.ic_tab_contacts
 //    };
- DrawerLayout drawerLayout;
+    DrawerLayout drawerLayout;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private MenuItem mSearchAction, mDrawer;
+    private boolean isSearchOpened = false;
+    private EditText edtSeach;
+    private ListView mDrawerList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
 
 
-         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList= (ListView) findViewById(R.id.left_drawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 //        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 //                GravityCompat.START);
 
@@ -82,16 +81,18 @@ public class ProjectsActivity extends AppCompatActivity {
         });*/
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       // drawerPojo = new DrawerPojo();
+        // drawerPojo = new DrawerPojo();
 
         dataList = new ArrayList<>();
-   View header = getLayoutInflater().inflate(R.layout.header_for_drawer,null);
+        View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
 
         dataList.add(new DrawerPojo("Create New Team"));
+        dataList.add(new DrawerPojo("Copy Project"));
+        dataList.add(new DrawerPojo("Move Project"));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
-        edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
+        edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
         toolbar.inflateMenu(R.menu.search_menu);
 
         openDrawer();
@@ -101,7 +102,7 @@ public class ProjectsActivity extends AppCompatActivity {
 //        mDrawerList.setAdapter(adapter);
 //        //drawerFragment = new NavigationDrawerFragment();
 
-       // drawerFragment.setup((DrawerLayout) findViewById(R.id.drawerlayout), toolbar);
+        // drawerFragment.setup((DrawerLayout) findViewById(R.id.drawerlayout), toolbar);
 
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -120,7 +121,7 @@ public class ProjectsActivity extends AppCompatActivity {
 
                         openDrawer();
 
-                        Toast.makeText(getApplicationContext(),"Menu",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                         return true;
                 }
 
@@ -132,13 +133,12 @@ public class ProjectsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ProjectsActivity.this,Dashboard.class);
+                Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
                 finish();
                 startActivity(intent);
-              //  onBackPressed();
+                //  onBackPressed();
             }
         });
-
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -178,37 +178,18 @@ public class ProjectsActivity extends AppCompatActivity {
         adapter.addFrag(new Projects(), "Projects");
         adapter.addFrag(new GroupProjects(), "Group Projects");
 
-      //  adapter.addFrag(new ThreeFragment(), "THREE");
+        //  adapter.addFrag(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
 
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
+        return super.onCreateOptionsMenu(menu);
 
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -218,21 +199,10 @@ public class ProjectsActivity extends AppCompatActivity {
 //        return super.onPrepareOptionsMenu(menu);
 //    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_menu,menu);
-
-        return super.onCreateOptionsMenu(menu);
-
-    }
-
-
-    protected void handleMenuSearch(){
+    protected void handleMenuSearch() {
         //ActionBar action = getSupportActionBar(); //get the actionbar
 
-        if(isSearchOpened){ //test if the search is open
+        if (isSearchOpened) { //test if the search is open
 
             //action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
             // action.setDisplayShowTitleEnabled(true); //show the title in the action bar
@@ -286,28 +256,30 @@ public class ProjectsActivity extends AppCompatActivity {
             isSearchOpened = true;
         }
     }
+
     @Override
     public void onBackPressed() {
-        if(isSearchOpened) {
+        if (isSearchOpened) {
             handleMenuSearch();
             return;
         }
         super.onBackPressed();
     }
+
     private void doSearch() {
 //
     }
 
-    public void  openDrawer(){
-        adapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
+    public void openDrawer() {
+        adapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
 
                     case 1:
-                        Toast.makeText(getApplicationContext(),"heyy",Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(getApplicationContext(), "heyy", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                         startActivity(intent);
@@ -320,6 +292,35 @@ public class ProjectsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
 }

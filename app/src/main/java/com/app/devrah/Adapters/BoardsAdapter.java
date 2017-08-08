@@ -11,10 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.pojo.ProjectsPojo;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -76,11 +75,11 @@ public class BoardsAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
                 Intent intent = new Intent(activity,BoardExtended.class);
-                intent.putExtra("TitleData",ListItemString);
+                intent.putExtra("TitleData",projectsList.get(position).getData());
                 intent.putExtra("p_id",projectsList.get(position).getId());
                 intent.putExtra("b_id",projectsList.get(position).getBoardID());
                 intent.putExtra("list_id",projectsList.get(position).getListId());
-                intent.putExtra("ptitle",activity.getIntent().getStringExtra("ptitle"));
+                intent.putExtra("ptitle",projectsList.get(position).getData());
 
                 activity.startActivity(intent);
 

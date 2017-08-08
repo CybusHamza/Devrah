@@ -5,27 +5,33 @@
     tools:context="com.app.devrah.Views.GroupProjects">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="62dp"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
-        android:id="@+id/groupProjectsListView"/>
+    <!--<ListView-->
+    <!--android:layout_marginTop="15dp"-->
+    <!--android:layout_marginBottom="62dp"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:dividerHeight="3dp"-->
+    <!--android:id="@+id/groupProjectsListView"/>-->
 
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_height="match_parent"
+        android:dividerHeight="7dp"
+        android:layout_width="match_parent"/>
 
-    <Button
-        android:id="@+id/buttonAddGroupProject"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:background="@drawable/add_btn"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="10dp"
-        />
+    <!--
+        <Button
+            android:id="@+id/buttonAddGroupProject"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/add_btn"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="80dp"
+            android:layout_marginRight="10dp"
+            />-->
 
 
 </RelativeLayout>

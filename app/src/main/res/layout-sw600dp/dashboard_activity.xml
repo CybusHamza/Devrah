@@ -10,44 +10,48 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_height="300dp"
-        android:layout_width="75dp"
-        android:layout_marginStart="25dp"
+        android:layout_width="100dp"
+        android:layout_marginStart="16dp"
         app:srcCompat="@drawable/logo_y_axis"
-        android:layout_below="@+id/imageFavourites"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="341dp" />
+        android:layout_marginBottom="189dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProfile"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
         app:srcCompat="@drawable/bg_circle"
         android:layout_marginTop="59dp"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/dashboard_projects" />
+        android:layout_toStartOf="@+id/dashboard_projects"
+        app:civ_border_color="#fff"
+        app:civ_border_width="2dp"/>
+
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         app:srcCompat="@drawable/bg__dashboard_calender"
-        android:layout_marginStart="26dp"
-        android:layout_alignTop="@+id/imageMenu"
+        android:layout_marginBottom="3dp"
+        android:layout_marginStart="25dp"
+        android:layout_above="@+id/imageInbox"
         android:layout_alignStart="@+id/imageInbox" />
 
     <ImageView
         android:id="@+id/imageMenu"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         app:srcCompat="@drawable/bg_dshboard_more"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/imageView6"
         android:layout_alignStart="@+id/imageNotification" />
 
     <ImageView
         android:id="@+id/imageInbox"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginRight="5dp"
         app:srcCompat="@drawable/bg_email_dashboard"
         android:layout_marginBottom="12dp"
@@ -56,26 +60,26 @@
 
     <ImageView
         android:id="@+id/imageFavourites"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         app:srcCompat="@drawable/bg_dashboard_star"
         android:layout_below="@+id/imageProfile"
         android:layout_alignStart="@+id/imageView6" />
 
     <ImageView
         android:id="@+id/imageNotification"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
 
         app:srcCompat="@drawable/bg_dashboard_bell"
-        android:layout_marginStart="26dp"
         android:layout_below="@+id/imageProfile"
-        android:layout_toEndOf="@+id/imageFavourites" />
+        android:layout_toEndOf="@+id/imageView6"
+        android:layout_marginStart="14dp" />
 
     <ImageView
         android:id="@+id/dashboard_projects"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         app:srcCompat="@drawable/bg_dashboard_project"
@@ -90,7 +94,7 @@
         android:textStyle="bold"
         android:text="TextView"
         android:layout_alignTop="@+id/imageView2"
-        android:layout_toStartOf="@+id/imageMenu" />
+        android:layout_alignEnd="@+id/imageNotification" />
 
     <TextView
         android:id="@+id/tvQuote"
@@ -99,11 +103,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="TextView"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/tvTime"
-        android:layout_alignStart="@+id/tvTime"
-        android:layout_marginTop="60dp"
         android:layout_below="@+id/tvTime"
-        android:layout_marginBottom="20dp"
-        android:layout_toStartOf="@+id/imageMenu" />
+        android:layout_alignStart="@+id/tvTime"
+        android:layout_marginTop="51dp" />
 </RelativeLayout>

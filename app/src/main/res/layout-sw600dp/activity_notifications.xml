@@ -16,7 +16,8 @@
         android:id="@+id/notifications_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_above="@+id/notifications_tabs" />
 
 
 
@@ -25,12 +26,8 @@
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-
         app:tabMode="fixed"
         app:tabGravity="fill"
-
-        app:tabMaxWidth="0dp"
-
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
