@@ -6,12 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Adapters.FragmentBoardsAdapter;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
+import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import org.json.JSONArray;
@@ -44,6 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.GET_CARDS_FOR_LIST;
+import static com.app.devrah.Network.End_Points.GET_CARD_ASSOC_LABELS;
 import static com.app.devrah.Network.End_Points.SAVE_CARD_BY_LIST_ID;
 
 
@@ -57,10 +62,15 @@ public class ChildFragmentBoardExtended extends Fragment {
     public     TextView tvName;
     ImageView boardMenu;
     FragmentBoardsAdapter adapter;
-    List<ProjectsPojo> listPojo;
+    List<ProjectsPojo> listPojo,labelsPojoList;
+    List<CardAssociatedLabelsPojo> cardLabelsPojoList;
+  //  CardAssociatedLabelsAdapter cardAssociatedLabelsAdapter;
     CustomViewPagerAdapter VPadapter;
     ProjectsPojo boardsFragmentPojoData;
     ListView lv;
+    RecyclerView cardAssociatedLabelRecycler;
+
+    RelativeLayout relativeLayout;
 
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
@@ -96,7 +106,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         view =inflater.inflate(R.layout.fragment_child_fragment_board_extended, container, false);
         View emV = inflater.inflate(R.layout.empty_list_bg,null);
 
-
+//        cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
 
 
          tvName = (TextView)view.findViewById(R.id.textName);
@@ -118,6 +128,9 @@ public class ChildFragmentBoardExtended extends Fragment {
         getCardList(list_id);
 
         lv = (ListView) view.findViewById(R.id.boardFragmentListView);
+        //relativeLayout=(RelativeLayout)findViewById(R.id.layoutTestRecycleView);
+//        cardAssociatedLabelRecycler=(RecyclerView)view.findViewById(R.id.labelsListView);
+
         boardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,27 +247,57 @@ public class ChildFragmentBoardExtended extends Fragment {
                         if (!(response.equals("false"))) {
 
                             listPojo = new ArrayList<>();
+                            labelsPojoList = new ArrayList<>();
+                            cardLabelsPojoList = new ArrayList<>();
 
                             try {
-                                JSONArray jsonArray = new JSONArray(response);
+                                ProjectsPojo projectsPojo = null;
+                                JSONObject mainObject=new JSONObject(response);
+                                JSONArray jsonArrayCards = mainObject.getJSONArray("cards");
+                                JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
+                                //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
-                                row=jsonArray.length();
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                             //   row=jsonArray.length();
+                                for (int i = 0; i < jsonArrayCards.length(); i++) {
+                                    JSONObject jsonObject = jsonArrayCards.getJSONObject(i);
 
-                                    ProjectsPojo projectsPojo = new ProjectsPojo();
+                                     projectsPojo = new ProjectsPojo();
+                                 // CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
 
                                     projectsPojo.setId(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("card_name"));
                                     projectsPojo.setAttachment(jsonObject.getString("file_name"));
+                                    projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
+                                    //projectsPojo.setLabels(jsonObject.getString("label_color"));
+
+//                                    cardLabelsPojoList.add(labelsPojo);
 
                                     listPojo.add(projectsPojo);
+                                   // getLabelsList(jsonObject.getString("id"));
 
                                 }
+                                for(int j=0;j<jsonArrayLabels.length();j++){
+                                    CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
+                                    JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
+                                    String[] labels = new String[jsonArray.length()];
+                                    for (int k=0;k<jsonArray.length();k++){
 
-                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        labels[k]=jsonObject.getString("label_color");
+
+                                    }
+                                    labelsPojo.setLabels(labels);
+                                    cardLabelsPojoList.add(labelsPojo);
+                                }
+                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList);
                                 lv.setAdapter(adapter);
-
+                                /*try {
+                                    cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);
+                                    cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                                    cardAssociatedLabelRecycler.setAdapter(cardAssociatedLabelsAdapter);
+                                }catch (Exception e){
+                                    String s=e.toString();
+                                }*/
                             } catch (JSONException e) {
                                 e.printStackTrace();
 
@@ -307,7 +350,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("board_id", BoardExtended.boardId);
                 params.put("project_id", BoardExtended.projectId);
-                 params.put("userId", pref.getString("user_id",""));
+                // params.put("userId", pref.getString("user_id",""));
                  params.put("list_id", lsitId);
                 return params;
             }
@@ -335,7 +378,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                             boardsFragmentPojoData = new ProjectsPojo();
                             boardsFragmentPojoData.setData(cardName);
                             listPojo.add(boardsFragmentPojoData);
-                            adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
+                            adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList);
 
 
                             lv.setAdapter(adapter);
@@ -402,7 +445,102 @@ public class ChildFragmentBoardExtended extends Fragment {
         requestQueue.add(request);
     }
 
+/*public void getLabelsList(final String cardId){
+    StringRequest request = new StringRequest(Request.Method.POST, GET_CARD_ASSOC_LABELS,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
+
+                    if (!(response.equals("false"))) {
+
+
+                        cardLabelsPojoList = new ArrayList<>();
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                           // row=jsonArray.length();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
+
+                                labelsPojo.setLabel(jsonObject.getString("label_color"));
+                                cardLabelsPojoList.add(labelsPojo);
+
+
+                            }
+
+                                cardAssociatedLabelsAdapter=new CardAssociatedLabelsAdapter(getActivity(),cardLabelsPojoList);
+                                cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                                cardAssociatedLabelRecycler.setAdapter(cardAssociatedLabelsAdapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+
+                        }
+
+                    }
+                }
+            }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+            if (error instanceof NoConnectionError) {
+
+
+                Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error!")
+                        .setConfirmText("OK").setContentText("No Internet Connection")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismiss();
+                                getActivity().finish();
+                            }
+                        })
+                        .show();
+            } else if (error instanceof TimeoutError) {
+
+
+                Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error!")
+                        .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismiss();
+                                getActivity().finish();
+                            }
+                        })
+                        .show();
+            }
+        }
+    }) {
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("board_id", BoardExtended.boardId);
+           *//* params.put("project_id", BoardExtended.projectId);
+            // params.put("userId", pref.getString("user_id",""));
+            params.put("list_id", lsitId);*//*
+            return params;
+        }
+    };
+
+    request.setRetryPolicy(new DefaultRetryPolicy(
+            10000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+    requestQueue.add(request);
+}*/
 
 
 

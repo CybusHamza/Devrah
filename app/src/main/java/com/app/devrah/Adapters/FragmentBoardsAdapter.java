@@ -4,18 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.R;
+import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 /**
@@ -24,16 +26,19 @@ import java.util.List;
 
 public class FragmentBoardsAdapter extends BaseAdapter{
      int count=1;
-
+    List<CardAssociatedLabelsPojo> cardLabelsPojoList;
+    //CardAssociatedLabelsAdapter cardAssociatedLabelsAdapter;
     List<ProjectsPojo> projectsList;
+    List<CardAssociatedLabelsPojo> labelList;
     Activity activity;
     String BoardsListData;
     private LayoutInflater inflater;
 
 
-    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList) {
+    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList,List<CardAssociatedLabelsPojo> labelList) {
         this.activity = activity;
         this.projectsList = projectsList;
+        this.labelList = labelList;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -57,7 +62,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        final BoardsAdapter.ViewHolder holder = new BoardsAdapter.ViewHolder();
+        final ViewHolder holder = new ViewHolder();
 
         if (inflater== null)
             inflater = (LayoutInflater) activity
@@ -66,8 +71,73 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         if (convertView == null)
             convertView = inflater.inflate(R.layout.custom_layout_fragment_boards_list, null);
 
+
         holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
+
+        holder.labelsLinearLayout= (LinearLayout) convertView.findViewById(R.id.labelsLayout);
+        holder.labelsLinearLayout1= (LinearLayout) convertView.findViewById(R.id.labelsLayout2);
+        holder.label1= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label1);
+        holder.label2= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label2);
+        holder.label3= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label3);
+        holder.label4= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label4);
+        holder.label5= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label5);
+        holder.label6= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label6);
+        holder.label7= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label7);
+        holder.label8= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label8);
+
+        String[] labels=labelList.get(position).getLabels();
+        if (labels.length>0){
+            holder.labelsLinearLayout.setVisibility(View.VISIBLE);
+            holder.label1.setVisibility(View.VISIBLE);
+            holder.label2.setVisibility(View.VISIBLE);
+            holder.label3.setVisibility(View.VISIBLE);
+            holder.label4.setVisibility(View.VISIBLE);
+            if(labels.length==1){
+                for(int i=0;i<labels.length;i++) {
+                    if(labels[i].equals("blue")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                        break;
+                    }
+                    if(labels[i].equals("sky-blue")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                        break;
+                    }
+
+                }
+            }
+            if(labels.length==2) {
+                for (int i = 0; i < labels.length; i++) {
+
+                        if (labels[i].equals("blue")) {
+                            holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                            break;
+                        }
+                        else if (labels[i].equals("sky-blue")) {
+                            holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                            break;
+                        }
+                        if (labels[i].equals("blue")) {
+                            holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                            break;
+                        }
+                        else if (labels[i].equals("sky-blue")) {
+                            holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                            break;
+                        }
+
+                }
+            }
+        }
+        /*if(!projectsList.get(position).getBoardAssociatedLabelsId().equals("") || projectsList.get(position).getBoardAssociatedLabelsId()!=null){
+            holder.labelsLinearLayout.setVisibility(View.VISIBLE);
+            holder.label1.setVisibility(View.VISIBLE);
+            holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorOrangeRed));
+            holder.label2.setVisibility(View.VISIBLE);
+            holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+
+        }*/
+
         if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
             holder.attachment.setVisibility(View.VISIBLE);
             Picasso.with(activity)
@@ -115,19 +185,11 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         TextView data;
         ImageView favouriteIcon;
         ImageView attachment;
+        RecyclerView recyclerView;
+        LinearLayout labelsLinearLayout,labelsLinearLayout1;
+        LinearLayout label1,label2,label3,label4,label5,label6,label7,label8;
+
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

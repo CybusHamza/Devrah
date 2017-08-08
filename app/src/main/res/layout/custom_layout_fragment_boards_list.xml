@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:background="#fff"
+    android:id="@+id/layoutTestRecycleView"
     android:layout_height="wrap_content">
     <ImageView
         android:layout_margin="4dp"
@@ -10,17 +11,196 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"/>
-    <android.support.v7.widget.RecyclerView
+   <LinearLayout
+       android:layout_below="@id/cardImage"
+       android:layout_margin="4dp"
+       android:id="@+id/labelsLayout"
+       android:layout_width="match_parent"
+       android:layout_height="40dp"
+       android:orientation="horizontal"
+       android:gravity="center"
+       android:visibility="invisible">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:id="@+id/row_cardscreen_label1"
+        android:gravity="center"
+        android:background="#fff"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="text"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:id="@+id/labelName1"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="80dp"
+           android:layout_margin="5dp"
+           android:layout_height="40dp"
+           android:gravity="center"
+           android:id="@+id/row_cardscreen_label2"
+           android:background="#fff"
+           android:visibility="invisible">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="text"
+               android:gravity="center"
+               android:textSize="17sp"
+               android:textColor="#fff"
+               android:id="@+id/labelName2"
+               android:textStyle="bold"/>
+
+       </LinearLayout>
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="80dp"
+           android:layout_margin="5dp"
+           android:layout_height="40dp"
+           android:gravity="center"
+           android:id="@+id/row_cardscreen_label3"
+           android:background="#fff"
+           android:visibility="invisible">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="text"
+               android:gravity="center"
+               android:textSize="17sp"
+               android:textColor="#fff"
+               android:id="@+id/labelName3"
+               android:textStyle="bold"/>
+
+       </LinearLayout>
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="80dp"
+           android:layout_margin="5dp"
+           android:layout_height="40dp"
+           android:gravity="center"
+           android:id="@+id/row_cardscreen_label4"
+           android:background="#fff"
+           android:visibility="invisible">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="text"
+               android:gravity="center"
+               android:textSize="17sp"
+               android:textColor="#fff"
+               android:id="@+id/labelName4"
+               android:textStyle="bold"/>
+
+       </LinearLayout>
+
+   </LinearLayout>
+    <LinearLayout
         android:layout_margin="4dp"
-        android:id="@+id/labelsListView"
+        android:layout_below="@id/labelsLayout"
+        android:id="@+id/labelsLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cardImage"
-        />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="invisible">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label5"
+            android:background="#fff">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName5"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label6"
+            android:background="#fff"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName6"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label7"
+            android:background="#fff"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName7"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label8"
+            android:background="#fff"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName8"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
-        android:layout_below="@id/labelsListView"
+        android:layout_below="@id/labelsLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"

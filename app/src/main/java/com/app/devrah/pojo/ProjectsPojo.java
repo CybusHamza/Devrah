@@ -12,6 +12,26 @@ public class ProjectsPojo {
     public String boardID;
     public String projectStatus;
 
+    public String getBoardAssociatedLabelsId() {
+        return boardAssociatedLabelsId;
+    }
+
+    public void setBoardAssociatedLabelsId(String boardAssociatedLabelsId) {
+        this.boardAssociatedLabelsId = boardAssociatedLabelsId;
+    }
+
+    public String boardAssociatedLabelsId;
+
+    public String[] getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String[] labels) {
+        this.labels = labels;
+    }
+
+    public String[] labels;
+
     public String getAttachment() {
         return attachment;
     }

@@ -58,7 +58,7 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
 //            }
 //        });
 
-holder.rvLabel.setOnClickListener(new View.OnClickListener() {
+        holder.rvLabel.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         CardActivity.onFocus = true;

@@ -47,5 +47,6 @@ public class End_Points {
     public static final String GET_ALL_PROJECS= BASE_URL + "getAllMyProjects";
     public static final String GET_ALL_CARDS= BASE_URL + "getCardsByBoards";
     public static final String SAVE_CARD_BY_LIST_ID= BASE_URL + "saveCardByListId";
+    public static final String GET_CARD_ASSOC_LABELS= BASE_URL + "getBoardAssociatedCardLabels";
 
 }
