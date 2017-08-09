@@ -148,6 +148,26 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
                         count1++;
                         //break;
+                    }else if(labels[i].equals("black")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.black));
+                        count1++;
+                        //break;
+                    }else if(labels[i].equals("green")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorGreen));
+                        count1++;
+                        //break;
+                    }else if(labels[i].equals("dark-green")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
+                        count1++;
+                        //break;
+                    }else if(labels[i].equals("lime")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+                        count1++;
+                        //break;
                     }
 
                 }
