@@ -232,7 +232,11 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("userId", "2");
+
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("userId",userId);
                 return params;
             }
         };

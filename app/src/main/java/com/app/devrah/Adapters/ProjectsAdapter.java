@@ -3,15 +3,14 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
@@ -76,6 +75,8 @@ public class ProjectsAdapter extends BaseAdapter {
                 Intent intent = new Intent(activity,BoardsActivity.class);
                 intent.putExtra("pid",projectsList.get(position).getId());
                 intent.putExtra("ptitle",projectsList.get(position).getData());
+                intent.putExtra("ptitle",projectsList.get(position).getData());
+                intent.putExtra("status",projectsList.get(position).getProjectStatus());
                 activity.startActivity(intent);
 
             }

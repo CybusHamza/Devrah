@@ -28,6 +28,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -65,22 +67,15 @@ public class BoardsActivity extends AppCompatActivity {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     Spinner project_groups;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     Toolbar toolbar;
     ArrayAdapter<String> projectADdapter;
     // DrawerPojo drawerPojo;
     List<DrawerPojo> dataList;
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
-    private MenuItem mSearchAction,mDrawer;
-    private boolean isSearchOpened = false;
-    private boolean isEditOpened = false;
-    private EditText edtSeach;
-    String title;
+    String title, status;
     View logo;
     CustomDrawerAdapter adapter;
-    private ListView mDrawerList;
     //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
@@ -88,16 +83,25 @@ public class BoardsActivity extends AppCompatActivity {
 //          //  R.drawable.ic_tab_contacts
 //    };
     DrawerLayout drawerLayout;
-    String projectID,projectTitle;
+    String projectID, projectTitle;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private MenuItem mSearchAction, mDrawer;
+    private boolean isSearchOpened = false;
+    private boolean isEditOpened = false;
+    private EditText edtSeach;
+    private ListView mDrawerList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boards);
-        Intent intent  = getIntent();
+        Intent intent = getIntent();
         projectID = intent.getStringExtra("pid");
         projectTitle = intent.getStringExtra("ptitle");
+        status = intent.getStringExtra("status");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList= (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 //        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 //                GravityCompat.START);
 
@@ -105,13 +109,13 @@ public class BoardsActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
-        final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
+        final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
         tv.setText(projectTitle);
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isEditOpened=true;
+                isEditOpened = true;
                 tv.setCursorVisible(true);
                 tv.setFocusableInTouchMode(true);
                 tv.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -119,36 +123,36 @@ public class BoardsActivity extends AppCompatActivity {
                 //tv.setText(tv.getText().toString());
             }
         });
-       tv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-           @Override
-           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-               if (actionId==6 ) {
-                   isEditOpened=false;
-                   tv.clearFocus();
-                   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                   imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+        tv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == 6) {
+                    isEditOpened = false;
+                    tv.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
                     UpdateProjectName(tv.getText().toString());
-               }
-               return true;
-           }
-       });
+                }
+                return true;
+            }
+        });
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // drawerPojo = new DrawerPojo();
 
         dataList = new ArrayList<>();
-        View header = getLayoutInflater().inflate(R.layout.header_for_drawer,null);
+        View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
 
-        dataList.add(new DrawerPojo("Manage Status"));
+        dataList.add(new DrawerPojo("Manage Members"));
         dataList.add(new DrawerPojo("Copy Project"));
         dataList.add(new DrawerPojo("Move Project"));
-        dataList.add(new DrawerPojo("Manage Members"));
+        dataList.add(new DrawerPojo("Manage Status"));
         dataList.add(new DrawerPojo("Leave Project"));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
-        edtSeach = (EditText)toolbar.findViewById(R.id.edtSearch);
+        edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
         toolbar.inflateMenu(R.menu.search_menu);
 
         openDrawer();
@@ -177,7 +181,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                         openDrawer();
 
-                        Toast.makeText(getApplicationContext(),"Menu",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                         return true;
                 }
 
@@ -189,13 +193,12 @@ public class BoardsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(BoardsActivity.this,ProjectsActivity.class);
+                Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
                 finish();
                 startActivity(intent);
-                 onBackPressed();
+                onBackPressed();
             }
         });
-
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -233,15 +236,15 @@ public class BoardsActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("pid",projectID);
-        bundle.putString("ptitle",projectTitle);
-        ViewPagerAdapter adapter =new  ViewPagerAdapter(getSupportFragmentManager());
+        bundle.putString("pid", projectID);
+        bundle.putString("ptitle", projectTitle);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         WorkBoard workBoard = new WorkBoard();
         workBoard.setArguments(bundle);
 
 
-        ReferenceBoard referenceBoard= new ReferenceBoard();
+        ReferenceBoard referenceBoard = new ReferenceBoard();
         referenceBoard.setArguments(bundle);
 
         adapter.addFrag(workBoard, "Work Boards");
@@ -250,33 +253,14 @@ public class BoardsActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
 
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
+        return super.onCreateOptionsMenu(menu);
 
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -286,21 +270,10 @@ public class BoardsActivity extends AppCompatActivity {
 //        return super.onPrepareOptionsMenu(menu);
 //    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_menu,menu);
-
-        return super.onCreateOptionsMenu(menu);
-
-    }
-
-
-    protected void handleMenuSearch(){
+    protected void handleMenuSearch() {
         //ActionBar action = getSupportActionBar(); //get the actionbar
 
-        if(isSearchOpened){ //test if the search is open
+        if (isSearchOpened) { //test if the search is open
 
             //action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
             // action.setDisplayShowTitleEnabled(true); //show the title in the action bar
@@ -354,40 +327,42 @@ public class BoardsActivity extends AppCompatActivity {
             isSearchOpened = true;
         }
     }
+
     @Override
     public void onBackPressed() {
-        if(isSearchOpened) {
+        if (isSearchOpened) {
             handleMenuSearch();
             return;
-        }else if(isEditOpened) {
-            final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
+        } else if (isEditOpened) {
+            final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
             tv.clearFocus();
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
             UpdateProjectName(tv.getText().toString());
-            isEditOpened=false;
+            isEditOpened = false;
             return;
-        }else{
-            Intent intent=new Intent(BoardsActivity.this,ProjectsActivity.class);
+        } else {
+            Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
             finish();
             startActivity(intent);
         }
         super.onBackPressed();
     }
+
     private void doSearch() {
 //
     }
 
-    public void  openDrawer(){
-        adapter = new CustomDrawerAdapter(this,R.layout.list_item_drawer,dataList);
+    public void openDrawer() {
+        adapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
 
                     case 1:
-                        Toast.makeText(getApplicationContext(),"heyy",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "heyy", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                         startActivity(intent);
@@ -409,7 +384,7 @@ public class BoardsActivity extends AppCompatActivity {
 
 
                     case 4:
-
+                        showStatus();
                         break;
 
                     case 5:
@@ -434,13 +409,13 @@ public class BoardsActivity extends AppCompatActivity {
                         break;
 
 
-
                 }
 
             }
         });
 
     }
+
     public void UpdateProjectName(final String updatedText) {
         final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
@@ -496,7 +471,7 @@ public class BoardsActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("updt_txt", updatedText);
                 params.put("project_id", projectID);
-                params.put("userId", pref.getString("user_id",""));
+                params.put("userId", pref.getString("user_id", ""));
                 return params;
             }
         };
@@ -526,7 +501,7 @@ public class BoardsActivity extends AppCompatActivity {
                         ringProgressDialog.dismiss();
 
 
-                        Intent intent = new Intent(BoardsActivity.this,ProjectsActivity.class)  ;
+                        Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
                         finish();
                         startActivity(intent);
 
@@ -570,7 +545,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("project_id", projectID);
-                params.put("userId", pref.getString("user_id",""));
+                params.put("userId", pref.getString("user_id", ""));
                 return params;
             }
         };
@@ -586,7 +561,79 @@ public class BoardsActivity extends AppCompatActivity {
 
     }
 
-    public void  showDialog(final String action) {
+    public void showStatus() {
+        LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
+        View customView = inflater.inflate(R.layout.status_menu_drawer, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this).create();
+
+
+        LinearLayout active, inactive, complete;
+        final ImageView imgactive, igminactive, imgcomplete;
+
+
+        active = (LinearLayout) customView.findViewById(R.id.active);
+        inactive = (LinearLayout) customView.findViewById(R.id.inactive);
+        complete = (LinearLayout) customView.findViewById(R.id.completed);
+
+
+        imgactive = (ImageView) customView.findViewById(R.id.activeimg);
+        igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
+        imgcomplete = (ImageView) customView.findViewById(R.id.complete);
+
+        if (status.equals("1")) {
+            imgactive.setVisibility(View.VISIBLE);
+            active.setClickable(false);
+            active.setEnabled(false);
+        } else if (status.equals("0")) {
+            igminactive.setVisibility(View.VISIBLE);
+            inactive.setClickable(false);
+            inactive.setEnabled(false);
+        } else if (!(status.equals("null"))) {
+            imgcomplete.setVisibility(View.VISIBLE);
+            complete.setClickable(false);
+            complete.setEnabled(false);
+        }
+
+        active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeStatus("1");
+                imgactive.setVisibility(View.VISIBLE);
+                igminactive.setVisibility(View.GONE);
+                imgcomplete.setVisibility(View.GONE);
+            }
+        });
+
+        inactive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeStatus("0");
+                imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.VISIBLE);
+                imgcomplete.setVisibility(View.GONE);
+            }
+        });
+
+
+        complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeStatus("2");
+
+                imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.GONE);
+                imgcomplete.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+
+    }
+
+    public void showDialog(final String action) {
 
         LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
         View customView = inflater.inflate(R.layout.move_card_menu, null);
@@ -595,9 +642,9 @@ public class BoardsActivity extends AppCompatActivity {
         alertDialog.setView(customView);
         alertDialog.show();
 
-        TextView heading,sub;
+        TextView heading, sub;
 
-        Button cancel,copy;
+        Button cancel, copy;
 
         heading = (TextView) customView.findViewById(R.id.heading);
         sub = (TextView) customView.findViewById(R.id.sub_heading);
@@ -608,8 +655,7 @@ public class BoardsActivity extends AppCompatActivity {
 
         getSpinnerData();
 
-        if(action.equals("move"))
-        {
+        if (action.equals("move")) {
             heading.setText("Move Project");
             sub.setText("Move To Group : ");
             copy.setText("Move");
@@ -620,11 +666,9 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(action.equals("move"))
-                {
+                if (action.equals("move")) {
                     moveProject();
-                }
-                else {
+                } else {
                     copyProject();
                 }
             }
@@ -650,7 +694,6 @@ public class BoardsActivity extends AppCompatActivity {
         spinnerGroupIds = new ArrayList<>();
 
 
-
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_SPINNER_GROUP_PROJECTS,
                 new Response.Listener<String>() {
                     @Override
@@ -670,10 +713,6 @@ public class BoardsActivity extends AppCompatActivity {
                             projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, spinnerValues);
                             projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                             project_groups.setAdapter(projectADdapter);
-
-
-
-
 
 
                         } catch (JSONException e) {
@@ -718,7 +757,6 @@ public class BoardsActivity extends AppCompatActivity {
 
     }
 
-
     public void copyProject() {
 
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
@@ -731,7 +769,7 @@ public class BoardsActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                     Toast.makeText(BoardsActivity.this,response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -759,7 +797,7 @@ public class BoardsActivity extends AppCompatActivity {
                 int pos = project_groups.getSelectedItemPosition();
                 params.put("user_id", userId);
                 params.put("project_id", projectID);
-                params.put("group_id" ,spinnerGroupIds.get(pos));
+                params.put("group_id", spinnerGroupIds.get(pos));
                 return params;
             }
         };
@@ -785,7 +823,7 @@ public class BoardsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
-                        Toast.makeText(BoardsActivity.this,response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
 
                     }
                 }, new Response.ErrorListener() {
@@ -812,7 +850,7 @@ public class BoardsActivity extends AppCompatActivity {
                 int pos = project_groups.getSelectedItemPosition();
 
                 params.put("project_id", projectID);
-                params.put("group_id" ,spinnerGroupIds.get(pos));
+                params.put("group_id", spinnerGroupIds.get(pos));
                 return params;
             }
         };
@@ -824,6 +862,91 @@ public class BoardsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
 
+    }
+
+    public void changeStatus(final String status) {
+
+
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.PROJECT_STATUS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(BoardsActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(BoardsActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+
+                params.put("project_id", projectID);
+                params.put("project_status", status);
+                params.put("userId", userId);
+
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
 }
