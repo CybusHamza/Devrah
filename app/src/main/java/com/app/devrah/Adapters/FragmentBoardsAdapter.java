@@ -26,6 +26,7 @@ import java.util.List;
 
 public class FragmentBoardsAdapter extends BaseAdapter{
      int count=1;
+     int count1=0;
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
     //CardAssociatedLabelsAdapter cardAssociatedLabelsAdapter;
     List<ProjectsPojo> projectsList;
@@ -77,6 +78,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
         holder.labelsLinearLayout= (LinearLayout) convertView.findViewById(R.id.labelsLayout);
         holder.labelsLinearLayout1= (LinearLayout) convertView.findViewById(R.id.labelsLayout2);
+        holder.labelsLinearLayout2= (LinearLayout) convertView.findViewById(R.id.labelsLayout3);
         holder.label1= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label1);
         holder.label2= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label2);
         holder.label3= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label3);
@@ -85,49 +87,212 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.label6= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label6);
         holder.label7= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label7);
         holder.label8= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label8);
+        holder.label9= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label9);
+        holder.label10= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label10);
+        holder.label11= (LinearLayout) convertView.findViewById(R.id.row_cardscreen_label11);
 
         String[] labels=labelList.get(position).getLabels();
-        if (labels.length>0){
+       int length=labels.length;
+        if (length>0){
+            count1=0;
             holder.labelsLinearLayout.setVisibility(View.VISIBLE);
             holder.label1.setVisibility(View.VISIBLE);
             holder.label2.setVisibility(View.VISIBLE);
             holder.label3.setVisibility(View.VISIBLE);
             holder.label4.setVisibility(View.VISIBLE);
-            if(labels.length==1){
+            if(length>4){
+                holder.labelsLinearLayout1.setVisibility(View.VISIBLE);
+                holder.label5.setVisibility(View.VISIBLE);
+                holder.label6.setVisibility(View.VISIBLE);
+                holder.label7.setVisibility(View.VISIBLE);
+                holder.label8.setVisibility(View.VISIBLE);
+            }if(length>8){
+                holder.labelsLinearLayout2.setVisibility(View.VISIBLE);
+                holder.label9.setVisibility(View.VISIBLE);
+                holder.label10.setVisibility(View.VISIBLE);
+                holder.label11.setVisibility(View.VISIBLE);
+            }
+
                 for(int i=0;i<labels.length;i++) {
                     if(labels[i].equals("blue")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                        count1++;
+                      //  break;
+                    }else if(labels[i].equals("sky-blue")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                        count1++;
+                        //break;
+                    }else if(labels[i].equals("red")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+                        count1++;
+                        //break;
+                    }else if(labels[i].equals("yellow")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+                        count1++;
+                        //break;
+                    }else if(labels[i].equals("purple")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.purple));
+                        //break;
+                    }else if(labels[i].equals("pink")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.pink));
+                        count1++;
+                        //break;
+                    }else if(labels[i].equals("orange")) {
+                        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
+                        linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
+                        count1++;
+                        //break;
+                    }
+
+                }
+
+            }
+        /*else if(length==2) {
+            for (int i = 0; i < labels.length; i++) {
+                if(count1==0) {
+                    if (labels[i].equals("blue")) {
+
                         holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                        break;
-                    }
-                    if(labels[i].equals("sky-blue")) {
+                        count1++;
+
+                    } else if (labels[i].equals("sky-blue")) {
                         holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                        break;
+                        count1++;
+                    }else if (labels[i].equals("red")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+                        count1++;
+                    }else if (labels[i].equals("yellow")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+                        count1++;
+                    }else if (labels[i].equals("purple")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.purple));
+                        count1++;
+                    }else if (labels[i].equals("pink")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.pink));
+                        count1++;
+                    }else if (labels[i].equals("orange")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
+                        count1++;
                     }
-
                 }
-            }
-            if(labels.length==2) {
-                for (int i = 0; i < labels.length; i++) {
-
-                        if (labels[i].equals("blue")) {
-                            holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                            break;
-                        }
-                        else if (labels[i].equals("sky-blue")) {
-                            holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                            break;
-                        }
-                        if (labels[i].equals("blue")) {
-                            holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                            break;
-                        }
-                        else if (labels[i].equals("sky-blue")) {
-                            holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                            break;
-                        }
-
+                else if(count1==1) {
+                    if (labels[i].equals("blue")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                    } else if (labels[i].equals("sky-blue")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                    }else if (labels[i].equals("red")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+                    }else if (labels[i].equals("yellow")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+                    }else if (labels[i].equals("purple")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.purple));
+                    }else if (labels[i].equals("pink")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.pink));
+                    }else if (labels[i].equals("orange")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
+                    }
                 }
+
             }
+        }else if(length==3) {
+            for (int i = 0; i < labels.length; i++) {
+                if(count1==0) {
+                    if (labels[i].equals("blue")) {
+
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                        count1++;
+
+                    } else if (labels[i].equals("sky-blue")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                        count1++;
+                    }else if (labels[i].equals("red")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+                        count1++;
+                    }else if (labels[i].equals("yellow")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+                        count1++;
+                    }else if (labels[i].equals("purple")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.purple));
+                        count1++;
+                    }else if (labels[i].equals("pink")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.pink));
+                        count1++;
+                    }else if (labels[i].equals("orange")) {
+                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
+                        count1++;
+                    }
+                }
+                else if(count1==1) {
+                    if (labels[i].equals("blue")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                        count1++;
+                    } else if (labels[i].equals("sky-blue")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                        count1++;
+                    }else if (labels[i].equals("red")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+                        count1++;
+                    }else if (labels[i].equals("yellow")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+                        count1++;
+                    }else if (labels[i].equals("purple")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.purple));
+                        count1++;
+                    }else if (labels[i].equals("pink")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.pink));
+                        count1++;
+                    }else if (labels[i].equals("orange")) {
+                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
+                        count1++;
+                    }
+                }else if(count1==2) {
+                    if (labels[i].equals("blue")) {
+                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                        count1++;
+                    } else if (labels[i].equals("sky-blue")) {
+                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                        count1++;
+                    }else if (labels[i].equals("red")) {
+                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+                        count1++;
+                    }else if (labels[i].equals("yellow")) {
+                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+                        count1++;
+                    }else if (labels[i].equals("purple")) {
+                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.purple));
+                        count1++;
+                    }else if (labels[i].equals("pink")) {
+                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.pink));
+                        count1++;
+                    }else if (labels[i].equals("orange")) {
+                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
+                        count1++;
+                    }
+                }
+
+            }
+        }*/else {
+            count1=0;
+            holder.labelsLinearLayout.setVisibility(View.GONE);
+            holder.labelsLinearLayout1.setVisibility(View.GONE);
+            holder.labelsLinearLayout2.setVisibility(View.GONE);
+            holder.label1.setVisibility(View.INVISIBLE);
+            holder.label2.setVisibility(View.INVISIBLE);
+            holder.label3.setVisibility(View.INVISIBLE);
+            holder.label4.setVisibility(View.INVISIBLE);
+            holder.label5.setVisibility(View.INVISIBLE);
+            holder.label6.setVisibility(View.INVISIBLE);
+            holder.label7.setVisibility(View.INVISIBLE);
+            holder.label8.setVisibility(View.INVISIBLE);
+            holder.label9.setVisibility(View.INVISIBLE);
+            holder.label10.setVisibility(View.INVISIBLE);
+            holder.label11.setVisibility(View.INVISIBLE);
         }
         /*if(!projectsList.get(position).getBoardAssociatedLabelsId().equals("") || projectsList.get(position).getBoardAssociatedLabelsId()!=null){
             holder.labelsLinearLayout.setVisibility(View.VISIBLE);
@@ -186,8 +351,10 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         ImageView favouriteIcon;
         ImageView attachment;
         RecyclerView recyclerView;
-        LinearLayout labelsLinearLayout,labelsLinearLayout1;
-        LinearLayout label1,label2,label3,label4,label5,label6,label7,label8;
+        LinearLayout labelsLinearLayout,labelsLinearLayout1,labelsLinearLayout2;
+        LinearLayout label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11;
+
+        int[] arrayIds = new int[] {R.id.row_cardscreen_label1,R.id.row_cardscreen_label2,R.id.row_cardscreen_label3,R.id.row_cardscreen_label4,R.id.row_cardscreen_label5,R.id.row_cardscreen_label6,R.id.row_cardscreen_label7,R.id.row_cardscreen_label8,R.id.row_cardscreen_label9,R.id.row_cardscreen_label10,R.id.row_cardscreen_label11};
 
 
     }

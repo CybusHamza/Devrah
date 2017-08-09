@@ -67,6 +67,7 @@ public class ChildFragmentBoardExtended extends Fragment {
   //  CardAssociatedLabelsAdapter cardAssociatedLabelsAdapter;
     CustomViewPagerAdapter VPadapter;
     ProjectsPojo boardsFragmentPojoData;
+    CardAssociatedLabelsPojo labelsPojo;
     ListView lv;
     RecyclerView cardAssociatedLabelRecycler;
 
@@ -257,7 +258,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                 JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
                                 //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
-                             //   row=jsonArray.length();
+                                row=jsonArrayCards.length();
                                 for (int i = 0; i < jsonArrayCards.length(); i++) {
                                     JSONObject jsonObject = jsonArrayCards.getJSONObject(i);
 
@@ -372,18 +373,23 @@ public class ChildFragmentBoardExtended extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                    String[] labels=new String[0];
                         ringProgressDialog.dismiss();
-                        if (!(response.equals("false"))) {
+                       /* if (!(response.equals("false"))) {
                             boardsFragmentPojoData = new ProjectsPojo();
+                            labelsPojo = new CardAssociatedLabelsPojo();
+                            boardsFragmentPojoData.setId(response.trim().toString());
                             boardsFragmentPojoData.setData(cardName);
+                            labelsPojo.setLabels(labels);
                             listPojo.add(boardsFragmentPojoData);
+                            cardLabelsPojoList.add(labelsPojo);
                             adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList);
 
-
+                            adapter.notifyDataSetChanged();
                             lv.setAdapter(adapter);
 
-                        }
+
+                        }*/getCardList(list_id);
                     }
                 }, new Response.ErrorListener() {
             @Override
