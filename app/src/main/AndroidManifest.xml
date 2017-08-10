@@ -22,7 +22,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:replace="android:icon,android:label">
         <activity android:name=".Views.SignUpActivity" />
-        <activity android:name=".Views.Login"></activity>
+        <activity android:name=".Views.Login" />
         <activity android:name=".Views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,8 +62,11 @@
             android:name=".FireBase_Notifications.RegistrationIntentService"
             android:exported="false" />
 
-        <activity android:name=".Views.MenuActivity"></activity>
-        <activity android:name=".Views.viewMessage"
+        <activity android:name=".Views.MenuActivity" />
+        <activity
+            android:name=".Views.viewMessage"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Views.manage_members"
             android:windowSoftInputMode="stateHidden"></activity>
     </application>
 

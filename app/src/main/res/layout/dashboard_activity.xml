@@ -24,10 +24,10 @@
 
         app:srcCompat="@drawable/bg_circle"
         android:layout_marginTop="59dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/dashboard_projects"
         app:civ_border_color="#fff"
-        app:civ_border_width="2dp"/>
+        app:civ_border_width="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/dashboard_projects" />
 
 
 

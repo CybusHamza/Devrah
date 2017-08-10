@@ -144,10 +144,10 @@ public class BoardsActivity extends AppCompatActivity {
         dataList = new ArrayList<>();
         View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
 
-        dataList.add(new DrawerPojo("Manage Members"));
+        dataList.add(new DrawerPojo("Manage Status"));
         dataList.add(new DrawerPojo("Copy Project"));
         dataList.add(new DrawerPojo("Move Project"));
-        dataList.add(new DrawerPojo("Manage Status"));
+        dataList.add(new DrawerPojo("Manage Members"));
         dataList.add(new DrawerPojo("Leave Project"));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
@@ -362,11 +362,7 @@ public class BoardsActivity extends AppCompatActivity {
                 switch (position) {
 
                     case 1:
-                        Toast.makeText(getApplicationContext(), "heyy", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                        startActivity(intent);
-                        finish();
+                        showStatus();
 
                         break;
 
@@ -384,7 +380,11 @@ public class BoardsActivity extends AppCompatActivity {
 
 
                     case 4:
-                        showStatus();
+
+                        Intent intent = new Intent(BoardsActivity.this, manage_members.class);
+                        intent.putExtra("P_id",projectID);
+                        startActivity(intent);
+
                         break;
 
                     case 5:
