@@ -13,7 +13,7 @@ public class End_Points {
     public static final String UPDATE_PROJECT_NAME = BASE_URL + "updateProjectName";
     public static final String UPDATE_BOARD_NAME = BASE_URL + "updateBoardName";
     public static final String GET_NOTIFICATIONS = BASE_URL + "getMyMessages";
-    public static final String GETMYCARDS = BASE_URL + "getMyCards/";
+    public static final String GETMYCARDS = BASE_URL + "getMyCards";
     public static final String SENT_MESSAGES = BASE_URL + "getSentMessagesById";
     public static final String SEND_NEW_MESSAGE = BASE_URL + "sendMessage";
     public static final String INSERT_TOKEN_ID = BASE_URL + "insertTokenid";
@@ -53,5 +53,6 @@ public class End_Points {
     public static final String COPY_PROJECT= BASE_URL + "copyInGroup";
     public static final String MOVE_PROJECT= BASE_URL + "moveInGroup";
     public static final String GET_CARD_ASSOC_LABELS= BASE_URL + "getBoardAssociatedCardLabels";
+    public static final String GET_ALL_BOARD_LISTS_FOR_CARD= BASE_URL + "getAllBoardListsForCard";
 
 }

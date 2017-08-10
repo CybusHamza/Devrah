@@ -77,8 +77,8 @@ public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,BoardsActivity.class);
-                activity.startActivity(intent);
+//                Intent intent = new Intent(activity,BoardsActivity.class);
+//                activity.startActivity(intent);
 
             }
         });

@@ -39,7 +39,7 @@ public class RegistrationIntentService extends IntentService {
 
             // Make a call to Instance API
             String instanceID = FirebaseInstanceId.getInstance().getToken();
-             String senderId = getResources().getString(R.string.gcm_defaultSenderId);
+            String senderId = getResources().getString(R.string.gcm_defaultSenderId);
 
             Jsonsend(instanceID,userid);
 

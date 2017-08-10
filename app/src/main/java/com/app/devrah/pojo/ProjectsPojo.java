@@ -12,6 +12,16 @@ public class ProjectsPojo {
     public String boardID;
     public String projectStatus;
 
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String dueDate;
+
     public String getBoardAssociatedLabelsId() {
         return boardAssociatedLabelsId;
     }

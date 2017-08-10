@@ -28,4 +28,16 @@
         android:layout_below="@+id/label"
         android:id="@+id/cardListView"/>
 
+    <Button
+        android:id="@+id/buttonAddCard"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/add_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="10dp"
+        />
+
 </RelativeLayout>

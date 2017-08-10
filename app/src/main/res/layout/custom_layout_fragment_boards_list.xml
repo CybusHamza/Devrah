@@ -19,7 +19,7 @@
        android:layout_height="40dp"
        android:orientation="horizontal"
        android:gravity="center"
-       android:visibility="invisible">
+       android:visibility="gone">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="80dp"
@@ -27,12 +27,13 @@
         android:id="@+id/row_cardscreen_label1"
         android:gravity="center"
         android:background="#fff"
-        android:visibility="invisible">
+        android:visibility="invisible"
+       >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="text"
+            android:text=""
             android:gravity="center"
             android:textColor="#fff"
             android:id="@+id/labelName1"
@@ -47,12 +48,13 @@
            android:gravity="center"
            android:id="@+id/row_cardscreen_label2"
            android:background="#fff"
-           android:visibility="invisible">
+           android:visibility="invisible"
+          >
 
            <TextView
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:text="text"
+               android:text=""
                android:gravity="center"
                android:textSize="17sp"
                android:textColor="#fff"
@@ -68,12 +70,13 @@
            android:gravity="center"
            android:id="@+id/row_cardscreen_label3"
            android:background="#fff"
-           android:visibility="invisible">
+           android:visibility="invisible"
+          >
 
            <TextView
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:text="text"
+               android:text=""
                android:gravity="center"
                android:textSize="17sp"
                android:textColor="#fff"
@@ -81,29 +84,10 @@
                android:textStyle="bold"/>
 
        </LinearLayout>
-       <LinearLayout
-           android:orientation="vertical"
-           android:layout_width="80dp"
-           android:layout_margin="5dp"
-           android:layout_height="40dp"
-           android:gravity="center"
-           android:id="@+id/row_cardscreen_label4"
-           android:background="#fff"
-           android:visibility="invisible">
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="text"
-               android:gravity="center"
-               android:textSize="17sp"
-               android:textColor="#fff"
-               android:id="@+id/labelName4"
-               android:textStyle="bold"/>
-
-       </LinearLayout>
 
    </LinearLayout>
+
     <LinearLayout
         android:layout_margin="4dp"
         android:layout_below="@id/labelsLayout"
@@ -119,13 +103,36 @@
             android:layout_margin="5dp"
             android:layout_height="40dp"
             android:gravity="center"
-            android:id="@+id/row_cardscreen_label5"
-            android:background="#fff">
+            android:id="@+id/row_cardscreen_label4"
+            android:background="#fff"
+            android:visibility="invisible"
+           >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text"
+                android:text=""
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName4"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label5"
+            android:background="#fff"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
                 android:gravity="center"
                 android:textSize="17sp"
                 android:textColor="#fff"
@@ -146,53 +153,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text"
+                android:text=""
                 android:gravity="center"
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName6"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="80dp"
-            android:layout_margin="5dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:id="@+id/row_cardscreen_label7"
-            android:background="#fff"
-            android:visibility="invisible">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="text"
-                android:gravity="center"
-                android:textSize="17sp"
-                android:textColor="#fff"
-                android:id="@+id/labelName7"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="80dp"
-            android:layout_margin="5dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:id="@+id/row_cardscreen_label8"
-            android:background="#fff"
-            android:visibility="invisible">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="text"
-                android:gravity="center"
-                android:textSize="17sp"
-                android:textColor="#fff"
-                android:id="@+id/labelName8"
                 android:textStyle="bold"/>
 
         </LinearLayout>
@@ -213,13 +178,58 @@
             android:layout_margin="5dp"
             android:layout_height="40dp"
             android:gravity="center"
-            android:id="@+id/row_cardscreen_label9"
-            android:background="#fff">
+            android:id="@+id/row_cardscreen_label7"
+            android:background="#fff"
+            android:visibility="invisible"
+           >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text"
+                android:text=""
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName7"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label8"
+            android:background="#fff"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName8"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label9"
+            android:background="#fff"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
                 android:gravity="center"
                 android:textSize="17sp"
                 android:textColor="#fff"
@@ -227,24 +237,108 @@
                 android:textStyle="bold"/>
 
         </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="4dp"
+        android:layout_below="@id/labelsLayout3"
+        android:id="@+id/labelsLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="80dp"
+        android:layout_margin="5dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:id="@+id/row_cardscreen_label10"
+        android:background="#fff"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="#fff"
+            android:id="@+id/labelName10"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="80dp"
+        android:layout_margin="5dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:id="@+id/row_cardscreen_label11"
+        android:background="#fff"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="#fff"
+            android:id="@+id/labelName11"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
             android:layout_height="40dp"
             android:gravity="center"
-            android:id="@+id/row_cardscreen_label10"
+            android:id="@+id/row_cardscreen_label12"
+            android:background="#fff"
+            android:visibility="invisible" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName12"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="4dp"
+        android:layout_below="@id/labelsLayout4"
+        android:id="@+id/labelsLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label13"
             android:background="#fff"
             android:visibility="invisible">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text"
+                android:text=""
                 android:gravity="center"
                 android:textSize="17sp"
                 android:textColor="#fff"
-                android:id="@+id/labelName10"
+                android:id="@+id/labelName13"
                 android:textStyle="bold"/>
 
         </LinearLayout>
@@ -254,22 +348,42 @@
             android:layout_margin="5dp"
             android:layout_height="40dp"
             android:gravity="center"
-            android:id="@+id/row_cardscreen_label11"
+            android:id="@+id/row_cardscreen_label14"
             android:background="#fff"
             android:visibility="invisible">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text"
+                android:text=""
                 android:gravity="center"
                 android:textSize="17sp"
                 android:textColor="#fff"
-                android:id="@+id/labelName11"
+                android:id="@+id/labelName14"
                 android:textStyle="bold"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="80dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:id="@+id/row_cardscreen_label15"
+            android:background="#fff"
+            android:visibility="invisible">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#fff"
+                android:id="@+id/labelName15"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
     </LinearLayout>
     <TextView
         android:layout_below="@id/labelsLayout3"

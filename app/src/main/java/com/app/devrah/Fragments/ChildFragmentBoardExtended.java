@@ -268,6 +268,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     projectsPojo.setId(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("card_name"));
                                     projectsPojo.setAttachment(jsonObject.getString("file_name"));
+                                    projectsPojo.setDueDate(jsonObject.getString("card_start_date"));
                                     projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
                                     //projectsPojo.setLabels(jsonObject.getString("label_color"));
 
@@ -281,13 +282,19 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
                                     JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
                                     String[] labels = new String[jsonArray.length()];
+                                    String[] labelText = new String[jsonArray.length()];
                                     for (int k=0;k<jsonArray.length();k++){
 
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
                                         labels[k]=jsonObject.getString("label_color");
-
+                                        if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }
                                     }
                                     labelsPojo.setLabels(labels);
+                                    labelsPojo.setLabelText(labelText);
                                     cardLabelsPojoList.add(labelsPojo);
                                 }
                                 adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList);

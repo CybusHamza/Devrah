@@ -153,12 +153,12 @@ public class ParentBoardExtendedFragment extends Fragment {
     }
 
 
-    public static void addPageAt(String pagename,int position) {
+    public static void addPageAt(String pagename,int position,String list_id) {
         //this.adapter = adapter;
         Bundle bundle = new Bundle();
         bundle.putString("p_id", p_id1);
         bundle.putString("b_id", b_id1);
-        bundle.putString("list_id", list_id1);
+        bundle.putString("list_id", list_id);
         bundle.putString("data", pagename);
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         fragmentChild.setArguments(bundle);

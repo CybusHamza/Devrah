@@ -187,9 +187,10 @@ public class LastItemBoardFragment extends Fragment {
 
                         ringProgressDialog.dismiss();
                         adapter = new CustomViewPagerAdapter(getFragmentManager());
-                        ParentBoardExtendedFragment.addPageAt(projectData,adapter.getCount());
+                        ParentBoardExtendedFragment.addPageAt(projectData,adapter.getCount(),response.trim().toString());
                         adapter.notifyDataSetChanged();
                         ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
+
                         //   ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
 
                     }
