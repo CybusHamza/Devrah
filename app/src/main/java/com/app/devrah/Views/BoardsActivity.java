@@ -91,6 +91,7 @@ public class BoardsActivity extends AppCompatActivity {
     private boolean isEditOpened = false;
     private EditText edtSeach;
     private ListView mDrawerList;
+    public static String ptitle="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class BoardsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         projectID = intent.getStringExtra("pid");
         projectTitle = intent.getStringExtra("ptitle");
+        ptitle=projectTitle;
         status = intent.getStringExtra("status");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -116,10 +118,11 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isEditOpened = true;
+                tv.requestFocus();
                 tv.setCursorVisible(true);
                 tv.setFocusableInTouchMode(true);
                 tv.setInputType(InputType.TYPE_CLASS_TEXT);
-                tv.requestFocus();
+
                 //tv.setText(tv.getText().toString());
             }
         });
@@ -171,7 +174,6 @@ public class BoardsActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 switch (id) {
-
                     case R.id.action_search:
                         handleMenuSearch();
                         return true;
@@ -181,7 +183,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                         openDrawer();
 
-                        Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                         return true;
                 }
 
@@ -218,7 +220,7 @@ public class BoardsActivity extends AppCompatActivity {
 
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabTwo.setText("Reference Boards");
+        tabTwo.setText("Archive Boards");
 
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.work_boards, 0, 0);
         tabLayout.getTabAt(1).setCustomView(tabTwo);
@@ -769,7 +771,7 @@ public class BoardsActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BoardsActivity.this, "Project has been copied successfully", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -876,7 +878,7 @@ public class BoardsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
-                        Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
 
                     }
                 }, new Response.ErrorListener() {

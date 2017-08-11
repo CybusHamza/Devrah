@@ -218,6 +218,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
             //the text editor
 
             //this is a listener to do a search when the user clicks on search button
+
             edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -253,6 +254,22 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
     }
     private void doSearch() {
         //
+        String nameToSearch=edtSeach.getText().toString();
+        ArrayList<TeamMembersPojo> filteredLeaves=new ArrayList<TeamMembersPojo>();
+
+        for (TeamMembersPojo data: listPojo) {
+            if (data.getData().toLowerCase().contains(nameToSearch.toLowerCase())  )
+            {
+                filteredLeaves.add(data);
+            }
+
+
+        }
+                /*leaveDatas.clear();
+                leaveDatas.addAll(filteredLeaves);
+                leaves_adapter.notifyDataSetChanged();*/
+        adapter = new TeamMembersAdapter(CreateNewTeamActivity.this,filteredLeaves);
+        lv.setAdapter(adapter);
     }
     private void addMember(){
         LayoutInflater inflater = LayoutInflater.from(CreateNewTeamActivity.this);
@@ -447,6 +464,8 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                                     membersPojoData.setData(jsonObject1.getString("first_name") + " " + jsonObject1.getString("last_name"));
                                     membersPojoData.setImage(jsonObject1.getString("profile_pic"));
                                     membersPojoData.setId(jsonObject1.getString("id"));
+                                    membersPojoData.setInitials(jsonObject1.getString("initials"));
+                                    membersPojoData.setGpimageView(jsonObject1.getString("gp_picture"));
                                     listPojo.add(membersPojoData);
                                 //}
                             }

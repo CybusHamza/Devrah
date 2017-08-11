@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -117,12 +118,16 @@ public class MenuActivity extends AppCompatActivity {
         tvDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String teamName,teamDescription;
+                teamName=etTeamName.getText().toString();
+               // teamDescription=etTeamDescription.getText().toString();
+                if(!teamName.equals("")) {
+                    creatNewTeam(etTeamName.getText().toString(), etTeamDescription.getText().toString());
 
-
-                creatNewTeam(etTeamName.getText().toString(),etTeamDescription.getText().toString());
-
-
-                alertDialog.dismiss();
+                    alertDialog.dismiss();
+                }else {
+                    Toast.makeText(MenuActivity.this,"Enter Team Name",Toast.LENGTH_LONG).show();
+                }
 
             }
         });

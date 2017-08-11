@@ -73,6 +73,7 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), ProjectsActivity.class);
+                finish();
                 startActivity(intent);
 
             }
@@ -82,6 +83,7 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), FavouritesActivity.class);
+                finish();
                 startActivity(intent);
 
             }
@@ -92,6 +94,7 @@ public class Dashboard extends AppCompatActivity {
 
 
                 Intent intent = new Intent(getApplicationContext(), MyCardsActivity.class);
+                finish();
                 startActivity(intent);
 
             }
@@ -102,6 +105,7 @@ public class Dashboard extends AppCompatActivity {
 
 
                 Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+                finish();
                 startActivity(intent);
 
             }
@@ -112,6 +116,7 @@ public class Dashboard extends AppCompatActivity {
 
 
                 Intent intent = new Intent(getApplicationContext(), MessagesActivity.class);
+                finish();
                 startActivity(intent);
 
             }
@@ -121,7 +126,7 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-
+                finish();
                 //  Intent intent = new Intent(getApplicationContext(), CreateNewTeamActivity.class);
                 startActivity(intent);
 
@@ -140,6 +145,7 @@ public class Dashboard extends AppCompatActivity {
                                 switch (which) {
                                     case 0:
                                         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                        finish();
                                         startActivity(intent);
                                         break;
                                     case 1:
@@ -149,6 +155,7 @@ public class Dashboard extends AppCompatActivity {
                                         editor.clear();
                                         editor.apply();
                                         Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
+                                        finish();
                                         startActivity(logOutIntent);
 
 
@@ -285,6 +292,10 @@ public class Dashboard extends AppCompatActivity {
 
         builder.show();
     }
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 
 }

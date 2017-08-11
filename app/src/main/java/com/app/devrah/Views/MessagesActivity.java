@@ -140,5 +140,12 @@ public class MessagesActivity extends AppCompatActivity {
             case 1 : ((SentMessagesFragment)adapter.getItem(position)).sentMessages();
         }
     }
+    @Override
+    public void onBackPressed() {
+            Intent intent = new Intent(MessagesActivity.this, Dashboard.class);
+            finish();
+            startActivity(intent);
+        super.onBackPressed();
+    }
 
 }

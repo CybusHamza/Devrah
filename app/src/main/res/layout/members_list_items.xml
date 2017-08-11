@@ -12,15 +12,32 @@
         android:orientation="horizontal"
         android:background="#fff"
         android:weightSum="1">
-        <ImageView
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/memberProfilePic"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:padding="5dp"
-            app:srcCompat="@drawable/bg_circle"
             android:textColor="#fff" />
+        <TextView
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:id="@+id/alias_img"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:layout_marginLeft="3dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:background="@drawable/bg_circle"
+            android:layout_alignTop="@+id/memberProfilePic"
+            android:layout_alignStart="@+id/memberProfilePic" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/memberName"

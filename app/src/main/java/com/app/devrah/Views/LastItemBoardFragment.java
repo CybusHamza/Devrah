@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -134,18 +135,26 @@ public class LastItemBoardFragment extends Fragment {
     public void showDialog() {
 
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View customView = layoutInflater.inflate(R.layout.custom_alert_dialogbox, null);
+        View customView = layoutInflater.inflate(R.layout.custom_alert_dialog_add_list, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setCancelable(false);
         edt = (EditText) customView.findViewById(R.id.input_watever);
 
         final TextView addCard = (TextView) customView.findViewById(R.id.btn_add_board);
+        final TextView cancelbtn = (TextView) customView.findViewById(R.id.btn_cancel);
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // CustomViewPagerAdapter.mFragmentList.remove(CustomViewPagerAdapter.customCount()-1);
 
-                adapter.removeFragAt(adapter.getCount()-1);
-                adapter.notifyDataSetChanged();
+
                 //  fragment = (ParentBoardExtendedFragment)this.getSupportFragmentManager().findFragmentById(R.id.ajeebFrag);
 //
 //                fragment = new ParentBoardExtendedFragment().
@@ -160,10 +169,17 @@ public class LastItemBoardFragment extends Fragment {
 //
 //                fragment.addPageAt(CustomViewPagerAdapter.customCount());
                 String projectData = edt.getText().toString();
-                addNewList(projectData,String.valueOf(adapter.getCount()-1));
-            //    CustomViewPagerAdapter.mFragmentList.remove(CustomViewPagerAdapter.customCount() -1);
+                if(!projectData.equals("")) {
+                    adapter.removeFragAt(adapter.getCount()-1);
+                    adapter.notifyDataSetChanged();
+                    addNewList(projectData, String.valueOf(adapter.getCount() - 1));
+                    //    CustomViewPagerAdapter.mFragmentList.remove(CustomViewPagerAdapter.customCount() -1);
 
-                alertDialog.dismiss();
+                    alertDialog.dismiss();
+                }else {
+                    Toast.makeText(getActivity(),"Please Enter List Name",Toast.LENGTH_SHORT).show();
+
+                }
 
 
 

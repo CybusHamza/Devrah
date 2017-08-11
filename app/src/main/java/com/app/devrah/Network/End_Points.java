@@ -55,5 +55,6 @@ public class End_Points {
     public static final String GET_CARD_ASSOC_LABELS= BASE_URL + "getBoardAssociatedCardLabels";
     public static final String ASSOSIATE_USET_TO_PROJECT= BASE_URL + "associateUserWithProject";
     public static final String DELETE_PROJECT_MEMBER= BASE_URL + "deleteProjectMember";
+    public static final String GET_ALL_BOARD_LISTS_FOR_CARD= BASE_URL + "getAllBoardListsForCard";
 
 }

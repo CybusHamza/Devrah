@@ -28,7 +28,9 @@
         <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
         <!--<item name="colorAccent">@color/colorAccent</item>-->
     <!--</style>-->
-
+    <style name="CustomEditTextTheme" parent="TextAppearance.AppCompat">
+        <item name="colorAccent">@color/colorGreen</item>
+    </style>
 
 
 </resources>

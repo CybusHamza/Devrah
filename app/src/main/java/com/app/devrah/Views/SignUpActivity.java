@@ -57,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
     Button btnSignUp,btnAddProfile;
     ImageView ivProfile;
 
-    String strName,strl_name,strEmail,strPassword,strConfirmPassword;
+    String strName,strl_name,strEmail,strPassword,strConfirmPassword,strInitials;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +100,11 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Fields cannot be empty ", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    strInitials=strName.charAt(0)+""+strl_name.charAt(0);
                     if (strEmail.matches(emailPattern) && strPassword.length() >= 8 && strPassword.equals(strConfirmPassword)) {
                         Signup();
+                    }else if(!strEmail.matches(emailPattern)){
+                        Toast.makeText(getApplicationContext(),"Email format is not correct",Toast.LENGTH_LONG).show();
                     }else if(strPassword.length()<=7){
                         Toast.makeText(getApplicationContext(),"Password length can not be less than 8 characters!",Toast.LENGTH_LONG).show();
                     }
@@ -133,7 +136,7 @@ private void attachProfile() {
                         if (response.equals("User already Registered with an this Email Address")) {
                             new SweetAlertDialog(SignUpActivity.this, SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Error!")
-                                    .setConfirmText("OK").setContentText(response)
+                                    .setConfirmText("OK").setContentText("User already Registered with this Email Address")
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sDialog) {
@@ -147,7 +150,7 @@ private void attachProfile() {
 
                             new SweetAlertDialog(SignUpActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText("Success!")
-                                    .setConfirmText("OK").setContentText("Sign up Successful")
+                                    .setConfirmText("OK").setContentText("Sign up successfully, Check your registered email to activate your account")
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sDialog) {
@@ -206,6 +209,7 @@ private void attachProfile() {
                 params.put("password", strPassword);
                 params.put("first_name", strName);
                 params.put("last_name", strl_name);
+                params.put("initials", strInitials);
 //                params.put("phone_number", strphone);
 //                params.put("website", strwebsite);
 //                params.put("adress", stradress);

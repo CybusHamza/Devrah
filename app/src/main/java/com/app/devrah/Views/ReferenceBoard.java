@@ -232,6 +232,13 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
         edt = (EditText)customView.findViewById(R.id.input_watever);
        TextView tvAddCard = (TextView) customView.findViewById(R.id.btn_add_board);
+        final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
         tvAddCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,13 +246,13 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 String projectData = edt.getText().toString();
                 if (!(projectData.isEmpty())) {
                     AddNewReferenceBoard(projectData);
-
+                    alertDialog.dismiss();
                 }
                 else {
-                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Please Enter Board Name",Toast.LENGTH_SHORT).show();
 
                 }
-                    alertDialog.dismiss();
+
 
 
             }

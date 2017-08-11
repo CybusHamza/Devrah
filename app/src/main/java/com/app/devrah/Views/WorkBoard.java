@@ -188,9 +188,16 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         View customView = inflater.inflate(R.layout.custom_alert_dialogbox,null);
         final AlertDialog alertDialog = new  AlertDialog.Builder(getContext()).create();
 
-
+            alertDialog.setCancelable(false);
         edt = (EditText)customView.findViewById(R.id.input_watever);
         final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,15 +217,13 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
                     lvWBoard.setAdapter(adapter);*/
 
-
+                    alertDialog.dismiss();
 
                 }
                 else {
-
-
-                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Please Enter Board Name",Toast.LENGTH_SHORT).show();
                 }
-                alertDialog.dismiss();
+
 
 
 

@@ -392,6 +392,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         String[] fullName=name.split(" ");
         final String firstName=fullName[0];
         final String lastName=fullName[1];
+        final String strInitials=firstName.charAt(0)+""+lastName.charAt(0);
 
         final int finalRnum = rnum;
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.SIGN_UP_GOOGLE,
@@ -403,7 +404,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                         if (response.equals("User already Registered with an this Email Address")) {
                             new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Error!")
-                                    .setConfirmText("OK").setContentText(response)
+                                    .setConfirmText("OK").setContentText("User already Registered with this Email Address")
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sDialog) {
@@ -479,6 +480,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                 params.put("first_name", firstName);
                 params.put("last_name", lastName);
                 params.put("profile_image", profileurl);
+                params.put("initials", strInitials);
 //                params.put("last_name", strl_name);
 //                params.put("phone_number", strphone);
 //                params.put("website", strwebsite);

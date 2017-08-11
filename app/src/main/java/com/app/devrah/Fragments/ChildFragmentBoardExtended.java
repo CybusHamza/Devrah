@@ -200,9 +200,17 @@ public class ChildFragmentBoardExtended extends Fragment {
         View customView = inflater.inflate(R.layout.custom_alert_dialogbox,null);
         final AlertDialog alertDialog = new  AlertDialog.Builder(getContext()).create();
 
-
+        alertDialog.setCancelable(false);
         edt = (EditText)customView.findViewById(R.id.input_watever);
         TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        addCard.setText("Add Card");
+        final TextView cancelbtn = (TextView) customView.findViewById(R.id.btn_cancel);
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,7 +218,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 String projectData = edt.getText().toString();
                 String  boardsFragmentData = edt.getText().toString();
 
-                if (!(boardsFragmentData.isEmpty())) {
+                if (!(boardsFragmentData.equals(""))) {
                    /* boardsFragmentPojoData = new ProjectsPojo();
                     boardsFragmentPojoData.setData(boardsFragmentData);
                     listPojo.add(boardsFragmentPojoData);
@@ -220,13 +228,14 @@ public class ChildFragmentBoardExtended extends Fragment {
                     lv.setAdapter(adapter);*/
                    row++;
                    saveCardByListId(boardsFragmentData,row);
+                    alertDialog.dismiss();
                 }
                 else {
-                    Toast.makeText(getActivity(),"No Text Entered",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Please Enter Card Name",Toast.LENGTH_SHORT).show();
                 }
 
 
-                alertDialog.dismiss();
+
 
             }
         });

@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,12 +75,14 @@ public class BoardsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
+
                 Intent intent = new Intent(activity,BoardExtended.class);
+
                 intent.putExtra("TitleData",projectsList.get(position).getData());
                 intent.putExtra("p_id",projectsList.get(position).getId());
                 intent.putExtra("b_id",projectsList.get(position).getBoardID());
                 intent.putExtra("list_id",projectsList.get(position).getListId());
-                intent.putExtra("ptitle",projectsList.get(position).getData());
+                //intent.putExtra("ptitle",);
 
                 activity.startActivity(intent);
 

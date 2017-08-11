@@ -121,7 +121,7 @@ public class ProjectsActivity extends AppCompatActivity {
 
                         openDrawer();
 
-                        Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                         return true;
                 }
 
@@ -262,6 +262,10 @@ public class ProjectsActivity extends AppCompatActivity {
         if (isSearchOpened) {
             handleMenuSearch();
             return;
+        } else {
+            Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
+            finish();
+            startActivity(intent);
         }
         super.onBackPressed();
     }

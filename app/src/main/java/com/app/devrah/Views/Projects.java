@@ -78,6 +78,7 @@ public class Projects extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
+    AlertDialog alertDialog;
 
     public Projects() {
         // Required empty public constructor
@@ -169,7 +170,8 @@ public class Projects extends Fragment implements View.OnClickListener {
 
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View customView = layoutInflater.inflate(R.layout.custom_alert_for_projects, null);
-        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setCancelable(false);
         title = (EditText) customView.findViewById(R.id.input_title);
         etDescription = (EditText) customView.findViewById(R.id.etEmail);
 
@@ -211,6 +213,13 @@ public class Projects extends Fragment implements View.OnClickListener {
 
 
         TextView addCard = (TextView) customView.findViewById(R.id.addProject);
+        TextView cancel = (TextView) customView.findViewById(R.id.cancel_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
         addCard.setText("Add Project");
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,93 +231,104 @@ public class Projects extends Fragment implements View.OnClickListener {
 
                 if (laEt.getVisibility() == View.VISIBLE) {
                     description = etProjectGroup.getText().toString();
+                    if(etProjectGroup.getText().toString().equals("")){
+                        Toast.makeText(getActivity(),"Please Enter Group Name",Toast.LENGTH_LONG).show();
+                        return;
+                    }else {
                     ProjectGroupEt();
+                        alertDialog.dismiss();
+                    }
                     // description = etDescription.getText().toString();
 
                 }
                 if (laSpinner.getVisibility() == View.VISIBLE) {
-                    GroupName = timeAdapter.getItem(spinnerProjectGroup.getSelectedItemPosition());
-                    int index = spinnerValues.indexOf(GroupName);
-                    groupId = spinnerGroupIds.get(index);
-                    //description = spinnerProjectGroup.
-                    Toast.makeText(getActivity().getApplicationContext(), GroupName, Toast.LENGTH_SHORT).show();
+                    int pos=spinnerProjectGroup.getSelectedItemPosition();
+                    if(pos!=-1){
+                        GroupName = timeAdapter.getItem(spinnerProjectGroup.getSelectedItemPosition());
+                        int index = spinnerValues.indexOf(GroupName);
+                        groupId = spinnerGroupIds.get(index);
+                        //description = spinnerProjectGroup.
+                        //Toast.makeText(getActivity().getApplicationContext(), GroupName, Toast.LENGTH_SHORT).show();
 
 
-                    if (!(projectData.isEmpty())) {
-                        projectPojoData = new ProjectsPojo();
-                        projectPojoData.setData(projectData);
-                        projectPojoData.setDescription(description);
-                        listPojo.add(projectPojoData);
-                        adapter = new ProjectsAdapter(getActivity(), listPojo);
-                        lv.setAdapter(adapter);
+                        if (!(projectData.isEmpty())) {
+                           /* projectPojoData = new ProjectsPojo();
+                            projectPojoData.setData(projectData);
+                            projectPojoData.setDescription(description);
+                            listPojo.add(projectPojoData);
+                            adapter = new ProjectsAdapter(getActivity(), listPojo);
+                            lv.setAdapter(adapter);*/
+                            alertDialog.dismiss();
+                            ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
+                            ringProgressDialog.setCancelable(false);
+                            ringProgressDialog.show();
+                            StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT, new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    ringProgressDialog.dismiss();
+                                    getProjectsData();
+                                    Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
 
-                        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    ringProgressDialog.dismiss();
+                                    alertDialog.dismiss();
+                                    Toast.makeText(getActivity().getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
 
-
-                                //   Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-
+                                }
                             }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                                Toast.makeText(getActivity().getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
 
 
-                        )
+                            )
 
-                        {
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
+                            {
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
 
-                                Map<String, String> params = new HashMap<>();
-                                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                String userId = pref.getString("user_id", "");
+                                    Map<String, String> params = new HashMap<>();
+                                    SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                    String userId = pref.getString("user_id", "");
 
 //                                params.put("id",userId);
 //                                params.put("project_description",projectDescription);
 //                                params.put("project_name",projectData);
 //                                params.put("project_group",description);
 
-                                //  String userId = pref.getString("user_id","");
+                                    //  String userId = pref.getString("user_id","");
 
-                                params.put("id", userId);
-                                params.put("project_description", projectDescription);
-                                params.put("project_name", projectData);
-                                params.put("project_group", groupId);
-                                //   params.put("")
+                                    params.put("id", userId);
+                                    params.put("project_description", projectDescription);
+                                    params.put("project_name", projectData);
+                                    params.put("project_group", groupId);
+                                    //   params.put("")
 
-                                //    params.put("pg_name",GroupName);
-
-
-                                // params.put()
-                                // params.put("password",strPassword );
-                                return params;
-                            }
-                        };
-                        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-                        requestQueue.add(request);
+                                    //    params.put("pg_name",GroupName);
 
 
-                    } else {
-                        Toast.makeText(getActivity(), "No Text Entered", Toast.LENGTH_SHORT).show();
+                                    // params.put()
+                                    // params.put("password",strPassword );
+                                    return params;
+                                }
+                            };
+                            RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                            requestQueue.add(request);
+
+
+                        } else {
+                            Toast.makeText(getActivity(), "Enter Project Name", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }else {
+                        Toast.makeText(getActivity(), "Project Group is not Selected", Toast.LENGTH_SHORT).show();
                     }
 
 
+
                 }
-
-
                 //  final String projectDescription = etDescription.getText().toString();
                 // = etDescription.getText().toString();
-
-                alertDialog.dismiss();
-
-
             }
         });
 
@@ -383,7 +403,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                         if (response.equals("false")) {
                             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Error!")
-                                    .setConfirmText("OK").setContentText("Incorrect Username or Password")
+                                    .setConfirmText("OK").setContentText("Error")
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sDialog) {
@@ -492,7 +512,7 @@ public class Projects extends Fragment implements View.OnClickListener {
         spinnerValues = new ArrayList<>();
         spinnerGroupIds = new ArrayList<>();
 
-        ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Checking Credentials ...", true);
+        ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -506,7 +526,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                         if (response.equals("false")) {
                             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Error!")
-                                    .setConfirmText("OK").setContentText("Incorrect Username or Password")
+                                    .setConfirmText("OK").setContentText("Error")
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sDialog) {
@@ -564,6 +584,7 @@ public class Projects extends Fragment implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
 
                 ringProgressDialog.dismiss();
+                //alertDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -613,7 +634,7 @@ public class Projects extends Fragment implements View.OnClickListener {
             StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT_ET, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-
+                    getProjectsData();
                     Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
 
                 }

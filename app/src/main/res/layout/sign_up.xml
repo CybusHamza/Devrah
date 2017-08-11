@@ -80,6 +80,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/colorAccent"
             android:hint="Password"
+            android:inputType="textPassword"
             android:backgroundTint="#fff"
             android:layout_height="wrap_content"
             />
@@ -99,6 +100,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/colorAccent"
             android:hint="Confirm Password"
+            android:inputType="textPassword"
             android:backgroundTint="#fff"
             android:layout_height="wrap_content"
             />

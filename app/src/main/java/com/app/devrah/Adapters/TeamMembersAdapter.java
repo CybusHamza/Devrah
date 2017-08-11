@@ -90,17 +90,48 @@ public class TeamMembersAdapter extends BaseAdapter {
         holder.data.setText(membersList.get(position).getData());
         holder.profilePic=(ImageView)convertView.findViewById(R.id.memberProfilePic);
         holder.removeUser=(ImageView)convertView.findViewById(R.id.removeAccessTeam);
+        holder.alias_img = (TextView) convertView.findViewById(R.id.alias_img);
         holder.removeUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertRemove(membersList.get(position).getId(),position);
+                new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Error!")
+                        .setCancelText("Cancle")
+                        .setConfirmText("OK").setContentText("Are You sure you want to Remove this member")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                alertRemove(membersList.get(position).getId(),position);
+                                sDialog.dismiss();
+                            }
+                        })
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .show();
+
             }
         });
-        Picasso.with(activity)
-                .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + membersList.get(position).getImage())
-                .placeholder(R.drawable.bg_circle)
-                .into(holder.profilePic);
-
+        if(membersList.get(position).getImage().equals("null") && membersList.get(position).getGpimageView().equals("null")){
+            holder.alias_img.setVisibility(View.VISIBLE);
+            holder.alias_img.setText(membersList.get(position).getInitials());
+        }else if(!membersList.get(position).getImage().equals("null")){
+            holder.alias_img.setVisibility(View.GONE);
+            Picasso.with(activity)
+                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + membersList.get(position).getImage())
+                    .placeholder(R.drawable.bg_circle)
+                    .into(holder.profilePic);
+        }else {
+            holder.alias_img.setVisibility(View.GONE);
+            Picasso.with(activity)
+                    .load(membersList.get(position).getGpimageView())
+                    .placeholder(R.drawable.bg_circle)
+                    .into(holder.profilePic);
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +249,7 @@ public class TeamMembersAdapter extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data;
+        TextView data,alias_img;
         ImageView profilePic,removeUser;
     }
 

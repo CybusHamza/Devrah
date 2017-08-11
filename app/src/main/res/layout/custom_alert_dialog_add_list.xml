@@ -28,11 +28,11 @@
 
 <LinearLayout
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="end">
+    android:gravity="end">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="Cancel"
@@ -43,19 +43,19 @@
         android:paddingRight="20dp"
         android:layout_marginBottom="10dp"
         android:paddingTop="20dp"/>
-   <TextView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:gravity="right"
-       android:text="Add Board"
-       android:textColor="#00FA9A"
-       android:textSize="20sp"
-       android:id="@+id/btn_add_board"
-       android:paddingLeft="20dp"
-       android:paddingRight="20dp"
-       android:layout_marginBottom="10dp"
-       android:paddingTop="20dp"/>
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Add List"
+        android:textColor="#00FA9A"
+        android:textSize="20sp"
+        android:id="@+id/btn_add_board"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="20dp"/>
 
+</LinearLayout>
 
 </LinearLayout>

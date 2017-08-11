@@ -95,6 +95,7 @@ public class BoardExtended extends AppCompatActivity {
         b_id = intent.getStringExtra("b_id");
         p_id = intent.getStringExtra("p_id");
         list_id = intent.getStringExtra("list_id");
+
         projectTitle = intent.getStringExtra("ptitle");
         projectId=p_id;
         boardId=b_id;
@@ -175,7 +176,8 @@ public class BoardExtended extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
                 intent.putExtra("pid",p_id);
-                intent.putExtra("ptitle",projectTitle);
+                //projectTitle=BoardsActivity.ptitle;
+                intent.putExtra("ptitle",BoardsActivity.ptitle);
                 finish();
                 startActivity(intent);
                 onBackPressed();
@@ -298,7 +300,8 @@ public class BoardExtended extends AppCompatActivity {
         }else{
             Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
             intent.putExtra("pid",p_id);
-            intent.putExtra("ptitle",projectTitle);
+
+            intent.putExtra("ptitle", BoardsActivity.ptitle);
             finish();
             startActivity(intent);
         }

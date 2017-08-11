@@ -10,6 +10,26 @@ public class TeamMembersPojo {
     public String data;
     String imageView;
 
+    public String getGpimageView() {
+        return gpimageView;
+    }
+
+    public void setGpimageView(String gpimageView) {
+        this.gpimageView = gpimageView;
+    }
+
+    String gpimageView;
+
+    public String getInitials() {
+        return initials;
+    }
+
+    public void setInitials(String initials) {
+        this.initials = initials;
+    }
+
+    String initials;
+
     public String getId() {
         return id;
     }
