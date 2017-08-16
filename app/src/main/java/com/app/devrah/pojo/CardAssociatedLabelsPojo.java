@@ -6,6 +6,15 @@ package com.app.devrah.pojo;
 
 public class CardAssociatedLabelsPojo {
     String[] label;
+    public String boardAssociatedLabelsId;
+
+    public String getBoardAssociatedLabelsId() {
+        return boardAssociatedLabelsId;
+    }
+
+    public void setBoardAssociatedLabelsId(String boardAssociatedLabelsId) {
+        this.boardAssociatedLabelsId = boardAssociatedLabelsId;
+    }
 
     public String[] getLabelText() {
         return labelText;

@@ -120,6 +120,38 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         etSearch = (EditText)findViewById(R.id.etSearch);
         etSearch.setVisibility(View.INVISIBLE);
         search.setOnClickListener(this);
+        edtSeach.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String nameToSearch=etSearch.getText().toString();
+                ArrayList<TeamMembersPojo> filteredLeaves=new ArrayList<TeamMembersPojo>();
+
+                for (TeamMembersPojo data: listPojo) {
+                    if (data.getData().toLowerCase().contains(nameToSearch.toLowerCase())  )
+                    {
+                        filteredLeaves.add(data);
+                    }
+
+
+                }
+                /*leaveDatas.clear();
+                leaveDatas.addAll(filteredLeaves);
+                leaves_adapter.notifyDataSetChanged();*/
+                adapter = new TeamMembersAdapter(CreateNewTeamActivity.this,filteredLeaves);
+                lv.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
        etSearch.addTextChangedListener(new TextWatcher() {
            @Override
            public void beforeTextChanged(CharSequence s, int start, int count, int after) {

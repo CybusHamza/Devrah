@@ -112,12 +112,18 @@ public class BoardsActivity extends AppCompatActivity {
         toolbar.setTitle("");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+       // toolbar.setFocusable(true);
+        //toolbar.setFocusableInTouchMode(true);
         tv.setText(projectTitle);
+        tv.setFocusable(false);
+        tv.setCursorVisible(false);
+       // tv.setFocusableInTouchMode(true);
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isEditOpened = true;
+                tv.setFocusable(true);
                 tv.requestFocus();
                 tv.setCursorVisible(true);
                 tv.setFocusableInTouchMode(true);
@@ -135,6 +141,9 @@ public class BoardsActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
                     UpdateProjectName(tv.getText().toString());
+                    tv.setFocusable(false);
+                    tv.setCursorVisible(false);
+                    tv.setFocusableInTouchMode(false);
                 }
                 return true;
             }
@@ -338,6 +347,7 @@ public class BoardsActivity extends AppCompatActivity {
         } else if (isEditOpened) {
             final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
             tv.clearFocus();
+            tv.setCursorVisible(false);
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
             UpdateProjectName(tv.getText().toString());

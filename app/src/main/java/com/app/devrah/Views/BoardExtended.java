@@ -55,7 +55,7 @@ public class BoardExtended extends AppCompatActivity {
 
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
-
+    private boolean isEditOpened = false;
     ParentBoardExtendedFragment fragment;
     //FragmentBoardExtendedLast lastFrag;
 
@@ -106,9 +106,11 @@ public class BoardExtended extends AppCompatActivity {
         //toolbar.setTitle(title);
         final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
         tv.setText(title);
+        tv.setCursorVisible(false);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isEditOpened = true;
                 tv.setCursorVisible(true);
                 tv.setFocusableInTouchMode(true);
                 tv.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -120,6 +122,7 @@ public class BoardExtended extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId==6 ) {
+                    isEditOpened = false;
                     tv.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
@@ -297,7 +300,16 @@ public class BoardExtended extends AppCompatActivity {
         if (isSearchOpened) {
             handleMenuSearch();
             return;
-        }else{
+        } else if (isEditOpened) {
+            final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+            tv.clearFocus();
+            tv.setCursorVisible(false);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+            UpdateBoardName(tv.getText().toString());
+            isEditOpened = false;
+            return;
+        } else{
             Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
             intent.putExtra("pid",p_id);
 

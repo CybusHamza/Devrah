@@ -9,7 +9,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="3dp"
     >
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
@@ -19,6 +19,7 @@
         android:imeOptions="actionDone"
         android:textCursorDrawable="@null"
         android:id="@+id/toolbar_title"
-        style="@style/CustomEditTextTheme"/>
-
+        android:background="@color/float_transparent"
+        />
+    <!--style="@android:style/Widget.EditText"-->
 </android.support.v7.widget.Toolbar>
