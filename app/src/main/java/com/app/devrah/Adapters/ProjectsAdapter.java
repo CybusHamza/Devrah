@@ -75,7 +75,6 @@ public class ProjectsAdapter extends BaseAdapter {
                 Intent intent = new Intent(activity,BoardsActivity.class);
                 intent.putExtra("pid",projectsList.get(position).getId());
                 intent.putExtra("ptitle",projectsList.get(position).getData());
-                intent.putExtra("ptitle",projectsList.get(position).getData());
                 intent.putExtra("status",projectsList.get(position).getProjectStatus());
                 activity.startActivity(intent);
 

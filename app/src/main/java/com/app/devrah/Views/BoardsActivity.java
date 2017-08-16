@@ -354,9 +354,7 @@ public class BoardsActivity extends AppCompatActivity {
             isEditOpened = false;
             return;
         } else {
-            Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
             finish();
-            startActivity(intent);
         }
         super.onBackPressed();
     }

@@ -79,7 +79,7 @@ public class BoardExtended extends AppCompatActivity {
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     private ListView mDrawerList;
-    Bundle bundle;
+ //   Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class BoardExtended extends AppCompatActivity {
         Intent intent = this.getIntent();
         b_id = intent.getStringExtra("b_id");
         p_id = intent.getStringExtra("p_id");
-        list_id = intent.getStringExtra("list_id");
+     //   list_id = intent.getStringExtra("list_id");
 
         projectTitle = intent.getStringExtra("ptitle");
         projectId=p_id;
@@ -190,12 +190,12 @@ public class BoardExtended extends AppCompatActivity {
         fragment = new ParentBoardExtendedFragment();
         fragment = (ParentBoardExtendedFragment) this.getSupportFragmentManager().findFragmentById(R.id.ajeebFrag);
 
-        bundle = new Bundle();
-
-        bundle.putString("b_id",b_id);
-        bundle.putString("p_id",p_id);
-        bundle.putString("list_id",list_id);
-        bundle.putString("ptitle",projectTitle);
+//        bundle = new Bundle();
+//
+//        bundle.putString("b_id",b_id);
+//        bundle.putString("p_id",p_id);
+//        bundle.putString("list_id",list_id);
+//        bundle.putString("ptitle",projectTitle);
 
 
 

@@ -2,6 +2,7 @@ package com.app.devrah.Views;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.R;
@@ -263,9 +262,8 @@ public class ProjectsActivity extends AppCompatActivity {
             handleMenuSearch();
             return;
         } else {
-            Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
             finish();
-            startActivity(intent);
+
         }
         super.onBackPressed();
     }

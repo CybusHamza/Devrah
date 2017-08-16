@@ -11,8 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.pojo.FavouritesPojo;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class FavouritesAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         FavouritesAdapter.ViewHolder holder = new FavouritesAdapter.ViewHolder();
         if (inflater== null)
@@ -62,14 +62,20 @@ public class FavouritesAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.custom_layout_for_favourites, null);
 
         holder.data = (TextView) convertView.findViewById(R.id.tvFavouritesData);
+        holder.p_name = (TextView) convertView.findViewById(R.id.projectName);
         holder.data.setText(projectsList.get(position).getData());
+        holder.p_name.setText(projectsList.get(position).getP_name());
 
 
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,BoardsActivity.class);
+                Intent intent = new Intent(activity,BoardExtended.class);
+                intent.putExtra("TitleData",projectsList.get(position).getP_name());
+                intent.putExtra("p_id",projectsList.get(position).getP_status());
+                intent.putExtra("b_id",projectsList.get(position).getBrdid());
+
                 activity.startActivity(intent);
 
             }
@@ -80,7 +86,7 @@ public class FavouritesAdapter extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data;
+        TextView data,p_name;
         ImageView favouriteIcon;
     }
 

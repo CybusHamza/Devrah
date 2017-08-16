@@ -5,12 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:layout_marginTop="9dp"
+    <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/etMember"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Member"
-        android:padding="15dp"/>
-
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
