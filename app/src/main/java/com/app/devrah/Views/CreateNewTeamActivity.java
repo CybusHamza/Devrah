@@ -4,10 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,11 +34,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.TeamAdapterMenu;
 import com.app.devrah.Adapters.TeamMembersAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.pojo.All_Teams;
 import com.app.devrah.pojo.TeamMembersPojo;
 
 import org.json.JSONArray;
@@ -170,7 +167,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        listPojo = new ArrayList<>();
+
         lv = (ListView)findViewById(R.id.membersListView);
        /* membersPojoData = new TeamMembersPojo();
         membersPojoData.setData("rizwan");

@@ -64,6 +64,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ArrayList<String> projectName;
     ArrayList<String> projectStatus;
+    ArrayList<String> projectids;
     String groupProjectData;
     GroupProjectsPojo groupProjectsPojo;
     GroupProjectAdapter adapter;
@@ -212,6 +213,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
         projectId = new ArrayList<>();
         projectName = new ArrayList<>();
         projectStatus = new ArrayList<>();
+        projectids = new ArrayList<>();
 
         ////////////////////////// STRING REQUEST ////////////////////////////GET_GROUP_PROJECTS
 
@@ -278,6 +280,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
                                         {
                                             MyList.add( jsonObject.getString("project_name"));
                                             projectStatus.add(jsonObject.getString("project_status"));
+                                            projectids.add(jsonObject.getString("project_id"));
 
                                         }
 
@@ -292,7 +295,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
                                 e.printStackTrace();
                             }
 
-                            customAdapter = new CustomExpandableListAdapter(getActivity().getApplicationContext(), projectId, listDataChild , projectName,projectStatus);
+                            customAdapter = new CustomExpandableListAdapter(getActivity(), projectId, listDataChild , projectName,projectStatus,projectids);
                             expandableLv.setAdapter(customAdapter);
                         }
                     }

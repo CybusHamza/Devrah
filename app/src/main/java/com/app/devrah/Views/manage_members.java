@@ -89,8 +89,8 @@ public class manage_members extends Activity {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
-                                teamid = teamListids .get(i);
-                                usertoadd = listPojo.get(i).getUserId();
+                                //teamid = teamListids .get(i);
+                                usertoadd = membersPojos.get(i).getUserId();
 
                                 deletemember();
                             }

@@ -1,6 +1,8 @@
 package com.app.devrah.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,20 +24,22 @@ import java.util.List;
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
 
-    private Context context;
+    private Activity context;
     private List<String> listDataHeader; // header titles
     private List<String> ids; // header titles
     private List<String> status; // header titles
+    private List<String> projectids; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
 
-public CustomExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData , ArrayList<String> ids,ArrayList<String> status){
+public CustomExpandableListAdapter(Activity context, List<String> listDataHeader, HashMap<String, List<String>> listChildData , ArrayList<String> ids,ArrayList<String> status,ArrayList<String> projectids ){
 
 
     this.context = context;
     this._listDataChild = listChildData;
     this.listDataHeader = listDataHeader;
+    this.projectids = projectids;
     this.ids = ids;
     this.status = status;
 
@@ -114,7 +119,7 @@ public CustomExpandableListAdapter(Context context, List<String> listDataHeader,
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final String childText = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
@@ -124,6 +129,19 @@ public CustomExpandableListAdapter(Context context, List<String> listDataHeader,
         }
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.tvProjectsData);
+
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,BoardsActivity.class);
+                intent.putExtra("pid",projectids.get(groupPosition));
+                intent.putExtra("ptitle",childText);
+                intent.putExtra("status",status.get(groupPosition));
+                context.startActivity(intent);
+
+            }
+        });
 
         txtListChild.setText(childText);
         TextView statusList = (TextView) convertView

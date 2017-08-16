@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +47,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.GET_CARDS_FOR_LIST;
-import static com.app.devrah.Network.End_Points.GET_CARD_ASSOC_LABELS;
 import static com.app.devrah.Network.End_Points.SAVE_CARD_BY_LIST_ID;
 
 
@@ -110,10 +108,8 @@ public class ChildFragmentBoardExtended extends Fragment {
 //        cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
 
 
-         tvName = (TextView)view.findViewById(R.id.textName);
-            boardMenu = (ImageView)view.findViewById(R.id.menuBoards);
-
-
+        tvName = (TextView)view.findViewById(R.id.textName);
+        boardMenu = (ImageView)view.findViewById(R.id.menuBoards);
 
 
         tvAddCard = (TextView)view.findViewById(R.id.addCard);
