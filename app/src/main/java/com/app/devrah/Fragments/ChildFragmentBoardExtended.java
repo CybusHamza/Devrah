@@ -278,7 +278,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     projectsPojo.setData(jsonObject.getString("card_name"));
                                     projectsPojo.setAttachment(jsonObject.getString("file_name"));
                                     projectsPojo.setDueDate(jsonObject.getString("card_start_date"));
-                                    projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
+                                   // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
                                     //projectsPojo.setLabels(jsonObject.getString("label_color"));
 
 //                                    cardLabelsPojoList.add(labelsPojo);
