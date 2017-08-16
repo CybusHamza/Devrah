@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by AQSA SHaaPARR on 7/11/2017.
- */
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -33,24 +30,24 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> _listDataChild;
 
 
-public CustomExpandableListAdapter(Activity context, List<String> listDataHeader, HashMap<String, List<String>> listChildData , ArrayList<String> ids,ArrayList<String> status,ArrayList<String> projectids ){
+    public CustomExpandableListAdapter(Activity context, List<String> listDataHeader, HashMap<String, List<String>> listChildData, ArrayList<String> ids, ArrayList<String> status, ArrayList<String> projectids) {
 
 
-    this.context = context;
-    this._listDataChild = listChildData;
-    this.listDataHeader = listDataHeader;
-    this.projectids = projectids;
-    this.ids = ids;
-    this.status = status;
+        this.context = context;
+        this._listDataChild = listChildData;
+        this.listDataHeader = listDataHeader;
+        this.projectids = projectids;
+        this.ids = ids;
+        this.status = status;
 
 
-}
+    }
 
 
     @Override
     public int getGroupCount() {
 
-      return this.listDataHeader.size();
+        return this.listDataHeader.size();
         //  return 0;
     }
 
@@ -59,7 +56,7 @@ public CustomExpandableListAdapter(Activity context, List<String> listDataHeader
 
         String data = ids.get(groupPosition);
 
-            return this._listDataChild.get(data).size();
+        return this._listDataChild.get(data).size();
 
 
         // 0;
@@ -134,10 +131,10 @@ public CustomExpandableListAdapter(Activity context, List<String> listDataHeader
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,BoardsActivity.class);
-                intent.putExtra("pid",projectids.get(groupPosition));
-                intent.putExtra("ptitle",childText);
-                intent.putExtra("status",status.get(groupPosition));
+                Intent intent = new Intent(context, BoardsActivity.class);
+                intent.putExtra("pid", projectids.get(groupPosition));
+                intent.putExtra("ptitle", childText);
+                intent.putExtra("status", status.get(groupPosition));
                 context.startActivity(intent);
 
             }
@@ -147,16 +144,16 @@ public CustomExpandableListAdapter(Activity context, List<String> listDataHeader
         txtListChild.setText(childText);
         TextView statusList = (TextView) convertView
                 .findViewById(R.id.btnActive);
-        if(status.get(groupPosition).equals("1")) {
+        if (status.get(groupPosition).equals("1")) {
             statusList.setText("Active");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
-        }else {
+        } else {
             statusList.setText("DeActive");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
         }
         return convertView;
 
-      //  return null;
+        //  return null;
     }
 
     @Override
