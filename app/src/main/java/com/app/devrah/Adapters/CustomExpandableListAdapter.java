@@ -143,6 +143,7 @@ public CustomExpandableListAdapter(Activity context, List<String> listDataHeader
             }
         });
 
+
         txtListChild.setText(childText);
         TextView statusList = (TextView) convertView
                 .findViewById(R.id.btnActive);
