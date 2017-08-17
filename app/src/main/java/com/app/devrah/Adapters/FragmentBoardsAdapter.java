@@ -280,6 +280,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         textView.setText("");
                         //textView.setText(labelNames[i]);
                         count1++;
+
                         //break;
                     }else if(labels[i].equals("dark-green")) {
                         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
