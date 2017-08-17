@@ -12,6 +12,16 @@ public class ProjectsPojo {
     public String boardID;
     public String projectStatus;
 
+    public String getnOfAttachments() {
+        return nOfAttachments;
+    }
+
+    public void setnOfAttachments(String nOfAttachments) {
+        this.nOfAttachments = nOfAttachments;
+    }
+
+    public String nOfAttachments;
+
     public String getDueDate() {
         return dueDate;
     }

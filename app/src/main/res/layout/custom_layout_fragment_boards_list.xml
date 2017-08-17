@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#fff"
     android:id="@+id/layoutTestRecycleView"
@@ -16,14 +17,15 @@
        android:layout_margin="4dp"
        android:id="@+id/labelsLayout"
        android:layout_width="match_parent"
-       android:layout_height="40dp"
+       android:layout_height="wrap_content"
        android:orientation="horizontal"
        android:gravity="center"
        android:visibility="gone">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_height="10dp"
+        android:layout_margin="5dp"
         android:id="@+id/row_cardscreen_label1"
         android:gravity="center"
         android:background="#fff"
@@ -37,14 +39,14 @@
             android:gravity="center"
             android:textColor="#fff"
             android:id="@+id/labelName1"
-            android:textStyle="bold"/>
+            />
 
     </LinearLayout>
        <LinearLayout
            android:orientation="vertical"
            android:layout_width="80dp"
            android:layout_margin="5dp"
-           android:layout_height="40dp"
+           android:layout_height="10dp"
            android:gravity="center"
            android:id="@+id/row_cardscreen_label2"
            android:background="#fff"
@@ -59,14 +61,14 @@
                android:textSize="17sp"
                android:textColor="#fff"
                android:id="@+id/labelName2"
-               android:textStyle="bold"/>
+              />
 
        </LinearLayout>
        <LinearLayout
            android:orientation="vertical"
            android:layout_width="80dp"
            android:layout_margin="5dp"
-           android:layout_height="40dp"
+           android:layout_height="10dp"
            android:gravity="center"
            android:id="@+id/row_cardscreen_label3"
            android:background="#fff"
@@ -81,7 +83,7 @@
                android:textSize="17sp"
                android:textColor="#fff"
                android:id="@+id/labelName3"
-               android:textStyle="bold"/>
+               />
 
        </LinearLayout>
 
@@ -101,7 +103,7 @@
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label4"
             android:background="#fff"
@@ -116,14 +118,14 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName4"
-                android:textStyle="bold"/>
+                />
 
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label5"
             android:background="#fff"
@@ -137,14 +139,14 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName5"
-                android:textStyle="bold"/>
+               />
 
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label6"
             android:background="#fff"
@@ -158,7 +160,7 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName6"
-                android:textStyle="bold"/>
+               />
 
         </LinearLayout>
 
@@ -176,7 +178,7 @@
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label7"
             android:background="#fff"
@@ -191,14 +193,14 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName7"
-                android:textStyle="bold"/>
+                />
 
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label8"
             android:background="#fff"
@@ -212,7 +214,7 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName8"
-                android:textStyle="bold"/>
+               />
 
         </LinearLayout>
 
@@ -220,7 +222,7 @@
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label9"
             android:background="#fff"
@@ -234,7 +236,7 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName9"
-                android:textStyle="bold"/>
+                />
 
         </LinearLayout>
 
@@ -252,7 +254,7 @@
         android:orientation="vertical"
         android:layout_width="80dp"
         android:layout_margin="5dp"
-        android:layout_height="40dp"
+        android:layout_height="10dp"
         android:gravity="center"
         android:id="@+id/row_cardscreen_label10"
         android:background="#fff"
@@ -266,14 +268,14 @@
             android:textSize="17sp"
             android:textColor="#fff"
             android:id="@+id/labelName10"
-            android:textStyle="bold"/>
+            />
 
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="80dp"
         android:layout_margin="5dp"
-        android:layout_height="40dp"
+        android:layout_height="10dp"
         android:gravity="center"
         android:id="@+id/row_cardscreen_label11"
         android:background="#fff"
@@ -287,14 +289,14 @@
             android:textSize="17sp"
             android:textColor="#fff"
             android:id="@+id/labelName11"
-            android:textStyle="bold"/>
+           />
 
     </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label12"
             android:background="#fff"
@@ -308,7 +310,7 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName12"
-                android:textStyle="bold"/>
+               />
 
         </LinearLayout>
     </LinearLayout>
@@ -325,7 +327,7 @@
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label13"
             android:background="#fff"
@@ -339,14 +341,14 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName13"
-                android:textStyle="bold"/>
+                />
 
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label14"
             android:background="#fff"
@@ -360,14 +362,14 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName14"
-                android:textStyle="bold"/>
+                />
 
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_margin="5dp"
-            android:layout_height="40dp"
+            android:layout_height="10dp"
             android:gravity="center"
             android:id="@+id/row_cardscreen_label15"
             android:background="#fff"
@@ -381,7 +383,7 @@
                 android:textSize="17sp"
                 android:textColor="#fff"
                 android:id="@+id/labelName15"
-                android:textStyle="bold"/>
+               />
 
         </LinearLayout>
     </LinearLayout>
@@ -393,6 +395,7 @@
         android:padding="5dp"
         android:layout_marginTop="10dp"
         android:text="sdfghj"
+        android:textStyle="bold"
         android:id="@+id/tvFragmentBoardsList"
         android:gravity="center"
         android:textColor="#000"
@@ -406,10 +409,11 @@
         android:layout_alignTop="@+id/tvFragmentBoardsList"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="5dp"
+        android:visibility="invisible"
         app:srcCompat="@drawable/star_default" />
     <TextView
         android:layout_below="@id/tvFragmentBoardsList"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:padding="5dp"
@@ -418,13 +422,44 @@
         android:id="@+id/dateLabel"
         android:textColor="#000"
         />
-    <android.support.v7.widget.RecyclerView
+    <ImageView
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:layout_toRightOf="@id/dateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/attachmentIcon"
+        android:textColor="#000"
+        android:background="@drawable/attachment_icon"
+        android:visibility="invisible"
+        />
+    <TextView
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:layout_toRightOf="@id/attachmentIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:id="@+id/nOfAttachments"
+        android:textColor="#000"
+        android:visibility="invisible"
+        />
+    <HorizontalScrollView
         android:layout_below="@id/dateLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        >
+    <LinearLayout
         android:id="@+id/membersListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-       />
+        tools:ignore="Orientation">
+        </LinearLayout>
+    </HorizontalScrollView>
 
 
 </RelativeLayout>

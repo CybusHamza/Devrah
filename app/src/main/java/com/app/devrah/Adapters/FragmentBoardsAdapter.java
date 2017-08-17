@@ -6,16 +6,19 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.R;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
+import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
 import java.util.List;
@@ -27,19 +30,23 @@ import java.util.List;
 public class FragmentBoardsAdapter extends BaseAdapter{
      int count=1;
      int count1=0;
+    int membercount;
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
     //CardAssociatedLabelsAdapter cardAssociatedLabelsAdapter;
     List<ProjectsPojo> projectsList;
     List<CardAssociatedLabelsPojo> labelList;
+    List<CardAssociatedMembersPojo> memberList;
     Activity activity;
     String BoardsListData;
     private LayoutInflater inflater;
 
 
-    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList,List<CardAssociatedLabelsPojo> labelList) {
+    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList,List<CardAssociatedLabelsPojo> labelList,List<CardAssociatedMembersPojo> memberList,int membercount) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
+        this.memberList = memberList;
+        this.membercount=membercount;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -72,9 +79,11 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         if (convertView == null)
             convertView = inflater.inflate(R.layout.custom_layout_fragment_boards_list, null);
 
-
         holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
+
+        holder.membersView = (LinearLayout)convertView.findViewById(R.id.membersListView);
+
 
         holder.labelsLinearLayout= (LinearLayout) convertView.findViewById(R.id.labelsLayout);
         holder.labelsLinearLayout1= (LinearLayout) convertView.findViewById(R.id.labelsLayout2);
@@ -195,7 +204,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
                         linearLayout.setVisibility(View.VISIBLE);
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.blue));
 
                         count1++;
@@ -205,7 +215,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("red")) {
@@ -213,7 +224,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("yellow")) {
@@ -221,7 +233,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("purple")) {
@@ -229,14 +242,16 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.purple));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         //break;
                     }else if(labels[i].equals("pink")) {
                         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.pink));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("orange")) {
@@ -244,13 +259,17 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("black")) {
                         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(holder.arrayIds[count1]);
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.black));
+                        TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("green")) {
@@ -258,7 +277,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.colorGreen));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("dark-green")) {
@@ -266,7 +286,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }else if(labels[i].equals("lime")) {
@@ -274,7 +295,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
-                        textView.setText(labelNames[i]);
+                        textView.setText("");
+                        //textView.setText(labelNames[i]);
                         count1++;
                         //break;
                     }
@@ -285,124 +307,15 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         /*else if(length==2) {
             for (int i = 0; i < labels.length; i++) {
                 if(count1==0) {
-                    if (labels[i].equals("blue")) {
 
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                        count1++;
-
-                    } else if (labels[i].equals("sky-blue")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                        count1++;
-                    }else if (labels[i].equals("red")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
-                        count1++;
-                    }else if (labels[i].equals("yellow")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
-                        count1++;
-                    }else if (labels[i].equals("purple")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.purple));
-                        count1++;
-                    }else if (labels[i].equals("pink")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.pink));
-                        count1++;
-                    }else if (labels[i].equals("orange")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
-                        count1++;
-                    }
                 }
                 else if(count1==1) {
-                    if (labels[i].equals("blue")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                    } else if (labels[i].equals("sky-blue")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                    }else if (labels[i].equals("red")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
-                    }else if (labels[i].equals("yellow")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
-                    }else if (labels[i].equals("purple")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.purple));
-                    }else if (labels[i].equals("pink")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.pink));
-                    }else if (labels[i].equals("orange")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
-                    }
-                }
+
 
             }
         }else if(length==3) {
             for (int i = 0; i < labels.length; i++) {
-                if(count1==0) {
-                    if (labels[i].equals("blue")) {
 
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                        count1++;
-
-                    } else if (labels[i].equals("sky-blue")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                        count1++;
-                    }else if (labels[i].equals("red")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
-                        count1++;
-                    }else if (labels[i].equals("yellow")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
-                        count1++;
-                    }else if (labels[i].equals("purple")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.purple));
-                        count1++;
-                    }else if (labels[i].equals("pink")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.pink));
-                        count1++;
-                    }else if (labels[i].equals("orange")) {
-                        holder.label1.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
-                        count1++;
-                    }
-                }
-                else if(count1==1) {
-                    if (labels[i].equals("blue")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                        count1++;
-                    } else if (labels[i].equals("sky-blue")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                        count1++;
-                    }else if (labels[i].equals("red")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
-                        count1++;
-                    }else if (labels[i].equals("yellow")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
-                        count1++;
-                    }else if (labels[i].equals("purple")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.purple));
-                        count1++;
-                    }else if (labels[i].equals("pink")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.pink));
-                        count1++;
-                    }else if (labels[i].equals("orange")) {
-                        holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
-                        count1++;
-                    }
-                }else if(count1==2) {
-                    if (labels[i].equals("blue")) {
-                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-                        count1++;
-                    } else if (labels[i].equals("sky-blue")) {
-                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-                        count1++;
-                    }else if (labels[i].equals("red")) {
-                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
-                        count1++;
-                    }else if (labels[i].equals("yellow")) {
-                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
-                        count1++;
-                    }else if (labels[i].equals("purple")) {
-                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.purple));
-                        count1++;
-                    }else if (labels[i].equals("pink")) {
-                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.pink));
-                        count1++;
-                    }else if (labels[i].equals("orange")) {
-                        holder.label3.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
-                        count1++;
-                    }
                 }
 
             }
@@ -438,6 +351,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
         }*/
 
+
         if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
             holder.attachment.setVisibility(View.VISIBLE);
             Picasso.with(activity)
@@ -460,11 +374,23 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             }
         });
         holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
+        holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
+        holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
+        if(!projectsList.get(position).getnOfAttachments().equals("0")){
+            holder.nOfAttachments.setVisibility(View.VISIBLE);
+            holder.attachmentIcon.setVisibility(View.VISIBLE);
+        holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
+        }else {
+            holder.nOfAttachments.setVisibility(View.INVISIBLE);
+            holder.attachmentIcon.setVisibility(View.INVISIBLE);
+        }
         holder.data.setText(projectsList.get(position).getData());
             BoardsListData = projectsList.get(position).getData();
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
         holder.dueDate.setText(projectsList.get(position).getDueDate());
-
+       // if(projectsList.get(position).getnOfAttachments().length()>0){
+       // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
+        //}
 
 
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -479,13 +405,55 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             }
         });
 
+        String imageUrl[]=memberList.get(position).getMembers();
+        String initials[]=memberList.get(position).getInitials();
+        holder.membersView.removeAllViews();
+       // if(membercount==0) {
+            for (int i = 0; i < imageUrl.length; i++) {
+
+                if (imageUrl[i].equals("null")) {
+                    TextView image = new TextView(activity);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(80,80);
+                    layoutParams.setMargins(5,0,0,0);
+                    //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
+                    image.setLayoutParams(layoutParams);
+                    // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
+                    image.setMaxHeight(20);
+                    image.setMaxWidth(20);
+                    image.setText(initials[i]);
+                    image.setBackgroundColor(activity.getResources().getColor(R.color.light_black));
+                    image.setTextColor(activity.getResources().getColor(R.color.black));
+                    image.setGravity(Gravity.CENTER);
+
+                    // Adds the view to the layout
+                    holder.membersView.addView(image);
+                } else {
+                    ImageView image = new ImageView(activity);
+                    image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
+                    // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
+                    image.setMaxHeight(20);
+                    image.setMaxWidth(20);
+
+                    Picasso.with(activity)
+                            .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + imageUrl[i])
+                            .into(image);
+
+                    // Adds the view to the layout
+                    holder.membersView.addView(image);
+                }
+            }
+//            membercount=1;
+//        }
+
         return convertView;
     }
 
 
     public static class ViewHolder{
-        TextView data,dueDate;
-        ImageView favouriteIcon;
+
+        LinearLayout membersView;
+        TextView data,dueDate,nOfAttachments;
+        ImageView favouriteIcon,attachmentIcon;
         ImageView attachment;
         RecyclerView recyclerView;
         LinearLayout labelsLinearLayout,labelsLinearLayout1,labelsLinearLayout2,labelsLinearLayout3,labelsLinearLayout4;
