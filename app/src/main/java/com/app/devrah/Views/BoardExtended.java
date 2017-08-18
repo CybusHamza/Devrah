@@ -409,10 +409,6 @@ public class BoardExtended extends AppCompatActivity {
                                 })
                                 .show();
                         break;
-
-
-
-
                 }
             }
         });
