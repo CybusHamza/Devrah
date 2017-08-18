@@ -63,5 +63,6 @@ public class End_Points {
     public static final String GET_BOARD_MEMBERS= BASE_URL + "getAllBoardMembers";
     public static final String ADD_BOARD_MEMBERS= BASE_URL + "associateUserWithBoard";
     public static final String DELETE_BOARD_MEMBERS= BASE_URL + "deleteBoardMember";
-
+    public static final String NOTIFICATIONS= BASE_URL + "system_notifications";
+    public static final String ACITITIES_DATA= BASE_URL + "activity_logs_data";
 }
