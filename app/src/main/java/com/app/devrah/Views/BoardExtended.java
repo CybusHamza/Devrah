@@ -6,18 +6,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +64,7 @@ public class BoardExtended extends AppCompatActivity {
     private boolean isEditOpened = false;
     ParentBoardExtendedFragment fragment;
     //FragmentBoardExtendedLast lastFrag;
-
+    Spinner Projects,Postions;
     Toolbar toolbar;
     String title;
     CustomViewPagerAdapter adapter;
@@ -68,6 +74,9 @@ public class BoardExtended extends AppCompatActivity {
     public static String projectId;
     public static String boardId;
     CustomDrawerAdapter DrawerAdapter;
+    List<String> spinnerValues;
+    List<String> spinnerGroupIds;
+    List<String> postions_list;
      //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
@@ -328,6 +337,145 @@ public class BoardExtended extends AppCompatActivity {
         DrawerAdapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(DrawerAdapter);
 
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+
+                    case 0:
+
+                        break;
+
+
+                    case 1:
+
+                        showDialog("copy");
+                        break;
+
+
+                    case 2:
+
+                        showDialog("move");
+                        break;
+
+
+                    case 3:
+
+                        Intent intent = new Intent(BoardExtended.this, Manage_Board_Members.class);
+                        intent.putExtra("P_id",p_id);
+                        intent.putExtra("b_id",b_id);
+                        startActivity(intent);
+
+                        break;
+
+                    case 4:
+                        new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Confirm!")
+                                .setCancelText("Cancle")
+                                .setConfirmText("OK").setContentText("Are You sure you want to leave this project")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        LeaveBoard();
+                                    }
+                                })
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        break;
+
+                    case 5:
+                        new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Confirm!")
+                                .setCancelText("Cancle")
+                                .setConfirmText("OK").setContentText("Are You sure you want to Delete this project")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        LeaveBoard();
+                                    }
+                                })
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        break;
+
+
+
+
+                }
+            }
+        });
+
+    }
+
+    private void LeaveBoard() {
+    }
+
+    private void deleteBoard() {
+    }
+    private void showDialog(final String data) {
+
+        LayoutInflater inflater = LayoutInflater.from(BoardExtended.this);
+        View customView = inflater.inflate(R.layout.move_board_menu, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this).create();
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+        TextView heading, sub;
+
+        Button cancel, copy;
+
+        heading = (TextView) customView.findViewById(R.id.heading);
+        sub = (TextView) customView.findViewById(R.id.sub_heading);
+        Postions = (Spinner) customView.findViewById(R.id.position);
+        Projects = (Spinner) customView.findViewById(R.id.projects_group);
+        copy = (Button) customView.findViewById(R.id.copy);
+        cancel = (Button) customView.findViewById(R.id.close);
+
+
+        getSpinnerData();
+
+        if (data.equals("move")) {
+            heading.setText("Move Board");
+            sub.setText("Move To Project ");
+            copy.setText("Move");
+        }
+
+
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (data.equals("move")) {
+                    moveBoard();
+                } else {
+                    copyBoard();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                alertDialog.dismiss();
+
+            }
+        });
+
     }
 
     public void getList() {
@@ -408,7 +556,7 @@ public class BoardExtended extends AppCompatActivity {
                 } else if (error instanceof TimeoutError) {
 
 
-                    Toast.makeText(BoardExtended.this, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BoardExtended.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
@@ -445,6 +593,8 @@ public class BoardExtended extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
         requestQueue.add(request);
     }
+
+
     public void UpdateBoardName(final String updatedText) {
         final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
@@ -515,5 +665,268 @@ public class BoardExtended extends AppCompatActivity {
 
 
     }
+    public void getSpinnerData() {
 
+
+        spinnerValues = new ArrayList<>();
+        spinnerGroupIds = new ArrayList<>();
+        postions_list = new ArrayList<>();
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_ALL_PROJECS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONArray array = new JSONArray(response);
+                            for (int i = 0; i < array.length(); i++) {
+
+                                JSONObject object = new JSONObject(array.getString(i));
+                                spinnerValues.add(String.valueOf(object.get("project_name")));
+                                spinnerGroupIds.add(String.valueOf(object.get("project_id")));
+
+                            }
+
+                            ArrayAdapter<String> projectADdapter;
+                            projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, spinnerValues);
+                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            Projects.setAdapter(projectADdapter);
+                            Projects.setOnItemSelectedListener(new CustomOnItemSelectedListener_boards());
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(BoardExtended.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(BoardExtended.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("user_id", userId);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+    }
+    public class CustomOnItemSelectedListener_boards implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, final int pos,
+                                   long id) {
+
+                getPosition(spinnerGroupIds.get(pos));
+
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
+
+
+    public void getPosition(final String P_id) {
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GETPOSITION,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                            postions_list = new ArrayList<>();
+                            for (int i = 1; i <=Integer.valueOf(response); i++) {
+
+                                postions_list.add(i+"");
+                            }
+
+                            ArrayAdapter<String> projectADdapter;
+                            projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, postions_list);
+                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                             Postions.setAdapter(projectADdapter);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(BoardExtended.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(BoardExtended.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("p_id", P_id);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+    }
+
+    public void moveBoard() {
+
+
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.MOVE_BORAD_TO_OTHER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        Toast.makeText(BoardExtended.this, "Moved Successfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(BoardExtended.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(BoardExtended.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                int pos1 = Postions.getSelectedItemPosition();
+                int pos = Projects.getSelectedItemPosition();
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+
+                params.put("originalboardid", b_id);
+                params.put("originalprojectid", p_id);
+                params.put("project_id_to", spinnerGroupIds.get(pos));
+                params.put("position_to", postions_list.get(pos1));
+                params.put("userId",pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+    }
+
+    public void copyBoard() {
+
+
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.COPY_BORAD_TO_OTHER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        Toast.makeText(BoardExtended.this, "Copied Successfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(BoardExtended.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(BoardExtended.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                int pos = Projects.getSelectedItemPosition();
+                int pos1 = Postions.getSelectedItemPosition();
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+
+                params.put("originalboardid", b_id);
+                params.put("originalprojectid", p_id);
+                params.put("project_id_to", spinnerGroupIds.get(pos));
+                params.put("position_to", postions_list.get(pos1));
+                params.put("userId",pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+    }
 }

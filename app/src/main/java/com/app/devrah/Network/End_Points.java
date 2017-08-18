@@ -57,7 +57,11 @@ public class End_Points {
     public static final String DELETE_PROJECT_MEMBER= BASE_URL + "deleteProjectMember";
     public static final String GET_ALL_BOARD_LISTS_FOR_CARD= BASE_URL + "getAllBoardListsForCard";
     public static final String FAVOURITES= BASE_URL + "myBoardsByFavourite";
-    public static final String NOTIFICATIONS= BASE_URL + "system_notifications";
-    public static final String ACITITIES_DATA= BASE_URL + "activity_logs_data";
+    public static final String COPY_BORAD_TO_OTHER= BASE_URL + "copyBoardFromOneProjectToAnOther";
+    public static final String MOVE_BORAD_TO_OTHER= BASE_URL + "moveBoardFromOneProjectToAnOther";
+    public static final String GETPOSITION= BASE_URL + "getPostionofBoard";
+    public static final String GET_BOARD_MEMBERS= BASE_URL + "getAllBoardMembers";
+    public static final String ADD_BOARD_MEMBERS= BASE_URL + "associateUserWithBoard";
+    public static final String DELETE_BOARD_MEMBERS= BASE_URL + "deleteBoardMember";
 
 }

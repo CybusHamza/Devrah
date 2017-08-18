@@ -104,8 +104,8 @@ public class BoardsActivity extends AppCompatActivity {
         status = intent.getStringExtra("status");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-//        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-//                GravityCompat.START);
+//      drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+//      GravityCompat.START);
 
 
         toolbar = (Toolbar) findViewById(R.id.header);
