@@ -7,6 +7,16 @@ package com.app.devrah.pojo;
 public class NotificationsPojo {
     public String data;
 
+    public String getProjectTitle() {
+        return projectTitle;
+    }
+
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
+    }
+
+    public String projectTitle;
+
     public String getBoardId() {
         return boardId;
     }

@@ -92,6 +92,7 @@ public class NotificationAdapter extends BaseAdapter {
                     intent.putExtra("p_id",projectsList.get(position).getProjectId());
                     intent.putExtra("b_id",projectsList.get(position).getBoardId());
                     intent.putExtra("TitleData",projectsList.get(position).getData());
+                    intent.putExtra("ptitle",projectsList.get(position).getProjectTitle());
                     activity.startActivity(intent);
                 }else if(projectsList.get(position).getLabel().equals(" added you to the card ")){
                     Toast.makeText(activity,"Module not working yet",Toast.LENGTH_LONG).show();

@@ -171,6 +171,7 @@ public void getNotifications() {
                                      notificationsPojo.setData(jsonObject.getString("project_name"));
                                      notificationsPojo.setDate(jsonObject.getString("project_assigned_on"));
                                      notificationsPojo.setProjectId(jsonObject.getString("project_id"));
+                                     notificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
                                      notificationsPojo.setBoardId("0");
                                      notificationsPojo.setLabel(" added you to the project ");
 
@@ -188,6 +189,7 @@ public void getNotifications() {
                                      boardnotificationsPojo.setData(jsonObject.getString("board_name"));
                                      boardnotificationsPojo.setProjectId(jsonObject.getString("project_id"));
                                      boardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
+                                     boardnotificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
                                      boardnotificationsPojo.setDate(jsonObject.getString("board_assigned_on"));
                                      boardnotificationsPojo.setLabel(" added you to the board ");
 
@@ -204,6 +206,7 @@ public void getNotifications() {
                                      cardnotificationsPojo.setData(jsonObject.getString("card_name"));
                                      cardnotificationsPojo.setDate(jsonObject.getString("card_assigned_on"));
                                      cardnotificationsPojo.setProjectId(jsonObject.getString("project_id"));
+                                     cardnotificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
                                      cardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
                                      cardnotificationsPojo.setLabel(" added you to the card ");
 
