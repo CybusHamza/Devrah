@@ -205,7 +205,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
                             try {
 
-                                String firstname, email, lastName, profilePic;
+                                String firstname, email, lastName,phone,company,dev_tag,position,website, profilePic;
 
                                 JSONObject object = new JSONObject(response);
 
@@ -213,6 +213,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                                 firstname = object.getString("first_name");
                                 email = object.getString("email");
                                 lastName = object.getString("last_name");
+                                phone=object.getString("phone");
+                                company=object.getString("company");
+                                dev_tag=object.getString("dev_tag");
+                                position=object.getString("position");
+                                website=object.getString("website");
                                 profilePic = object.getString("profile_pic").trim();
 
 
@@ -225,6 +230,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                                 editor.putString("email", email);
                                 editor.putString("first_name", firstname);
                                 editor.putString("last_name", lastName);
+                                editor.putString("phone", phone);
+                                editor.putString("company", company);
+                                editor.putString("dev_tag", dev_tag);
+                                editor.putString("position", position);
+                                editor.putString("website", website);
                                 editor.putString("profile_pic", profilePic);
                                 editor.apply();
 

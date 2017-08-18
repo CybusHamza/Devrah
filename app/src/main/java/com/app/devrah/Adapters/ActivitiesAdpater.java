@@ -61,7 +61,9 @@ public class ActivitiesAdpater extends BaseAdapter {
             convertView = inflater.inflate(R.layout.custom_layout_for_activities_list_item, null);
 
         holder.data = (TextView) convertView.findViewById(R.id.activities_data);
-        holder.data.setText(projectsList.get(position).getData());
+        holder.date = (TextView) convertView.findViewById(R.id.date);
+        holder.data.setText(projectsList.get(position).getUserName()+" "+projectsList.get(position).getData());
+        holder.date.setText(projectsList.get(position).getDate());
 
 
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,7 @@ public class ActivitiesAdpater extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data;
+        TextView data,date;
     }
 
 }

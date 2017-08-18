@@ -2,6 +2,7 @@ package com.app.devrah.Views;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    ProgressDialog ringProgressDialog;
+
 
     private static int IMG_RESULT = 2;
     Intent intent;
@@ -126,11 +131,22 @@ public class ProfileActivity extends AppCompatActivity {
       email=  pref.getString("email","");
        f_name= pref.getString("first_name","");
        l_name=  pref.getString("last_name","");
+       f_num=  pref.getString("phone","");
+       devrah_tag=  pref.getString("dev_tag","");
+       s_company=  pref.getString("company","");
+       s_position=  pref.getString("position","");
+       s_website=  pref.getString("website","");
+        img=pref.getString("profile_pic","");
         id = pref.getString("user_id","");
 
         etEmail.setText(email);
         etF_name.setText( f_name);
         etL_name.setText(l_name);
+        etPhoneNumber.setText(f_num);
+        etCompany.setText(s_company);
+        etDevrahTag.setText(devrah_tag);
+        etWebsite.setText(s_website);
+        etPosition.setText(s_position);
 
 
 
@@ -160,7 +176,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void uploadData(){
-
+        ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Updating...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
         email = etEmail.getText().toString();
         l_name= etL_name.getText().toString();
         f_name= etF_name.getText().toString();
@@ -172,16 +190,25 @@ public class ProfileActivity extends AppCompatActivity {
         devrah_tag = etDevrahTag.getText().toString();
       //  img = PreferenceManager.getDefaultSharedPreferencesName(getApplicationContext())
       //  img =
-        initials = String.valueOf(l_name.charAt(0)) +String.valueOf( f_name.charAt(0));
+        if(f_name.length()>0 && l_name.length()>0) {
+            initials = String.valueOf(f_name.charAt(0)) + String.valueOf(l_name.charAt(0));
+        }else if(f_name.length()>0 && l_name.length()==0){
+            initials=String.valueOf(f_name.charAt(0));
+        }else {
+            initials="";
+        }
 
       //  Toast.makeText(getApplicationContext(),"Upadte Pro",Toast.LENGTH_SHORT).show();
         StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/Api_service/updateUserProfile",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        if(!response.equals("0")){
+                            Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
+                        }
 
-
-                    Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
 
 
 
@@ -191,7 +218,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-
+                ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
                     Toast.makeText(getApplicationContext(),"No connection",Toast.LENGTH_SHORT).show();
@@ -216,7 +243,7 @@ public class ProfileActivity extends AppCompatActivity {
                 params.put("dev_tag",devrah_tag);
                 params.put("phone",f_num);
                 params.put("profile_pic",img);
-                params.put("initials","AB");
+                params.put("initials",initials);
 
 //                params.put("user_name",strEmail);
 //                params.put("password",strPassword );

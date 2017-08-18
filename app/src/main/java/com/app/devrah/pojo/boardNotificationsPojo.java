@@ -1,21 +1,11 @@
 package com.app.devrah.pojo;
 
 /**
- * Created by Rizwan Butt on 14-Jun-17.
+ * Created by Rizwan Butt on 17-Aug-17.
  */
 
-public class AcitivitiesPojo {
+public class boardNotificationsPojo {
     public String data;
-
-    public String getDataArray() {
-        return dataArray;
-    }
-
-    public void setDataArray(String dataArray) {
-        this.dataArray = dataArray;
-    }
-
-    public String dataArray;
 
     public String getUserName() {
         return userName;
@@ -25,8 +15,6 @@ public class AcitivitiesPojo {
         this.userName = userName;
     }
 
-    public String userName;
-
     public String getDate() {
         return date;
     }
@@ -35,13 +23,14 @@ public class AcitivitiesPojo {
         this.date = date;
     }
 
+    public String userName;
     public String date;
 
-    AcitivitiesPojo(String Data){
+    boardNotificationsPojo(String Data){
         this.data=Data;
 
     }
-    public AcitivitiesPojo(){
+    public boardNotificationsPojo(){
 
     }
 

@@ -57,5 +57,7 @@ public class End_Points {
     public static final String DELETE_PROJECT_MEMBER= BASE_URL + "deleteProjectMember";
     public static final String GET_ALL_BOARD_LISTS_FOR_CARD= BASE_URL + "getAllBoardListsForCard";
     public static final String FAVOURITES= BASE_URL + "myBoardsByFavourite";
+    public static final String NOTIFICATIONS= BASE_URL + "system_notifications";
+    public static final String ACITITIES_DATA= BASE_URL + "activity_logs_data";
 
 }
