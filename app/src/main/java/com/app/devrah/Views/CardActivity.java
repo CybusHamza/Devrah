@@ -5,18 +5,18 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
-
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -38,7 +37,18 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.AdapterMembers;
 import com.app.devrah.Adapters.AttachmentImageAdapter;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
@@ -49,6 +59,8 @@ import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
 import com.app.devrah.R;
 import com.app.devrah.pojo.AttachmentsPojo;
+import com.app.devrah.pojo.CardAssociatedLabelsPojo;
+import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.CardCommentData;
 import com.app.devrah.pojo.ColorsPojo;
 import com.app.devrah.pojo.DrawerPojo;
@@ -57,11 +69,20 @@ import com.app.devrah.pojo.ProjectsPojo;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static com.app.devrah.Network.End_Points.GET_LABELS;
 
 public class CardActivity extends AppCompatActivity {
 
@@ -114,6 +135,10 @@ public class CardActivity extends AppCompatActivity {
     List<ProjectsPojo> checkListPojo;
     List<AttachmentsPojo> attachmentsList;
     private ListView mDrawerList;
+    String cardId;
+    List<ProjectsPojo> listPojo1,labelsPojoList;
+    List<CardAssociatedLabelsPojo> cardLabelsPojoList;
+    List<CardAssociatedMembersPojo> cardMembersPojoList;
 
     public static void addLabel() {
 
@@ -203,6 +228,13 @@ public class CardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card);
         RVLabelAdapter adapter = new RVLabelAdapter();
 
+
+        Intent intent=  getIntent();
+
+        cardId = intent.getStringExtra("card_id");
+
+
+        getCardList(cardId);
 
         labelNameList = new ArrayList<>();
         asliList = new ArrayList<>();
@@ -942,4 +974,164 @@ public class CardActivity extends AppCompatActivity {
 //
 //    }
 
+
+
+    public void getCardList(final String lsitId) {
+        final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, GET_LABELS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        if (!(response.equals("false"))) {
+
+                            listPojo1 = new ArrayList<>();
+                            labelsPojoList = new ArrayList<>();
+                            cardLabelsPojoList = new ArrayList<>();
+                            cardMembersPojoList = new ArrayList<>();
+
+                            try {
+                                ProjectsPojo projectsPojo = null;
+                                JSONObject mainObject=new JSONObject(response);
+                                JSONArray jsonArrayCards = mainObject.getJSONArray("cards");
+                                JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
+                                JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
+                                JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
+                                //JSONObject cardsObject = jsonArray.getJSONObject(0);
+
+                                for (int i = 0; i < jsonArrayCards.length(); i++) {
+                                    JSONObject jsonObject = jsonArrayCards.getJSONObject(i);
+                                    JSONArray jsonArray=jsonArrayAttachments.getJSONArray(i);
+                                    //JSONObject jsonObject1 = jsonArrayAttachments.getJSONObject(i);
+
+                                    projectsPojo = new ProjectsPojo();
+                                    // CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
+
+                                    projectsPojo.setId(jsonObject.getString("id"));
+                                    projectsPojo.setData(jsonObject.getString("card_name"));
+                                    projectsPojo.setAttachment(jsonObject.getString("file_name"));
+                                    projectsPojo.setDueDate(jsonObject.getString("card_start_date"));
+                                    projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
+                                    // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
+                                    //projectsPojo.setLabels(jsonObject.getString("label_color"));
+
+//                                    cardLabelsPojoList.add(labelsPojo);
+
+                                    listPojo1.add(projectsPojo);
+                                    // getLabelsList(jsonObject.getString("id"));
+
+                                }
+                                for(int j=0;j<jsonArrayLabels.length();j++){
+                                    CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
+                                    JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
+                                    String[] labels = new String[jsonArray.length()];
+                                    String[] labelText = new String[jsonArray.length()];
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        labels[k]=jsonObject.getString("label_color");
+                                        if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }
+                                    }
+                                    labelsPojo.setLabels(labels);
+                                    labelsPojo.setLabelText(labelText);
+                                    cardLabelsPojoList.add(labelsPojo);
+                                }
+
+                                for(int j=0;j<jsonArrayMembers.length();j++){
+                                    CardAssociatedMembersPojo membersPojo = new CardAssociatedMembersPojo();
+                                    JSONArray jsonArray=jsonArrayMembers.getJSONArray(j);
+                                    String[] members = new String[jsonArray.length()];
+                                    String[] labelText = new String[jsonArray.length()];
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        members[k]=jsonObject.getString("profile_pic");
+                                        labelText[k]=jsonObject.getString("initials");
+                                       /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }*/
+                                    }
+                                    membersPojo.setMembers(members);
+                                    membersPojo.setInitials(labelText);
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardMembersPojoList.add(membersPojo);
+                                }
+
+
+                                /*try {
+                                    cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);
+                                    cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                                    cardAssociatedLabelRecycler.setAdapter(cardAssociatedLabelsAdapter);
+                                }catch (Exception e){
+                                    String s=e.toString();
+                                }*/
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+
+
+                            }
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(CardActivity.this, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(CardActivity.this, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+               params.put("cardId",cardId);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+
+    }
 }

@@ -70,4 +70,5 @@ public class End_Points {
     public static final String LEAVE_BOARD= BASE_URL + "leave_board";
     public static final String COPY_LIST= BASE_URL + "copyListFromOneBoardToAnOther";
     public static final String MOVE_LIST= BASE_URL + "moveListFromOneBoardToAnOther";
+    public static final String GET_LABELS= BASE_URL + "getLables";
 }
