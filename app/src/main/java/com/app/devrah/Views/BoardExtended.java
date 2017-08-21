@@ -508,8 +508,9 @@ public class BoardExtended extends AppCompatActivity {
                                     projectsPojo.setId(jsonObject.getString("list_id"));
                                     projectsPojo.setData(jsonObject.getString("list_name"));
                                     projectsPojo.setListId(jsonObject.getString("list_id"));
+                                    projectsPojo.setListColor(jsonObject.getString("list_color"));
 
-                                    ParentBoardExtendedFragment.addPage(jsonObject.getString("list_name"),p_id,b_id,jsonObject.getString("list_id"));
+                                    ParentBoardExtendedFragment.addPage(jsonObject.getString("list_name"),p_id,b_id,jsonObject.getString("list_id"),jsonObject.getString("list_color"),"");
                                //     parentBoardExtendedFragment.setArguments(bundle);
 
                                 }

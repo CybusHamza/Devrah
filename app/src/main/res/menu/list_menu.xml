@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+        android:id="@+id/addNewCard"
+        android:title="Add New Card"/>
+
+    <item
+        android:id="@+id/changeListColor"
+        android:title="Change List Color"/>
+
+    <item
+        android:id="@+id/copyList"
+        android:title="Copy List"/>
+    <item
+        android:id="@+id/moveList"
+        android:title="Move List"/>
+    <item
+        android:id="@+id/deleteList"
+        android:title="Delete List"
+        />
+
+</menu>

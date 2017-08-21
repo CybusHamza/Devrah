@@ -127,6 +127,16 @@ public class ProjectsPojo {
         this.data = data;
     }
 
+    public String getListColor() {
+        return listColor;
+    }
+
+    public void setListColor(String listColor) {
+        this.listColor = listColor;
+    }
+
+    String listColor;
+
 
 
 

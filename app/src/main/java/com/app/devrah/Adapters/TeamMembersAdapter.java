@@ -96,7 +96,7 @@ public class TeamMembersAdapter extends BaseAdapter {
             public void onClick(View v) {
                 new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Error!")
-                        .setCancelText("Cancle")
+                        .setCancelText("Cancel")
                         .setConfirmText("OK").setContentText("Are You sure you want to Remove this member")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override

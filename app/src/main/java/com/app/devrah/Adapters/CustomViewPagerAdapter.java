@@ -78,6 +78,8 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void addFragAt(Fragment fragment, int position) {
         mFragmentList.add(position, fragment);
+       // mFragmentTitleList.add(position,"");
+
         notifyDataSetChanged();
     }
 
@@ -120,6 +122,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void deletePage(int position) {
         mFragmentList.remove(position);
+        if(mFragmentTitleList.size()==position)
         mFragmentTitleList.remove(position);
         notifyDataSetChanged();
     }

@@ -6,10 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,8 +32,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Adapters.FragmentBoardsAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
+import com.app.devrah.Views.ParentBoardExtendedFragment;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
@@ -47,12 +52,25 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.app.devrah.Network.End_Points.DELETE_LIST;
 import static com.app.devrah.Network.End_Points.GET_CARDS_FOR_LIST;
 import static com.app.devrah.Network.End_Points.SAVE_CARD_BY_LIST_ID;
+import static com.app.devrah.Network.End_Points.UPDATE_COLOR_BG_LIST;
 
 
 public class ChildFragmentBoardExtended extends Fragment {
-       private static final String ARG_PARAM1 = "param1";
+
+    Button noColor;
+    Button blueColor;
+    Button brownColor;
+    Button grayColor ;
+    Button greenColor;
+    Button orangeColor;
+    Button purpleColor;
+    Button yellowColor;
+    Button redColor ;
+
+    private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
         View view;
     TextView tvAddCard;
@@ -76,7 +94,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
 
-    String id,p_id,b_id,list_id;
+    String id,p_id,b_id,list_id,list_color;
     int row;
 
 
@@ -120,12 +138,35 @@ public class ChildFragmentBoardExtended extends Fragment {
         p_id = bundle.getString("p_id");
         b_id = bundle.getString("b_id");
         list_id = bundle.getString("list_id");
+        list_color=bundle.getString("list_color");
+        String check=bundle.getString("listName");
         row=0;
 
         tvName.setText(childname);
 
-        getCardList(list_id);
 
+        getCardList(list_id);
+        if(check=="") {
+            if (list_color.equals("") || list_color == null) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorWhite));
+            } else if (list_color.equals("00A2E8")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+            } else if (list_color.equals("B97A57")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.brown));
+            } else if (list_color.equals("B5E61D")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.green));
+            } else if (list_color.equals("FF7F27")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.orange));
+            } else if (list_color.equals("A349A4")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPurple));
+            } else if (list_color.equals("f2d600")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorYellow));
+            } else if (list_color.equals("eb5a46")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorRed));
+            } else if (list_color.equals("C3C3C3")) {
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+            }
+        }
         lv = (ListView) view.findViewById(R.id.boardFragmentListView);
         //relativeLayout=(RelativeLayout)findViewById(R.id.layoutTestRecycleView);
 //        cardAssociatedLabelRecycler=(RecyclerView)view.findViewById(R.id.labelsListView);
@@ -133,8 +174,59 @@ public class ChildFragmentBoardExtended extends Fragment {
         boardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(getActivity(), boardMenu);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.list_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                        switch (item.getItemId()) {
+                            case R.id.addNewCard:
+                                boardMenu.setBackgroundColor(getActivity().getResources().getColor(R.color.lightGreen));
+                                // TODO Something when menu item selected
+                                return true;
 
-                Toast.makeText(getActivity(), "Start - position: " , Toast.LENGTH_SHORT).show();
+                            case R.id.changeListColor:
+                                // TODO Something when menu item selected
+                                changeListColorPopup();
+                                return true;
+
+                            case R.id.copyList:
+                                // TODO Something when menu item selected
+                                return true;
+                            case R.id.moveList:
+                                // TODO Something when menu item selected
+                                return true;
+                            case R.id.deleteList:
+                                new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Error!")
+                                        .setCancelText("Cancel")
+                                        .setConfirmText("OK").setContentText("Are You sure you want to Remove this list")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                deleteList();
+                                                sDialog.dismiss();
+                                            }
+                                        })
+                                        .showCancelButton(true)
+                                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+
+                                // TODO Something when menu item selected
+                                return true;
+
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
 //
 //                View popupView =getActivity().getLayoutInflater().inflate(R.layout.ui_for_popup_view, null);
 //                PopupWindow popupWindow = new PopupWindow(popupView, ActionMenuView.LayoutParams.WRAP_CONTENT, ActionMenuView.LayoutParams.WRAP_CONTENT);
@@ -157,7 +249,100 @@ public class ChildFragmentBoardExtended extends Fragment {
             }
         });
 
+
         return view;
+    }
+
+    private void changeListColorPopup() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View customView = inflater.inflate(R.layout.custom_alert_dialogbox_for_bg_color_list,null);
+        final AlertDialog alertDialog = new  AlertDialog.Builder(getContext()).create();
+
+        alertDialog.setCancelable(false);
+         noColor = (Button)customView.findViewById(R.id.noColor);
+         blueColor = (Button)customView.findViewById(R.id.blueColor);
+         brownColor = (Button)customView.findViewById(R.id.brownColor);
+         grayColor = (Button)customView.findViewById(R.id.grayColor);
+         greenColor = (Button)customView.findViewById(R.id.greenColor);
+         orangeColor = (Button)customView.findViewById(R.id.orangeColor);
+         purpleColor = (Button)customView.findViewById(R.id.purpleColor);
+         yellowColor = (Button)customView.findViewById(R.id.yellowColor);
+         redColor = (Button)customView.findViewById(R.id.redColor);
+
+        noColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                changeListBgColor("");
+            }
+        });
+        blueColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+               // tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+                changeListBgColor("00A2E8");
+            }
+        });
+        brownColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                //tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.brown));
+                changeListBgColor("B97A57");
+            }
+        });
+        grayColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+               // tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.light_black));
+                changeListBgColor("B97A57");
+            }
+        });
+        greenColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                //tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.green));
+                changeListBgColor("B5E61D");
+            }
+        });
+        orangeColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+               // tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorOrange));
+                changeListBgColor("FF7F27");
+            }
+        });
+        purpleColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+              //  tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPurple));
+                changeListBgColor("A349A4");
+            }
+        });
+        yellowColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+               // tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorYellow));
+                changeListBgColor("f2d600");
+            }
+        });
+        redColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+               // tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorRed));
+                changeListBgColor("eb5a46");
+            }
+        });
+
+        alertDialog.setView(customView);
+        alertDialog.show();
     }
 
 //    @Override
@@ -406,6 +591,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         requestQueue.add(request);
+
     }
     public void saveCardByListId(final String cardName, final int row) {
         ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
@@ -482,6 +668,162 @@ public class ChildFragmentBoardExtended extends Fragment {
                 params.put("list_id", list_id);
                 params.put("name", cardName);
                 params.put("row", String.valueOf(row));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+    }
+    public void deleteList() {
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, DELETE_LIST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+
+                        ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                   /* new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId", BoardExtended.boardId);
+                params.put("projectId", BoardExtended.projectId);
+                params.put("listId", list_id);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+    }
+    public void changeListBgColor(final String bgColor) {
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, UPDATE_COLOR_BG_LIST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        if(bgColor.equals("")) {
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorWhite));
+                        }else if (bgColor.equals("00A2E8")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+                        }else if (bgColor.equals("B97A57")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.brown));
+                        }else if (bgColor.equals("B5E61D")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.green));
+                        }else if (bgColor.equals("FF7F27")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.orange));
+                        }else if (bgColor.equals("A349A4")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPurple));
+                        }else if (bgColor.equals("f2d600")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorYellow));
+                        }else if (bgColor.equals("eb5a46")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorRed));
+                        }else if (bgColor.equals("C3C3C3")){
+                            tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                   /* new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", BoardExtended.boardId);
+                params.put("prjct_id", BoardExtended.projectId);
+                params.put("list_id", list_id);
+                params.put("bgcolor", bgColor);
                 return params;
             }
         };

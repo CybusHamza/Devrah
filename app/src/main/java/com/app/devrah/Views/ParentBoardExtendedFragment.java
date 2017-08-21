@@ -120,13 +120,15 @@ public class ParentBoardExtendedFragment extends Fragment {
            // adapter.addFrag(fragment,"");
         adapter.addFragAt(fragment,positiom);
         }
-    public static void addPage(String pagename,String p_id1,String b_id1,String list_id1) {
+    public static void addPage(String pagename,String p_id1,String b_id1,String list_id1,String list_color,String newList) {
        //this.adapter = adapter;
         Bundle bundle = new Bundle();
         bundle.putString("data", pagename);
         bundle.putString("p_id", p_id1);
         bundle.putString("b_id", b_id1);
         bundle.putString("list_id", list_id1);
+        bundle.putString("list_color", list_color);
+        bundle.putString("listName", newList);
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         fragmentChild.setArguments(bundle);
         adapter.addFrag(fragmentChild, pagename);
@@ -145,21 +147,35 @@ public class ParentBoardExtendedFragment extends Fragment {
 
         //setupTabLayout();
     }
+    public static void removeSpecificPage(int position,String newList){
+        Bundle bundle = new Bundle();
+        bundle.putString("p_id", p_id1);
+        bundle.putString("b_id", b_id1);
+        bundle.putString("listName", newList);
+        ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
+        fragmentChild.setArguments(bundle);
+        adapter.deletePage(position);
+        adapter.notifyDataSetChanged();
+    }
 
     public static void  removeAllFrags(){
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         adapter.renewPage();
         adapter.notifyDataSetChanged();
     }
+    public static int getCurrentPosition(){
+    int i=viewPager.getCurrentItem();
+    return i;
+    }
 
-
-    public static void addPageAt(String pagename,int position,String list_id) {
+    public static void addPageAt(String pagename,int position,String p_id1,String b_id1,String list_id,String newList) {
         //this.adapter = adapter;
         Bundle bundle = new Bundle();
         bundle.putString("p_id", p_id1);
         bundle.putString("b_id", b_id1);
         bundle.putString("list_id", list_id);
         bundle.putString("data", pagename);
+        bundle.putString("listName", newList);
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         fragmentChild.setArguments(bundle);
         adapter.addFragAt(fragmentChild,position);
