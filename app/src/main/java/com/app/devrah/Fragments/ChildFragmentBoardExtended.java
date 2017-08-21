@@ -297,7 +297,7 @@ public class ChildFragmentBoardExtended extends Fragment {
             public void onClick(View v) {
                 alertDialog.dismiss();
                // tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.light_black));
-                changeListBgColor("B97A57");
+                changeListBgColor("C3C3C3");
             }
         });
         greenColor.setOnClickListener(new View.OnClickListener() {
