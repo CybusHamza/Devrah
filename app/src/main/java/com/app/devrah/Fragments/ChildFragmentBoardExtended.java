@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +73,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     Button yellowColor;
     Button redColor ;
 
+    Spinner Projects,Postions,boards;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
         View view;
@@ -88,7 +92,8 @@ public class ChildFragmentBoardExtended extends Fragment {
     CardAssociatedLabelsPojo labelsPojo;
     ListView lv;
     RecyclerView cardAssociatedLabelRecycler;
-
+    ArrayList<String> boards_name ;
+    ArrayList<String> boards_ids ;
     RelativeLayout relativeLayout;
 
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -96,7 +101,9 @@ public class ChildFragmentBoardExtended extends Fragment {
 
     String id,p_id,b_id,list_id,list_color;
     int row;
-
+    List<String> spinnerValues;
+    List<String> spinnerGroupIds;
+    List<String> postions_list;
 
     private OnFragmentInteractionListener mListener;
 
@@ -193,10 +200,11 @@ public class ChildFragmentBoardExtended extends Fragment {
                                 return true;
 
                             case R.id.copyList:
-                                // TODO Something when menu item selected
+                               showDialog("copy");
                                 return true;
                             case R.id.moveList:
-                                // TODO Something when menu item selected
+
+                                showDialog("move");
                                 return true;
                             case R.id.deleteList:
                                 new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
@@ -834,6 +842,454 @@ public class ChildFragmentBoardExtended extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         requestQueue.add(request);
+    }
+
+    private void showDialog(final String data) {
+
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View customView = inflater.inflate(R.layout.copy_move_list, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+        TextView heading, sub , pos;
+
+        Button cancel, copy;
+
+        heading = (TextView) customView.findViewById(R.id.heading);
+        sub = (TextView) customView.findViewById(R.id.board_txt);
+        pos = (TextView) customView.findViewById(R.id.pos_txt);
+        Postions = (Spinner) customView.findViewById(R.id.position);
+        Projects = (Spinner) customView.findViewById(R.id.projects_group);
+        boards = (Spinner) customView.findViewById(R.id.board);
+        copy = (Button) customView.findViewById(R.id.copy);
+        cancel = (Button) customView.findViewById(R.id.close);
+
+
+        getSpinnerData();
+
+        if (data.equals("move")) {
+            heading.setText("Move List");
+            sub.setText("Project ");
+            copy.setText("Move");
+        }
+
+
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (data.equals("move")) {
+                    moveList();
+                } else {
+                    copyList();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                alertDialog.dismiss();
+
+            }
+        });
+
+    }
+
+    public void getSpinnerData() {
+
+
+        spinnerValues = new ArrayList<>();
+        spinnerGroupIds = new ArrayList<>();
+        postions_list = new ArrayList<>();
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_ALL_PROJECS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONArray array = new JSONArray(response);
+                            for (int i = 0; i < array.length(); i++) {
+
+                                JSONObject object = new JSONObject(array.getString(i));
+                                spinnerValues.add(String.valueOf(object.get("project_name")));
+                                spinnerGroupIds.add(String.valueOf(object.get("project_id")));
+
+                            }
+
+                            ArrayAdapter<String> projectADdapter;
+                            projectADdapter = new ArrayAdapter<String>(getActivity(), R.layout.nothing_selected_spinnerdate, spinnerValues);
+                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            Projects.setAdapter(projectADdapter);
+                            Projects.setOnItemSelectedListener(new CustomOnItemSelectedListener_boards());
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("user_id", userId);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+    }
+    public class CustomOnItemSelectedListener_boards implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, final int pos,
+                                   long id) {
+
+            getBorads(spinnerGroupIds.get(pos));
+
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
+
+    public class CustomOnItemSelectedListener_position implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, final int pos,
+                                   long id) {
+
+            getPosition(spinnerGroupIds.get(pos));
+
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
+
+
+    public void getPosition(final String P_id) {
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GETPOSITION,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        postions_list = new ArrayList<>();
+                        for (int i = 1; i <=Integer.valueOf(response); i++) {
+
+                            postions_list.add(i+"");
+                        }
+
+                        ArrayAdapter<String> projectADdapter;
+                        projectADdapter = new ArrayAdapter<String>(getActivity(), R.layout.nothing_selected_spinnerdate, postions_list);
+                        projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        Postions.setAdapter(projectADdapter);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("p_id", P_id);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+    }
+
+    public void getBorads(final String p_Id) {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_WORK_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        boards_ids = new ArrayList<>();
+                        boards_name = new ArrayList<>();
+
+                        boards_name.add(0,"Select");
+                        boards_ids.add(0,"0");
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0 ; i < jsonArray.length();i++)
+                            {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                boards_name.add(jsonObject.getString("board_name"));
+                                boards_ids.add(jsonObject.getString("id"));
+
+                            }
+
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (getActivity(),R.layout.nothing_selected_spinnerdate,boards_name);
+                            dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+                            boards.setAdapter(dataAdapter);
+
+                            boards.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("p_id",p_Id);
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+
+    }
+
+
+    public void moveList() {
+
+
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.MOVE_LIST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Moved Successfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                int pos1 = Postions.getSelectedItemPosition();
+                int pos = Projects.getSelectedItemPosition();
+                int bord = boards.getSelectedItemPosition();
+                final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+
+                params.put("originalboardid", b_id);
+                params.put("originalprojectid", p_id);
+                params.put("originallistid", list_id);
+                params.put("project_id_to", spinnerGroupIds.get(pos));
+                params.put("position_to", postions_list.get(pos1));
+                params.put("board_id_to", boards_ids.get(bord));
+                params.put("userId",pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+    }
+
+    public void copyList() {
+
+
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.COPY_LIST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Copied Successfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                int pos = Projects.getSelectedItemPosition();
+                int pos1 = Postions.getSelectedItemPosition();
+                int bord = boards.getSelectedItemPosition();
+                final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+                params.put("originalboardid", b_id);
+                params.put("originalprojectid", p_id);
+                params.put("originallistid", list_id);
+                params.put("project_id_to", spinnerGroupIds.get(pos));
+                params.put("position_to", postions_list.get(pos1));
+                params.put("board_id_to", boards_ids.get(bord));
+                params.put("userId",pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
     }
 
 /*public void getLabelsList(final String cardId){

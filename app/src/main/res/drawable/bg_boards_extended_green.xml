@@ -6,8 +6,8 @@
 
         />
     <gradient
-        android:centerColor="#449D44"
-        android:endColor="#449D44"
-        android:startColor="#449D44"/>
-    <stroke android:width="1dp" android:color="#fff"/>
+        android:centerColor="#2CAF2B"
+        android:endColor="#2CAF2B"
+        android:startColor="#2CAF2B"/>
+    <stroke android:width="0dp" android:color="#fff"/>
 </shape>

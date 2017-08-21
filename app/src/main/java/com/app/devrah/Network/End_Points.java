@@ -67,4 +67,7 @@ public class End_Points {
     public static final String ACITITIES_DATA= BASE_URL + "activity_logs_data";
     public static final String DELETE_LIST= BASE_URL + "deleteList";
     public static final String UPDATE_COLOR_BG_LIST= BASE_URL + "updateBgList";
+    public static final String LEAVE_BOARD= BASE_URL + "leave_board";
+    public static final String COPY_LIST= BASE_URL + "copyListFromOneBoardToAnOther";
+    public static final String MOVE_LIST= BASE_URL + "moveListFromOneBoardToAnOther";
 }

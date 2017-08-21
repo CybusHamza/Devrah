@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,12 +50,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
 
     EditText etEmail, etPsw;
-    TextView tvCancel,tvForgotPass;
+    TextView tvForgotPass;
     boolean checkBoxValue;
     SharedPreferences.Editor editor;
-    CheckBox cbRememberMe;
     String strEmail, strPassword;
-    Button btnLogin, btnSignUp;
+    Button btnLogin;
+    TextView btnSignUp;
     ImageView googleSignIn;
     private GoogleSignInOptions gso;
     private int RC_SIGN_IN = 100;
@@ -70,7 +69,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         setContentView(R.layout.activity_login);
         etEmail = (EditText) findViewById(R.id.input_email);
         etPsw = (EditText) findViewById(R.id.input_password);
-        tvCancel = (TextView) findViewById(R.id.tvCancel);
         tvForgotPass = (TextView) findViewById(R.id.forgotPassword);
         tvForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,16 +76,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                 forgotPasswordDialog();
             }
         });
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         btnLogin = (Button) findViewById(R.id.btn_login);
-        btnSignUp = (Button) findViewById(R.id.btn_signup);
-        cbRememberMe = (CheckBox) findViewById(R.id.cbrememberMe);
+        btnSignUp = (TextView) findViewById(R.id.btn_signup);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -238,16 +229,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                                 editor.putString("profile_pic", profilePic);
                                 editor.apply();
 
-                                if (cbRememberMe.isChecked()) {
-                                    checkBoxValue = true;
 
-                                    editor.putString("Checkbox_value", String.valueOf(checkBoxValue));
+                                    editor.putString("Checkbox_value", "true");
                                     editor.apply();
-                                } else {
-                                    checkBoxValue = false;
-                                    editor.putString("Checkbox_value", String.valueOf(checkBoxValue));
-                                    editor.apply();
-                                }
 
 
 //                                if (checkBoxValue== true){

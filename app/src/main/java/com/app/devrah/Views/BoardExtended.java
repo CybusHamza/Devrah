@@ -372,7 +372,7 @@ public class BoardExtended extends AppCompatActivity {
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirm!")
                                 .setCancelText("Cancle")
-                                .setConfirmText("OK").setContentText("Are You sure you want to leave this project")
+                                .setConfirmText("OK").setContentText("Cards are associated with this board. Do you really want to leave?")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
@@ -393,7 +393,7 @@ public class BoardExtended extends AppCompatActivity {
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirm!")
                                 .setCancelText("Cancle")
-                                .setConfirmText("OK").setContentText("Are You sure you want to Delete this project")
+                                .setConfirmText("OK").setContentText("You will no longer recieve notifications and view activities of this board. Do you really want to delete?")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
@@ -416,9 +416,214 @@ public class BoardExtended extends AppCompatActivity {
     }
 
     private void LeaveBoard() {
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.LEAVE_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                            if(response.equals("2"))
+                            {
+                                Toast.makeText(BoardExtended.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                            }
+                            else if(response.equals("1"))
+                            {
+                                Toast.makeText(BoardExtended.this, "you are admin you cannot leave this Board", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else{
+                                Toast.makeText(BoardExtended.this, "Board Left Successfully", Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(BoardExtended.this, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+                                    intent.putExtra("pid",p_id);
+                                    intent.putExtra("ptitle",projectTitle);
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(BoardExtended.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+                                    intent.putExtra("pid",p_id);
+                                    intent.putExtra("ptitle",projectTitle);
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", b_id);
+                params.put("project_id", p_id);
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+                params.put("userId", pref.getString("user_id",""));
+
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
+        requestQueue.add(request);
+
     }
 
     private void deleteBoard() {
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, GET_ALL_BOARD_LIST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        if (response.equals("false")) {
+                            ParentBoardExtendedFragment.removeAllFrags();
+                            ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
+
+                        } else {
+
+
+                            ParentBoardExtendedFragment.removeAllFrags();
+
+
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    ProjectsPojo projectsPojo = new ProjectsPojo();
+
+                                    projectsPojo.setId(jsonObject.getString("list_id"));
+                                    projectsPojo.setData(jsonObject.getString("list_name"));
+                                    projectsPojo.setListId(jsonObject.getString("list_id"));
+
+                                    ParentBoardExtendedFragment.addPage(jsonObject.getString("list_name"),p_id,b_id,jsonObject.getString("list_id"),jsonObject.getString("list_color"),"");
+                                    //     parentBoardExtendedFragment.setArguments(bundle);
+
+                                }
+
+
+                                ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+
+
+                            }
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(BoardExtended.this, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+                                    intent.putExtra("pid",p_id);
+                                    intent.putExtra("ptitle",projectTitle);
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(BoardExtended.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
+                                    intent.putExtra("pid",p_id);
+                                    intent.putExtra("ptitle",projectTitle);
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", b_id);
+                params.put("project_id", p_id);
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
+        requestQueue.add(request);
+
     }
     private void showDialog(final String data) {
 
