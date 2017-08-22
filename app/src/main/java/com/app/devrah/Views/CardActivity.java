@@ -108,6 +108,8 @@ public class CardActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;
     List<File> fileList;
     List<DrawerPojo> dataList;
+    List<MembersPojo> cardMembersPojoList1;
+    ListView lvMembers;
     CustomDrawerAdapter DrawerAdapter;
     DrawerLayout drawerLayout;
     AttachmentImageAdapter imageAdapter;
@@ -125,7 +127,7 @@ public class CardActivity extends AppCompatActivity {
     String CardHeading;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
-    TextView tvMembers;
+    TextView tvMembers,heading;
     RecyclerViewAdapterComments adapter;
     RVadapterCheckList rvAdapterChecklist;
     List<CardCommentData> listPojo;
@@ -309,6 +311,7 @@ public class CardActivity extends AppCompatActivity {
         rvChecklist = (RecyclerView) findViewById(R.id.rv_recycler_checklist);
         rvLabel = (RecyclerView) findViewById(R.id.rv_recycler_labels);
         tvMembers = (TextView) findViewById(R.id.tvMembers);
+        heading = (TextView) findViewById(R.id.heading);
 
 
         tvMembers.setOnClickListener(new View.OnClickListener() {
@@ -519,6 +522,9 @@ public class CardActivity extends AppCompatActivity {
             Calendar c = Calendar.getInstance();
 
 
+
+
+            //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
             AttachmentsPojo attachmentsPojo = new AttachmentsPojo();
             attachmentsPojo.setNameOfFile(fileName);
             attachmentsPojo.setDateUpload(c.get(Calendar.DATE) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.YEAR));
@@ -527,8 +533,6 @@ public class CardActivity extends AppCompatActivity {
             rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
             rvFiles.setAdapter(adapter);
-            //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
-
 
         }
 
@@ -555,10 +559,13 @@ public class CardActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
         View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
-        ListView lvMembers = (ListView) view.findViewById(R.id.membersListView);
+        lvMembers = (ListView) view.findViewById(R.id.membersListView);
         TextView tvDone = (TextView) view.findViewById(R.id.addMember);
+        final AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this, cardMembersPojoList1);
 
-        MembersPojo membersPojo = new MembersPojo();
+        lvMembers.setAdapter(membersAdapter);
+
+       /* MembersPojo membersPojo = new MembersPojo();
         for (int i = 0; i <= 5; i++) {
             membersPojo.setName("Aqsa");
             membersPojo.setUserId("asdfgh");
@@ -566,7 +573,7 @@ public class CardActivity extends AppCompatActivity {
         }
         final AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this, membersPojoList);
 
-        lvMembers.setAdapter(membersAdapter);
+        lvMembers.setAdapter(membersAdapter);*/
 
 
         tvDone.setOnClickListener(new View.OnClickListener() {
@@ -583,10 +590,10 @@ public class CardActivity extends AppCompatActivity {
                 //  tvMembers.setText(parent.getSelectedItem().toString());
 
 
-                MembersPojo data = (MembersPojo) membersAdapter.getItem(position);
+                // MembersPojo data = (MembersPojo) membersAdapter.getItem(position);
                 //  data.getName();
-                tvMembers.setVisibility(View.VISIBLE);
-                tvMembers.setText(data.getName());
+               /* tvMembers.setVisibility(View.VISIBLE);
+                tvMembers.setText(data.getName());*/
                 alertDialog.dismiss();
 
 
@@ -975,7 +982,6 @@ public class CardActivity extends AppCompatActivity {
 //    }
 
 
-
     public void getCardList(final String lsitId) {
         final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, GET_LABELS,
@@ -990,17 +996,18 @@ public class CardActivity extends AppCompatActivity {
                             labelsPojoList = new ArrayList<>();
                             cardLabelsPojoList = new ArrayList<>();
                             cardMembersPojoList = new ArrayList<>();
+                            cardMembersPojoList1 = new ArrayList<>();
 
                             try {
                                 ProjectsPojo projectsPojo = null;
                                 JSONObject mainObject=new JSONObject(response);
-                                JSONArray jsonArrayCards = mainObject.getJSONArray("cards");
+                                //JSONArray jsonArrayCards = mainObject.getJSONArray("cards");
                                 JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
                                 JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
                                 JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
                                 //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
-                                for (int i = 0; i < jsonArrayCards.length(); i++) {
+                               /* for (int i = 0; i < jsonArrayCards.length(); i++) {
                                     JSONObject jsonObject = jsonArrayCards.getJSONObject(i);
                                     JSONArray jsonArray=jsonArrayAttachments.getJSONArray(i);
                                     //JSONObject jsonObject1 = jsonArrayAttachments.getJSONObject(i);
@@ -1021,48 +1028,81 @@ public class CardActivity extends AppCompatActivity {
                                     listPojo1.add(projectsPojo);
                                     // getLabelsList(jsonObject.getString("id"));
 
-                                }
+                                }*/
                                 for(int j=0;j<jsonArrayLabels.length();j++){
-                                    CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
-                                    JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
-                                    String[] labels = new String[jsonArray.length()];
-                                    String[] labelText = new String[jsonArray.length()];
-                                    for (int k=0;k<jsonArray.length();k++){
 
+                                    JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
+                                    // String[] labels = new String[jsonArray.length()];
+                                    //String[] labelText = new String[jsonArray.length()];
+                                    for (int k=0;k<jsonArray.length();k++){
+                                        CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
-                                        labels[k]=jsonObject.getString("label_color");
+                                        labelsPojo.setLabelTextCards(jsonObject.getString("label_text"));
+                                        labelsPojo.setLabelColorCards(jsonObject.getString("label_color"));
+                                       /* labels[k]=jsonObject.getString("label_color");
+
                                         if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
                                             labelText[k]="";
                                         }else {
                                             labelText[k] = jsonObject.getString("label_text");
-                                        }
+                                        }*/
+                                        cardLabelsPojoList.add(labelsPojo);
                                     }
-                                    labelsPojo.setLabels(labels);
-                                    labelsPojo.setLabelText(labelText);
-                                    cardLabelsPojoList.add(labelsPojo);
+                                    rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
+                                    RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList,cardLabelsPojoList);
+                                    rvLabelResult.setAdapter(adapter);
+
                                 }
 
                                 for(int j=0;j<jsonArrayMembers.length();j++){
-                                    CardAssociatedMembersPojo membersPojo = new CardAssociatedMembersPojo();
+                                    // CardAssociatedMembersPojo membersPojo = new CardAssociatedMembersPojo();
                                     JSONArray jsonArray=jsonArrayMembers.getJSONArray(j);
-                                    String[] members = new String[jsonArray.length()];
-                                    String[] labelText = new String[jsonArray.length()];
+                                    // String[] members = new String[jsonArray.length()];
+                                    //String[] labelText = new String[jsonArray.length()];
                                     for (int k=0;k<jsonArray.length();k++){
-
+                                        MembersPojo membersPojo=new MembersPojo();
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
-                                        members[k]=jsonObject.getString("profile_pic");
-                                        labelText[k]=jsonObject.getString("initials");
+                                        membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
+                                        membersPojo.setInetial(jsonObject.getString("initials"));
+                                        membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
+                                        //  members[k]=jsonObject.getString("profile_pic");
+                                        // labelText[k]=jsonObject.getString("initials");
                                        /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
                                             labelText[k]="";
                                         }else {
                                             labelText[k] = jsonObject.getString("label_text");
                                         }*/
+                                        cardMembersPojoList1.add(membersPojo);
                                     }
-                                    membersPojo.setMembers(members);
-                                    membersPojo.setInitials(labelText);
+
                                     //  labelsPojo.setLabelText(labelText);
-                                    cardMembersPojoList.add(membersPojo);
+
                                 }
+                                for(int j=0;j<jsonArrayAttachments.length();j++){
+
+                                    heading.setVisibility(View.VISIBLE);
+                                    AttachmentsPojo membersPojo = new AttachmentsPojo();
+                                    JSONArray jsonArray=jsonArrayAttachments.getJSONArray(j);
+
+                                    JSONObject jsonObject=jsonArray.getJSONObject(j);
+                                    membersPojo.setNameOfFile(jsonObject.getString("original_name"));
+                                    membersPojo.setDateUpload(jsonObject.getString("added_on"));
+                                       /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }*/
+
+                                    //  labelsPojo.setLabelText(labelText);
+                                    attachmentsList.add(membersPojo);
+
+
+
+                                }
+                                rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                                FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
+                                rvFiles.setAdapter(adapter);
 
 
                                 /*try {
@@ -1121,7 +1161,7 @@ public class CardActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-               params.put("cardId",cardId);
+                params.put("cardId",cardId);
                 return params;
             }
         };

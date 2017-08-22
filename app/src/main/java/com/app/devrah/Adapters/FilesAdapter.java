@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
 
 import com.app.devrah.Holders.FilesHolder;
 import com.app.devrah.R;
@@ -13,19 +12,16 @@ import com.app.devrah.pojo.AttachmentsPojo;
 
 import java.util.List;
 
-/**
- * Created by AQSA SHaaPARR on 6/22/2017.
- */
 
 public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
 
-    List<AttachmentsPojo> attachmentList;
+    private List<AttachmentsPojo> attachmentList;
     Activity activity;
 
 
 
 
-   public FilesAdapter( List<AttachmentsPojo> mAttachmentList,  Activity mActivity){
+   public FilesAdapter(List<AttachmentsPojo> mAttachmentList, Activity mActivity){
 
         this.attachmentList = mAttachmentList;
         this.activity = mActivity;
