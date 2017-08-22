@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
 import com.app.devrah.pojo.MembersPojo;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by AQSA SHaaPARR on 6/12/2017.
@@ -65,10 +69,16 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
 
             convertView = inflater.inflate(R.layout.custom_dialog_members_card_row,null);
             holder.userID = (TextView)convertView.findViewById(R.id.tvNameOfPerson);
+            holder.profile = (CircleImageView) convertView.findViewById(R.id.imageView);
+            String currentImage=myList.get(position).getProfile_pic();
+            Picasso.with(activity)
+                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+                    .into(holder.profile);
             holder.Name = (TextView)convertView.findViewById(R.id.tvIdOfPerson);
+            holder.Name.setText(myList.get(position).getInetial());
 
-            holder.Name.setText(myList.get(position).getName());
-            holder.userID.setText(myList.get(position).getUserId());
+            holder.userID.setText(myList.get(position).getName());
+            //holder.userID.setText(myList.get(position).getProfile_pic());
 
 
 //            convertView.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +98,7 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
 
     public static class ViewHolder{
         TextView userID,Name;
+        CircleImageView profile;
     }
 
 

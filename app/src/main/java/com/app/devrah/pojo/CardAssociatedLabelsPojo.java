@@ -43,5 +43,25 @@ public class CardAssociatedLabelsPojo {
         this.label = label;
     }
 
+    public String getLabelTextCards() {
+        return labelTextCards;
+    }
+
+    public void setLabelTextCards(String labelTextCards) {
+        this.labelTextCards = labelTextCards;
+    }
+
+    public String labelTextCards;
+
+    public String getLabelColorCards() {
+        return labelColorCards;
+    }
+
+    public void setLabelColorCards(String labelColorCards) {
+        this.labelColorCards = labelColorCards;
+    }
+
+    public String labelColorCards;
+
 
 }

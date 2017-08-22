@@ -166,8 +166,8 @@ public class CardActivity extends AppCompatActivity {
 //        menuChanger(menu,onFocus);
 
 //
-        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList);
-        rvLabelResult.setAdapter(adapter);
+       /* RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList);
+        rvLabelResult.setAdapter(adapter);*/
         menuChanger(menu, onFocus);
 
 
