@@ -39,10 +39,11 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
 
     @Override
     public void onBindViewHolder(FilesHolder holder, int position) {
-
-        holder.datePosted.setText(attachmentList.get(position).getDateUpload());
-     //   holder.fileSize.setText(String.valueOf(attachmentList.get(position).getSizeOfFile()));
-        holder.tvFileName.setText(attachmentList.get(position).getNameOfFile());
+        //if(!(attachmentList.get(position).getNameOfFile().equals("")) && attachmentList.get(position).getNameOfFile()!=null) {
+            holder.datePosted.setText(attachmentList.get(position).getDateUpload());
+            //   holder.fileSize.setText(String.valueOf(attachmentList.get(position).getSizeOfFile()));
+            holder.tvFileName.setText(attachmentList.get(position).getNameOfFile());
+        //}
 
 
     }

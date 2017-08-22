@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import com.app.devrah.Holders.ImageAttachmentsHolder;
 import com.app.devrah.Views.ImageDescription;
 import com.app.devrah.R;
+import com.app.devrah.pojo.AttachmentsImageFilePojo;
+import com.app.devrah.pojo.AttachmentsPojo;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,10 +30,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
     FragmentManager fm;
     LayoutInflater inflater;
     List<Bitmap> mList = Collections.emptyList();
+    private List<AttachmentsImageFilePojo> attachmentList;
 
-
-   public AttachmentImageAdapter( Activity context,List<Bitmap> mList,FragmentManager fm){
-
+   public AttachmentImageAdapter( Activity context,List<Bitmap> mList,FragmentManager fm,List<AttachmentsImageFilePojo> attachmentList){
+       this.attachmentList = attachmentList;
        this.activity = context;
        this.mList = mList;
        this.fm = fm;
@@ -48,7 +51,13 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
 
     @Override
     public void onBindViewHolder(ImageAttachmentsHolder holder, final int position) {
-            holder.imgViewAttachments.setImageBitmap(mList.get(position));
+           // holder.imgViewAttachments.setImageBitmap(mList.get(position));
+        if(!(attachmentList.get(position).getImageFile().equals(""))){
+
+            Picasso.with(activity)
+                    .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                    .into(holder.imgViewAttachments);
+        }
      //   ((CardActivity) activity).getFragmentManager();
 
         holder.imgViewAttachments.setOnClickListener(new View.OnClickListener() {
@@ -57,76 +66,30 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
 
 
 
-                Bitmap bitmap = mList.get(position);
+              /*  Bitmap bitmap = mList.get(position);
                 Intent intent = new Intent(activity.getApplicationContext(), ImageDescription.class);
                 intent.putExtra("BitmapImage",bitmap);
-                activity.startActivity(intent);
+                activity.startActivity(intent);*/
 
 
 
-               // fm.beginTransaction().add(new AttachmentImages(),"Frag").commit();
-
-               // fm.beginTransaction().add(R.id.fragmentContainer,new AttachmentImages()).addToBackStack("Frag1").commit();
-
-
-             //   fragmentTransaction.add(R.id.fragmentContainer,colorFragment).addToBackStack("Frag1").commit();
-
-             //   fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//
-
-
-/////////////////////////////////////////
-//                if (activity instanceof CardActivity){
-//
-//
-//                    FragmentTransaction t = ((CardActivity) activity).
-//                            getSupportFragmentManager().beginTransaction().
-//                            add(new AttachmentImages(),"gth");
-//                //    CardActivity activity = (CardActivity(activity))
-//                    ;
-//
-//                }
-
-////////////////////////////////////////////////////////////
-//                AttachmentImages fragment = new AttachmentImages();
-//                android.app.FragmentManager fragmentManager = ((CardActivity) activity).getFragmentManager();
-//                fragmentManager.beginTransaction().replace(R.id.fragmentContainer,fragment).commit();
-
-
-             //   CardActivity.startFrag();
-//
-//                AttachmentImages frag = new AttachmentImages();
-//
-//
-//                fm.beginTransaction().add(frag,"Fragg");
-//                android.app.FragmentManager fm =((CardActivity)activity).getFragmentManager();
-//              android.app.FragmentTransaction ft=  fm.beginTransaction();
-//
-//
-//                ft.add(CardActivity.container,frag).addToBackStack("Frag1").commit();
-//
-//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//
-//
-//                activity.getFragmentManager().beginTransaction()
-//                        .add(R.id.fragmentContainer,new AttachmentImages())*/
 
 
             }
         });
 
 
-        holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
+       /* holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeAt(position);
             }
-        });
+        });*/
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return attachmentList.size();
     }
 
 

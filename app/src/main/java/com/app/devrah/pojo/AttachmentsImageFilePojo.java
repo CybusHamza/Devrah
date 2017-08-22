@@ -1,13 +1,10 @@
 package com.app.devrah.pojo;
 
-import java.util.Date;
-
 /**
- * Created by AQSA SHaaPARR on 6/23/2017.
+ * Created by Rizwan Butt on 22-Aug-17.
  */
 
-public class AttachmentsPojo {
-
+public class AttachmentsImageFilePojo {
     public String getDateUpload() {
         return dateUpload;
     }
@@ -45,7 +42,5 @@ public class AttachmentsPojo {
     }
 
     public String imageFile;
-
-
 
 }

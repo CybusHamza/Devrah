@@ -63,6 +63,7 @@ import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.pojo.AttachmentsImageFilePojo;
 import com.app.devrah.pojo.AttachmentsPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
@@ -90,7 +91,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static com.app.devrah.Network.End_Points.GET_LABELS;
 
 public class CardActivity extends AppCompatActivity {
-
+    private static final int REQUEST_PERMISSIONS=0;
     private static final int READ_REQUEST_CODE = 42;
     public static View view;
     public static boolean onFocus = false;
@@ -141,6 +142,7 @@ public class CardActivity extends AppCompatActivity {
     List<String> manhusLabelList;
     List<ProjectsPojo> checkListPojo;
     List<AttachmentsPojo> attachmentsList;
+    List<AttachmentsImageFilePojo> attachmentsList1;
     private ListView mDrawerList;
    static String cardId;
     List<ProjectsPojo> listPojo1,labelsPojoList;
@@ -1060,6 +1062,8 @@ public class CardActivity extends AppCompatActivity {
                             cardLabelsPojoList = new ArrayList<>();
                             cardMembersPojoList = new ArrayList<>();
                             cardMembersPojoList1 = new ArrayList<>();
+                            attachmentsList = new ArrayList<>();
+                            attachmentsList1 = new ArrayList<>();
 
                             try {
                                 ProjectsPojo projectsPojo = null;
@@ -1322,5 +1326,22 @@ public class CardActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(request);
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if(requestCode==REQUEST_PERMISSIONS){
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, 1);
+
+                }
+            } else {
+
+                Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
