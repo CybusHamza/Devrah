@@ -24,6 +24,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label>{
    // Activity activity;
     Context context;
      public static int index;
+     public static int pos;
    // String labelName;
     int flag;
   public   List<String> labelNameList;
@@ -78,7 +79,11 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label>{
         holder.rowLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  holder.imgLabel.setVisibility(View.VISIBLE);
+
+                pos=    position;
+
+
+                //  holder.imgLabel.setVisibility(View.VISIBLE);
                 if (holder.imgLabel.getVisibility()==View.GONE){
                     holder.imgLabel.setVisibility(View.VISIBLE);
                  if ( ! positionList.contains(myList.get(position))){
@@ -161,6 +166,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label>{
     public int getItemCount() {
         return myList.size();
     }
+
 
     public List<Integer> getData(List<Integer> myList){
 

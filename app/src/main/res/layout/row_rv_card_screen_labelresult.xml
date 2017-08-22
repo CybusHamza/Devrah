@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="80dp"
     android:layout_margin="5dp"
-    android:layout_height="40dp"
+    android:layout_height="30dp"
     android:gravity="center"
     android:id="@+id/row_cardscreen_result"
     android:background="#fff">
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="text"
         android:gravity="center"
-        android:textSize="17sp"
+        android:textSize="12sp"
         android:textColor="#fff"
         android:id="@+id/labelName"
         android:textStyle="bold"/>

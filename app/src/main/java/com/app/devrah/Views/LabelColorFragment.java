@@ -28,29 +28,25 @@ public class LabelColorFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    RelativeLayout rOne,rTwo,rThree,rFour,rFive,rSix,rSeven,rEight,rNine;
+    public static String textLabelName;
+    public static int flag;
+    public static int color;
+    public EditText etLabelName;
+    RelativeLayout rOne, rTwo, rThree, rFour, rFive, rSix, rSeven, rEight, rNine;
     RVLabelAdapter adapter;
-    ImageView imgOne,imgTwo,imgThree,imgFour,imgFive,imgSix,imgSeven,imgEight,ImgNine;
+    ImageView imgOne, imgTwo, imgThree, imgFour, imgFive, imgSix, imgSeven, imgEight, ImgNine;
     List<RelativeLayout> layouts;
-
-   public static String textLabelName;
-
     List<Integer> myColorList;
-
     EditText labelName;
     List<ImageView> images;
-    TextView tvDone,tvDelete,tvCancel;
-    public static int flag;
-  public EditText etLabelName;
+    TextView tvDone, tvDelete, tvCancel;
     ImageView selectedImageView;
-    public static int color;
     FragmentManager fm;
-     List<ImageView> visibleImages;
-
+    List<ImageView> visibleImages;
+    int i;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    int i;
     private OnFragmentInteractionListener mListener;
     private ImageView imgNine;
 
@@ -66,6 +62,13 @@ public class LabelColorFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static int getColor() {
+
+
+        return color;
+
     }
 
     @Override
@@ -84,8 +87,8 @@ public class LabelColorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        myColorList =new ArrayList<>();
-adapter = new RVLabelAdapter();
+        myColorList = new ArrayList<>();
+        adapter = new RVLabelAdapter();
         myColorList.add(getResources().getColor(R.color.colorAccent));
         fm = getFragmentManager();
 
@@ -104,156 +107,154 @@ adapter = new RVLabelAdapter();
         visibleImages = new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_color_fragment, container, false);
 
-        tvDone = (TextView)view.findViewById(R.id.doneLabelName);
-        tvDelete = (TextView)view.findViewById(R.id.tvDelete);
-        etLabelName = (EditText)view.findViewById(R.id.etLabelName);
+        tvDone = (TextView) view.findViewById(R.id.doneLabelName);
+        tvDelete = (TextView) view.findViewById(R.id.tvDelete);
+        etLabelName = (EditText) view.findViewById(R.id.etLabelName);
         tvCancel = (TextView) view.findViewById(R.id.tvCancel);
 
-        rOne = (RelativeLayout)view.findViewById(R.id.rvOne);
+        rOne = (RelativeLayout) view.findViewById(R.id.rvOne);
         rOne.setBackgroundColor(myColorList.get(0));
-        etLabelName = (EditText)view.findViewById(R.id.etLabelName);
-        rTwo = (RelativeLayout)view.findViewById(R.id.relativeLayout2);
+        etLabelName = (EditText) view.findViewById(R.id.etLabelName);
+        rTwo = (RelativeLayout) view.findViewById(R.id.relativeLayout2);
         rTwo.setBackgroundColor(myColorList.get(1));
-        rThree = (RelativeLayout)view.findViewById(R.id.relativeLayout3);
+        rThree = (RelativeLayout) view.findViewById(R.id.relativeLayout3);
         rThree.setBackgroundColor(myColorList.get(2));
-        rFour = (RelativeLayout)view.findViewById(R.id.relativeLayout4);
+        rFour = (RelativeLayout) view.findViewById(R.id.relativeLayout4);
         rFour.setBackgroundColor(myColorList.get(3));
-        rFive = (RelativeLayout)view.findViewById(R.id.relativeLayout5);
+        rFive = (RelativeLayout) view.findViewById(R.id.relativeLayout5);
         rFive.setBackgroundColor(myColorList.get(4));
-        rSix = (RelativeLayout)view.findViewById(R.id.relativeLayout6);
+        rSix = (RelativeLayout) view.findViewById(R.id.relativeLayout6);
         rSix.setBackgroundColor(myColorList.get(5));
-        rSeven = (RelativeLayout)view.findViewById(R.id.relativeLayout7);
+        rSeven = (RelativeLayout) view.findViewById(R.id.relativeLayout7);
         rSeven.setBackgroundColor(myColorList.get(6));
-        rNine = (RelativeLayout)view.findViewById(R.id.relativeLayout9);
+        rNine = (RelativeLayout) view.findViewById(R.id.relativeLayout9);
         rNine.setBackgroundColor(myColorList.get(8));
-        rEight  = (RelativeLayout)view.findViewById(R.id.relativeLayout8);
+        rEight = (RelativeLayout) view.findViewById(R.id.relativeLayout8);
         rEight.setBackgroundColor(myColorList.get(7));
-        imgOne = (ImageView)view.findViewById(R.id.img_one);
+        imgOne = (ImageView) view.findViewById(R.id.img_one);
 
-        imgTwo = (ImageView)view.findViewById(R.id.img2);
+        imgTwo = (ImageView) view.findViewById(R.id.img2);
 
-        imgThree = (ImageView)view.findViewById(R.id.img3);
-        imgFour = (ImageView)view.findViewById(R.id.img4);
-        imgFive = (ImageView)view.findViewById(R.id.img5);
-        imgSix = (ImageView)view.findViewById(R.id.img6);
-        imgSeven = (ImageView)view.findViewById(R.id.img7);
-        imgEight = (ImageView)view.findViewById(R.id.img8);
+        imgThree = (ImageView) view.findViewById(R.id.img3);
+        imgFour = (ImageView) view.findViewById(R.id.img4);
+        imgFive = (ImageView) view.findViewById(R.id.img5);
+        imgSix = (ImageView) view.findViewById(R.id.img6);
+        imgSeven = (ImageView) view.findViewById(R.id.img7);
+        imgEight = (ImageView) view.findViewById(R.id.img8);
 
-        imgNine = (ImageView)view.findViewById(R.id.img9);
+        imgNine = (ImageView) view.findViewById(R.id.img9);
 
-        if (flag==5){
+        if (flag == 5) {
             tvDelete.setVisibility(View.VISIBLE);
             etLabelName.setText(textLabelName);
 
 
-         if (  myColorList.contains(RVLabelAdapter.index)){
-             i =  myColorList.indexOf(RVLabelAdapter.index);
+            if (myColorList.contains(RVLabelAdapter.index)) {
+                i = myColorList.indexOf(RVLabelAdapter.index);
 
 
+                tvDone.setTextColor(myColorList.get(i));
 
 
-             tvDone.setTextColor(myColorList.get(i));
+                switch (i) {
+
+                    case 0: {
+
+                        imgOne.setVisibility(View.VISIBLE);
+                        selectedImageView = imgOne;
+                        break;
+
+                    }
+
+                    case 1: {
+
+                        imgTwo.setVisibility(View.VISIBLE);
+                        selectedImageView = imgTwo;
+                        break;
+
+                    }
+
+                    case 2: {
+
+                        imgThree.setVisibility(View.VISIBLE);
+                        selectedImageView = imgThree;
+                        break;
+
+                    }
+
+                    case 3: {
+
+                        imgFour.setVisibility(View.VISIBLE);
+                        selectedImageView = imgFour;
+                        break;
+
+                    }
+
+                    case 4: {
+
+                        imgFive.setVisibility(View.VISIBLE);
+                        selectedImageView = imgFive;
+                        break;
+
+                    }
+
+                    case 5: {
+
+                        imgSix.setVisibility(View.VISIBLE);
+                        selectedImageView = imgSix;
+                        break;
+
+                    }
+
+                    case 6: {
+
+                        imgSeven.setVisibility(View.VISIBLE);
+                        //  imgSeven.setVisibility(View.VISIBLE);
+                        selectedImageView = imgSeven;
+
+                        break;
+
+                    }
+                    case 7: {
+
+                        imgEight.setVisibility(View.VISIBLE);
+                        selectedImageView = imgEight;
+
+                        break;
+
+                    }
+                    case 8: {
+
+                        imgNine.setVisibility(View.VISIBLE);
+                        selectedImageView = imgNine;
+
+                        break;
+
+                    }
 
 
-             switch (i){
-
-                 case 0:{
-
-                     imgOne.setVisibility(View.VISIBLE);
-                     selectedImageView = imgOne;
-                     break;
-
-                 }
-
-                 case 1:{
-
-                     imgTwo.setVisibility(View.VISIBLE);
-                     selectedImageView = imgTwo;
-                     break;
-
-                 }
-
-                 case 2:{
-
-                     imgThree.setVisibility(View.VISIBLE);
-                     selectedImageView = imgThree;
-                     break;
-
-                 }
-
-                 case 3:{
-
-                     imgFour.setVisibility(View.VISIBLE);
-                     selectedImageView = imgFour;
-                     break;
-
-                 }
-
-                 case 4:{
-
-                     imgFive.setVisibility(View.VISIBLE);
-                     selectedImageView = imgFive;
-                     break;
-
-                 }
-
-                 case 5:{
-
-                     imgSix.setVisibility(View.VISIBLE);
-                     selectedImageView = imgSix;
-                     break;
-
-                 }
-
-                 case 6:{
-
-                     imgSeven.setVisibility(View.VISIBLE);
-                   //  imgSeven.setVisibility(View.VISIBLE);
-                     selectedImageView = imgSeven;
-
-                     break;
-
-                 }
-                 case 7:{
-
-                     imgEight.setVisibility(View.VISIBLE);
-                     selectedImageView = imgEight;
-
-                     break;
-
-                 }
-                 case 8:{
-
-                     imgNine.setVisibility(View.VISIBLE);
-                     selectedImageView = imgNine;
-
-                     break;
-
-                 }
+                }
 
 
-             }
+                tvDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (CardActivity.colorList.contains(color)) {
+                            CardActivity.rvAdapterLabel.remove(color);
+                            Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                            fm.popBackStack();
+                            // CardActivity.showLabelsMenu();
+                            flag = 0;
+
+                        } else
+                            Toast.makeText(getContext(), "Doesnt exist", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
 
 
-             tvDelete.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-
-                     if (CardActivity.colorList.contains(color)){
-                         CardActivity.rvAdapterLabel.remove(color);
-                         Toast.makeText(getContext(),"Deleted",Toast.LENGTH_SHORT).show();
-                         fm.popBackStack();
-                        // CardActivity.showLabelsMenu();
-                         flag =0;
-
-                     }else
-                         Toast.makeText(getContext(),"Doesnt exist",Toast.LENGTH_SHORT).show();
-
-                 }
-             });
-
-
-         }
+            }
 
 //                tvDone.setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -268,17 +269,15 @@ adapter = new RVLabelAdapter();
 //                });
 
 
-
-
         }
-tvCancel.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        flag =0;
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag = 0;
 
-        fm.popBackStack();
-    }
-});
+                fm.popBackStack();
+            }
+        });
 
 
         images.add(imgOne);
@@ -296,25 +295,23 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                   imgOne.setVisibility(View.VISIBLE);
-           //     changeVisibility(imgOne);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgOne) {
+                imgOne.setVisibility(View.VISIBLE);
+                //     changeVisibility(imgOne);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgOne) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                     //   tvDone.setText(rOne.getBackground().toString());
+                    //   tvDone.setText(rOne.getBackground().toString());
 
-                         color = Color.TRANSPARENT;
+                    color = Color.TRANSPARENT;
 
 //                        Drawable background = rOne.getBackground();
 //                        if (background instanceof ColorDrawable)
 //                            color = ((ColorDrawable) background).getColor();
-                        //tvDone.setTextColor(color);
+                    //tvDone.setTextColor(color);
                     color = myColorList.get(0);
-
-
 
 
                 }
@@ -323,25 +320,24 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
         });
 
 
-
         rTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-            imgTwo.setVisibility(View.VISIBLE);
-               //changeVisibility(imgTwo);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgTwo) {
+                imgTwo.setVisibility(View.VISIBLE);
+                //changeVisibility(imgTwo);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgTwo) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                         color = Color.TRANSPARENT;
-                        Drawable background = rTwo.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        tvDone.setTextColor(color);
-  //                  color = myColorList.get(1);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rTwo.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
+                    //                  color = myColorList.get(1);
 
                 }
 
@@ -353,18 +349,18 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 imgThree.setVisibility(View.VISIBLE);
-              //    changeVisibility(imgThree);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgThree){
+                //    changeVisibility(imgThree);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgThree) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                         color = Color.TRANSPARENT;
-                        Drawable background = rThree.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        tvDone.setTextColor(color);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rThree.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
 //                    color = myColorList.get(2);
 
                 }
@@ -378,17 +374,17 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
 
                 imgFour.setVisibility(View.VISIBLE);
                 //  changeVisibility(imgFour);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgFour){
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgFour) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                         color = Color.TRANSPARENT;
-                        Drawable background = rFour.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        //tvDone.setTextColor(color);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rFour.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    //tvDone.setTextColor(color);
 //                    color = myColorList.get(3);
 
                 }
@@ -397,25 +393,24 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
         });
 
 
-
         rFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 imgFive.setVisibility(View.VISIBLE);
-              //    changeVisibility(imgFive);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgFive){
+                //    changeVisibility(imgFive);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgFive) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
 
-                         color = Color.TRANSPARENT;
-                        Drawable background = rFive.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        tvDone.setTextColor(color);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rFive.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
                     color = myColorList.get(4);
                 }
 
@@ -427,19 +422,19 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 imgSix.setVisibility(View.VISIBLE);
-              //    changeVisibility(imgSix);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgSix){
+                //    changeVisibility(imgSix);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgSix) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
 
                     }
-                         color = Color.TRANSPARENT;
-                        Drawable background = rSix.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        tvDone.setTextColor(color);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rSix.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
                     color = myColorList.get(5);
                 }
 
@@ -451,18 +446,18 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 imgSeven.setVisibility(View.VISIBLE);
-             //     changeVisibility(imgSeven);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgSeven){
+                //     changeVisibility(imgSeven);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgSeven) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                         color = Color.TRANSPARENT;
-                        Drawable background = rSeven.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        tvDone.setTextColor(color);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rSeven.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
                     color = myColorList.get(6);
                 }
 
@@ -474,18 +469,18 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 imgEight.setVisibility(View.VISIBLE);
-                  //changeVisibility(imgEight);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgEight){
+                //changeVisibility(imgEight);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgEight) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                         color = Color.TRANSPARENT;
-                        Drawable background = rEight.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        tvDone.setTextColor(color);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rEight.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
                     color = myColorList.get(7);
 
                 }
@@ -497,18 +492,18 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 imgNine.setVisibility(View.VISIBLE);
-                  //changeVisibility(imgNine);
-                for (ImageView layout : images){
-                    if (layout.getVisibility()== View.VISIBLE && layout!= imgNine){
+                //changeVisibility(imgNine);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgNine) {
 
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                        color = Color.TRANSPARENT;
-                        Drawable background = rNine.getBackground();
-                        if (background instanceof ColorDrawable)
-                            color = ((ColorDrawable) background).getColor();
-                        tvDone.setTextColor(color);
+                    color = Color.TRANSPARENT;
+                    Drawable background = rNine.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
 
                     color = myColorList.get(8);
 
@@ -530,33 +525,32 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
         tvDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // color;
+                // color;
                 Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
                 String s = etLabelName.getText().toString();
 //
-        if (flag==5){
+                if (flag == 5) {
 
-            int p = CardActivity.colorList.indexOf(RVLabelAdapter.index);
-            CardActivity.colorList.remove(p);
-            CardActivity.colorList.add(p,color);
-            CardActivity.labelNameList.remove(p);
-            CardActivity.labelNameList.add(p,s);
- }
-        else {
+                    int p = CardActivity.colorList.indexOf(RVLabelAdapter.index);
+                    CardActivity.colorList.remove(p);
+                    CardActivity.colorList.add(p, color);
+                    CardActivity.labelNameList.remove(p);
+                    CardActivity.labelNameList.add(p, s);
+                } else {
 
 
 //                if (!(s.isEmpty())){
 //                     CardActivity.labelNameList.add(s);
 //                }
 
-            CardActivity.labelNameList.add(s);
-            FragmentManager fm = getFragmentManager();
-            if (color != Color.TRANSPARENT) {
-                CardActivity.colorList.add(color);
-                color = Color.TRANSPARENT;
+                    CardActivity.labelNameList.add(s);
+                    FragmentManager fm = getFragmentManager();
+                    if (color != Color.TRANSPARENT) {
+                        CardActivity.colorList.add(color);
+                        color = Color.TRANSPARENT;
 
-            }
-        }
+                    }
+                }
 
                 CardActivity.showLabelsMenu();
                 fm.popBackStack();
@@ -619,21 +613,12 @@ tvCancel.setOnClickListener(new View.OnClickListener() {
 
     }
 
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-        public static int getColor(){
-
-
-
-            return color;
-
-        }
 
     @Override
     public void onDetach() {

@@ -1,17 +1,21 @@
 package com.app.devrah.Views;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -57,6 +61,7 @@ import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Adapters.RVLabelResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.AttachmentsPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
@@ -122,7 +127,7 @@ public class CardActivity extends AppCompatActivity {
     RVadapterCheckList rVadapterCheckList;
     Spinner spinnerDate, spinnerTime;
     List<String> spinnerDateList, spinnertTimeList;
-    Activity activity;
+    static Activity activity;
     EditText etComment, etCheckList;
     String CardHeading;
     DatePickerDialog datePickerDialog;
@@ -137,11 +142,14 @@ public class CardActivity extends AppCompatActivity {
     List<ProjectsPojo> checkListPojo;
     List<AttachmentsPojo> attachmentsList;
     private ListView mDrawerList;
-    String cardId;
+   static String cardId;
     List<ProjectsPojo> listPojo1,labelsPojoList;
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
+    static  List<CardAssociatedLabelsPojo> cardLabelsPojoListstat;
     List<CardAssociatedMembersPojo> cardMembersPojoList;
-
+    static  String name,strColor;
+    static  int color;
+   // static  String[] colors = new String[]{"black","blue",};
     public static void addLabel() {
 
 
@@ -158,10 +166,12 @@ public class CardActivity extends AppCompatActivity {
 
         listt = rvAdapterLabel.getData(resultColorList);
         asliList = rvAdapterLabel.getDataString();
+
+       // addlabel(listt,asliList);
         // labelNameList = rvAdapterLabel
 
 
-//        RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,labelNameList);
+       // RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,labelNameList);
 //        rvLabelResult.setAdapter(adapter);
 //        menuChanger(menu,onFocus);
 
@@ -196,6 +206,39 @@ public class CardActivity extends AppCompatActivity {
                 // Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
                 addLabel();
 
+               int pos = RVLabelAdapter.pos;
+
+                name = labelNameList.get(pos);
+                color = colorList.get(pos);
+
+                if(color == -16777216)
+                {
+                    strColor = "black";
+                }
+
+               else if(color == -13615201)
+                {
+                    strColor = "blue";
+
+                }
+                else if(color ==-16713062)
+                {
+                    strColor ="lime";
+
+                }
+                else if(color ==-47862)
+                {
+                    strColor ="red";
+
+                }
+                else if(color == -32985)
+                {
+                    strColor ="red Orange";
+
+                }
+                addlabel(strColor,name);
+
+
                 return true;
             }
         });
@@ -204,7 +247,6 @@ public class CardActivity extends AppCompatActivity {
         ColorsPojo colorsPojo = new ColorsPojo();
         //   colorList.add(colorsPojo.getColor());
         rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList);
-
         rvLabel.setAdapter(rvAdapterLabel);
         asliList = rvAdapterLabel.getDataString();
         fabm.close(true);
@@ -230,13 +272,13 @@ public class CardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card);
         RVLabelAdapter adapter = new RVLabelAdapter();
 
-
+        activity = CardActivity.this;
         Intent intent=  getIntent();
 
         cardId = intent.getStringExtra("card_id");
 
 
-        getCardList(cardId);
+        getCardList();
 
         labelNameList = new ArrayList<>();
         asliList = new ArrayList<>();
@@ -351,6 +393,7 @@ public class CardActivity extends AppCompatActivity {
         FABattachments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 fabm.close(true);
                 LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
                 View view = inflater.inflate(R.layout.custom_attachments_layout_dialog, null);
@@ -364,9 +407,29 @@ public class CardActivity extends AppCompatActivity {
                 linearLayoutCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, 1);
-                        alertDialog.dismiss();
+                        if (ActivityCompat.checkSelfPermission(CardActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+
+                            if (Build.VERSION.SDK_INT > 22) {
+
+                                requestPermissions(new String[]{Manifest.permission
+                                                .CAMERA},
+                                        REQUEST_PERMISSIONS);
+                                alertDialog.dismiss();
+                      /*  Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, REQUEST_PERMISSION_SETTING);*/
+                                // Toast.makeText(MainActivity.this.getBaseContext(), "Go to Permissions to Grant Storage", Toast.LENGTH_LONG).show();
+
+                            }
+
+                        } else {
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(intent, 1);
+                            alertDialog.dismiss();
+
+                        }
 
 
                     }
@@ -481,11 +544,11 @@ public class CardActivity extends AppCompatActivity {
             //  rotateImage(bitmap,selectedImage.toString());
 
 
-            rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
+          /*  rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
             //    bitmapList.add(rotateBitmap(bitmap));
             bitmapList.add(bitmap);
-            imageAdapter = new AttachmentImageAdapter(Mactivity, bitmapList, fm);
-            rvAttachmentImages.setAdapter(imageAdapter);
+            imageAdapter = new AttachmentImageAdapter(Mactivity, bitmapList, fm,attachmentsList1);
+            rvAttachmentImages.setAdapter(imageAdapter);*/
 
 
         }
@@ -982,7 +1045,7 @@ public class CardActivity extends AppCompatActivity {
 //    }
 
 
-    public void getCardList(final String lsitId) {
+    public void getCardList() {
         final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, GET_LABELS,
                 new Response.Listener<String>() {
@@ -1048,6 +1111,8 @@ public class CardActivity extends AppCompatActivity {
                                         }*/
                                         cardLabelsPojoList.add(labelsPojo);
                                     }
+
+                                    cardLabelsPojoListstat = cardLabelsPojoList;
                                     rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
                                     RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList,cardLabelsPojoList);
                                     rvLabelResult.setAdapter(adapter);
@@ -1078,33 +1143,42 @@ public class CardActivity extends AppCompatActivity {
                                     //  labelsPojo.setLabelText(labelText);
 
                                 }
-                                for(int j=0;j<jsonArrayAttachments.length();j++){
+                                for(int j=0;j<jsonArrayAttachments.length();j++) {
 
                                     heading.setVisibility(View.VISIBLE);
-                                    AttachmentsPojo membersPojo = new AttachmentsPojo();
-                                    JSONArray jsonArray=jsonArrayAttachments.getJSONArray(j);
 
-                                    JSONObject jsonObject=jsonArray.getJSONObject(j);
-                                    membersPojo.setNameOfFile(jsonObject.getString("original_name"));
-                                    membersPojo.setDateUpload(jsonObject.getString("added_on"));
+                                    JSONArray jsonArray = jsonArrayAttachments.getJSONArray(j);
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        AttachmentsPojo membersPojo = new AttachmentsPojo();
+                                        AttachmentsImageFilePojo FilePojo = new AttachmentsImageFilePojo();
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        if (jsonObject.getString("file_type").equals("image")) {
+                                            FilePojo.setImageFile(jsonObject.getString("file_name"));
+                                            attachmentsList1.add(FilePojo);
+                                        } else {
+                                            membersPojo.setNameOfFile(jsonObject.getString("original_name"));
+                                            membersPojo.setDateUpload(jsonObject.getString("added_on"));
+                                            attachmentsList.add(membersPojo);
+
+                                        }
+
                                        /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
                                             labelText[k]="";
                                         }else {
                                             labelText[k] = jsonObject.getString("label_text");
                                         }*/
 
-                                    //  labelsPojo.setLabelText(labelText);
-                                    attachmentsList.add(membersPojo);
+                                        //  labelsPojo.setLabelText(labelText);
 
+                                    }
+                                    rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
+                                    imageAdapter = new AttachmentImageAdapter(Mactivity, bitmapList, fm, attachmentsList1);
+                                    rvAttachmentImages.setAdapter(imageAdapter);
+                                    rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-
+                                    FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
+                                    rvFiles.setAdapter(adapter);
                                 }
-                                rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                                FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
-                                rvFiles.setAdapter(adapter);
-
-
                                 /*try {
                                     cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);
                                     cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
@@ -1171,6 +1245,81 @@ public class CardActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+
+    }
+
+
+    public static void addlabel(final String lablecolor, final String lableText) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SAVE_NEW_LABELS_CARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        Toast.makeText(activity, response, Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("card_id",cardId);
+                params.put("label_text",lableText);
+                params.put("label_color",lablecolor);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(request);
 
     }
