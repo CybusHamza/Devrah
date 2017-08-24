@@ -46,6 +46,16 @@ public class AttachmentsPojo {
 
     public String imageFile;
 
+    public String getIsCover() {
+        return isCover;
+    }
+
+    public void setIsCover(String isCover) {
+        this.isCover = isCover;
+    }
+
+    public String isCover;
+
 
 
 }

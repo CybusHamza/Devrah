@@ -1411,7 +1411,7 @@ public class CardActivity extends AppCompatActivity {
 
                                     }
                                     rvAttachmentImages.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
-                                    imageAdapter = new AttachmentImageAdapter(Mactivity, bitmapList, fm, attachmentsList1);
+                                    imageAdapter = new AttachmentImageAdapter(Mactivity, bitmapList, fm, attachmentsList1,cardId);
                                     rvAttachmentImages.setAdapter(imageAdapter);
                                     rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 

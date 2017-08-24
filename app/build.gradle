@@ -18,6 +18,11 @@ android {
         }
     }
 }
+repositories {
+    maven {
+        url  "http://dl.bintray.com/lukaville/maven"
+    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -48,6 +53,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-plus:10.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
+    
 }
 
 

@@ -72,6 +72,11 @@ public class End_Points {
     public static final String MOVE_LIST= BASE_URL + "moveListFromOneBoardToAnOther";
     public static final String GET_LABELS= BASE_URL + "getLables";
     public static final String SAVE_NEW_LABELS_CARD= BASE_URL + "saveNewLabelForCard";
+    public static final String SAVE_NEW_ATTACHMENT_BY_CARD_ID= BASE_URL + "saveUploadedAttachmentFromComputerByCardId";
+    public static final String UPDATE_CARD_DUE_TIME= BASE_URL + "updateCardDueTime";
+    public static final String DELETE_ATTACHMENT_BY_ID= BASE_URL + "deleteAttachmentFileById";
+    public static final String MAKE_COVER= BASE_URL + "makeCover";
     public static final String UPDATE_LABLE= BASE_URL + "updateLabelById";
     public static final String DELETE_LABLE= BASE_URL + "deleteCardLabelById";
+
 }

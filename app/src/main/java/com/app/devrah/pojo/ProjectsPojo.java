@@ -12,6 +12,16 @@ public class ProjectsPojo {
     public String boardID;
     public String projectStatus;
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String startDate;
+
     public String getnOfAttachments() {
         return nOfAttachments;
     }
@@ -136,6 +146,16 @@ public class ProjectsPojo {
     }
 
     String listColor;
+
+    public String getIsCover() {
+        return isCover;
+    }
+
+    public void setIsCover(String isCover) {
+        this.isCover = isCover;
+    }
+
+    String isCover;
 
 
 

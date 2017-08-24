@@ -39,6 +39,7 @@ import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.ParentBoardExtendedFragment;
+import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
@@ -86,6 +87,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     List<ProjectsPojo> listPojo,labelsPojoList;
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
     List<CardAssociatedMembersPojo> cardMembersPojoList;
+    List<CardAssociatedCoverPojo> cardCoverPojoList;
   //  CardAssociatedLabelsAdapter cardAssociatedLabelsAdapter;
     CustomViewPagerAdapter VPadapter;
     ProjectsPojo boardsFragmentPojoData;
@@ -451,6 +453,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                             labelsPojoList = new ArrayList<>();
                             cardLabelsPojoList = new ArrayList<>();
                             cardMembersPojoList = new ArrayList<>();
+                            cardCoverPojoList = new ArrayList<>();
 
                             try {
                                 ProjectsPojo projectsPojo = null;
@@ -459,12 +462,14 @@ public class ChildFragmentBoardExtended extends Fragment {
                                 JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
                                 JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
                                 JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
+                                JSONArray jsonArrayAttachmentsCover = mainObject.getJSONArray("attachment_cover");
                                 //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
                                 row=jsonArrayCards.length();
                                 for (int i = 0; i < jsonArrayCards.length(); i++) {
                                     JSONObject jsonObject = jsonArrayCards.getJSONObject(i);
                                     JSONArray jsonArray=jsonArrayAttachments.getJSONArray(i);
+
                                     //JSONObject jsonObject1 = jsonArrayAttachments.getJSONObject(i);
 
                                      projectsPojo = new ProjectsPojo();
@@ -473,8 +478,10 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     projectsPojo.setId(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("card_name"));
                                     projectsPojo.setAttachment(jsonObject.getString("file_name"));
-                                    projectsPojo.setDueDate(jsonObject.getString("card_start_date"));
+                                    projectsPojo.setDueDate(jsonObject.getString("card_end_date")+" "+jsonObject.getString("card_due_time"));
+                                    projectsPojo.setStartDate(jsonObject.getString("card_start_date")+" "+jsonObject.getString("card_start_time"));
                                     projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
+
                                    // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
                                     //projectsPojo.setLabels(jsonObject.getString("label_color"));
 
@@ -525,8 +532,31 @@ public class ChildFragmentBoardExtended extends Fragment {
                                   //  labelsPojo.setLabelText(labelText);
                                     cardMembersPojoList.add(membersPojo);
                                 }
+                                for(int j=0;j<jsonArrayAttachmentsCover.length();j++){
+                                    CardAssociatedCoverPojo membersPojo = new CardAssociatedCoverPojo();
+                                    JSONArray jsonArray=jsonArrayAttachmentsCover.getJSONArray(j);
+                                    String[] attachmentName = new String[jsonArray.length()];
+                                    String[] makeCover = new String[jsonArray.length()];
+                                   // String attachmentName=null;
+                                    //String makeCover=null;
+                                    for (int k=0;k<jsonArray.length();k++){
 
-                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,0);
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        attachmentName[k]=jsonObject.getString("file_name");
+                                        makeCover[k]=jsonObject.getString("make_cover");
+                                       /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }*/
+                                    }
+                                    membersPojo.setFileName(attachmentName);
+                                    membersPojo.setIsCover(makeCover);
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardCoverPojoList.add(membersPojo);
+                                }
+
+                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0);
                                 lv.setAdapter(adapter);
                                 /*try {
                                     cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.R;
+import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
@@ -36,17 +37,19 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     List<ProjectsPojo> projectsList;
     List<CardAssociatedLabelsPojo> labelList;
     List<CardAssociatedMembersPojo> memberList;
+    List<CardAssociatedCoverPojo> coverList;
     Activity activity;
     String BoardsListData;
     private LayoutInflater inflater;
 
 
-    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList,List<CardAssociatedLabelsPojo> labelList,List<CardAssociatedMembersPojo> memberList,int membercount) {
+    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
         this.memberList = memberList;
         this.membercount=membercount;
+        this.coverList=coverList;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -352,13 +355,27 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
         }*/
 
-
-        if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
-            holder.attachment.setVisibility(View.VISIBLE);
-            Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + projectsList.get(position).getAttachment())
-                    .into(holder.attachment);
+        String cover[]=coverList.get(position).getIsCover();
+        String fileName[]=coverList.get(position).getFileName();
+        for(int i=0;i<cover.length;i++) {
+            if (cover[i].equals("1")) {
+                holder.attachment.setVisibility(View.VISIBLE);
+                Picasso.with(activity)
+                        .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + fileName[i])
+                        .into(holder.attachment);
+            } else {
+                holder.attachment.setVisibility(View.INVISIBLE);
+            }
         }
+
+        /*if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
+            if(projectsList.get(position).getIsCover().equals("1")) {
+                holder.attachment.setVisibility(View.VISIBLE);
+                Picasso.with(activity)
+                        .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + projectsList.get(position).getAttachment())
+                        .into(holder.attachment);
+            }
+        }*/
         holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -401,6 +418,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 Intent intent = new Intent(activity,CardActivity.class);
                 intent.putExtra("CardHeaderData",BoardsListData);
                 intent.putExtra("card_id",projectsList.get(position).getId());
+                intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
+                intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
                 activity.startActivity(intent);
 
             }

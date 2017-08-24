@@ -24,10 +24,10 @@
 <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/menu_dlt"
-    android:layout_marginEnd="10dp"
+    android:src="@android:drawable/ic_delete"
+    android:layout_marginEnd="3dp"
     android:id="@+id/menuIcon"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="3dp"
     android:layout_alignBottom="@+id/rvImageView"
     android:layout_alignEnd="@+id/rvImageView" />
 
