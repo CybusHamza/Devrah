@@ -6,11 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.app.devrah.Views.CardActivity;
 import com.app.devrah.Holders.ViewHolderRVcardScreenLabelResult;
 import com.app.devrah.R;
+import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,17 +20,17 @@ import java.util.List;
 
 public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardScreenLabelResult> {
 
-   List<Integer> myResultantList;
+    List<Integer> myResultantList;
     List<String> resultantLabelNames;
     Activity activity;
     List<CardAssociatedLabelsPojo> labelList;
 
-  public   RVLabelResultAdapter(Activity activity,List<Integer> myResultantList,List<String> labelNameResultList,List<CardAssociatedLabelsPojo> labelList){ //, List<String> resultantLabelNames
+    public RVLabelResultAdapter(Activity activity, List<Integer> myResultantList, List<String> labelNameResultList, List<CardAssociatedLabelsPojo> labelList) { //, List<String> resultantLabelNames
 
         this.activity = activity;
         this.myResultantList = myResultantList;
-      this.resultantLabelNames = labelNameResultList;
-      this.labelList = labelList;
+        this.resultantLabelNames = labelNameResultList;
+        this.labelList = labelList;
 
 
     }
@@ -38,10 +39,10 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
     @Override
     public ViewHolderRVcardScreenLabelResult onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_rv_card_screen_labelresult,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_rv_card_screen_labelresult, parent, false);
         ViewHolderRVcardScreenLabelResult holder = new ViewHolderRVcardScreenLabelResult(view);
 
-       // holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+        // holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
 
         return holder;
     }
@@ -49,28 +50,28 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
     @Override
     public void onBindViewHolder(ViewHolderRVcardScreenLabelResult holder, int position) {
         holder.tvLabelName.setText(labelList.get(position).getLabelTextCards());
-        String labelColor=labelList.get(position).getLabelColorCards();
-        if(labelColor.equals("blue")){
+        final String labelColor = labelList.get(position).getLabelColorCards();
+        if (labelColor.equals("blue")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-        }else if(labelColor.equals("sky-blue")){
+        } else if (labelColor.equals("sky-blue")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
-        }else if(labelColor.equals("red")){
+        } else if (labelColor.equals("red")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
-        }else if(labelColor.equals("yellow")){
+        } else if (labelColor.equals("yellow")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
-        }else if(labelColor.equals("purple")){
+        } else if (labelColor.equals("purple")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.purple));
-        }else if(labelColor.equals("pink")){
+        } else if (labelColor.equals("pink")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.pink));
-        }else if(labelColor.equals("orange")){
+        } else if (labelColor.equals("orange")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
-        }else if(labelColor.equals("black")){
+        } else if (labelColor.equals("black")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.black));
-        }else if(labelColor.equals("green")){
+        } else if (labelColor.equals("green")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.colorGreen));
-        }else if(labelColor.equals("dark-green")){
+        } else if (labelColor.equals("dark-green")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
-        }else if(labelColor.equals("lime")){
+        } else if (labelColor.equals("lime")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
         }
 
@@ -88,23 +89,21 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
 //        });
 
         holder.rvLabel.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        CardActivity.onFocus = true;
+            @Override
+            public void onClick(View v) {
 
-        CardActivity.showLabelsMenu();
-        CardActivity.rvLabel.setVisibility(View.VISIBLE);
+                ArrayList<String> colors = new ArrayList<String>();
 
+                for (int i = 0; i < labelList.size(); i++) {
+                    colors.add(labelList.get(i).getLabelColorCards());
+                }
 
-//        if (activity.getApplicationContext()== CardActivity.mcontext){
-//
-//            ((CardActivity) activity).menuChanger(CardActivity.menu,CardActivity.onFocus=true);
-//
-//        }
-//        else
-//            Toast.makeText(activity.getApplicationContext(), "Else Block", Toast.LENGTH_SHORT).show();
-    }
-});
+                CardActivity.showDatColors(colors);
+                CardActivity.rvLabelResult.setVisibility(View.GONE);
+                CardActivity.labelAdd.setVisibility(View.VISIBLE);
+
+            }
+        });
     }
 
     @Override

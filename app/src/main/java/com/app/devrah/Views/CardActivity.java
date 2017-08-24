@@ -3,6 +3,7 @@ package com.app.devrah.Views;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +11,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -68,7 +72,6 @@ import com.app.devrah.pojo.AttachmentsPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.CardCommentData;
-import com.app.devrah.pojo.ColorsPojo;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.MembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
@@ -79,7 +82,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -105,10 +119,13 @@ public class CardActivity extends AppCompatActivity {
     public static TextView labelAdd;
     static List<String> asliList;
     static List<String> labelNameList;
+    String dueDateTime,startDateTime;
     static RVLabelAdapter rvAdapterLabel;
     static List<Integer> colorList;
+    static List<String> colorList1;
     static List<Integer> listt;
     static List<Integer> resultColorList;
+    String b64,formattedDate;
     private static FloatingActionMenu fabm;
     public List<Bitmap> bitmapList;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -121,13 +138,12 @@ public class CardActivity extends AppCompatActivity {
     AttachmentImageAdapter imageAdapter;
     LinearLayout LACheckList, staticCheckList;
     List<MembersPojo> membersPojoList;
-    CheckBox cbDueDate;
     RelativeLayout rvCard;
     FloatingActionButton FABdueDate, FABmembers, FABattachments, FABchecklist, FABLabel;
     Toolbar toolbar;
     RVadapterCheckList rVadapterCheckList;
-    Spinner spinnerDate, spinnerTime;
-    List<String> spinnerDateList, spinnertTimeList;
+    Spinner spinnerstartDate,spinnerstartTime,spinnerDate, spinnerTime;
+    List<String> spinnerDateList, spinnertTimeList,spinnerStartDateList,spinnerStartTimeList;
     static Activity activity;
     EditText etComment, etCheckList;
     String CardHeading;
@@ -141,6 +157,8 @@ public class CardActivity extends AppCompatActivity {
     FragmentManager fm;
     List<String> manhusLabelList;
     List<ProjectsPojo> checkListPojo;
+    static List<String> lableid;
+    CheckBox cbDueDate,cbStartDate;
     List<AttachmentsPojo> attachmentsList;
     List<AttachmentsImageFilePojo> attachmentsList1;
     private ListView mDrawerList;
@@ -151,39 +169,8 @@ public class CardActivity extends AppCompatActivity {
     List<CardAssociatedMembersPojo> cardMembersPojoList;
     static  String name,strColor;
     static  int color;
-   // static  String[] colors = new String[]{"black","blue",};
-    public static void addLabel() {
+    ProgressDialog ringProgressDialog;
 
-
-        menu.clear();
-        onFocus = false;
-///        labelDone.setVisibility(View.GONE);
-
-        //  Toast.makeText(Mactivity,"Label Done Clicked",Toast.LENGTH_SHORT).show();
-
-        rvLabel.setVisibility(View.GONE);
-        labelAdd.setVisibility(View.GONE);
-        rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
-
-
-        listt = rvAdapterLabel.getData(resultColorList);
-        asliList = rvAdapterLabel.getDataString();
-
-       // addlabel(listt,asliList);
-        // labelNameList = rvAdapterLabel
-
-
-       // RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity,listt,labelNameList);
-//        rvLabelResult.setAdapter(adapter);
-//        menuChanger(menu,onFocus);
-
-//
-       /* RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList);
-        rvLabelResult.setAdapter(adapter);*/
-        menuChanger(menu, onFocus);
-
-
-    }
 
     public static void showLabelsMenu() {
 
@@ -206,49 +193,43 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 // Toast.makeText(Mactivity,"Show wala menu",Toast.LENGTH_SHORT).show();
-                addLabel();
-
+/*
                int pos = RVLabelAdapter.pos;
 
-                name = labelNameList.get(pos);
-                color = colorList.get(pos);
 
-                if(color == -16777216)
-                {
-                    strColor = "black";
-                }
 
-               else if(color == -13615201)
-                {
-                    strColor = "blue";
+                addlabel( RVLabelAdapter.colornames.get(pos),name);*/
 
-                }
-                else if(color ==-16713062)
-                {
-                    strColor ="lime";
 
-                }
-                else if(color ==-47862)
-                {
-                    strColor ="red";
-
-                }
-                else if(color == -32985)
-                {
-                    strColor ="red Orange";
-
-                }
-                addlabel(strColor,name);
+                rvLabelResult.setVisibility(View.VISIBLE);
+                labelAdd.setVisibility(View.GONE);
+                rvLabel.setVisibility(View.GONE);
 
 
                 return true;
             }
         });
 
+
+
+    }
+
+    public  static void showDatColors(List<String> data)
+    {
+
+        showLabelsMenu();
+
+        if (rvLabel.getVisibility() == View.GONE) {
+            rvLabel.setVisibility(View.VISIBLE);
+            labelAdd.setVisibility(View.VISIBLE);
+        }
+        if (labelAdd.getVisibility() == View.GONE) {
+            labelAdd.setVisibility(View.VISIBLE);
+
+
+        }
         rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
-        ColorsPojo colorsPojo = new ColorsPojo();
-        //   colorList.add(colorsPojo.getColor());
-        rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList);
+        rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList,data,lableid,"continue");
         rvLabel.setAdapter(rvAdapterLabel);
         asliList = rvAdapterLabel.getDataString();
         fabm.close(true);
@@ -279,6 +260,9 @@ public class CardActivity extends AppCompatActivity {
 
         cardId = intent.getStringExtra("card_id");
 
+        dueDateTime = intent.getStringExtra("cardduedate");
+        startDateTime = intent.getStringExtra("cardstartdate");
+
 
         getCardList();
 
@@ -299,16 +283,20 @@ public class CardActivity extends AppCompatActivity {
         rvAttachmentImages = (RecyclerView) findViewById(R.id.rvImagesAttachment);
         resultColorList = new ArrayList<>();
         listt = new ArrayList<>();
-        colorList.add(getResources().getColor(R.color.colorAccent));
+
 
         fm = getSupportFragmentManager();
         labelAdd = (TextView) findViewById(R.id.tvAddLabel);
         Mactivity = CardActivity.this;
+/*        colorList.add(getResources().getColor(R.color.colorAccent));
         colorList.add(getResources().getColor(R.color.colorPrimaryDark));
-        colorList.add(getResources().getColor(R.color.colorGreen));
+        colorList.add(getResources().getColor(R.color.lightGreen));
 
         colorList.add(getResources().getColor(R.color.colorOrangeRed));
         colorList.add(getResources().getColor(R.color.colorOrange));
+        colorList.add(getResources().getColor(R.color.colorYellow));
+        colorList.add(getResources().getColor(R.color.colorPurple));
+        colorList.add(getResources().getColor(R.color.wierdBlue));
         colorList.add(getResources().getColor(R.color.colorYellow));
 
         labelNameList.add("");
@@ -317,6 +305,9 @@ public class CardActivity extends AppCompatActivity {
         labelNameList.add("");
         labelNameList.add("");
         labelNameList.add("");
+        labelNameList.add("");
+        labelNameList.add("");
+        labelNameList.add("");*/
 
 
         LACheckList = (LinearLayout) findViewById(R.id.LinearLayoutChecklist);
@@ -325,6 +316,7 @@ public class CardActivity extends AppCompatActivity {
         simpleProgressBar.setScaleY(3f);    //height of progress bar
         staticCheckList = (LinearLayout) findViewById(R.id.linearLayoutCheckboxHeading);
         cbDueDate = (CheckBox) findViewById(R.id.tvDue);
+        cbStartDate = (CheckBox) findViewById(R.id.tvStartDate);
         etCheckList = (EditText) findViewById(R.id.etCheckBox);
         // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -357,6 +349,15 @@ public class CardActivity extends AppCompatActivity {
         tvMembers = (TextView) findViewById(R.id.tvMembers);
         heading = (TextView) findViewById(R.id.heading);
 
+        if(!startDateTime.equals("")) {
+            cbStartDate.setText(startDateTime);
+            cbStartDate.setVisibility(View.VISIBLE);
+        }
+
+        if(!dueDateTime.equals("")) {
+            cbDueDate.setText(dueDateTime);
+            cbDueDate.setVisibility(View.VISIBLE);
+        }
 
         tvMembers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,6 +373,7 @@ public class CardActivity extends AppCompatActivity {
         FABattachments = (FloatingActionButton) findViewById(R.id.attachments);
         FABchecklist = (FloatingActionButton) findViewById(R.id.CheckList);
         FABLabel = (FloatingActionButton) findViewById(R.id.labels);
+
 
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -461,6 +463,33 @@ public class CardActivity extends AppCompatActivity {
         labelAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                colorList = new ArrayList<Integer>();
+                labelNameList = new ArrayList<String>();
+
+                colorList.add(getResources().getColor(R.color.colorAccent));
+                colorList.add(getResources().getColor(R.color.colorPrimaryDark));
+                colorList.add(getResources().getColor(R.color.lightGreen));
+
+                colorList.add(getResources().getColor(R.color.colorOrangeRed));
+                colorList.add(getResources().getColor(R.color.colorOrange));
+                colorList.add(getResources().getColor(R.color.colorYellow));
+                colorList.add(getResources().getColor(R.color.colorPurple));
+                colorList.add(getResources().getColor(R.color.wierdBlue));
+                colorList.add(getResources().getColor(R.color.colorYellow));
+
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+
+                RVLabelAdapter.index = -1;
+
                 FragmentManager fm = getSupportFragmentManager();
 
                 LabelColorFragment colorFragment = new LabelColorFragment();
@@ -473,6 +502,17 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
+        rvLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Toast.makeText(CardActivity.this, "Hello Lable Click", Toast.LENGTH_SHORT).show();
+
+
+
+            }
+        });
 
         FABchecklist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -502,6 +542,13 @@ public class CardActivity extends AppCompatActivity {
 
 
         cbDueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dueDate();
+            }
+        });
+
+        cbStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dueDate();
@@ -543,6 +590,24 @@ public class CardActivity extends AppCompatActivity {
             //  File imageFile = new File(selectedImage.toString());
 
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            Uri tempUri = getImageUri(getApplicationContext(), bitmap);
+
+            String picturePath=getPathFromURI(tempUri);
+            Bitmap bm = BitmapFactory.decodeFile(picturePath);
+            if (!picturePath.equals("")) {
+
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                formattedDate = df.format(c.getTime());
+
+                ByteArrayOutputStream bao = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 50, bao);
+                byte[] ba = bao.toByteArray();
+                b64 = Base64.encodeToString(ba,Base64.NO_WRAP);
+                uploadImage(formattedDate,b64,picturePath);
+                //   LoadImage();
+
+            }
             //  rotateImage(bitmap,selectedImage.toString());
 
 
@@ -585,10 +650,6 @@ public class CardActivity extends AppCompatActivity {
 
 
             Calendar c = Calendar.getInstance();
-
-
-
-
             //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
             AttachmentsPojo attachmentsPojo = new AttachmentsPojo();
             attachmentsPojo.setNameOfFile(fileName);
@@ -598,6 +659,49 @@ public class CardActivity extends AppCompatActivity {
             rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
             rvFiles.setAdapter(adapter);
+            Uri outputFileUri = null;
+            File path = getFilesDir();
+            File itemFile = new File(path,fileName);
+            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory()
+                    + File.separator + "folder_name" + File.separator);
+// have the object build the directory structure, if needed.
+            wallpaperDirectory.mkdirs();
+// create a File object for the output file
+            File outputFile = new File(wallpaperDirectory, fileName);
+            File sourceFile = new File(fileName);
+
+            if(isExternalStorageReadable()){
+                if(sourceFile.isFile())
+                    Toast.makeText(CardActivity.this,"readable",Toast.LENGTH_LONG).show();
+            }
+//now attach OutputStream to the file object, instead of a String representation
+
+            try {
+                FileOutputStream fos = new FileOutputStream(outputFile);
+                outputFileUri=Uri.fromFile(outputFile);;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            // String path1 = FilePath.getPath(this,uri );
+           /* File source = new File(src);
+            File destination = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/folder_name/");
+            try {
+                copy(source,destination);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (!destination.exists()) {
+
+                destination.mkdirs();
+            }*/
+            //String  selectedPath = getRealPathFromURI(this,uri);
+            //File selectedFile = new File(uri.getPath());
+
+            try {
+                uploadFile(outputFileUri.getPath(),sourceFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -645,6 +749,7 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+
             }
         });
 
@@ -721,45 +826,6 @@ public class CardActivity extends AppCompatActivity {
         });
 
 
-        rvLabel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                //  Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
-
-                menuChanger(menu, hasFocus);
-                if (hasFocus) {
-
-                    View item = findViewById(R.id.tick);
-
-
-                    item.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            addLabel();
-                            rvLabel.clearFocus();
-
-                            //  return true;
-                        }
-                    });
-//                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                        @Override
-//                        public boolean onMenuItemClick(MenuItem item) {
-//                           addLabel();
-//                           rvLabel.clearFocus();
-//
-//                            return true;
-//                        }
-//                    });
-                } else {
-
-                    menuChanger(menu, hasFocus);
-
-
-                }
-            }
-        });
-
-
         etCheckList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, final boolean hasFocus) {
@@ -794,6 +860,46 @@ public class CardActivity extends AppCompatActivity {
 
             }
         });
+/*
+        rvLabel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                //  Toast.makeText(getApplicationContext(),"Menu Item Clicked",Toast.LENGTH_SHORT).show();
+
+                menuChanger(menu, hasFocus);
+                if (hasFocus) {
+
+                    View item = findViewById(R.id.tick);
+
+
+                    item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //addLabel();
+                            rvLabel.clearFocus();
+
+                            //  return true;
+                        }
+                    });
+//                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                           addLabel();
+//                           rvLabel.clearFocus();
+//
+//                            return true;
+//                        }
+//                    });
+                } else {
+
+                    menuChanger(menu, hasFocus);
+
+
+                }
+            }
+        });
+*/
+
 
 
         FABLabel.setOnClickListener(new View.OnClickListener() {
@@ -801,22 +907,40 @@ public class CardActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                onFocus = true;
 //                menuChanger(menu,onFocus);
-                showLabelsMenu();
+                //rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
+               // ColorsPojo colorsPojo = new ColorsPojo();
+                //   colorList.add(colorsPojo.getColor());
+               // rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                /*rvLabel.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+
+                colorList1 = new ArrayList<>();
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                labelNameList.add("");
+                rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList,colorList1,"new");
+                rvLabel.setAdapter(rvAdapterLabel);
+*/
+
+                FragmentManager fm = getSupportFragmentManager();
+
+                RVLabelAdapter.index = -1;
+                LabelColorFragment colorFragment = new LabelColorFragment();
+
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.add(R.id.fragmentContainer, colorFragment).addToBackStack("Frag1").commit();
+
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+
 
 
             }
         });
 
-        rvLabelResult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                onFocus = true;
-//                menuChanger(menu,onFocus);
-                showLabelsMenu();
-                //    doneLabelResult();
-
-            }
-        });
 
 
         return true;
@@ -895,6 +1019,8 @@ public class CardActivity extends AppCompatActivity {
         final Calendar myCurrentDT = Calendar.getInstance();
         TextView tvCancel = (TextView) customView.findViewById(R.id.tvCancel);
         TextView tvDone = (TextView) customView.findViewById(R.id.tvDone);
+        spinnerstartDate = (Spinner) customView.findViewById(R.id.spinnerstartDate);
+        spinnerstartTime = (Spinner) customView.findViewById(R.id.spinnerstartTime);
         spinnerDate = (Spinner) customView.findViewById(R.id.spinnerDate);
         spinnerTime = (Spinner) customView.findViewById(R.id.spinnerTime);
 
@@ -903,19 +1029,29 @@ public class CardActivity extends AppCompatActivity {
         // spinnerDate.setPrompt("Today");
         spinnerDateList = new ArrayList<>();
         spinnertTimeList = new ArrayList<String>();
+        spinnerStartDateList = new ArrayList<>();
+        spinnerStartTimeList = new ArrayList<String>();
         spinnerDateList.add("Select Date");
-        spinnerDateList.add("Today");
-        spinnerDateList.add("Tomorrow");
+        spinnerStartDateList.add("Select Date");
+       /* spinnerDateList.add("Today");
+        spinnerDateList.add("Tomorrow");*/
         spinnerDateList.add("Pick a day");
+        spinnerStartDateList.add("Pick a day");
 
 
         spinnertTimeList.add("Select Time");
-        spinnertTimeList.add("Morning");
+        spinnerStartTimeList.add("Select Time");
+       /* spinnertTimeList.add("Morning");
         spinnertTimeList.add("After Noon");
         spinnertTimeList.add("Evening");
-        spinnertTimeList.add("Night");
+        spinnertTimeList.add("Night");*/
         spinnertTimeList.add("Pick a time");
+        spinnerStartTimeList.add("Pick a time");
+        ArrayAdapter<String> startdateAdapter = new ArrayAdapter<String>(CardActivity.this, R.layout.nothing_selected_spinnerdate, spinnerStartDateList);
+        startdateAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
+        ArrayAdapter<String> starttimeAdapter = new ArrayAdapter<String>(CardActivity.this, R.layout.nothing_selected_spinnerdate, spinnerStartTimeList);
+        starttimeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(CardActivity.this, R.layout.nothing_selected_spinnerdate, spinnerDateList);
         dateAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -923,8 +1059,12 @@ public class CardActivity extends AppCompatActivity {
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<String>(CardActivity.this, R.layout.nothing_selected_spinnerdate, spinnertTimeList);
         timeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerDate.setSelection(0);
+        spinnerstartDate.setSelection(0);
         spinnerTime.setSelection(0);
+        spinnerstartTime.setSelection(0);
 
+        spinnerstartDate.setAdapter(startdateAdapter);
+        spinnerstartTime.setAdapter(starttimeAdapter);
         spinnerDate.setAdapter(dateAdapter);
         spinnerTime.setAdapter(timeAdapter);
 
@@ -935,6 +1075,81 @@ public class CardActivity extends AppCompatActivity {
         final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
         final int mHour = c.get(Calendar.HOUR);
         final int mMin = c.get(Calendar.MINUTE);
+        spinnerstartDate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                switch (selectedItem) {
+
+                    case "Pick a day":
+
+                        datePickerDialog = new DatePickerDialog(CardActivity.this,
+                                new DatePickerDialog.OnDateSetListener() {
+
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year,
+                                                          int monthOfYear, int dayOfMonth) {
+                                        // set day of month , month and year value in the edit text
+//                                                date.setText(dayOfMonth + "/"
+//                                                        + (monthOfYear + 1) + "/" + year);
+                                        spinnerStartDateList.remove(0);
+                                        spinnerStartDateList.add(0, dayOfMonth + "/" + monthOfYear + "/" + year);
+                                        spinnerstartDate.setSelection(0);
+                                        // spinnerDate.setSelection(spinnerDateList.size() - 1);
+
+                                    }
+                                }, mYear, mMonth, mDay);
+                        datePickerDialog.show();
+                        break;
+
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerstartTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String selectedItem = parent.getSelectedItem().toString();
+
+                switch (selectedItem) {
+                    case "Pick a time":
+
+
+                        timePickerDialog = new TimePickerDialog(CardActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+
+
+                                spinnerStartTimeList.remove(0);
+                                spinnerStartTimeList.add(0, selectedHour + ":" + selectedMinute);
+
+                                //  spinnerTime.setSelection(spinnertTimeList.size() - 1);
+
+                                spinnerstartTime.setSelection(0);
+                            }
+                        }, mHour, mMin, true);//Yes 24 hour time
+                        timePickerDialog.setTitle("Select Time");
+                        timePickerDialog.show();
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         spinnerDate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -1031,6 +1246,16 @@ public class CardActivity extends AppCompatActivity {
                 cbDueDate.setVisibility(View.VISIBLE);
                 alertDialog.dismiss();
 
+                if(!spinnertTimeList.get(0).equals("Select Time") && spinnerStartTimeList.get(0).equals("Select Time")) {
+                    updateCardTime("", spinnertTimeList.get(0));
+                }
+                if(spinnertTimeList.get(0).equals("Select Time") && !spinnerStartTimeList.get(0).equals("Select Time")){
+                    updateCardTime(spinnerStartTimeList.get(0),"");
+                }
+                if(!spinnertTimeList.get(0).equals("Select Time") && !spinnerStartTimeList.get(0).equals("Select Time")){
+                    updateCardTime(spinnerStartTimeList.get(0), spinnertTimeList.get(0));
+                }
+
             }
         });
 
@@ -1096,6 +1321,12 @@ public class CardActivity extends AppCompatActivity {
                                     // getLabelsList(jsonObject.getString("id"));
 
                                 }*/
+
+
+                                labelNameList = new ArrayList<>();
+                                colorList1 = new ArrayList<>();
+                                lableid = new ArrayList<>();
+
                                 for(int j=0;j<jsonArrayLabels.length();j++){
 
                                     JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
@@ -1106,7 +1337,11 @@ public class CardActivity extends AppCompatActivity {
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
                                         labelsPojo.setLabelTextCards(jsonObject.getString("label_text"));
                                         labelsPojo.setLabelColorCards(jsonObject.getString("label_color"));
-                                       /* labels[k]=jsonObject.getString("label_color");
+                                        labelNameList.add(jsonObject.getString("label_text"));
+                                        colorList1.add(jsonObject.getString("label_color"));
+                                        lableid.add(jsonObject.getString("board_assoc_label_id"));
+
+                                        /* labels[k]=jsonObject.getString("label_color");
 
                                         if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
                                             labelText[k]="";
@@ -1254,6 +1489,11 @@ public class CardActivity extends AppCompatActivity {
     }
 
 
+    public void updateUI()
+    {
+        getCardList();
+    }
+
     public static void addlabel(final String lablecolor, final String lableText) {
         final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.SAVE_NEW_LABELS_CARD,
@@ -1327,6 +1567,7 @@ public class CardActivity extends AppCompatActivity {
         requestQueue.add(request);
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
@@ -1341,7 +1582,432 @@ public class CardActivity extends AppCompatActivity {
 
                 Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
+
+        }
+        if(requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+            Intent intent = new Intent();
+            //sets the select file to all types of files
+            intent.setType("*/*");
+            //allows to select data and return it
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            // starts new activity to select file and return data
+            startActivityForResult(Intent.createChooser(intent, "Choose File to Upload.."), READ_REQUEST_CODE);
+        }else {
+
+            Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    public String uploadFile(final String selectedFilePath,File file) throws IOException {
+
+        int serverResponseCode = 0;
+
+        HttpURLConnection connection;
+        DataOutputStream dataOutputStream;
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+
+
+        int bytesRead,bytesAvailable,bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+        String path = getFilesDir().getAbsolutePath();
+
+
+        File selectedFile = new File(path+"/"+selectedFilePath);
+
+
+        String[] parts = selectedFilePath.split("/");
+        final String fileName = parts[parts.length-1];
+        //if(isFilePresent(selectedFilePath)){
+        if (!(file.isFile())){
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+            return "";
+        }else{
+            try{
+                FileInputStream fileInputStream = new FileInputStream(file);
+                URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_card.php");
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);//Allow Inputs
+                connection.setDoOutput(true);//Allow Outputs
+                connection.setUseCaches(false);//Don't use a cached Copy
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Connection", "Keep-Alive");
+                connection.setRequestProperty("ENCTYPE", "multipart/form-data");
+                connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                connection.setRequestProperty("uploaded_file",selectedFilePath);
+
+                //creating new dataoutputstream
+                dataOutputStream = new DataOutputStream(connection.getOutputStream());
+
+                //writing bytes to data outputstream
+                dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
+                        + selectedFilePath + "\"" + lineEnd);
+
+                dataOutputStream.writeBytes(lineEnd);
+
+                //returns no. of bytes present in fileInputStream
+                bytesAvailable = fileInputStream.available();
+                //selecting the buffer size as minimum of available bytes or 1 MB
+                bufferSize = Math.min(bytesAvailable,maxBufferSize);
+                //setting the buffer as byte array of size of bufferSize
+                buffer = new byte[bufferSize];
+
+                //reads bytes from FileInputStream(from 0th index of buffer to buffersize)
+                bytesRead = fileInputStream.read(buffer,0,bufferSize);
+
+                //loop repeats till bytesRead = -1, i.e., no bytes are left to read
+                while (bytesRead > 0){
+                    //write the bytes read from inputstream
+                    dataOutputStream.write(buffer,0,bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable,maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer,0,bufferSize);
+                }
+
+                dataOutputStream.writeBytes(lineEnd);
+                dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                serverResponseCode = connection.getResponseCode();
+                String serverResponseMessage = connection.getResponseMessage();
+
+
+
+                //response code of 200 indicates the server status OK
+                if(serverResponseCode == 200){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CardActivity.this,"Uploaded ",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                //closing the input and output streams
+                fileInputStream.close();
+                dataOutputStream.flush();
+                dataOutputStream.close();
+
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(CardActivity.this,"File Not Found",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Toast.makeText(CardActivity.this, "URL error!", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(CardActivity.this, "Cannot Read/Write File!", Toast.LENGTH_SHORT).show();
+            }
+            //dialog.dismiss();
+            return String.valueOf(serverResponseCode);
+        }
+
+    }
+    private void copy(File source, File destination) throws IOException {
+
+        FileChannel in = new FileInputStream(source).getChannel();
+        FileChannel out = new FileOutputStream(destination).getChannel();
+
+        try {
+            in.transferTo(0, in.size(), out);
+        } catch(Exception e){
+            // post to log
+        } finally {
+            if (in != null)
+                in.close();
+            if (out != null)
+                out.close();
+        }
+    }
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+    public boolean isFilePresent(String fileName) {
+        String path = getFilesDir().getAbsolutePath() + "/" + fileName;
+        File file = new File(path);
+        return file.exists();
+    }
+
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+    public String getPathFromURI(Uri contentUri) {
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
+    private void uploadImage(final String formattedDate, final String b64, final String originalName) {
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading image ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_card.php", new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                ringProgressDialog.dismiss();
+                if (!(response.equals(""))) {
+                    // getCardList();
+                    saveNewAttachmentByCardId(response.trim().toString(),originalName);
+
+                } else {
+                    ringProgressDialog.dismiss();
+                    Toast.makeText(CardActivity.this, "Picture not uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("image", b64);
+                map.put("name", formattedDate);
+                return map;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+    }
+    private void saveNewAttachmentByCardId(final String attachmentName,final String originalName) {
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", " ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.SAVE_NEW_ATTACHMENT_BY_CARD_ID, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                ringProgressDialog.dismiss();
+                if (!(response.equals(""))) {
+                    getCardList();
+
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("cardId",cardId);
+                params.put("original_name",originalName);
+                params.put("name",attachmentName);
+                params.put("type_file","image");
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                params.put("row", "1");
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+    }
+    private void updateCardNameDialog() {
+
+    }
+    public  void updateCardTime(final String startTime, final String dueTime) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_CARD_DUE_TIME,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        Toast.makeText(activity, "Card Due Time updated", Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("cardId",cardId);
+                params.put("start_time",startTime);
+                params.put("due_time",dueTime);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
+    }
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
     }
 }

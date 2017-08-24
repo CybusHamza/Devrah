@@ -1,5 +1,6 @@
 package com.app.devrah.Views;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,11 +17,32 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.RVLabelAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.app.devrah.Views.CardActivity.cardId;
+import static com.app.devrah.Views.CardActivity.labelAdd;
+import static com.app.devrah.Views.CardActivity.rvLabel;
+import static com.app.devrah.Views.CardActivity.rvLabelResult;
 
 
 public class LabelColorFragment extends Fragment {
@@ -31,6 +53,7 @@ public class LabelColorFragment extends Fragment {
     public static String textLabelName;
     public static int flag;
     public static int color;
+    String lableid;
     public EditText etLabelName;
     RelativeLayout rOne, rTwo, rThree, rFour, rFive, rSix, rSeven, rEight, rNine;
     RVLabelAdapter adapter;
@@ -44,6 +67,7 @@ public class LabelColorFragment extends Fragment {
     FragmentManager fm;
     List<ImageView> visibleImages;
     int i;
+    String colorselected;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -87,6 +111,14 @@ public class LabelColorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
+        Bundle  bundle = getArguments();
+
+        if(bundle != null)
+        {
+            lableid = bundle.getString("l_id");
+        }
+
         myColorList = new ArrayList<>();
         adapter = new RVLabelAdapter();
         myColorList.add(getResources().getColor(R.color.colorAccent));
@@ -114,7 +146,6 @@ public class LabelColorFragment extends Fragment {
 
         rOne = (RelativeLayout) view.findViewById(R.id.rvOne);
         rOne.setBackgroundColor(myColorList.get(0));
-        etLabelName = (EditText) view.findViewById(R.id.etLabelName);
         rTwo = (RelativeLayout) view.findViewById(R.id.relativeLayout2);
         rTwo.setBackgroundColor(myColorList.get(1));
         rThree = (RelativeLayout) view.findViewById(R.id.relativeLayout3);
@@ -156,20 +187,25 @@ public class LabelColorFragment extends Fragment {
                 tvDone.setTextColor(myColorList.get(i));
 
 
+                if(RVLabelAdapter.index != -1)
+                {
                 switch (i) {
 
                     case 0: {
 
                         imgOne.setVisibility(View.VISIBLE);
                         selectedImageView = imgOne;
+                        colorselected = "black";
                         break;
 
                     }
+
 
                     case 1: {
 
                         imgTwo.setVisibility(View.VISIBLE);
                         selectedImageView = imgTwo;
+                        colorselected = "blue";
                         break;
 
                     }
@@ -178,14 +214,15 @@ public class LabelColorFragment extends Fragment {
 
                         imgThree.setVisibility(View.VISIBLE);
                         selectedImageView = imgThree;
+                        colorselected = "green";
                         break;
 
                     }
-
                     case 3: {
 
                         imgFour.setVisibility(View.VISIBLE);
                         selectedImageView = imgFour;
+                           colorselected = "red";
                         break;
 
                     }
@@ -194,14 +231,16 @@ public class LabelColorFragment extends Fragment {
 
                         imgFive.setVisibility(View.VISIBLE);
                         selectedImageView = imgFive;
+
+                        colorselected = "orange";
                         break;
 
                     }
-
                     case 5: {
 
                         imgSix.setVisibility(View.VISIBLE);
                         selectedImageView = imgSix;
+                        colorselected = "yellow";
                         break;
 
                     }
@@ -211,7 +250,7 @@ public class LabelColorFragment extends Fragment {
                         imgSeven.setVisibility(View.VISIBLE);
                         //  imgSeven.setVisibility(View.VISIBLE);
                         selectedImageView = imgSeven;
-
+                        colorselected = "sky-blue";
                         break;
 
                     }
@@ -219,6 +258,7 @@ public class LabelColorFragment extends Fragment {
 
                         imgEight.setVisibility(View.VISIBLE);
                         selectedImageView = imgEight;
+                        colorselected = "green";
 
                         break;
 
@@ -227,11 +267,12 @@ public class LabelColorFragment extends Fragment {
 
                         imgNine.setVisibility(View.VISIBLE);
                         selectedImageView = imgNine;
+                        colorselected = "purple";
 
                         break;
 
                     }
-
+                }
 
                 }
 
@@ -240,15 +281,29 @@ public class LabelColorFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        if (CardActivity.colorList.contains(color)) {
-                            CardActivity.rvAdapterLabel.remove(color);
-                            Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                            fm.popBackStack();
-                            // CardActivity.showLabelsMenu();
-                            flag = 0;
+                        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Conftimr!")
+                                .setCancelText("Cancel")
+                                .showCancelButton(true)
+                                .setConfirmText("OK").setContentText("Are you sure you want to delete this lable")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
 
-                        } else
-                            Toast.makeText(getContext(), "Doesnt exist", Toast.LENGTH_SHORT).show();
+                                        sDialog.dismiss();
+                                        deleteLable();
+
+                                    }
+                                } ).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                                .show();
+
+
 
                     }
                 });
@@ -304,7 +359,7 @@ public class LabelColorFragment extends Fragment {
                         layout.setVisibility(View.GONE);
                     }
                     //   tvDone.setText(rOne.getBackground().toString());
-
+                    colorselected = "black";
                     color = Color.TRANSPARENT;
 
 //                        Drawable background = rOne.getBackground();
@@ -332,6 +387,7 @@ public class LabelColorFragment extends Fragment {
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
+                    colorselected = "blue";
                     color = Color.TRANSPARENT;
                     Drawable background = rTwo.getBackground();
                     if (background instanceof ColorDrawable)
@@ -361,6 +417,7 @@ public class LabelColorFragment extends Fragment {
                     if (background instanceof ColorDrawable)
                         color = ((ColorDrawable) background).getColor();
                     tvDone.setTextColor(color);
+                    colorselected = "green";
 //                    color = myColorList.get(2);
 
                 }
@@ -381,6 +438,7 @@ public class LabelColorFragment extends Fragment {
                         layout.setVisibility(View.GONE);
                     }
                     color = Color.TRANSPARENT;
+                    colorselected = "red";
                     Drawable background = rFour.getBackground();
                     if (background instanceof ColorDrawable)
                         color = ((ColorDrawable) background).getColor();
@@ -405,7 +463,7 @@ public class LabelColorFragment extends Fragment {
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-
+                    colorselected = "orange";
                     color = Color.TRANSPARENT;
                     Drawable background = rFive.getBackground();
                     if (background instanceof ColorDrawable)
@@ -430,6 +488,7 @@ public class LabelColorFragment extends Fragment {
                         layout.setVisibility(View.GONE);
 
                     }
+                    colorselected = "yellow";
                     color = Color.TRANSPARENT;
                     Drawable background = rSix.getBackground();
                     if (background instanceof ColorDrawable)
@@ -454,6 +513,7 @@ public class LabelColorFragment extends Fragment {
                         layout.setVisibility(View.GONE);
                     }
                     color = Color.TRANSPARENT;
+                    colorselected = "sky-blue";
                     Drawable background = rSeven.getBackground();
                     if (background instanceof ColorDrawable)
                         color = ((ColorDrawable) background).getColor();
@@ -476,6 +536,7 @@ public class LabelColorFragment extends Fragment {
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
+                    colorselected = "lime";
                     color = Color.TRANSPARENT;
                     Drawable background = rEight.getBackground();
                     if (background instanceof ColorDrawable)
@@ -499,6 +560,7 @@ public class LabelColorFragment extends Fragment {
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
+                    colorselected = "purple";
                     color = Color.TRANSPARENT;
                     Drawable background = rNine.getBackground();
                     if (background instanceof ColorDrawable)
@@ -526,90 +588,265 @@ public class LabelColorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // color;
-                Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
                 String s = etLabelName.getText().toString();
 //
-                if (flag == 5) {
+                if(RVLabelAdapter.index == -1)
+                {
+                    addLable(colorselected,s);
+                }
+                else
+                {
+                    updateLAble(colorselected,s);
 
-                    int p = CardActivity.colorList.indexOf(RVLabelAdapter.index);
-                    CardActivity.colorList.remove(p);
-                    CardActivity.colorList.add(p, color);
-                    CardActivity.labelNameList.remove(p);
-                    CardActivity.labelNameList.add(p, s);
-                } else {
-
-
-//                if (!(s.isEmpty())){
-//                     CardActivity.labelNameList.add(s);
-//                }
-
-                    CardActivity.labelNameList.add(s);
-                    FragmentManager fm = getFragmentManager();
-                    if (color != Color.TRANSPARENT) {
-                        CardActivity.colorList.add(color);
-                        color = Color.TRANSPARENT;
-
-                    }
                 }
 
-                CardActivity.showLabelsMenu();
-                fm.popBackStack();
+
+
+
 
             }
         });
 
 
-//final boolean b = true;
-//        tvDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                Toast.makeText(getContext(),String.valueOf( CardActivity.colorList.indexOf(color)),Toast.LENGTH_SHORT).show();
-//
-//
-//               int col= CardActivity.colorList.get(CardActivity.colorList.indexOf(color));
-//                CardActivity.colorList.remove(col);
-//                CardActivity.rvAdapterLabel.notifyDataSetChanged();
-//
-//              //  CardActivity.rvAdapterLabel.remove(color);
-////              if (CardActivity.colorList.contains(color)) {
-////
-////                  CardActivity.colorList.remove(color);
-////                       // CardActivity.rvAdapterLabel.remove(color);
-////                    CardActivity.rvAdapterLabel.remove(color);
-////
-////                    Toast.makeText(getContext(),"Deleted",Toast.LENGTH_SHORT).show();
-////                //    CardActivity.showLabelsMenu();
-////                    fm.popBackStack();
-////                }
-//
-////                if (CardActivity.rvAdapterLabel.myList.contains(color)){
-////
-////                    CardActivity.rvAdapterLabel.remove(color);
-////                    CardActivity.rvAdapterLabel.notifyDataSetChanged();
-////
-////                }
-////
-////
-////                else {
-////
-////                    Toast.makeText(getContext(),"It doesnt exist",Toast.LENGTH_SHORT).show();
-////                }
-////
-////                CardActivity.showLabelsMenu();
-////
-////
-//
-//                fm.popBackStack();
-//
-//
-//            }
-//        });
-
-
         return view;
 
+
+    }
+
+    public  void updateLAble(final String lablecolor, final String lableText) {
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_LABLE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                       // Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+
+                        labelAdd.setVisibility(View.GONE);
+                        rvLabel.setVisibility(View.GONE);
+                        rvLabelResult.setVisibility(View.VISIBLE);
+
+                        ((CardActivity)getActivity()).updateUI();
+
+                        fm.popBackStack();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id",BoardExtended.boardId);
+                params.put("card_id",cardId);
+                params.put("label_text",lableText);
+                params.put("label_data",lableid);
+                final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+    }
+
+    public  void addLable(final String lablecolor, final String lableText) {
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SAVE_NEW_LABELS_CARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                       // Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+
+                        ((CardActivity)getActivity()).updateUI();
+
+                        labelAdd.setVisibility(View.GONE);
+                        rvLabel.setVisibility(View.GONE);
+
+                        rvLabelResult.setVisibility(View.VISIBLE);
+
+                        fm.popBackStack();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("card_id",cardId);
+                params.put("label_text",lableText);
+                params.put("label_color",lablecolor);
+                final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+    }
+
+    public  void deleteLable() {
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_LABLE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+
+                        ((CardActivity)getActivity()).updateUI();
+
+                        labelAdd.setVisibility(View.GONE);
+                        rvLabel.setVisibility(View.GONE);
+
+                        rvLabelResult.setVisibility(View.VISIBLE);
+
+                        fm.popBackStack();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id",BoardExtended.boardId);
+                params.put("card_id",cardId);
+                params.put("brd_label_id",lableid);
+                final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
 
     }
 
