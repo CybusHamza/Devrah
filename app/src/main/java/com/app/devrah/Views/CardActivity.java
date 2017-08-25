@@ -1392,6 +1392,7 @@ public class CardActivity extends AppCompatActivity {
                                         AttachmentsImageFilePojo FilePojo = new AttachmentsImageFilePojo();
                                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                                         if (jsonObject.getString("file_type").equals("image")) {
+                                            FilePojo.setAttch_id(jsonObject.getString("id"));
                                             FilePojo.setImageFile(jsonObject.getString("file_name"));
                                             FilePojo.setIsCover(jsonObject.getString("make_cover"));
                                             attachmentsList1.add(FilePojo);
