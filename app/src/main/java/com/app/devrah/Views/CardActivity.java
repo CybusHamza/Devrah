@@ -1393,10 +1393,12 @@ public class CardActivity extends AppCompatActivity {
                                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                                         if (jsonObject.getString("file_type").equals("image")) {
                                             FilePojo.setImageFile(jsonObject.getString("file_name"));
+                                            FilePojo.setIsCover(jsonObject.getString("make_cover"));
                                             attachmentsList1.add(FilePojo);
                                         } else {
                                             membersPojo.setNameOfFile(jsonObject.getString("original_name"));
                                             membersPojo.setDateUpload(jsonObject.getString("added_on"));
+                                            membersPojo.setIsCover(jsonObject.getString("make_cover"));
                                             attachmentsList.add(membersPojo);
 
                                         }

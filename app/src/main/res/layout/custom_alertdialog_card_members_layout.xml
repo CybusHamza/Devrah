@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="#fff"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_margin="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#e7e5e5">
 
 
     <TextView
+        android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Card Members"
-        android:textSize="20sp"
+        android:textSize="20dp"
+        android:padding="16dp"
+        android:background="#b4b2b2"
         android:textColor="#000"
-        android:padding="5dp"
-        android:layout_margin="20dp"
-
-        android:id="@+id/textView" />
+        android:textStyle="bold"/>
 
 
 
@@ -22,7 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/membersListView"
-
 
         android:layout_below="@+id/textView" />
     <TextView
@@ -41,4 +42,4 @@
 
 
 
-</RelativeLayout>
+</LinearLayout>

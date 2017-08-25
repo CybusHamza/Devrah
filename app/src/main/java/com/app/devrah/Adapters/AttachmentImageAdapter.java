@@ -322,6 +322,8 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String formattedDate = df.format(c.getTime());
                         final File myImageFile = new File(root, formattedDate+imageName); // Create image file
+                        Toast.makeText(context,"Image Saved to directory "+myImageFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
+
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(myImageFile);
