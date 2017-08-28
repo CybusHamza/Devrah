@@ -777,6 +777,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
         lvMembers = (ListView) view.findViewById(R.id.membersListView);
         TextView tvDone = (TextView) view.findViewById(R.id.addMember);
+        TextView addNewMember = (TextView) view.findViewById(R.id.assignNewMemberBtn);
         final AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this, cardMembersPojoList1);
 
         lvMembers.setAdapter(membersAdapter);
@@ -799,7 +800,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
             }
         });
+        addNewMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              addNewMemberDialogue();
 
+            }
+        });
 
         lvMembers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -822,6 +829,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         alertDialog.show();
 
 
+    }
+
+    private void addNewMemberDialogue() {
+        LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
+        View view = inflater.inflate(R.layout.custom_alertdialog_add_new_members_layout, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
+      //  lvMembers = (ListView) view.findViewById(R.id.membersListView);
+
+
+        alertDialog.setView(view);
+//
+        alertDialog.show();
     }
 
     @Override

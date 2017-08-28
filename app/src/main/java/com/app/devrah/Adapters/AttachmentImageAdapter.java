@@ -365,17 +365,23 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
-                        if(!response.equals("0")) {
-                            myalertdialog.dismiss();
-                            for (int i=0;i<attachmentList.size();i++){
-                                attachmentList.get(i).setIsCover("0");
-                            }
-                            attachmentList.get(pos).setIsCover(isCover);
-                            notifyDataSetChanged();
-                          Toast.makeText(activity, "Cover Updated Successfully", Toast.LENGTH_SHORT).show();
+                       if(!response.equals("")) {
+                           myalertdialog.dismiss();
+                           for (int i = 0; i < attachmentList.size(); i++) {
+                               attachmentList.get(i).setIsCover("0");
+                           }
+                           attachmentList.get(pos).setIsCover(isCover);
+                           notifyDataSetChanged();
+                           if (isCover.equals("1"))
+                               Toast.makeText(activity, "Cover Updated Successfully", Toast.LENGTH_SHORT).show();
+                           else
+                               Toast.makeText(activity, "Cover Removed Successfully", Toast.LENGTH_SHORT).show();
+                       }
                             //attachmentList.remove(pos);
                             //notifyDataSetChanged();
-                        }
+                   //     }else {
+                           // Toast.makeText(activity, "Not updated Cover", Toast.LENGTH_SHORT).show();
+                     //   }
 
 
 

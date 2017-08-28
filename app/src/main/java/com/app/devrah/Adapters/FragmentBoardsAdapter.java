@@ -246,6 +246,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         linearLayout.setBackgroundColor(activity.getResources().getColor(R.color.purple));
                         TextView textView=(TextView)convertView.findViewById(holder.labelNamearrayIds[count1]);
                         textView.setText("");
+                        count1++;
                         //textView.setText(labelNames[i]);
                         //break;
                     }else if(labels[i].equals("pink")) {
@@ -354,7 +355,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
 
         }*/
-
+        holder.attachment.setVisibility(View.INVISIBLE);
         String cover[]=coverList.get(position).getIsCover();
         String fileName[]=coverList.get(position).getFileName();
         for(int i=0;i<cover.length;i++) {
