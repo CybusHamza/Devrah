@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,10 +14,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +32,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,6 +70,7 @@ import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Adapters.RVLabelResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
+import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.AttachmentsImageFilePojo;
@@ -103,8 +109,12 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.app.devrah.Network.End_Points.GET_LABELS;
+import static com.app.devrah.Views.FilePath.getDataColumn;
+import static com.app.devrah.Views.FilePath.isDownloadsDocument;
+import static com.app.devrah.Views.FilePath.isExternalStorageDocument;
+import static com.app.devrah.Views.FilePath.isMediaDocument;
 
-public class CardActivity extends AppCompatActivity {
+public class CardActivity extends AppCompatActivity  implements callBack {
     private static final int REQUEST_PERMISSIONS=0;
     private static final int READ_REQUEST_CODE = 42;
     public static View view;
@@ -135,6 +145,12 @@ public class CardActivity extends AppCompatActivity {
     ListView lvMembers;
     CustomDrawerAdapter DrawerAdapter;
     DrawerLayout drawerLayout;
+    String[] fileName;
+    String file;
+    private String upLoadServerUri = null;
+    private String imagepath=null;
+    private int serverResponseCode = 0;
+    String filepath;
     AttachmentImageAdapter imageAdapter;
     LinearLayout LACheckList, staticCheckList;
     List<MembersPojo> membersPojoList;
@@ -443,10 +459,11 @@ public class CardActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         alertDialog.dismiss();
-                        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-                        chooseFile.setType("*/*");
-                        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
-                        startActivityForResult(chooseFile, READ_REQUEST_CODE);
+
+                        Intent intent = new Intent();
+                        intent.setType("*/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
 
 
                     }
@@ -620,25 +637,31 @@ public class CardActivity extends AppCompatActivity {
 
         }
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-
+/*
             Uri uri = data.getData();
             String src = uri.getPath();
+        */    Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
             // String fileName = FilenameUtils.getName(src);
 
 
             String fileName = null;
-            if (uri.getScheme().equals("file")) {
-                fileName = uri.getLastPathSegment();
+            if (selectedImage.getScheme().equals("file")) {
+                fileName = selectedImage.getLastPathSegment();
             } else {
                 Cursor cursor = null;
                 try {
-                    cursor = getContentResolver().query(uri, new String[]{
-                            MediaStore.Images.ImageColumns.DISPLAY_NAME
-                    }, null, null, null);
-
+                     cursor = getContentResolver().query(
+                            selectedImage, filePathColumn, null, null, null);
                     if (cursor != null && cursor.moveToFirst()) {
-                        fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
+                       //ileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
                         //     Log.d("Name", "name is " + fileName);
+
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                         filepath = cursor.getString(columnIndex);
+
+
                     }
                 } finally {
 
@@ -655,7 +678,11 @@ public class CardActivity extends AppCompatActivity {
             attachmentsPojo.setNameOfFile(fileName);
             attachmentsPojo.setDateUpload(c.get(Calendar.DATE) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.YEAR));
 
-            attachmentsList.add(attachmentsPojo);
+            new UploadFile().execute(filepath);
+
+
+
+          /*  attachmentsList.add(attachmentsPojo);
             rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
             rvFiles.setAdapter(adapter);
@@ -681,7 +708,7 @@ public class CardActivity extends AppCompatActivity {
                 outputFileUri=Uri.fromFile(outputFile);;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }
+            }*/
             // String path1 = FilePath.getPath(this,uri );
            /* File source = new File(src);
             File destination = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/folder_name/");
@@ -697,15 +724,35 @@ public class CardActivity extends AppCompatActivity {
             //String  selectedPath = getRealPathFromURI(this,uri);
             //File selectedFile = new File(uri.getPath());
 
-            try {
-                uploadFile(outputFileUri.getPath(),sourceFile);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+
+
+
+        }
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            //Bitmap photo = (Bitmap) data.getData().getPath();
+
+            Uri selectedImageUri = data.getData();
+            Bitmap bitmap=BitmapFactory.decodeFile(imagepath);
+
+            String path = "";
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                path  = getPath(CardActivity.this, selectedImageUri);
             }
+            fileName = path.split("/");
+            file = fileName[fileName.length-1];
+
+            UploadFile uploadFile = new UploadFile();
+            uploadFile.delegate =CardActivity.this;
+            uploadFile.execute(path);
+
 
         }
 
+
     }
+
+
 
     public void addDataInComments() {
 
@@ -1491,7 +1538,6 @@ public class CardActivity extends AppCompatActivity {
 
     }
 
-
     public void updateUI()
     {
         getCardList();
@@ -1578,7 +1624,7 @@ public class CardActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if(requestCode==REQUEST_PERMISSIONS){
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, 1);
+                    startActivityForResult(intent, REQUEST_PERMISSIONS);
 
                 }
             } else {
@@ -1601,128 +1647,7 @@ public class CardActivity extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    public String uploadFile(final String selectedFilePath,File file) throws IOException {
 
-        int serverResponseCode = 0;
-
-        HttpURLConnection connection;
-        DataOutputStream dataOutputStream;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-
-
-        int bytesRead,bytesAvailable,bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        String path = getFilesDir().getAbsolutePath();
-
-
-        File selectedFile = new File(path+"/"+selectedFilePath);
-
-
-        String[] parts = selectedFilePath.split("/");
-        final String fileName = parts[parts.length-1];
-        //if(isFilePresent(selectedFilePath)){
-        if (!(file.isFile())){
-
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            });
-            return "";
-        }else{
-            try{
-                FileInputStream fileInputStream = new FileInputStream(file);
-                URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_card.php");
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);//Allow Inputs
-                connection.setDoOutput(true);//Allow Outputs
-                connection.setUseCaches(false);//Don't use a cached Copy
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Connection", "Keep-Alive");
-                connection.setRequestProperty("ENCTYPE", "multipart/form-data");
-                connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                connection.setRequestProperty("uploaded_file",selectedFilePath);
-
-                //creating new dataoutputstream
-                dataOutputStream = new DataOutputStream(connection.getOutputStream());
-
-                //writing bytes to data outputstream
-                dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
-                dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
-                        + selectedFilePath + "\"" + lineEnd);
-
-                dataOutputStream.writeBytes(lineEnd);
-
-                //returns no. of bytes present in fileInputStream
-                bytesAvailable = fileInputStream.available();
-                //selecting the buffer size as minimum of available bytes or 1 MB
-                bufferSize = Math.min(bytesAvailable,maxBufferSize);
-                //setting the buffer as byte array of size of bufferSize
-                buffer = new byte[bufferSize];
-
-                //reads bytes from FileInputStream(from 0th index of buffer to buffersize)
-                bytesRead = fileInputStream.read(buffer,0,bufferSize);
-
-                //loop repeats till bytesRead = -1, i.e., no bytes are left to read
-                while (bytesRead > 0){
-                    //write the bytes read from inputstream
-                    dataOutputStream.write(buffer,0,bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable,maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer,0,bufferSize);
-                }
-
-                dataOutputStream.writeBytes(lineEnd);
-                dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                serverResponseCode = connection.getResponseCode();
-                String serverResponseMessage = connection.getResponseMessage();
-
-
-
-                //response code of 200 indicates the server status OK
-                if(serverResponseCode == 200){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(CardActivity.this,"Uploaded ",Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-
-                //closing the input and output streams
-                fileInputStream.close();
-                dataOutputStream.flush();
-                dataOutputStream.close();
-
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(CardActivity.this,"File Not Found",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Toast.makeText(CardActivity.this, "URL error!", Toast.LENGTH_SHORT).show();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(CardActivity.this, "Cannot Read/Write File!", Toast.LENGTH_SHORT).show();
-            }
-            //dialog.dismiss();
-            return String.valueOf(serverResponseCode);
-        }
-
-    }
     private void copy(File source, File destination) throws IOException {
 
         FileChannel in = new FileInputStream(source).getChannel();
@@ -1767,6 +1692,10 @@ public class CardActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -1929,6 +1858,84 @@ public class CardActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
         requestQueue.add(request);
     }
+
+
+    private void saveFile(final String attachmentName,final String originalName) {
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", " ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.SAVE_NEW_ATTACHMENT_BY_CARD_ID, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                ringProgressDialog.dismiss();
+                if (!(response.equals(""))) {
+                    getCardList();
+
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("cardId",cardId);
+                params.put("original_name",originalName);
+                params.put("name",attachmentName);
+                params.put("type_file","file");
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                params.put("row", "1");
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+    }
+
+
     private void updateCardNameDialog() {
 
     }
@@ -2012,5 +2019,326 @@ public class CardActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+    public String uploadFile(final String selectedFilePath,File file) throws IOException {
+
+        int serverResponseCode = 0;
+
+        HttpURLConnection connection;
+        DataOutputStream dataOutputStream;
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+
+
+        int bytesRead,bytesAvailable,bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+        String path = getFilesDir().getAbsolutePath();
+
+
+        File selectedFile = new File(path+"/"+selectedFilePath);
+
+
+        String[] parts = selectedFilePath.split("/");
+        final String fileName = parts[parts.length-1];
+        //if(isFilePresent(selectedFilePath)){
+        if (!(file.isFile())){
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+            return "";
+        }else{
+            try{
+                FileInputStream fileInputStream = new FileInputStream(file);
+                URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_card.php");
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);//Allow Inputs
+                connection.setDoOutput(true);//Allow Outputs
+                connection.setUseCaches(false);//Don't use a cached Copy
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Connection", "Keep-Alive");
+                connection.setRequestProperty("ENCTYPE", "multipart/form-data");
+                connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                connection.setRequestProperty("uploaded_file",selectedFilePath);
+
+                //creating new dataoutputstream
+                dataOutputStream = new DataOutputStream(connection.getOutputStream());
+
+                //writing bytes to data outputstream
+                dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
+                        + selectedFilePath + "\"" + lineEnd);
+
+                dataOutputStream.writeBytes(lineEnd);
+
+                //returns no. of bytes present in fileInputStream
+                bytesAvailable = fileInputStream.available();
+                //selecting the buffer size as minimum of available bytes or 1 MB
+                bufferSize = Math.min(bytesAvailable,maxBufferSize);
+                //setting the buffer as byte array of size of bufferSize
+                buffer = new byte[bufferSize];
+
+                //reads bytes from FileInputStream(from 0th index of buffer to buffersize)
+                bytesRead = fileInputStream.read(buffer,0,bufferSize);
+
+                //loop repeats till bytesRead = -1, i.e., no bytes are left to read
+                while (bytesRead > 0){
+                    //write the bytes read from inputstream
+                    dataOutputStream.write(buffer,0,bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable,maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer,0,bufferSize);
+                }
+
+                dataOutputStream.writeBytes(lineEnd);
+                dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                serverResponseCode = connection.getResponseCode();
+                String serverResponseMessage = connection.getResponseMessage();
+
+
+
+                //response code of 200 indicates the server status OK
+                if(serverResponseCode == 200){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CardActivity.this,"Uploaded ",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                //closing the input and output streams
+                fileInputStream.close();
+                dataOutputStream.flush();
+                dataOutputStream.close();
+
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(CardActivity.this,"File Not Found",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Toast.makeText(CardActivity.this, "URL error!", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(CardActivity.this, "Cannot Read/Write File!", Toast.LENGTH_SHORT).show();
+            }
+            //dialog.dismiss();
+            return String.valueOf(serverResponseCode);
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static String getPath(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+                // ExternalStorageProvider
+                if (isExternalStorageDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
+
+                    if ("primary".equalsIgnoreCase(type)) {
+                        return Environment.getExternalStorageDirectory() + "/" + split[1];
+                    }
+
+                    // TODO handle non-primary volumes
+                }
+                // DownloadsProvider
+                else if (isDownloadsDocument(uri)) {
+
+                    final String id = DocumentsContract.getDocumentId(uri);
+                    final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                    return getDataColumn(context, contentUri, null, null);
+                }
+                // MediaProvider
+                else if (isMediaDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
+
+                    Uri contentUri = null;
+                    if ("image".equals(type)) {
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("video".equals(type)) {
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("audio".equals(type)) {
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    }
+
+                    final String selection = "_id=?";
+                    final String[] selectionArgs = new String[]{split[1]};
+
+                    return getDataColumn(context, contentUri, selection, selectionArgs);
+                }
+            }
+            // MediaStore (and general)
+            else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                return getDataColumn(context, uri, null, null);
+            }
+            // File
+            else if ("file".equalsIgnoreCase(uri.getScheme())) {
+                return uri.getPath();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void processFinish(String output) {
+
+        if(output.equals("200"))
+        {
+           // Toast.makeText(mcontext, "uploaded Succesfully"+ fileName, Toast.LENGTH_SHORT).show();
+            saveFile(file,file);
+
+        }
+        else
+        {
+            Toast.makeText(mcontext, "upload error", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+}
+
+class  UploadFile extends AsyncTask<String,Void,String>
+{
+    public callBack delegate = null;
+    private String upLoadServerUri = null;
+    private String imagepath=null;
+    private int serverResponseCode = 0;
+
+
+    @Override
+    protected String doInBackground(String... strings) {
+        String fileName = strings[0];
+
+        HttpURLConnection conn = null;
+        DataOutputStream dos = null;
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+        File sourceFile = new File(fileName);
+
+        if (!sourceFile.isFile()) {
+
+            //  dialog.dismiss();
+
+            Log.e("uploadFile", "Source File not exist :" + imagepath);
+
+
+            return "0";
+
+        } else {
+            try {
+
+                // open a URL connection to the Servlet
+                FileInputStream fileInputStream = new FileInputStream(sourceFile);
+                URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_card.php");
+
+                // Open a HTTP  connection to  the URL
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true); // Allow Inputs
+                conn.setDoOutput(true); // Allow Outputs
+                conn.setUseCaches(false); // Don't use a Cached Copy
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                conn.setRequestProperty("file", fileName);
+
+                dos = new DataOutputStream(conn.getOutputStream());
+
+                dos.writeBytes(twoHyphens + boundary + lineEnd);
+                dos.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\""
+                        + fileName + "\"" + lineEnd);
+
+                dos.writeBytes(lineEnd);
+
+                // create a buffer of  maximum size
+                bytesAvailable = fileInputStream.available();
+
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                buffer = new byte[bufferSize];
+
+                // read file and write it into form...
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                while (bytesRead > 0) {
+
+                    dos.write(buffer, 0, bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                }
+
+                // send multipart form data necesssary after file data...
+                dos.writeBytes(lineEnd);
+                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                // Responses from the server (code and message)
+                serverResponseCode = conn.getResponseCode();
+                String serverResponseMessage = conn.getResponseMessage();
+
+                Log.i("uploadFile", "HTTP Response is : "
+                        + serverResponseMessage + ": " + serverResponseCode);
+
+
+
+
+
+                //close the streams //
+                fileInputStream.close();
+                dos.flush();
+                dos.close();
+
+            } catch (MalformedURLException ex) {
+
+                // dialog.dismiss();
+                ex.printStackTrace();
+
+
+                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
+            } catch (Exception e) {
+
+                //  dialog.dismiss();
+                e.printStackTrace();
+
+
+                //Log.e("Upload file to server Exception", "Exception : "  + e.getMessage(), e);
+            }
+            //   dialog.dismiss();
+            return serverResponseCode+"";
+        }
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        delegate.processFinish(s);
     }
 }
