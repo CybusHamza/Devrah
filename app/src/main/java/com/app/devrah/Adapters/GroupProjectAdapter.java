@@ -57,7 +57,7 @@ public class GroupProjectAdapter extends BaseAdapter {
         }
         if (convertView==null){
 
-            convertView=inflater.inflate(R.layout.custom_layout_group_projects_list_item,null);
+            convertView=inflater.inflate(R.layout.custom_layout_checklist_list_item,null);
             holder.groupData = (TextView)convertView.findViewById(R.id.tvProjectsData);
             holder.groupData.setText(pojoList.get(position).getGroupProjectData());
 

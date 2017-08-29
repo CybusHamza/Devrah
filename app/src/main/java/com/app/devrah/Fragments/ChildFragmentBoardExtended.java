@@ -556,7 +556,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     cardCoverPojoList.add(membersPojo);
                                 }
 
-                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0);
+                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id);
                                 lv.setAdapter(adapter);
                                 /*try {
                                     cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);

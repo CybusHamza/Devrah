@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,15 +12,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.app.devrah.Views.CardActivity;
+
 import com.app.devrah.R;
+import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
@@ -41,15 +41,16 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     Activity activity;
     String BoardsListData;
     private LayoutInflater inflater;
+    String list_id;
 
-
-    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount) {
+    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount,String list_id) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
         this.memberList = memberList;
         this.membercount=membercount;
         this.coverList=coverList;
+        this.list_id=list_id;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -419,6 +420,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 Intent intent = new Intent(activity,CardActivity.class);
                 intent.putExtra("CardHeaderData",BoardsListData);
                 intent.putExtra("card_id",projectsList.get(position).getId());
+                intent.putExtra("list_id",list_id);
                 intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
                 intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
                 activity.startActivity(intent);

@@ -24,7 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="380dp"
         android:id="@+id/membersListView"
-        android:layout_below="@+id/label" />
+        android:layout_below="@+id/label"
+        android:background="#fff"
+        android:layout_alignParentStart="true" />
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -33,16 +35,17 @@
         android:gravity="end"
         android:orientation="horizontal"
         android:layout_below="@id/membersListView">
+
         <TextView
+            android:id="@+id/done"
             android:layout_width="wrap_content"
-            android:text="Add Member"
-            android:textColor="#00FA9A"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:id="@+id/assignNewMemberBtn"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
-            android:layout_height="wrap_content" />
+            android:text="Done"
+            android:textColor="#00FA9A"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

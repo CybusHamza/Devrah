@@ -78,5 +78,8 @@ public class End_Points {
     public static final String MAKE_COVER= BASE_URL + "makeCover";
     public static final String UPDATE_LABLE= BASE_URL + "updateLabelById";
     public static final String DELETE_LABLE= BASE_URL + "deleteCardLabelById";
+    public static final String ASSOSIATE_USER_CARD= BASE_URL + "associateUserWithCard";
+    public static final String DELETE_USER_CARD= BASE_URL + "deleteUserFromCard";
+    public static final String GET_CHECKLIST_DATA= BASE_URL + "getCheckListData";
 
 }

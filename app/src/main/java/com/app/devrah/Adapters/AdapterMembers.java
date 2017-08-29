@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
@@ -70,10 +69,24 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
             convertView = inflater.inflate(R.layout.custom_dialog_members_card_row,null);
             holder.userID = (TextView)convertView.findViewById(R.id.tvNameOfPerson);
             holder.profile = (CircleImageView) convertView.findViewById(R.id.imageView);
+            holder.alias = (TextView) convertView.findViewById(R.id.alias_img);
             String currentImage=myList.get(position).getProfile_pic();
-            Picasso.with(activity)
+
+            if(myList.get(position).getProfile_pic().equals("null"))
+            {
+                holder.alias.setVisibility(View.VISIBLE);
+                holder.alias.setText(myList.get(position).getInetial());
+            }
+            else{
+                Picasso.with(activity)
+                        .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+                        .into(holder.profile);
+
+            }
+
+          /*  Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
-                    .into(holder.profile);
+                    .into(holder.profile);*/
             holder.Name = (TextView)convertView.findViewById(R.id.tvIdOfPerson);
             holder.Name.setText(myList.get(position).getInetial());
 
@@ -97,7 +110,7 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
     }
 
     public static class ViewHolder{
-        TextView userID,Name;
+        TextView userID,Name,alias;
         CircleImageView profile;
     }
 

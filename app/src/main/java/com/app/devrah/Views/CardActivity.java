@@ -40,9 +40,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -70,6 +72,7 @@ import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Adapters.RVLabelResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
+import com.app.devrah.Adapters.team_addapter;
 import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
@@ -109,6 +112,7 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.app.devrah.Network.End_Points.GET_LABELS;
+import static com.app.devrah.Views.BoardExtended.projectId;
 import static com.app.devrah.Views.FilePath.getDataColumn;
 import static com.app.devrah.Views.FilePath.isDownloadsDocument;
 import static com.app.devrah.Views.FilePath.isExternalStorageDocument;
@@ -125,11 +129,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     public static RelativeLayout container;
     public static ProgressBar simpleProgressBar;
     public static Menu menu;
-    public static RecyclerView rv, rvChecklist, rvLabel, rvLabelResult, rvAttachmentImages;
+    public static RecyclerView rv, rvLabel, rvLabelResult, rvAttachmentImages;
     public static TextView labelAdd;
     static List<String> asliList;
     static List<String> labelNameList;
-    String dueDateTime,startDateTime;
+    String dueDate,dueTime,startDate,startTime,cardDescription,cardIsComplete;
     static RVLabelAdapter rvAdapterLabel;
     static List<Integer> colorList;
     static List<String> colorList1;
@@ -162,7 +166,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<String> spinnerDateList, spinnertTimeList,spinnerStartDateList,spinnerStartTimeList;
     static Activity activity;
     EditText etComment, etCheckList;
-    String CardHeading;
+    String CardHeading,list_id;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     TextView tvMembers,heading;
@@ -171,10 +175,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<CardCommentData> listPojo;
     RecyclerView rvFiles;
     FragmentManager fm;
+    List<String> checklistID;
+    List<String> CheckListname;
+    List<String> checkid;
     List<String> manhusLabelList;
     List<ProjectsPojo> checkListPojo;
     static List<String> lableid;
-    CheckBox cbDueDate,cbStartDate;
+    CheckBox cbDueDate,cbDueTime,cbStartDate,cbStartTime;
+    Button isCompletedBtn;
     List<AttachmentsPojo> attachmentsList;
     List<AttachmentsImageFilePojo> attachmentsList1;
     private ListView mDrawerList;
@@ -186,9 +194,22 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     static  String name,strColor;
     static  int color;
     ProgressDialog ringProgressDialog;
-
+    ArrayList<MembersPojo> membersPojos;
+    ListView cardMembers ;
+    team_addapter addapter;
+    AdapterMembers membersAdapter;
+    boolean isUpdate =  false;
+    AlertDialog alertDialog;
+    HashMap<String, List<String>> listDataChild;
+    ExpandableListView expandableLv;
+    ArrayList<String> check_name;
+    ArrayList<String> checkstatus;
+    ArrayList<String> check_id ;
+    RVadapterCheckList customAdapter;
+    EditText etDescription;
 
     public static void showLabelsMenu() {
+
 
         menuChanger(menu, true);
 
@@ -275,9 +296,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         Intent intent=  getIntent();
 
         cardId = intent.getStringExtra("card_id");
-
-        dueDateTime = intent.getStringExtra("cardduedate");
-        startDateTime = intent.getStringExtra("cardstartdate");
+        list_id = intent.getStringExtra("list_id");
+        dueDate = intent.getStringExtra("cardduedate");
+        dueTime = intent.getStringExtra("cardduetime");
+        startDate = intent.getStringExtra("cardstartdate");
+        startTime = intent.getStringExtra("cardstarttime");
+        cardDescription = intent.getStringExtra("cardDescription");
+        cardIsComplete = intent.getStringExtra("isComplete");
 
 
         getCardList();
@@ -332,11 +357,23 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         simpleProgressBar.setScaleY(3f);    //height of progress bar
         staticCheckList = (LinearLayout) findViewById(R.id.linearLayoutCheckboxHeading);
         cbDueDate = (CheckBox) findViewById(R.id.tvDue);
+        cbDueTime = (CheckBox) findViewById(R.id.tvDueTime);
         cbStartDate = (CheckBox) findViewById(R.id.tvStartDate);
+        cbStartTime = (CheckBox) findViewById(R.id.tvStartTime);
+        isCompletedBtn=(Button)findViewById(R.id.btnComplete);
+        if(cardIsComplete.equals("1")){
+            isCompletedBtn.setText("Unmark Completed");
+            isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.orange));
+        }else if(cardIsComplete.equals("0")){
+            isCompletedBtn.setText("Mark Completed");
+            isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
         etCheckList = (EditText) findViewById(R.id.etCheckBox);
         // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getChecklistData();
 
         toolbar.setNavigationIcon(R.drawable.back_arrow_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -359,21 +396,68 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         rvLabelResult = (RecyclerView) findViewById(R.id.rv_labels_card_screen_result);
 //
-//        setTitle();
-        rvChecklist = (RecyclerView) findViewById(R.id.rv_recycler_checklist);
+//        setTitle();rvChecklist
+        expandableLv = (ExpandableListView) findViewById(R.id.rv_recycler_checklist);
         rvLabel = (RecyclerView) findViewById(R.id.rv_recycler_labels);
         tvMembers = (TextView) findViewById(R.id.tvMembers);
         heading = (TextView) findViewById(R.id.heading);
 
-        if(!startDateTime.equals("")) {
-            cbStartDate.setText(startDateTime);
+        etDescription = (EditText) findViewById(R.id.description);
+        etDescription.setText(cardDescription);
+        etDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuChanger(menu, true);
+                final MenuItem tick = menu.findItem(R.id.tick);
+                tick.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        //  Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
+
+                        menuChanger(menu, false);
+                        etDescription.clearFocus();
+                        tick.setVisible(false);
+                        addDescription(etDescription.getText().toString());
+
+
+                        return true;    }
+                });
+            }
+        });
+
+        if(!startDate.equals("") && !startDate.equals("null")) {
+            cbStartDate.setText(startDate);
+            cbStartDate.setVisibility(View.VISIBLE);
+        }else if(startDate.equals("null")){
+            cbStartDate.setText("Start Date");
             cbStartDate.setVisibility(View.VISIBLE);
         }
-
-        if(!dueDateTime.equals("")) {
-            cbDueDate.setText(dueDateTime);
-            cbDueDate.setVisibility(View.VISIBLE);
+        if(!startTime.equals("")) {
+            cbStartTime.setText(startTime);
+            cbStartTime.setVisibility(View.VISIBLE);
         }
+
+        if(!dueDate.equals("") && !dueDate.equals("null")) {
+            cbDueDate.setText(dueDate);
+            cbDueDate.setVisibility(View.VISIBLE);
+        }else if(dueDate.equals("null")){
+            cbStartDate.setText("Due Date");
+            cbStartDate.setVisibility(View.VISIBLE);
+        }
+        if(!dueTime.equals("")) {
+            cbDueTime.setText(dueTime);
+            cbDueTime.setVisibility(View.VISIBLE);
+        }
+        isCompletedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isCompletedBtn.getText().equals("Mark Completed")){
+                    updateCardCompleted("1");
+                }else if(isCompletedBtn.getText().equals("Unmark Completed")){
+                    updateCardCompleted("0");
+                }
+            }
+        });
 
         tvMembers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -561,14 +645,28 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         cbDueDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dueDate();
+                //dueDate();
+                pickDueDate("dueDate");
+            }
+        });
+        cbDueTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickATime("dueTime");
             }
         });
 
         cbStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dueDate();
+                pickDueDate("startDate");
+                //  dueDate();
+            }
+        });
+        cbStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickATime("startTime");
             }
         });
 
@@ -746,12 +844,144 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             uploadFile.delegate =CardActivity.this;
             uploadFile.execute(path);
 
+            ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading File ...", true);
+            ringProgressDialog.setCancelable(false);
+            ringProgressDialog.show();
+
 
         }
 
 
     }
 
+    public void getChecklistData() {
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_CHECKLIST_DATA, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    //   projectNames = new ArrayList<>();
+
+                    String firstname, email, lastName, profilePic;
+
+                    //  JSONArray array = new JSONArray(response);
+
+                    checklistID = new ArrayList<>();
+                    CheckListname = new ArrayList<>();
+                    checkid = new ArrayList<>();
+                    JSONObject object = new JSONObject(response);
+
+                    String data =  object.getString("checklist_heading");
+
+                    JSONArray jsonArray = new JSONArray(data);
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject obj = new JSONObject(jsonArray.getString(i));
+
+                        checklistID.add(obj.getString("id"));
+                        CheckListname.add(obj.getString("checklist_name"));
+                        checkid.add(obj.getString("card_id"));
+
+                        listDataChild.put(obj.getString("card_id"),null);
+                    }
+
+
+                    String data2 =  object.getString("checklist_data");
+
+                    JSONArray jsonArray1 = new JSONArray(data2);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        check_name = new ArrayList<>();
+                        checkstatus = new ArrayList<>();
+                        check_id = new ArrayList<>();
+                        for (int j = 0 ; j<jsonArray1.length();j++)
+                        {
+                            JSONObject jsonObject = jsonArray1.getJSONObject(j);
+                            String id = jsonObject.getString("project_group");
+                            String projectid =checkid.get(i) ;
+                            if(projectid.equals(id))
+                            {
+                                check_name.add( jsonObject.getString("checkbox_name"));
+                                checkstatus.add(jsonObject.getString("is_checked"));
+                                check_id.add(jsonObject.getString("check_id"));
+
+                            }
+
+
+                        }
+
+                        listDataChild.put(CheckListname.get(i)+"", check_name);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                customAdapter = new RVadapterCheckList(CardActivity.this, CheckListname, listDataChild,check_id );
+                expandableLv.setAdapter(customAdapter);
+
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("card_id", cardId);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+
+    }
 
 
     public void addDataInComments() {
@@ -774,11 +1004,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     public void showMembersDialog() {
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
         View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout, null);
-        final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
+        alertDialog = new AlertDialog.Builder(CardActivity.this).create();
         lvMembers = (ListView) view.findViewById(R.id.membersListView);
         TextView tvDone = (TextView) view.findViewById(R.id.addMember);
         TextView addNewMember = (TextView) view.findViewById(R.id.assignNewMemberBtn);
-        final AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this, cardMembersPojoList1);
+          membersAdapter = new AdapterMembers(CardActivity.this, cardMembersPojoList1);
 
         lvMembers.setAdapter(membersAdapter);
 
@@ -803,22 +1033,40 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         addNewMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              addNewMemberDialogue();
+                alertDialog.dismiss();
+                addNewMemberDialogue();
 
             }
         });
 
         lvMembers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //  tvMembers.setText(parent.getSelectedItem().toString());
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
 
-                // MembersPojo data = (MembersPojo) membersAdapter.getItem(position);
-                //  data.getName();
-               /* tvMembers.setVisibility(View.VISIBLE);
-                tvMembers.setText(data.getName());*/
-                alertDialog.dismiss();
+
+
+                new SweetAlertDialog(CardActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Error!")
+                        .setCancelText("Cancle")
+                        .setConfirmText("OK").setContentText("Are You sure you want to remove  member from this card")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                alertDialog.dismiss();
+                                deleteMember(cardMembersPojoList1.get(position).getUserId());
+                                isUpdate = true;
+                                sDialog.dismiss();
+                            }
+                        })
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .show();
 
 
             }
@@ -834,9 +1082,31 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     private void addNewMemberDialogue() {
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
         View view = inflater.inflate(R.layout.custom_alertdialog_add_new_members_layout, null);
-        final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
-      //  lvMembers = (ListView) view.findViewById(R.id.membersListView);
+        alertDialog = new AlertDialog.Builder(CardActivity.this).create();
+        cardMembers = (ListView) view.findViewById(R.id.membersListView);
+        TextView done = (TextView) view.findViewById(R.id.done);
 
+
+        cardMembers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                alertDialog.dismiss();
+                addUser(membersPojos.get(i).getUserId());
+                isUpdate = true;
+
+            }
+        });
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+
+
+        getmembers();
 
         alertDialog.setView(view);
 //
@@ -1012,6 +1282,149 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         return true;
     }
 
+
+    private void addUser(final String userid) {
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.ASSOSIATE_USER_CARD, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                ringProgressDialog.dismiss();
+                if (!(response.equals(""))) {
+                    getCardList();
+
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("brd_id",BoardExtended.boardId);
+                params.put("prjct_id", projectId);
+                params.put("card_id",cardId);
+                params.put("list_id",list_id);
+
+               params.put("userId", userid);
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+    }
+
+    private void deleteMember(final String userid) {
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.DELETE_USER_CARD, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                ringProgressDialog.dismiss();
+                if (!(response.equals(""))) {
+                    getCardList();
+
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("card_id",cardId);
+                    params.put("u_id", userid);
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+    }
+
     @Override
     public void onBackPressed() {
 
@@ -1060,14 +1473,72 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         // adapter = new RecyclerViewAdapterComments();
         //  adapter = new RecyclerViewAdapterComments();
 
-        rvChecklist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+   /*     rvChecklist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         rvAdapterChecklist = new RVadapterCheckList(checkListPojo, getApplicationContext());
         rvChecklist.setAdapter(rvAdapterChecklist);
 
-        rvAdapterChecklist.notifyDataSetChanged();
+        rvAdapterChecklist.notifyDataSetChanged();*/
 
 
+    }
+
+    public void pickDueDate(final String dateType){
+        final Calendar c = Calendar.getInstance();
+        final int mYear = c.get(Calendar.YEAR); // current year
+        final int mMonth = c.get(Calendar.MONTH); // current month
+        final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        final int mHour = c.get(Calendar.HOUR);
+        final int mMin = c.get(Calendar.MINUTE);
+        datePickerDialog = new DatePickerDialog(CardActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        if(dateType.equals("dueDate")){
+                            updateCardDueDate(dayOfMonth+"-"+(monthOfYear+1)+"-"+year);
+                        }else if(dateType.equals("startDate")){
+                            updateCardStartDate(dayOfMonth+"-"+(monthOfYear+1)+"-"+year);
+                        }
+                        // set day of month , month and year value in the edit text
+//                                                date.setText(dayOfMonth + "/"
+//                                                        + (monthOfYear + 1) + "/" + year);
+                       /* spinnerStartDateList.remove(0);
+                        spinnerStartDateList.add(0, dayOfMonth + "-" + monthOfYear + "-" + year);
+                        spinnerstartDate.setSelection(0);*/
+                        // spinnerDate.setSelection(spinnerDateList.size() - 1);
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
+    public void pickATime(final String timeType){
+        final Calendar c = Calendar.getInstance();
+        final int mYear = c.get(Calendar.YEAR); // current year
+        final int mMonth = c.get(Calendar.MONTH); // current month
+        final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        final int mHour = c.get(Calendar.HOUR);
+        final int mMin = c.get(Calendar.MINUTE);
+        timePickerDialog = new TimePickerDialog(CardActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+
+                if(timeType.equals("dueTime")){
+                    updateCardTime(selectedHour+":"+selectedMinute);
+                }else if(timeType.equals("startTime")){
+                    updateCardStartTime(selectedHour+":"+selectedMinute);
+                }
+               /* spinnerStartTimeList.remove(0);
+                spinnerStartTimeList.add(0, selectedHour + ":" + selectedMinute);
+
+                //  spinnerTime.setSelection(spinnertTimeList.size() - 1);
+
+                spinnerstartTime.setSelection(0);*/
+            }
+        }, mHour, mMin, true);//Yes 24 hour time
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
     }
 
     public void dueDate() {
@@ -1337,6 +1808,107 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //
 //    }
 
+    public void getmembers() {
+
+
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_BOARD_MEMBERS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        membersPojos = new ArrayList<>();
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+
+                            for (int i = 0; i <= jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                MembersPojo membersPojo = new MembersPojo();
+
+
+                                membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
+                                membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
+                                membersPojo.setUserId(jsonObject.getString("id"));
+                                membersPojo.setInetial(jsonObject.getString("initials"));
+
+
+                                membersPojos.add(membersPojo);
+
+                                 AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this, membersPojos);
+
+                                cardMembers.setAdapter(membersAdapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("board_id", BoardExtended.boardId);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+
+
+    }
+
+
 
     public void getCardList() {
         final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -1434,6 +2006,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
                                         membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
                                         membersPojo.setInetial(jsonObject.getString("initials"));
+                                        membersPojo.setUserId(jsonObject.getString("uid"));
                                         membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
                                         //  members[k]=jsonObject.getString("profile_pic");
                                         // labelText[k]=jsonObject.getString("initials");
@@ -1445,7 +2018,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         cardMembersPojoList1.add(membersPojo);
                                     }
 
-                                    //  labelsPojo.setLabelText(labelText);
+                                    if(membersAdapter != null)
+                                    {
+                                        membersAdapter.notifyDataSetChanged();
+
+                                        if( isUpdate == true){
+                                            showMembersDialog();
+                                        }
+                                    }
+                                   //  labelsPojo.setLabelText(labelText);
 
                                 }
                                 for(int j=0;j<jsonArrayAttachments.length();j++) {
@@ -1557,6 +2138,449 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     }
 
+    public  void updateCardDueDate(final String dueDate) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_DUE_DATES_BY_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        cbDueDate.setText(dueDate);
+                        Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectid",BoardExtended.projectId);
+                params.put("card_id",cardId);
+                params.put("strt_dt",startDate);
+                params.put("end_dt",dueDate);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
+    }
+    public  void updateCardStartDate(final String startDate) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_START_DATES_BY_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        cbStartDate.setText(startDate);
+                        Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectid",BoardExtended.projectId);
+                params.put("card_id",cardId);
+                params.put("strt_dt",startDate);
+                params.put("end_dt",dueDate);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
+    }
+
+    public  void updateCardCompleted(final String isCompleted) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_CARD_COMPLETED,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(isCompleted.equals("1")){
+                            isCompletedBtn.setText("Unmark Completed");
+                            isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.orange));
+                        }else if(isCompleted.equals("0")){
+                            isCompletedBtn.setText("Mark Completed");
+                            isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        }
+                        Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectid",BoardExtended.projectId);
+                params.put("strt_dt",startDate);
+                params.put("end_dt",dueDate);
+                params.put("card_id",cardId);
+                params.put("isComp",isCompleted);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
+    }
+    public  void addDescription(final String description) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SET_CARD_DESCRIPTION_BY_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        etDescription.setText(description);
+                        Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("card_id",cardId);
+                params.put("descr",description);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
+    }
+
+    public  void updateCardTime(final String dueTime) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_CARD_DUE_TIME,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        cbDueTime.setText(dueTime+":00");
+
+                        Toast.makeText(activity, "Card Due Time updated", Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("cardId",cardId);
+                params.put("start_time",startTime);
+                params.put("due_time",dueTime);
+                params.put("complete","");
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
+    }
+    public  void updateCardStartTime(final String startTime) {
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_CARD_START_TIME,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        cbStartTime.setText(startTime+":00");
+                        Toast.makeText(activity, "Card Due Time updated", Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("cardId",cardId);
+                params.put("start_time",startTime);
+                params.put("due_time",dueTime);
+                params.put("complete","");
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
+    }
+
+
     public void updateUI()
     {
         getCardList();
@@ -1617,7 +2641,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("board_id",BoardExtended.boardId);
-                params.put("projectId",BoardExtended.projectId);
+                params.put("projectId", projectId);
                 params.put("card_id",cardId);
                 params.put("label_text",lableText);
                 params.put("label_color",lablecolor);
@@ -1862,7 +2886,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("boardId",BoardExtended.boardId);
-                params.put("projectId",BoardExtended.projectId);
+                params.put("projectId", projectId);
                 params.put("cardId",cardId);
                 params.put("original_name",originalName);
                 params.put("name",attachmentName);
@@ -1880,7 +2904,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
     private void saveFile(final String attachmentName,final String originalName) {
-        ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", " ...", true);
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST,End_Points.SAVE_NEW_ATTACHMENT_BY_CARD_ID, new Response.Listener<String>() {
@@ -1938,7 +2962,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("boardId",BoardExtended.boardId);
-                params.put("projectId",BoardExtended.projectId);
+                params.put("projectId", projectId);
                 params.put("cardId",cardId);
                 params.put("original_name",originalName);
                 params.put("name",attachmentName);
@@ -1953,7 +2977,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
         requestQueue.add(request);
     }
-
 
     private void updateCardNameDialog() {
 
@@ -2013,7 +3036,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("boardId",BoardExtended.boardId);
-                params.put("projectId",BoardExtended.projectId);
+                params.put("projectId", projectId);
                 params.put("cardId",cardId);
                 params.put("start_time",startTime);
                 params.put("due_time",dueTime);
@@ -2227,6 +3250,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     @Override
     public void processFinish(String output) {
 
+        ringProgressDialog.dismiss();
         if(output.equals("200"))
         {
            // Toast.makeText(mcontext, "uploaded Succesfully"+ fileName, Toast.LENGTH_SHORT).show();
@@ -2248,6 +3272,12 @@ class  UploadFile extends AsyncTask<String,Void,String>
     private String imagepath=null;
     private int serverResponseCode = 0;
 
+    @Override
+    protected void onPreExecute() {
+
+
+        super.onPreExecute();
+    }
 
     @Override
     protected String doInBackground(String... strings) {
@@ -2262,6 +3292,7 @@ class  UploadFile extends AsyncTask<String,Void,String>
         byte[] buffer;
         int maxBufferSize = 1 * 1024 * 1024;
         File sourceFile = new File(fileName);
+
 
         if (!sourceFile.isFile()) {
 

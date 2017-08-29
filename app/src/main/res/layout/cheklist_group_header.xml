@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    >
+
+
+    <EditText
+        android:id="@+id/lblListHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:textAlignment="center"
+        android:layout_margin="5dp"
+        android:drawableLeft="@drawable/checkbox_icon"
+        android:paddingLeft="10dp"
+        android:text="Check List"
+        android:textSize="17sp"
+        android:textColor="#000"
+        android:background="@drawable/bg_boards_extended_list_white"
+      />
+
+
+</LinearLayout>
