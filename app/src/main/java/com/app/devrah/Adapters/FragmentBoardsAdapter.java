@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,16 +13,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.app.devrah.R;
 import com.app.devrah.Views.CardActivity;
+import com.app.devrah.R;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 /**
@@ -42,6 +42,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     String BoardsListData;
     private LayoutInflater inflater;
     String list_id;
+
 
     public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount,String list_id) {
         this.activity = activity;
@@ -407,7 +408,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.data.setText(projectsList.get(position).getData());
             BoardsListData = projectsList.get(position).getData();
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
-        holder.dueDate.setText(projectsList.get(position).getDueDate());
+        holder.dueDate.setText(projectsList.get(position).getDueDate()+" "+projectsList.get(position).getDuetTime());
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         //}
@@ -420,9 +421,13 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 Intent intent = new Intent(activity,CardActivity.class);
                 intent.putExtra("CardHeaderData",BoardsListData);
                 intent.putExtra("card_id",projectsList.get(position).getId());
-                intent.putExtra("list_id",list_id);
                 intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
+                intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
                 intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
+                intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
+                intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
+                intent.putExtra("list_id",list_id);
                 activity.startActivity(intent);
 
             }

@@ -82,7 +82,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+                    <EditText
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Add Description"
+                        android:textColorHint="#FF696969"
+                        android:textColor="#000"
+                        android:layout_margin="10dp"
+                       />
                     <TextView
                         android:id="@+id/tvLabels"
                         android:layout_width="match_parent"
@@ -120,6 +128,73 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:clickable="true" />
+                    <CheckBox
+                        android:id="@+id/tvStartDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:buttonTint="#000"
+                        android:padding="5dp"
+                        android:text="boom boom"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+
+                        android:visibility="gone" />
+
+                    <CheckBox
+                        android:id="@+id/tvDue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:buttonTint="#000"
+                        android:padding="5dp"
+                        android:text="boom boom"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+
+                        android:visibility="gone" />
+                    <CheckBox
+                        android:id="@+id/tvStartTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:buttonTint="#000"
+                        android:padding="5dp"
+                        android:text="boom boom"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+
+                        android:visibility="gone" />
+
+                    <CheckBox
+                        android:id="@+id/tvDueTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:buttonTint="#000"
+                        android:padding="5dp"
+                        android:text="boom boom"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnComplete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="5dp"
+                        android:buttonTint="#000"
+                        android:padding="5dp"
+                        android:background="@color/colorPrimary"
+                        android:text="Mark Completed"
+                        android:textColor="#fff"
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -155,33 +230,6 @@
                         android:text="Members"
                         android:textColor="#000"
                         android:textSize="15sp"
-                        android:visibility="gone" />
-                    <CheckBox
-                        android:id="@+id/tvStartDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:buttonTint="#000"
-                        android:padding="5dp"
-                        android:text="boom boom"
-                        android:textColor="#000"
-                        android:textSize="15sp"
-
-                        android:visibility="gone" />
-
-                    <CheckBox
-                        android:id="@+id/tvDue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:buttonTint="#000"
-                        android:padding="5dp"
-                        android:text="boom boom"
-                        android:textColor="#000"
-                        android:textSize="15sp"
-
                         android:visibility="gone" />
 
 

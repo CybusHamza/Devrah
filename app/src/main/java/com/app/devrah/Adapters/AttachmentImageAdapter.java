@@ -193,6 +193,8 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
             @Override
             public void onClick(View v) {
                 Picasso.with(activity).load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + imageName).into(picassoImageTarget(activity, "imageDir",imageName));
+              //  Target target=picassoImageTarget(activity, "imageDir",imageName);
+                Toast.makeText(activity,"Image Saved to the Directory imageDir",Toast.LENGTH_LONG).show();
                 myalertdialog.dismiss();
             }
         });

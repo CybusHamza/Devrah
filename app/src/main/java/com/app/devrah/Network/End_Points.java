@@ -81,5 +81,10 @@ public class End_Points {
     public static final String ASSOSIATE_USER_CARD= BASE_URL + "associateUserWithCard";
     public static final String DELETE_USER_CARD= BASE_URL + "deleteUserFromCard";
     public static final String GET_CHECKLIST_DATA= BASE_URL + "getCheckListData";
+    public static final String UPDATE_DUE_DATES_BY_ID= BASE_URL + "updateDueDatesById";
+    public static final String UPDATE_START_DATES_BY_ID= BASE_URL + "updateStartDatesById";
+    public static final String UPDATE_CARD_COMPLETED= BASE_URL + "updateCardCompleted";
+    public static final String UPDATE_CARD_START_TIME= BASE_URL + "updateCardStartTime";
+    public static final String SET_CARD_DESCRIPTION_BY_ID= BASE_URL + "setCardDescriptionByCardId";
 
 }

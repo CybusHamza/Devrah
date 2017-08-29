@@ -478,8 +478,12 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     projectsPojo.setId(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("card_name"));
                                     projectsPojo.setAttachment(jsonObject.getString("file_name"));
-                                    projectsPojo.setDueDate(jsonObject.getString("card_end_date")+" "+jsonObject.getString("card_due_time"));
-                                    projectsPojo.setStartDate(jsonObject.getString("card_start_date")+" "+jsonObject.getString("card_start_time"));
+                                    projectsPojo.setDueDate(jsonObject.getString("card_end_date"));
+                                    projectsPojo.setDuetTime(jsonObject.getString("card_due_time"));
+                                    projectsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                                    projectsPojo.setCardDescription(jsonObject.getString("card_description"));
+                                    projectsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
+                                    projectsPojo.setStartTime(jsonObject.getString("card_start_time"));
                                     projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
 
                                    // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));

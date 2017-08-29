@@ -156,6 +156,45 @@ public class ProjectsPojo {
     }
 
     String isCover;
+    String duetTime;
+
+    public String getDuetTime() {
+        return duetTime;
+    }
+
+    public void setDuetTime(String duetTime) {
+        this.duetTime = duetTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    String startTime;
+
+    public String getCardDescription() {
+        return cardDescription;
+    }
+
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
+
+    String cardDescription;
+
+    public String getIsCardComplete() {
+        return isCardComplete;
+    }
+
+    public void setIsCardComplete(String isCardComplete) {
+        this.isCardComplete = isCardComplete;
+    }
+
+    String isCardComplete;
 
 
 
