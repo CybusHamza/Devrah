@@ -21,6 +21,7 @@ import java.util.List;
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
 
+
     private Activity context;
     private List<String> listDataHeader; // header titles
     private List<String> ids; // header titles
