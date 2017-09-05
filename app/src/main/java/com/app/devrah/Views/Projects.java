@@ -399,6 +399,8 @@ public class Projects extends Fragment implements View.OnClickListener {
                     @Override
                     public void onResponse(String response) {
 
+
+
                           ringProgressDialog.dismiss();
                         if (response.equals("false")) {
                             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
@@ -417,7 +419,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                             String userid;
 
                             try {
-
+                                listPojo = new ArrayList<>();
                                 String firstname, email, lastName, profilePic;
 
                                 JSONArray array = new JSONArray(response);

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="com.radioayah.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -20,7 +20,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:theme="@style/AppTheme"
         tools:replace="android:icon,android:label">
         <activity android:name=".Views.SignUpActivity" />
         <activity android:name=".Views.Login" />
@@ -35,7 +35,8 @@
         <activity android:name=".Views.ProjectsActivity" />
         <activity android:name=".Views.BoardsActivity" />
         <activity android:name=".Views.BoardExtended" />
-        <activity android:name=".Views.CardActivity"
+        <activity
+            android:name=".Views.CardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Views.ImageDescription" />
         <activity android:name=".Views.TestActivity" />
@@ -71,7 +72,8 @@
         <activity
             android:name=".Views.manage_members"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Views.Manage_Board_Members"></activity>
+        <activity android:name=".Views.Manage_Board_Members" />
+        <activity android:name=".Views.CheckList_Detail"></activity>
     </application>
 
 </manifest>

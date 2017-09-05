@@ -1,163 +1,124 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
+import com.app.devrah.Holders.Cheklist;
 import com.app.devrah.R;
+import com.app.devrah.Views.CheckList_Detail;
+import com.app.devrah.pojo.check_model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by AQSA SHaaPARR on 6/12/2017.
  */
 
-public class RVadapterCheckList extends BaseExpandableListAdapter {
+public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
+
+    Activity activity;
+    ArrayList<check_model> CheckListItems;
+    ArrayList<check_model> ids;
+    ArrayList<String> checkListiItemName;
+    ArrayList<String> checkListiItemIds;
+    ArrayList<String> checkedItem;
+    HashMap<String, ArrayList<check_model>> listDataChild;
 
 
-    private Activity context;
-    private List<String> listDataHeader; // header titles
-    private List<String> ids; // header titles
-    // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    public RVadapterCheckList(Activity activit, ArrayList<check_model> CheckListItems,
+                              HashMap<String, ArrayList<check_model>> listDataChild) {
 
-
-    public RVadapterCheckList(Activity context, List<String> listDataHeader, HashMap<String, List<String>> listChildData, ArrayList<String> ids) {
-
-
-        this.context = context;
-        this._listDataChild = listChildData;
-        this.listDataHeader = listDataHeader;
-
-        this.ids = ids;
-
+        this.activity = activit;
+        this.CheckListItems = CheckListItems;
+        this.listDataChild = listDataChild;
 
 
     }
 
-
     @Override
-    public int getGroupCount() {
+    public Cheklist onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cheklist_group_header, parent, false);
 
-        return this.listDataHeader.size();
-        //  return 0;
+        return new Cheklist(view);
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) {
-
-        String data = ids.get(groupPosition);
-
-        return this._listDataChild.get(data).size();
+    public void onBindViewHolder(Cheklist holder, final int position) {
 
 
-        // 0;
-    }
+        holder.checklistName.setText(CheckListItems.get(position).getName());
 
-    @Override
-    public Object getGroup(int groupPosition) {
+        checkListiItemIds= new ArrayList<String>();
+        checkListiItemName= new ArrayList<String>();
+        checkedItem= new ArrayList<String>();
 
-        return this.listDataHeader.get(groupPosition);
-        //    return null;
-    }
+        ids= new ArrayList<check_model>();
 
-    @Override
-    public Object getChild(int groupPosition, int childPosition) {
+        ids =  listDataChild.get(CheckListItems.get(position).getId());
 
-        String data = ids.get(groupPosition);
-
-
-        return this._listDataChild.get(data)
-                .get(childPosition);
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return groupPosition;
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-
-        String headerTitle = (String) getGroup(groupPosition);
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.cheklist_group_header, null);
+        for (int i = 0 ; i<ids.size(); i++)
+        {
+            checkListiItemIds.add(ids.get(i).getId());
+            checkListiItemName.add(ids.get(i).getName());
+            checkedItem.add(ids.get(i).getChecked());
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
+        float progress = 0;
 
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
-
-        return convertView;
-
-
-//        return convertView;
-    }
-
-    @Override
-    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String childText = (String) getChild(groupPosition, childPosition);
-
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.custom_layout_checklist_list_item, null);
+        for(int i=0;i<checkedItem.size();i++)
+        {
+            if(checkedItem.get(i).equals("1"))
+            {
+                progress++;
+            }
         }
-        CheckBox txtListChild = (CheckBox) convertView
-                .findViewById(R.id.checkbox);
 
+        int a= checkedItem.size();
+        float b = (progress/a);
+        progress = b*100;
 
-      /*  convertView.setOnClickListener(new View.OnClickListener() {
+        holder.progressBar.setProgress((int) progress);
+        holder.checklistName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, BoardsActivity.class);
-                intent.putExtra("pid", projectids.get(groupPosition));
-                intent.putExtra("ptitle", childText);
-                intent.putExtra("status", status.get(groupPosition));
-                context.startActivity(intent);
 
+
+
+                checkListiItemIds= new ArrayList<String>();
+                checkListiItemName= new ArrayList<String>();
+                checkedItem= new ArrayList<String>();
+
+                ids= new ArrayList<check_model>();
+
+                ids =  listDataChild.get(CheckListItems.get(position).getId());
+
+                for (int i = 0 ; i<ids.size(); i++)
+                {
+                    checkListiItemIds.add(ids.get(i).getId());
+                    checkListiItemName.add(ids.get(i).getName());
+                    checkedItem.add(ids.get(i).getChecked());
+                }
+
+                Intent  intent = new Intent(activity, CheckList_Detail.class);
+                intent.putExtra("checkListiItemIds",checkListiItemIds);
+                intent.putExtra("checkListiItemName",checkListiItemName);
+                intent.putExtra("checkedItem",checkedItem);
+                intent.putExtra("name",CheckListItems.get(position).getName());
+                activity.startActivity(intent);
             }
+
         });
-*/
-
-
-       /* if (status.get(groupPosition).equals("1")) {
-            statusList.setText("Active");
-            statusList.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
-        } else {
-            statusList.setText("DeActive");
-            statusList.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
-        }*/
-        return convertView;
-
-        //  return null;
     }
 
+
     @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
+    public int getItemCount() {
+        return CheckListItems.size();
     }
 }
 

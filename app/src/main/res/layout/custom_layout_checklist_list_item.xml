@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-
     android:background="#fff"
-
     android:layout_height="wrap_content">
 
 
     <CheckBox
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/checkbox"
         android:textColor="#000"
+        android:text="abc"
+        android:paddingLeft="20dp"
+
+        android:textSize="15sp"
         />
 
-</LinearLayout>
+</RelativeLayout>

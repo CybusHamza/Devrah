@@ -85,6 +85,8 @@ public class End_Points {
     public static final String UPDATE_START_DATES_BY_ID= BASE_URL + "updateStartDatesById";
     public static final String UPDATE_CARD_COMPLETED= BASE_URL + "updateCardCompleted";
     public static final String UPDATE_CARD_START_TIME= BASE_URL + "updateCardStartTime";
+    public static final String UN_CHECK_CHECKBOX= BASE_URL + "uncheckCheckBox";
+    public static final String CHECK_CHECKBOX= BASE_URL + "checkCheckBOx";
     public static final String SET_CARD_DESCRIPTION_BY_ID= BASE_URL + "setCardDescriptionByCardId";
     public static final String GET_POSITION_OF_LIST= BASE_URL + "getAllBoardListPositionsForCard";
     public static final String GET_ALL_BOARDS_FOR_CARD= BASE_URL + "getAllBoardsForCards";
