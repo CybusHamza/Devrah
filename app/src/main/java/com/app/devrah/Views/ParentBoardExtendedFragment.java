@@ -120,6 +120,27 @@ public class ParentBoardExtendedFragment extends Fragment {
            // adapter.addFrag(fragment,"");
         adapter.addFragAt(fragment,positiom);
         }
+        public static void updateBundleData(String pagename,String p_id1,String b_id1,String list_id1,String list_color,String newList,int pos){
+            Bundle bundle = new Bundle();
+            bundle.putString("data", pagename);
+            bundle.putString("p_id", p_id1);
+            bundle.putString("b_id", b_id1);
+            bundle.putString("list_id", list_id1);
+            bundle.putString("list_color", list_color);
+            bundle.putString("listName", newList);
+
+            ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
+            fragmentChild.setArguments(bundle);
+            adapter.addFragAtPos(fragmentChild, pagename,pos);
+            adapter.notifyDataSetChanged();
+            //LastItemBoardFragment fragLa = new LastItemBoardFragment();
+
+            int m = adapter.getCount() + 1;
+//        if (adapter.getCount() > 0) tabLayout.setupWithViewPager(viewPager);
+
+
+            viewPager.setCurrentItem(pos);
+        }
     public static void addPage(String pagename,String p_id1,String b_id1,String list_id1,String list_color,String newList) {
        //this.adapter = adapter;
         Bundle bundle = new Bundle();

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#EDEFF0"
-    android:layout_height="match_parent">
+    android:background="#fff"
+    android:layout_height="wrap_content">
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Copy List"
+        android:text="Move Card"
         android:textSize="23sp"
         android:padding="7dp"
         android:textColor="#000"
@@ -16,7 +16,7 @@
         android:id="@+id/heading" />
 
     <TextView
-        android:id="@+id/sub_heading"
+        android:id="@+id/boardLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
@@ -24,63 +24,60 @@
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#000"
-        android:text="Project: "
+        android:text="Board: "
         android:layout_below="@+id/heading"
         android:layout_alignParentStart="true" />
 
     <Spinner
-        android:id="@+id/projects_group"
+        android:id="@+id/boardSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_margin="20dp"
-
-        android:layout_below="@+id/sub_heading"
+        android:layout_below="@+id/boardLabel"
         android:layout_marginTop="23dp" />
-
-
-    <Spinner
-        android:id="@+id/board"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-       android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_below="@+id/projects_group" />
-
     <TextView
-        android:id="@+id/board_txt"
+        android:id="@+id/listLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="12dp"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#000"
-        android:text=" Boards : "
-        android:layout_below="@+id/projects_group"
-        android:layout_alignStart="@+id/sub_heading" />
-
+        android:text="List: "
+        android:layout_below="@+id/boardSpinner"
+        android:layout_alignParentStart="true" />
 
     <Spinner
-        android:id="@+id/position"
+        android:id="@+id/listSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="41dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_below="@+id/board" />
-
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/listLabel"
+        android:layout_marginTop="23dp" />
     <TextView
-        android:id="@+id/pos_txt"
+        android:id="@+id/positionLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="12dp"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#000"
-        android:layout_marginTop="10dp"
-        android:text=" Position : "
-        android:layout_below="@+id/board"
-        android:layout_alignStart="@+id/sub_heading" />
+        android:text="Position: "
+        android:layout_below="@+id/listSpinner"
+        android:layout_alignParentStart="true" />
 
+    <Spinner
+        android:id="@+id/positionSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/positionLabel"
+        android:layout_marginTop="23dp" />
     <Button
         android:id="@+id/copy"
         android:layout_width="wrap_content"
@@ -88,10 +85,10 @@
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:background="@drawable/bg_boards_extended_green"
-        android:layout_alignEnd="@+id/projects_group"
-        android:layout_below="@+id/position"
+        android:layout_alignEnd="@+id/positionSpinner"
+        android:layout_below="@+id/positionSpinner"
         android:layout_marginTop="25dp"
-        android:text="Copy" />
+        android:text="Move" />
 
     <Button
         android:id="@+id/close"
@@ -103,17 +100,8 @@
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:layout_alignBaseline="@+id/copy"
-        android:layout_alignBottom="@+id/position"
-        android:layout_alignStart="@+id/projects_group" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-
-        android:textSize="23sp"
-        android:padding="7dp"
-        android:textColor="#000"
-        android:background="#D5D5D5"
         android:layout_alignBottom="@+id/copy"
-        android:layout_alignParentStart="true" />
+        android:layout_alignStart="@+id/positionSpinner" />
+
 
 </RelativeLayout>

@@ -64,7 +64,7 @@ public class ProjectsAdapter extends BaseAdapter {
             holder.status.setText("Active");
             holder.status.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
         }else {
-            holder.status.setText("DeActive");
+            holder.status.setText("In-Active");
             holder.status.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
         }
 

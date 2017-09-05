@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:padding="3dp"
-        android:text="Reference Board"
+        android:text="Archive Board"
         android:id="@+id/tvReferenceBoard"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/lvRBoard" />
@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:src="@drawable/search_icon_white"
+        android:visibility="invisible"
         android:layout_alignTop="@+id/etSearchBarRB"
         android:layout_alignEnd="@+id/lvRBoard" />
 

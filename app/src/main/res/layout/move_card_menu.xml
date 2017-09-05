@@ -24,7 +24,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#000"
-        android:text="Copy to Group : "
+        android:text="Copy to Project : "
         android:layout_below="@+id/heading"
         android:layout_alignParentStart="true" />
 

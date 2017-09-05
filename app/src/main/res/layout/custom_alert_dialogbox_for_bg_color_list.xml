@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/colorYellow"
-            android:text="Gray"
+            android:text="Yellow"
             android:textColor="#fff"/>
         <Button
             android:id="@+id/redColor"

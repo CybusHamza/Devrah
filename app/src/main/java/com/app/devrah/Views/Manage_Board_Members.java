@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -59,8 +60,10 @@ public class Manage_Board_Members extends AppCompatActivity {
     ProgressDialog ringProgressDialog;
     List<All_Teams> teamLists;
     String teamid,usertoadd;
+    Button btnClose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.magnage_members_popup);
 
 
@@ -75,34 +78,44 @@ public class Manage_Board_Members extends AppCompatActivity {
         TeamMember = (GridView) findViewById(R.id.grid_view_team);
 
         Team_list = (Spinner) findViewById(R.id.search_team);
+        btnClose= (Button) findViewById(R.id.close);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
 
         currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                if(membersPojos.size()==1){
+                    Toast.makeText(getApplicationContext(),"You have to keep atleast one user in board!",Toast.LENGTH_LONG).show();
+                }else {
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Remove This member")
+                            .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    //teamid = teamListids .get(i);
+                                    usertoadd = membersPojos.get(i).getUserId();
 
-                new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Remove This member")
-                        .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismiss();
-                                //teamid = teamListids .get(i);
-                                usertoadd = membersPojos.get(i).getUserId();
-
-                                deletemember();
-                            }
-                        }).setCancelText("Cancel")
-                        .showCancelButton(true)
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismiss();
-                            }
-                        })
-                        .show();
+                                    deletemember();
+                                }
+                            }).setCancelText("Cancel")
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
 
 
             }
@@ -111,8 +124,9 @@ public class Manage_Board_Members extends AppCompatActivity {
         TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int pos=Team_list.getSelectedItemPosition();
 
-                teamid = teamListids .get(i);
+                teamid = teamListids .get(pos);
                 usertoadd = listPojo.get(i).getUserId();
 
 
@@ -122,9 +136,9 @@ public class Manage_Board_Members extends AppCompatActivity {
         });
 
         getmembers();
-        getMyTeams();
 
-        super.onCreate(savedInstanceState);
+
+
     }
 
 
@@ -170,7 +184,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
+                        getMyTeams();
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -291,9 +291,9 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
                                 ProjectsPojo projectsPojo = new ProjectsPojo();
 
-                                projectsPojo.setId(jsonObject.getString("id"));
+                                projectsPojo.setBoardID(jsonObject.getString("id"));
                                 projectsPojo.setData(jsonObject.getString("board_name"));
-
+                                projectsPojo.setId(jsonObject.getString("project_id"));
                                 myList.add(projectsPojo);
 
                             }

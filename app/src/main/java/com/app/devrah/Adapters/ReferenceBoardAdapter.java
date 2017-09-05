@@ -72,13 +72,13 @@ public class ReferenceBoardAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
-               /* Intent intent = new Intent(activity,BoardExtended.class);
+                Intent intent = new Intent(activity,BoardExtended.class);
                 intent.putExtra("TitleData",ListItemString);
                 intent.putExtra("p_id",projectsList.get(position).getId());
                 intent.putExtra("b_id",projectsList.get(position).getBoardID());
                 intent.putExtra("ptitle",activity.getIntent().getStringExtra("ptitle"));
 
-                activity.startActivity(intent);*/
+                activity.startActivity(intent);
 
             }
         });

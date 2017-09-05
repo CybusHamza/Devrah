@@ -408,7 +408,10 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.data.setText(projectsList.get(position).getData());
             BoardsListData = projectsList.get(position).getData();
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
+        if(!projectsList.get(position).getDueDate().equals("null"))
         holder.dueDate.setText(projectsList.get(position).getDueDate()+" "+projectsList.get(position).getDuetTime());
+        else
+            holder.dueDate.setText("");
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         //}
@@ -419,7 +422,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity,CardActivity.class);
-                intent.putExtra("CardHeaderData",BoardsListData);
+                intent.putExtra("CardHeaderData", projectsList.get(position).getData());
                 intent.putExtra("card_id",projectsList.get(position).getId());
                 intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
                 intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
@@ -427,6 +430,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
                 intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
                 intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
+                intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
+                intent.putExtra("isSubscribed",projectsList.get(position).getIsCardSubscribed());
                 intent.putExtra("list_id",list_id);
                 activity.startActivity(intent);
 

@@ -189,10 +189,11 @@ public class ChildFragmentBoardExtended extends Fragment {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
                         switch (item.getItemId()) {
                             case R.id.addNewCard:
-                                boardMenu.setBackgroundColor(getActivity().getResources().getColor(R.color.lightGreen));
+                                showCustomDialog();
+                              //  boardMenu.setBackgroundColor(getActivity().getResources().getColor(R.color.lightGreen));
                                 // TODO Something when menu item selected
                                 return true;
 
@@ -484,6 +485,8 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     projectsPojo.setCardDescription(jsonObject.getString("card_description"));
                                     projectsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
                                     projectsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                                    projectsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
+                                    projectsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
                                     projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
 
                                    // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
@@ -802,22 +805,49 @@ public class ChildFragmentBoardExtended extends Fragment {
                         ringProgressDialog.dismiss();
                         if(bgColor.equals("")) {
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorWhite));
+                           // ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                           // ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"","",ParentBoardExtendedFragment.getCurrentPosition());
                         }else if (bgColor.equals("00A2E8")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"00A2E8","",ParentBoardExtendedFragment.getCurrentPosition());
+                           // ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"00A2E8","");
                         }else if (bgColor.equals("B97A57")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.brown));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"B97A57","",ParentBoardExtendedFragment.getCurrentPosition());
+
                         }else if (bgColor.equals("B5E61D")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.green));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"B5E61D","",ParentBoardExtendedFragment.getCurrentPosition());
+
                         }else if (bgColor.equals("FF7F27")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.orange));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"FF7F27","",ParentBoardExtendedFragment.getCurrentPosition());
+
                         }else if (bgColor.equals("A349A4")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPurple));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"A349A4","",ParentBoardExtendedFragment.getCurrentPosition());
+
                         }else if (bgColor.equals("f2d600")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorYellow));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"f2d600","",ParentBoardExtendedFragment.getCurrentPosition());
+
                         }else if (bgColor.equals("eb5a46")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorRed));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"eb5a46","",ParentBoardExtendedFragment.getCurrentPosition());
+
+
                         }else if (bgColor.equals("C3C3C3")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"C3C3C3 ","",ParentBoardExtendedFragment.getCurrentPosition());
+
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -905,7 +935,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         if (data.equals("move")) {
             heading.setText("Move List");
-            sub.setText("Project ");
+            sub.setText("Boards: ");
             copy.setText("Move");
         }
 
@@ -915,9 +945,25 @@ public class ChildFragmentBoardExtended extends Fragment {
             public void onClick(View view) {
 
                 if (data.equals("move")) {
-                    moveList();
+                    if(Projects.getSelectedItemPosition()!=-1) {
+                        if(boards.getSelectedItemPosition()!=-1 && boards.getSelectedItemPosition()!=0) {
+                            moveList();
+                        }else {
+                            Toast.makeText(getActivity(), "Please Select Board First", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(getActivity(), "Please Select Project First", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    copyList();
+                    if(Projects.getSelectedItemPosition()!=-1) {
+                        if(boards.getSelectedItemPosition()!=-1 && boards.getSelectedItemPosition()!=0) {
+                        copyList();
+                        }else {
+                            Toast.makeText(getActivity(), "Please Select Board First", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(getActivity(), "Please Select Project First", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -1010,7 +1056,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
-
+            if(pos!=-1)
             getBorads(spinnerGroupIds.get(pos));
 
 
@@ -1029,7 +1075,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
-
+            if(pos!=0 && pos!=-1)
             getPosition(spinnerGroupIds.get(pos));
 
 

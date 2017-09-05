@@ -151,8 +151,8 @@ public class BoardExtended extends AppCompatActivity {
 
 
         dataList.add(new DrawerPojo("Filter Cards"));
-        dataList.add(new DrawerPojo("Copy"));
-        dataList.add(new DrawerPojo("Move"));
+        dataList.add(new DrawerPojo("Copy Board"));
+        dataList.add(new DrawerPojo("Move Board"));
         dataList.add(new DrawerPojo("Manage Members"));
         dataList.add(new DrawerPojo("Leave Board"));
 
@@ -371,12 +371,13 @@ public class BoardExtended extends AppCompatActivity {
                     case 4:
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirm!")
-                                .setCancelText("Cancle")
+                                .setCancelText("Cancel")
                                 .setConfirmText("OK").setContentText("Cards are associated with this board. Do you really want to leave?")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         LeaveBoard();
+                                        sDialog.dismiss();
                                     }
                                 })
                                 .showCancelButton(true)

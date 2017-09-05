@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
@@ -75,6 +76,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
     private List<AttachmentsImageFilePojo> attachmentList;
     String cardId;
     AlertDialog myalertdialog;
+    Boolean success=false;
 
    public AttachmentImageAdapter( Activity context,List<Bitmap> mList,FragmentManager fm,List<AttachmentsImageFilePojo> attachmentList,String cardId){
        this.attachmentList = attachmentList;
@@ -196,6 +198,16 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
               //  Target target=picassoImageTarget(activity, "imageDir",imageName);
                 Toast.makeText(activity,"Image Saved to the Directory imageDir",Toast.LENGTH_LONG).show();
                 myalertdialog.dismiss();
+               /* if (success) {
+                    Toast.makeText(activity, "Image saved with success",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(activity,
+                            "Error during image saving", Toast.LENGTH_LONG).show();
+                }*/
+                String url =imageName.replace(" ","%20");
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/card_uploads/"+url));
+                activity. startActivity(browserIntent);
             }
         });
 
@@ -337,6 +349,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                             e.printStackTrace();
                         } finally {
                             try {
+                                success=true;
                                 fos.close();
                             } catch (IOException e) {
                                 e.printStackTrace();

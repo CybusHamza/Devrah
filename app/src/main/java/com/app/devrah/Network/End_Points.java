@@ -86,5 +86,16 @@ public class End_Points {
     public static final String UPDATE_CARD_COMPLETED= BASE_URL + "updateCardCompleted";
     public static final String UPDATE_CARD_START_TIME= BASE_URL + "updateCardStartTime";
     public static final String SET_CARD_DESCRIPTION_BY_ID= BASE_URL + "setCardDescriptionByCardId";
+    public static final String GET_POSITION_OF_LIST= BASE_URL + "getAllBoardListPositionsForCard";
+    public static final String GET_ALL_BOARDS_FOR_CARD= BASE_URL + "getAllBoardsForCards";
+    public static final String MOVE_NEW_CARD_BY_CARD_ID= BASE_URL + "moveNewCardByCardId";
+    public static final String COPY_NEW_CARD_BY_CARD_ID= BASE_URL + "copyNewCardByCardId";
+    public static final String LOCK_CARD_BY_CARD_ID= BASE_URL + "lockCardById";
+    public static final String UNLOCK_CARD_BY_CARD_ID= BASE_URL + "unlockCardById";
+    public static final String LEAVE_CARD= BASE_URL + "leaveCard";
+    public static final String DELETE_CARD= BASE_URL + "deleteCard";
+    public static final String SUBSCRIBE_CARD= BASE_URL + "subscribeUserByCardNuSERiD";
+    public static final String UNSUBSCRIBE_CARD= BASE_URL + "unsubscribeUserByCardNuSERiD";
+    public static final String UPDATE_CARD_NAME= BASE_URL + "updateCardName";
 
 }

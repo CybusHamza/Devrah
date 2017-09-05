@@ -196,6 +196,26 @@ public class ProjectsPojo {
 
     String isCardComplete;
 
+    public String getIsCardLocked() {
+        return isCardLocked;
+    }
+
+    public void setIsCardLocked(String isCardLocked) {
+        this.isCardLocked = isCardLocked;
+    }
+
+    String isCardLocked;
+
+    public String getIsCardSubscribed() {
+        return isCardSubscribed;
+    }
+
+    public void setIsCardSubscribed(String isCardSubscribed) {
+        this.isCardSubscribed = isCardSubscribed;
+    }
+
+    String isCardSubscribed;
+
 
 
 

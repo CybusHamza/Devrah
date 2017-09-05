@@ -52,7 +52,7 @@ public class TeamAdapterMenu extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        ProjectsAdapter.ViewHolder holder = new ProjectsAdapter.ViewHolder();
+        ViewHolder holder = new ViewHolder();
         if (inflater== null)
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,9 +61,12 @@ public class TeamAdapterMenu extends BaseAdapter {
             convertView = inflater.inflate(R.layout.row_list_menu_team, null);
 
         holder.data = (TextView) convertView.findViewById(R.id.tvProjectsData);
+        holder.description = (TextView) convertView.findViewById(R.id.tvDescription);
         holder.data.setText(projectsList.get(position).getName());
 
-
+        if(!projectsList.get(position).getDescription().equals("") && !projectsList.get(position).getDescription().equals("null")){
+            holder.description.setText(projectsList.get(position).getDescription());
+        }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +84,7 @@ public class TeamAdapterMenu extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data;
+        TextView data,description;
     }
 
 

@@ -5,7 +5,18 @@ package com.app.devrah.pojo;
  */
 
 public class All_Teams {
-    String id,name;
+    String id;
+    String name;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    String description;
 
     public String getId() {
         return id;

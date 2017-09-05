@@ -86,8 +86,8 @@ public class ProjectsActivity extends AppCompatActivity {
         View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
 
         dataList.add(new DrawerPojo("Create New Team"));
-        dataList.add(new DrawerPojo("Copy Project"));
-        dataList.add(new DrawerPojo("Move Project"));
+//        dataList.add(new DrawerPojo("Copy Project"));
+//        dataList.add(new DrawerPojo("Move Project"));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);

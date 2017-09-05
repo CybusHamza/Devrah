@@ -78,6 +78,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void addFragAt(Fragment fragment, int position) {
         mFragmentList.add(position, fragment);
+
        // mFragmentTitleList.add(position,"");
 
         notifyDataSetChanged();
@@ -89,6 +90,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
         notifyDataSetChanged();
 
     }
+
 
     public void addFrag(Fragment fragment, String title) {
 
@@ -116,6 +118,19 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 //        }
 
         // int f = mFragmentList.lastIndexOf(mFragmentList);
+
+    }
+    public void addFragAtPos(Fragment fragment, String title,int pos) {
+
+
+        //FragmentBoardExtendedLast lastFrag = new FragmentBoardExtendedLast();
+
+        mFragmentList.add(pos,fragment);
+
+        mFragmentTitleList.add(title);
+
+        notifyDataSetChanged();
+
 
     }
 

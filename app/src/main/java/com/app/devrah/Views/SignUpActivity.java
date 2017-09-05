@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -56,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etName,etLName,etEmail,etPsw,etConfirmPsw;
     Button btnSignUp,btnAddProfile;
     ImageView ivProfile;
+    TextView back_btn;
 
     String strName,strl_name,strEmail,strPassword,strConfirmPassword,strInitials;
 
@@ -70,6 +72,13 @@ public class SignUpActivity extends AppCompatActivity {
         etPsw= (EditText) findViewById(R.id.input_password);
         etConfirmPsw= (EditText) findViewById(R.id.input_confirm_password);
         btnSignUp= (Button) findViewById(R.id.btn_signup);
+        back_btn= (Button) findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         //btnAddProfile= (Button) findViewById(R.id.uploadImagebtn);
         /*btnAddProfile.setOnClickListener(new View.OnClickListener() {
             @Override

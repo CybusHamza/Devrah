@@ -178,6 +178,7 @@ public class MenuActivity extends AppCompatActivity {
                                 All_Teams all_teams = new All_Teams();
                                 all_teams.setId(jsonObject.getString("id"));
                                 all_teams.setName(jsonObject.getString("team_name"));
+                                all_teams.setDescription(jsonObject.getString("team_description"));
 
                                 teamList.add(all_teams);
                             }

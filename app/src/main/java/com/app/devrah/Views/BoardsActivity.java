@@ -678,8 +678,10 @@ public class BoardsActivity extends AppCompatActivity {
 
                 if (action.equals("move")) {
                     moveProject();
+                    alertDialog.dismiss();
                 } else {
                     copyProject();
+                    alertDialog.dismiss();
                 }
             }
         });
