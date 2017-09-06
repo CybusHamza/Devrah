@@ -63,7 +63,7 @@ public class manage_members extends AppCompatActivity {
     ProgressDialog ringProgressDialog;
     List<All_Teams> teamLists;
     String teamid,usertoadd;
-    Button btnClose;
+    Button btnClose,btnSave;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +134,14 @@ public class manage_members extends AppCompatActivity {
 
 
         btnClose= (Button) findViewById(R.id.close);
+        btnSave= (Button) findViewById(R.id.save);
         btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -172,6 +179,7 @@ public class manage_members extends AppCompatActivity {
                                 membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
                                 membersPojo.setUserId(jsonObject.getString("id"));
                                 membersPojo.setInetial(jsonObject.getString("initials"));
+                                membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
 
 
                                 membersPojos.add(membersPojo);
@@ -360,6 +368,7 @@ public class manage_members extends AppCompatActivity {
                                 membersPojoData.setProfile_pic(jsonObject1.getString("profile_pic"));
                                 membersPojoData.setUserId(jsonObject1.getString("id"));
                                 membersPojoData.setInetial(jsonObject1.getString("initials"));
+                                membersPojoData.setGp_pic(jsonObject1.getString("gp_picture"));
                                 listPojo.add(membersPojoData);
                                 //}
                             }

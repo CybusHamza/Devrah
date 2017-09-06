@@ -205,9 +205,9 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     Toast.makeText(activity,
                             "Error during image saving", Toast.LENGTH_LONG).show();
                 }*/
-                String url =imageName.replace(" ","%20");
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/card_uploads/"+url));
-                activity. startActivity(browserIntent);
+               // String url =imageName.replace(" ","%20");
+               // Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/card_uploads/"+url));
+                //activity. startActivity(browserIntent);
             }
         });
 

@@ -72,6 +72,10 @@ public class team_addapter extends BaseAdapter {
         {
             holder.alias_img.setVisibility(View.VISIBLE);
             holder.alias_img.setText(membersPojo.getInetial());
+        }else if(!membersPojo.getGp_pic().equals("null")){
+            Picasso.with(activity)
+                    .load(membersPojo.getGp_pic())
+                    .into( holder.imgProfile );
         }
         else{
             Picasso.with(activity)

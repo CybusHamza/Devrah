@@ -92,6 +92,8 @@ public class BoardsActivity extends AppCompatActivity {
     private EditText edtSeach;
     private ListView mDrawerList;
     public static String ptitle="";
+    public static String pstatus;
+    Boolean Cancelbtn=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,7 @@ public class BoardsActivity extends AppCompatActivity {
         projectTitle = intent.getStringExtra("ptitle");
         ptitle=projectTitle;
         status = intent.getStringExtra("status");
+        pstatus=status;
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 //      drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
@@ -122,12 +125,17 @@ public class BoardsActivity extends AppCompatActivity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isEditOpened = true;
-                tv.setFocusable(true);
-                tv.requestFocus();
+                isEditOpened = false;
                 tv.setCursorVisible(true);
                 tv.setFocusableInTouchMode(true);
                 tv.setInputType(InputType.TYPE_CLASS_TEXT);
+                tv.requestFocus();
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.menu);
+                toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.cancel));
+                Cancelbtn=true;
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(tv, 0);
 
                 //tv.setText(tv.getText().toString());
             }
@@ -144,6 +152,10 @@ public class BoardsActivity extends AppCompatActivity {
                     tv.setFocusable(false);
                     tv.setCursorVisible(false);
                     tv.setFocusableInTouchMode(false);
+                    toolbar.getMenu().clear();
+                    toolbar.inflateMenu(R.menu.menu_with_back_button);
+                    toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+
                 }
                 return true;
             }
@@ -194,6 +206,17 @@ public class BoardsActivity extends AppCompatActivity {
 
                       //  Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                         return true;
+                    case R.id.tick:
+                        final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                        tv.clearFocus();
+                        tv.setCursorVisible(false);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                        UpdateProjectName(tv.getText().toString());
+                        toolbar.getMenu().clear();
+                        toolbar.inflateMenu(R.menu.menu_with_back_button);
+                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        return true;
                 }
 
                 return true;
@@ -204,10 +227,22 @@ public class BoardsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
-                finish();
-                startActivity(intent);
-                onBackPressed();
+                if(Cancelbtn){
+                    final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                    tv.clearFocus();
+                    tv.setCursorVisible(false);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                    toolbar.getMenu().clear();
+                    toolbar.inflateMenu(R.menu.menu_with_back_button);
+                    toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    Cancelbtn=false;
+                }else {
+                    Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
+                    finish();
+                    startActivity(intent);
+                    onBackPressed();
+                }
             }
         });
 
@@ -436,7 +471,7 @@ public class BoardsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        ptitle=updatedText;
                         ringProgressDialog.dismiss();
 
 

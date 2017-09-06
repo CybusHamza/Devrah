@@ -112,14 +112,14 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
                 }
                 else {
-                    strcard =  cards_ids.get((int) p_pos);
+                    strcard =  cards_ids.get((int) c_pos);
                 }
 
                 if(b_pos == 0 ||b_pos ==-1  )
                 {
                     strboard = "";
                 } else {
-                    strboard =  boards_ids.get((int) p_pos);
+                    strboard =  boards_ids.get((int) b_pos);
                 }
 
                 if(p_pos == 0||p_pos ==-1  )
@@ -158,7 +158,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
+                startActivity(intent);
                 finish();
             }
         });
@@ -411,7 +412,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                     ringProgressDialog.dismiss();
-
+                        Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
+                        startActivity(intent);
                         finish();
                     }
                 }, new Response.ErrorListener() {

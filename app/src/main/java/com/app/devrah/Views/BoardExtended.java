@@ -88,7 +88,9 @@ public class BoardExtended extends AppCompatActivity {
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     private ListView mDrawerList;
- //   Bundle bundle;
+    public static BoardExtended Mactivity;
+    public static Menu menu;
+    Boolean Cancelbtn=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +121,16 @@ public class BoardExtended extends AppCompatActivity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isEditOpened = true;
+                isEditOpened = false;
                 tv.setCursorVisible(true);
                 tv.setFocusableInTouchMode(true);
                 tv.setInputType(InputType.TYPE_CLASS_TEXT);
                 tv.requestFocus();
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.menu);
+                toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.cancel));
+                Cancelbtn=true;
+               // menuChanger(menu,true);
                 //tv.setText(tv.getText().toString());
             }
         });
@@ -136,6 +143,9 @@ public class BoardExtended extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
                     UpdateBoardName(tv.getText().toString());
+                    toolbar.getMenu().clear();
+                    toolbar.inflateMenu(R.menu.menu_with_back_button);
+                    toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
 
                 }
                 return true;
@@ -175,7 +185,17 @@ public class BoardExtended extends AppCompatActivity {
                         drawerLayout.openDrawer(Gravity.END);
                         openDrawer();
                         return true;
-
+                    case R.id.tick:
+                        final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                        tv.clearFocus();
+                        tv.setCursorVisible(false);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                        UpdateBoardName(tv.getText().toString());
+                        toolbar.getMenu().clear();
+                        toolbar.inflateMenu(R.menu.menu_with_back_button);
+                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        return true;
 
                 }
 
@@ -186,13 +206,26 @@ public class BoardExtended extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
-                intent.putExtra("pid",p_id);
-                //projectTitle=BoardsActivity.ptitle;
-                intent.putExtra("ptitle",BoardsActivity.ptitle);
-                finish();
-                startActivity(intent);
-                onBackPressed();
+                if(Cancelbtn){
+                    final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                    tv.clearFocus();
+                    tv.setCursorVisible(false);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                    toolbar.getMenu().clear();
+                    toolbar.inflateMenu(R.menu.menu_with_back_button);
+                    toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    Cancelbtn=false;
+                }else {
+                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                    intent.putExtra("pid", p_id);
+                    //projectTitle=BoardsActivity.ptitle;
+                    intent.putExtra("ptitle", BoardsActivity.ptitle);
+                    intent.putExtra("status", BoardsActivity.pstatus);
+                    finish();
+                    startActivity(intent);
+                    onBackPressed();
+                }
             }
         });
 
@@ -323,6 +356,7 @@ public class BoardExtended extends AppCompatActivity {
             intent.putExtra("pid",p_id);
 
             intent.putExtra("ptitle", BoardsActivity.ptitle);
+            intent.putExtra("status", BoardsActivity.pstatus);
             finish();
             startActivity(intent);
         }
@@ -665,6 +699,7 @@ public class BoardExtended extends AppCompatActivity {
                 } else {
                     copyBoard();
                 }
+                alertDialog.dismiss();
             }
         });
 

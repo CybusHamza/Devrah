@@ -146,6 +146,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
             case R.id.buttonSendNewMessage:
                 Intent intent=new Intent(getActivity(), SendNewMessageActivity.class);
                 startActivity(intent);
+                getActivity().finish();
                 // showDialog();
                 //Toast.makeText(getContext(),"Button Pressed",Toast.LENGTH_LONG).show();
                 break;

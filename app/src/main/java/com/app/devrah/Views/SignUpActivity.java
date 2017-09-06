@@ -34,6 +34,8 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -72,11 +74,14 @@ public class SignUpActivity extends AppCompatActivity {
         etPsw= (EditText) findViewById(R.id.input_password);
         etConfirmPsw= (EditText) findViewById(R.id.input_confirm_password);
         btnSignUp= (Button) findViewById(R.id.btn_signup);
-        back_btn= (Button) findViewById(R.id.back_btn);
+        back_btn= (TextView) findViewById(R.id.btn_back);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
                 finish();
+                startActivity(intent);
             }
         });
         //btnAddProfile= (Button) findViewById(R.id.uploadImagebtn);

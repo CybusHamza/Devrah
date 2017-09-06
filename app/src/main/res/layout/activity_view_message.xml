@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:text="From :"
+                android:text="To :"
                 android:textSize="13sp"
                 android:textColor="#000"
                 android:layout_alignParentStart="true" />
@@ -81,11 +81,13 @@
                 android:layout_height="40dp"
                 android:textColor="#000"
                 android:padding="5dp"
+                android:layout_below="@+id/projectSpinner"
                 android:background="@drawable/dropdown_mainscreen"
+                android:layout_toRightOf="@+id/project"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_alignTop="@+id/board"
-                android:layout_alignStart="@+id/cardSpinner" />
+                android:layout_alignParentEnd="true" />
             <TextView
                 android:id="@+id/card"
                 android:layout_width="wrap_content"

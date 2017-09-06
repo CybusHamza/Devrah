@@ -6,7 +6,20 @@ package com.app.devrah.pojo;
 
 public class MembersPojo {
 
-    String name, userId , profile_pic ,inetial;
+    String name;
+    String userId;
+    String profile_pic;
+    String inetial;
+
+    public String getGp_pic() {
+        return gp_pic;
+    }
+
+    public void setGp_pic(String gp_pic) {
+        this.gp_pic = gp_pic;
+    }
+
+    String gp_pic;
 
     public String getInetial() {
         return inetial;

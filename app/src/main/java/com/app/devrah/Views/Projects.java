@@ -626,18 +626,18 @@ public class Projects extends Fragment implements View.OnClickListener {
         // = etDescription.getText().toString();
 
         if (!(projectData.isEmpty())) {
-            projectPojoData = new ProjectsPojo();
+           /* projectPojoData = new ProjectsPojo();
             projectPojoData.setData(projectData);
             projectPojoData.setDescription(description);
             listPojo.add(projectPojoData);
             adapter = new ProjectsAdapter(getActivity(), listPojo);
-            lv.setAdapter(adapter);
+            lv.setAdapter(adapter);*/
 
             StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT_ET, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     getProjectsData();
-                    Toast.makeText(getActivity().getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(),"Project Added Successfully", Toast.LENGTH_SHORT).show();
 
                 }
             }, new Response.ErrorListener() {

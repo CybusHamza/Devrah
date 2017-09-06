@@ -85,6 +85,7 @@ import com.app.devrah.pojo.CardCommentData;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.MembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
+import com.app.devrah.pojo.check_model;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -392,7 +393,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-     //   getChecklistData();
+        getChecklistData();
 
         toolbar.setNavigationIcon(R.drawable.back_arrow_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -462,6 +463,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         if(!startTime.equals("")) {
             cbStartTime.setText(startTime);
             cbStartTime.setVisibility(View.VISIBLE);
+        }else {
+            cbStartTime.setText("Start Time");
+            cbStartTime.setVisibility(View.VISIBLE);
         }
 
         if(!dueDate.equals("") && !dueDate.equals("null")) {
@@ -473,6 +477,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }
         if(!dueTime.equals("")) {
             cbDueTime.setText(dueTime);
+            cbDueTime.setVisibility(View.VISIBLE);
+        }else{
+            cbDueTime.setText("Due Time");
             cbDueTime.setVisibility(View.VISIBLE);
         }
         isCompletedBtn.setOnClickListener(new View.OnClickListener() {

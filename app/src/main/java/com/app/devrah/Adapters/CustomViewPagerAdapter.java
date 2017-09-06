@@ -137,7 +137,7 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void deletePage(int position) {
         mFragmentList.remove(position);
-        if(mFragmentTitleList.size()==position)
+        if(mFragmentTitleList.size() == position+1 && mFragmentTitleList.size()>0)
         mFragmentTitleList.remove(position);
         notifyDataSetChanged();
     }

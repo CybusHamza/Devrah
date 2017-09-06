@@ -39,8 +39,18 @@ public class viewMessage extends AppCompatActivity {
 
 
         from.setText(strfrom);
-        board.setText(strboard);
+        if(strboard.equals("null")){
+            board.setText("NA");
+        }else {
+            board.setText(strboard);
+        }
+        if(strcard.equals("null"))
+            card.setText("NA");
+        else
         card.setText(strcard);
+        if(strproject.equals("null"))
+            project.setText("NA");
+        else
         project.setText(strproject);
         subject.setText(strsubject);
         message.setText(strmessage);

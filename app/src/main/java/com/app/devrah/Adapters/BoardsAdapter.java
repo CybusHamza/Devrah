@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
+import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
@@ -80,7 +81,7 @@ public class BoardsAdapter extends BaseAdapter {
                 intent.putExtra("TitleData",projectsList.get(position).getData());
                 intent.putExtra("p_id",projectsList.get(position).getId());
                 intent.putExtra("b_id",projectsList.get(position).getBoardID());
-                intent.putExtra("ptitle",activity.getIntent().getStringExtra("ptitle"));
+                intent.putExtra("ptitle", BoardsActivity.ptitle);
               //  intent.putExtra("list_id",projectsList.get(position).getListId());
                 //intent.putExtra("ptitle",);
 

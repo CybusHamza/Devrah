@@ -151,8 +151,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         if (status.get(groupPosition).equals("1")) {
             statusList.setText("Active");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
+        }else if (status.get(groupPosition).equals("2")) {
+            statusList.setText("Completed");
+            statusList.setBackgroundColor(context.getResources().getColor(R.color.darkgreen));
         } else {
-            statusList.setText("DeActive");
+            statusList.setText("In-Active");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
         }
         return convertView;
