@@ -44,7 +44,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -73,7 +72,6 @@ import com.app.devrah.Adapters.RVLabelResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
 import com.app.devrah.Adapters.team_addapter;
-import com.app.devrah.Fragments.ChildFragmentBoardExtended;
 import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
@@ -721,6 +719,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //        menuChanger(menu,false);
 
         openDrawer();
+      //  getChecklistData();
 
     }
 

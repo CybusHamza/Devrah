@@ -99,5 +99,8 @@ public class End_Points {
     public static final String SUBSCRIBE_CARD= BASE_URL + "subscribeUserByCardNuSERiD";
     public static final String UNSUBSCRIBE_CARD= BASE_URL + "unsubscribeUserByCardNuSERiD";
     public static final String UPDATE_CARD_NAME= BASE_URL + "updateCardName";
+    public static final String EDIT_CHECKITEM= BASE_URL + "updateCheckBox";
+    public static final String DELETE_CHECKITEM= BASE_URL + "deleteCheckBox";
+    public static final String ADD_CHECKITEM= BASE_URL + "addNewCheckBox";
 
 }

@@ -15,9 +15,6 @@ import com.app.devrah.pojo.check_model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by AQSA SHaaPARR on 6/12/2017.
- */
 
 public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
 
@@ -108,6 +105,7 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
                 intent.putExtra("checkListiItemIds",checkListiItemIds);
                 intent.putExtra("checkListiItemName",checkListiItemName);
                 intent.putExtra("checkedItem",checkedItem);
+                intent.putExtra("checklistid",CheckListItems.get(position).getId());
                 intent.putExtra("name",CheckListItems.get(position).getName());
                 activity.startActivity(intent);
             }
