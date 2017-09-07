@@ -4734,7 +4734,6 @@ class  UploadFile extends AsyncTask<String,Void,String>
                 //  dialog.dismiss();
                 e.printStackTrace();
 
-
                 //Log.e("Upload file to server Exception", "Exception : "  + e.getMessage(), e);
             }
             //   dialog.dismiss();
