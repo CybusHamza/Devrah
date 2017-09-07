@@ -16,8 +16,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/check_id"
-        android:layout_below="@+id/header">
+        android:layout_below="@+id/ll"
+      >
 
     </ListView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ll"
+        android:orientation="horizontal"
+        android:layout_below="@+id/header"
+        android:weightSum="2"
+        android:layout_height="wrap_content">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight="1.85"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/addItem" />
+
+        <Button
+            android:id="@+id/send_checkbox"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.15"
+            android:background="@drawable/add_btn" />
+
+
+    </LinearLayout>
 </RelativeLayout>

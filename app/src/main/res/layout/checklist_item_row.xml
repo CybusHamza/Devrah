@@ -5,16 +5,19 @@
     android:layout_height="match_parent">
 
 
-    <TextView
+    <EditText
         android:id="@+id/label"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/check"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        android:textCursorDrawable="@null"
         android:textSize="16sp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="90dp"
         android:layout_toRightOf="@+id/check">
-    </TextView>
+    </EditText>
 
     <CheckBox
         android:id="@+id/check"
