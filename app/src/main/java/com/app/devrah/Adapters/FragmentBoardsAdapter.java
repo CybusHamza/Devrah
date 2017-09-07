@@ -433,6 +433,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
                 intent.putExtra("isSubscribed",projectsList.get(position).getIsCardSubscribed());
                 intent.putExtra("list_id",list_id);
+                activity.finish();
                 activity.startActivity(intent);
 
             }

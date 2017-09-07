@@ -73,7 +73,7 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), ProjectsActivity.class);
-                // finish();
+                 finish();
                 startActivity(intent);
 
             }
@@ -179,7 +179,7 @@ public class Dashboard extends AppCompatActivity {
                 "Having small touches of colour makes it more colourful than having the whole thing in colour.",
                 "I regret that I have but one life to give for my country",
                 "Some people like what you do, some people hate what you do, but most people simply don’t give a damn.",
-                "Information is not knoelwdge, Lets not confuse the both.",
+                "Information is not knowledge, Lets not confuse the both.",
                 "Interesting things never happen to me. I happen to them.",
                 "Do, or do not. There is no “try”.",
                 "Not everyone notices the flowers you plant, but everyone will notice the fire you start.",
@@ -228,7 +228,7 @@ public class Dashboard extends AppCompatActivity {
 
 
 /////////////////////
-        CountDownTimer timer = new CountDownTimer(1000000000, 5000) {
+        CountDownTimer timer = new CountDownTimer(1000000000, 140000) {
 
 
             public void onTick(long millisUntilFinished) {

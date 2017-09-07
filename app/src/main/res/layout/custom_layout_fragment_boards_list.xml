@@ -396,8 +396,8 @@
         android:layout_marginTop="10dp"
         android:text="sdfghj"
         android:textStyle="bold"
+        android:layout_marginLeft="5dp"
         android:id="@+id/tvFragmentBoardsList"
-        android:gravity="center"
         android:textColor="#000"
         />
 
@@ -419,6 +419,7 @@
         android:padding="5dp"
         android:layout_marginTop="10dp"
         android:text="due date"
+        android:layout_marginLeft="5dp"
         android:id="@+id/dateLabel"
         android:textColor="#000"
         />

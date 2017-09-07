@@ -11,7 +11,7 @@
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Card Members"
+        android:text="Add Member"
         android:textSize="20dp"
         android:padding="16dp"
         android:background="#b4b2b2"

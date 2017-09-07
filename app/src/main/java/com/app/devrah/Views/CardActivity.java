@@ -186,7 +186,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<String> manhusLabelList;
     List<ProjectsPojo> checkListPojo;
     static List<String> lableid;
-    CheckBox cbDueDate,cbDueTime,cbStartDate,cbStartTime;
+    TextView cbDueDate,cbDueTime,cbStartDate,cbStartTime;
     Button isCompletedBtn;
     List<AttachmentsPojo> attachmentsList;
     List<AttachmentsImageFilePojo> attachmentsList1;
@@ -376,10 +376,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
         simpleProgressBar.setScaleY(3f);    //height of progress bar
         staticCheckList = (LinearLayout) findViewById(R.id.linearLayoutCheckboxHeading);
-        cbDueDate = (CheckBox) findViewById(R.id.tvDue);
-        cbDueTime = (CheckBox) findViewById(R.id.tvDueTime);
-        cbStartDate = (CheckBox) findViewById(R.id.tvStartDate);
-        cbStartTime = (CheckBox) findViewById(R.id.tvStartTime);
+        cbDueDate = (TextView) findViewById(R.id.tvDue);
+        cbDueTime = (TextView) findViewById(R.id.tvDueTime);
+        cbStartDate = (TextView) findViewById(R.id.tvStartDate);
+        cbStartTime = (TextView) findViewById(R.id.tvStartTime);
         isCompletedBtn=(Button)findViewById(R.id.btnComplete);
         if(cardIsComplete.equals("1")){
             isCompletedBtn.setText("Unmark Completed");
@@ -502,7 +502,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
-        FABdueDate = (FloatingActionButton) findViewById(R.id.dueDate);
+       // FABdueDate = (FloatingActionButton) findViewById(R.id.dueDate);
         FABmembers = (FloatingActionButton) findViewById(R.id.members);
         FABattachments = (FloatingActionButton) findViewById(R.id.attachments);
         FABchecklist = (FloatingActionButton) findViewById(R.id.CheckList);
@@ -545,24 +545,32 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 linearLayoutCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (ActivityCompat.checkSelfPermission(CardActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
+                            if(ActivityCompat.checkSelfPermission(CardActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
-                            if (Build.VERSION.SDK_INT > 22) {
+                                if (Build.VERSION.SDK_INT > 22) {
 
-                                requestPermissions(new String[]{Manifest.permission
-                                                .CAMERA},
-                                        REQUEST_PERMISSIONS);
-                                alertDialog.dismiss();
-                      /*  Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                        intent.setData(uri);
-                        startActivityForResult(intent, REQUEST_PERMISSION_SETTING);*/
-                                // Toast.makeText(MainActivity.this.getBaseContext(), "Go to Permissions to Grant Storage", Toast.LENGTH_LONG).show();
+                                    requestPermissions(new String[]{Manifest.permission
+                                                    .WRITE_EXTERNAL_STORAGE},
+                                            4);
+
+                                    alertDialog.dismiss();
+                                }
+
+                            }else if(ActivityCompat.checkSelfPermission(CardActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+
+                                if (Build.VERSION.SDK_INT > 22) {
+
+                                    requestPermissions(new String[]{Manifest.permission
+                                                    .CAMERA},
+                                            REQUEST_PERMISSIONS);
+
+                                    alertDialog.dismiss();
+                                }
 
                             }
 
-                        } else {
+                         else {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent, 1);
                             alertDialog.dismiss();
@@ -653,12 +661,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onClick(View v) {
 
-
-                onFocus = true;
+                addnewChecklist();
+                /*onFocus = true;
                 menuChanger(menu, onFocus);
                 LACheckList.setVisibility(View.VISIBLE);
                 staticCheckList.setVisibility(View.VISIBLE);
-                fabm.close(true);
+                fabm.close(true);*/
 
 
             }
@@ -704,14 +712,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             }
         });
 
-        FABdueDate.setOnClickListener(new View.OnClickListener() {
+        /*FABdueDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 dueDate();
 
             }
-        });
+        });*/
 
         fabm = (FloatingActionMenu) findViewById(R.id.menu);
 
@@ -1632,6 +1640,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //            showLabelsMenu();
         } else {
             super.onBackPressed();
+            Intent intent=new Intent(CardActivity.this,BoardExtended.class);
+            intent.putExtra("b_id",BoardExtended.boardId);
+            intent.putExtra("p_id",BoardExtended.projectId);
+            intent.putExtra("ptitle",BoardExtended.pTitle);
+            intent.putExtra("TitleData",CardHeading);
+            finish();
+            startActivity(intent);
         }
 
     }
@@ -3258,30 +3273,58 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        if (requestCode == REQUEST_PERMISSIONS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if(requestCode==REQUEST_PERMISSIONS){
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_PERMISSIONS);
+        if(requestCode==REQUEST_PERMISSIONS) {
+            if (requestCode == REQUEST_PERMISSIONS && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (requestCode == REQUEST_PERMISSIONS) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 1);
+
+                    }
+                }
+
+            }else {
+                Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==100) {
+            if (requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent();
+                //sets the select file to all types of files
+                intent.setType("*/*");
+                //allows to select data and return it
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // starts new activity to select file and return data
+                startActivityForResult(Intent.createChooser(intent, "Choose File to Upload.."), READ_REQUEST_CODE);
+            }else {
+                Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==4) {
+            if (requestCode == 4 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (ActivityCompat.checkSelfPermission(CardActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                    if (Build.VERSION.SDK_INT > 22) {
+
+                        requestPermissions(new String[]{Manifest.permission
+                                        .CAMERA},
+                                REQUEST_PERMISSIONS);
+
+                    }
 
                 }
+
+            }else {
+                Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==5) {
+            if (requestCode == 5 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
             } else {
 
                 Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
-
-        }
-        if(requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
-            Intent intent = new Intent();
-            //sets the select file to all types of files
-            intent.setType("*/*");
-            //allows to select data and return it
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            // starts new activity to select file and return data
-            startActivityForResult(Intent.createChooser(intent, "Choose File to Upload.."), READ_REQUEST_CODE);
-        }else {
-
-            Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -4502,6 +4545,79 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             Toast.makeText(mcontext, "upload error", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private void addnewChecklist() {
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.ADD_NEW_CHECKLIST, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                ringProgressDialog.dismiss();
+                if (!(response.equals(""))) {
+                    getChecklistData();
+
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("checkName","Checklist");
+                params.put("order", "1");
+                params.put("card_id",cardId);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+                params.put("u_id", pref.getString("user_id",""));
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
     }
 }
 

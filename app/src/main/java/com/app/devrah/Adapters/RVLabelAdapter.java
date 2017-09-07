@@ -238,7 +238,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
                         LabelColorFragment.color = context.getResources().getColor(R.color.blue);
                        // index = myList.get(position);
                     }else if(labelColor.equals("sky-blue")){
-                        index = -862720;
+                        index = -13369367;
                         LabelColorFragment.color = context.getResources().getColor(R.color.wierdBlue);
                     }else if(labelColor.equals("red")){
                         index = -47862;
@@ -266,7 +266,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
                         index = -8604862;
                         LabelColorFragment.color = context.getResources().getColor(R.color.darkgreen);
                     }else if(labelColor.equals("lime")){
-                        index = -862720;
+                        index = -8604862;
                         LabelColorFragment.color = context.getResources().getColor(R.color.lightGreen);
                     }
 

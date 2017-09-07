@@ -1,15 +1,20 @@
 package com.app.devrah.Adapters;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -77,6 +82,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
     String cardId;
     AlertDialog myalertdialog;
     Boolean success=false;
+    private static final int REQUEST_PERMISSIONS=5;
 
    public AttachmentImageAdapter( Activity context,List<Bitmap> mList,FragmentManager fm,List<AttachmentsImageFilePojo> attachmentList,String cardId){
        this.attachmentList = attachmentList;
@@ -194,10 +200,23 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         downloadImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Picasso.with(activity).load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + imageName).into(picassoImageTarget(activity, "imageDir",imageName));
-              //  Target target=picassoImageTarget(activity, "imageDir",imageName);
-                Toast.makeText(activity,"Image Saved to the Directory imageDir",Toast.LENGTH_LONG).show();
-                myalertdialog.dismiss();
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+
+                    if (Build.VERSION.SDK_INT > 22) {
+
+                        activity.requestPermissions(new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+
+                    }
+
+                }else {
+                    Picasso.with(activity).load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + imageName).into(picassoImageTarget(activity, "imageDir", imageName));
+                    //  Target target=picassoImageTarget(activity, "imageDir",imageName);
+                    Toast.makeText(activity, "Image Saved to the Directory imageDir", Toast.LENGTH_LONG).show();
+                    myalertdialog.dismiss();
+                }
                /* if (success) {
                     Toast.makeText(activity, "Image saved with success",
                             Toast.LENGTH_LONG).show();
@@ -323,20 +342,20 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
             root.mkdirs();
         }
         ContextWrapper cw = new ContextWrapper(context);
-        final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+        final File myImageFile = new File(root, formattedDate+imageName); // path to /data/data/yourapp/app_imageDir
         return new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Calendar c = Calendar.getInstance();
-                        System.out.println("Current time => " + c.getTime());
-
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String formattedDate = df.format(c.getTime());
-                        final File myImageFile = new File(root, formattedDate+imageName); // Create image file
-                        Toast.makeText(context,"Image Saved to directory "+myImageFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
+                         // Create image file
+                      //  Toast.makeText(context,"Image Saved to directory "+myImageFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
 
                         FileOutputStream fos = null;
                         try {
@@ -456,4 +475,5 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(request);
     }
+
 }

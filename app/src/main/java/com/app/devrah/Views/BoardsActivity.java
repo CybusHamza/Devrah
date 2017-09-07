@@ -241,7 +241,7 @@ public class BoardsActivity extends AppCompatActivity {
                     Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
                     finish();
                     startActivity(intent);
-                    onBackPressed();
+                   onBackPressed();
                 }
             }
         });
@@ -389,7 +389,9 @@ public class BoardsActivity extends AppCompatActivity {
             isEditOpened = false;
             return;
         } else {
+            Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
             finish();
+            startActivity(intent);
         }
         super.onBackPressed();
     }
@@ -704,6 +706,10 @@ public class BoardsActivity extends AppCompatActivity {
             heading.setText("Move Project");
             sub.setText("Move To Group : ");
             copy.setText("Move");
+        }else{
+            heading.setText("Copy Project");
+            sub.setText("Copy To Group : ");
+            copy.setText("Copy");
         }
 
 

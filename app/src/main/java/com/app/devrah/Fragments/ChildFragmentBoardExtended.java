@@ -805,8 +805,8 @@ public class ChildFragmentBoardExtended extends Fragment {
                         ringProgressDialog.dismiss();
                         if(bgColor.equals("")) {
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorWhite));
-                           // ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
-                           // ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"","",ParentBoardExtendedFragment.getCurrentPosition());
+                            ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"","",ParentBoardExtendedFragment.getCurrentPosition());
                         }else if (bgColor.equals("00A2E8")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
                             ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");

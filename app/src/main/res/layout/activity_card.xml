@@ -128,9 +128,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:clickable="true" />
-                    <CheckBox
+                    <TextView
                         android:id="@+id/tvStartDate"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
@@ -139,12 +139,12 @@
                         android:text="boom boom"
                         android:textColor="#000"
                         android:textSize="15sp"
-
+                        android:background="@drawable/bg_boards_extended_list_white"
                         android:visibility="gone" />
 
-                    <CheckBox
+                    <TextView
                         android:id="@+id/tvDue"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
@@ -153,11 +153,11 @@
                         android:text="boom boom"
                         android:textColor="#000"
                         android:textSize="15sp"
-
+                        android:background="@drawable/bg_boards_extended_list_white"
                         android:visibility="gone" />
-                    <CheckBox
+                    <TextView
                         android:id="@+id/tvStartTime"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
@@ -166,12 +166,12 @@
                         android:text="boom boom"
                         android:textColor="#000"
                         android:textSize="15sp"
-
+                        android:background="@drawable/bg_boards_extended_list_white"
                         android:visibility="gone" />
 
-                    <CheckBox
+                    <TextView
                         android:id="@+id/tvDueTime"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
@@ -180,7 +180,7 @@
                         android:text="boom boom"
                         android:textColor="#000"
                         android:textSize="15sp"
-
+                        android:background="@drawable/bg_boards_extended_list_white"
                         android:visibility="gone" />
 
                     <Button
@@ -444,13 +444,7 @@
                 app:fab_label="Members"
                 app:fab_size="mini" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/dueDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_star"
-                app:fab_label="Due Date"
-                app:fab_size="mini" />
+
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/CheckList"

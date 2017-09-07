@@ -73,6 +73,7 @@ public class BoardExtended extends AppCompatActivity {
     String b_id, p_id,projectTitle,list_id;
     public static String projectId;
     public static String boardId;
+    public static String pTitle;
     CustomDrawerAdapter DrawerAdapter;
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
@@ -110,6 +111,7 @@ public class BoardExtended extends AppCompatActivity {
         projectTitle = intent.getStringExtra("ptitle");
         projectId=p_id;
         boardId=b_id;
+        pTitle=projectTitle;
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -1167,4 +1169,5 @@ public class BoardExtended extends AppCompatActivity {
         requestQueue.add(request);
 
     }
+
 }

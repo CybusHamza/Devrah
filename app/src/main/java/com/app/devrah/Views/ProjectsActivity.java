@@ -262,7 +262,9 @@ public class ProjectsActivity extends AppCompatActivity {
             handleMenuSearch();
             return;
         } else {
+            Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
             finish();
+            startActivity(intent);
 
         }
         super.onBackPressed();

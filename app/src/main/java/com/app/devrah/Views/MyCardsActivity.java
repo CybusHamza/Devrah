@@ -299,6 +299,9 @@ public class MyCardsActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         sDialog.dismiss();
+                                        Intent intent = getIntent();
+                                        String id = intent.getStringExtra("id");
+                                        getMyCards("",id);
                                     }
                                 })
                                 .show();
