@@ -102,5 +102,7 @@ public class End_Points {
     public static final String EDIT_CHECKITEM= BASE_URL + "updateCheckBox";
     public static final String DELETE_CHECKITEM= BASE_URL + "deleteCheckBox";
     public static final String ADD_CHECKITEM= BASE_URL + "addNewCheckBox";
+    public static final String ADD_NEW_CHECKLIST= BASE_URL + "addNewChecklist";
+    public static final String AUPDATE_CHECKLIST_NAME= BASE_URL + "updatechecklistNameChecklist";
 
 }

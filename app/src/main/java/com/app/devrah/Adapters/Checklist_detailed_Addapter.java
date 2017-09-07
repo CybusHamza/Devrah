@@ -73,7 +73,14 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
     }
     @Override
     public int getCount() {
-        return checkListiItemIds.size();
+        if(checkListiItemIds ==null)
+        {
+            return 0;
+        }
+        else{
+            return checkListiItemIds.size();
+        }
+
     }
 
 
@@ -373,8 +380,8 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                     intent.putExtra("checkListiItemIds",checkListiItemIds);
                     intent.putExtra("checkListiItemName",checkListiItemName);
                     intent.putExtra("checkedItem",checkedItem);
-                    intent.putExtra("checklistid",checklistid);
-                    intent.putExtra("name",name);
+                    intent.putExtra("checklistid",name);
+                    intent.putExtra("name",checklistid);
                     activity.startActivity(intent);
 
 

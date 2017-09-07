@@ -94,6 +94,13 @@ public class CheckList_Detail extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 if (!(response.equals(""))) {
 
+                    if (checkedItem == null)
+                    {
+                        checkedItem = new ArrayList<>();
+                        checkListiItemIds = new ArrayList<>();
+                        checkListiItemName = new ArrayList<>();
+                    }
+
                     checkedItem.add("0");
                     checkListiItemIds.add(response);
                     checkListiItemName.add(checkbox);
@@ -158,7 +165,7 @@ public class CheckList_Detail extends AppCompatActivity {
 
                 params.put("checkName", checkbox);
                 params.put("listID",checklistid);
-                params.put("order", checkListiItemIds.size()+1+"");
+                params.put("order", "1");
                 final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 params.put("u_id", pref.getString("user_id",""));
 
