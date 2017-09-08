@@ -149,7 +149,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, BoardsActivity.class);
-                intent.putExtra("pid", projectids.get(groupPosition));
+                intent.putExtra("pid", projectids.get(childPosition));
                 intent.putExtra("ptitle", childText);
                 intent.putExtra("status", childStatus);
                 context.startActivity(intent);

@@ -30,6 +30,17 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.app.devrah.Views.CardActivity.cardDescription;
+import static com.app.devrah.Views.CardActivity.cardId;
+import static com.app.devrah.Views.CardActivity.cardIsComplete;
+import static com.app.devrah.Views.CardActivity.dueDate;
+import static com.app.devrah.Views.CardActivity.dueTime;
+import static com.app.devrah.Views.CardActivity.isCardLocked;
+import static com.app.devrah.Views.CardActivity.isCardSubscribed;
+import static com.app.devrah.Views.CardActivity.list_id;
+import static com.app.devrah.Views.CardActivity.startDate;
+import static com.app.devrah.Views.CardActivity.startTime;
+
 
 public class CheckList_Detail extends AppCompatActivity {
 
@@ -178,5 +189,22 @@ public class CheckList_Detail extends AppCompatActivity {
         requestQueue.add(request);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent =  new Intent(CheckList_Detail.this,CardActivity.class);
+        finish();
+        intent.putExtra("card_id",cardId);
+        intent.putExtra("list_id",list_id);
+        intent.putExtra("cardduedate",dueDate);
+        intent.putExtra("cardduetime",dueTime);
+        intent.putExtra("cardstartdate",startDate);
+        intent.putExtra("cardstarttime",startTime);
+        intent.putExtra("cardDescription",cardDescription);
+        intent.putExtra("isComplete",cardIsComplete);
+        intent.putExtra("isLocked",isCardLocked);
+        intent.putExtra("isSubscribed",isCardSubscribed);
+        startActivity(intent);
 
+
+    }
 }

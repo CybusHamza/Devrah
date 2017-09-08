@@ -42,12 +42,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- * Created by Rizwan Butt on 14-Jun-17.
- */
 
-public class InboxFragment extends Fragment implements View.OnClickListener{
+public class InboxFragment extends Fragment implements View.OnClickListener {
 
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     Button btnSendNewMessage;
     View view;
     InboxAdapter adapter;
@@ -55,16 +55,8 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
     InboxPojo projectPojoData;
     ListView lv;
     EditText edt;
-
     String projectData;
-
     ProgressDialog ringProgressDialog;
-
-    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
 
@@ -106,9 +98,9 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_messages, container, false);
-        btnSendNewMessage = (Button)view.findViewById(R.id.buttonSendNewMessage);
+        btnSendNewMessage = (Button) view.findViewById(R.id.buttonSendNewMessage);
         listPojo = new ArrayList<>();
-        lv = (ListView)view.findViewById(R.id.messagesListView);
+        lv = (ListView) view.findViewById(R.id.messagesListView);
        /* projectPojoData = new AcitivitiesPojo();
         for(int i=0;i<3;i++) {
             projectPojoData.setData("test" + i);
@@ -121,7 +113,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
 
         getNotifications();
         btnSendNewMessage.setOnClickListener(this);
-        return  view;
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -140,11 +132,10 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
 
             case R.id.buttonSendNewMessage:
-                Intent intent=new Intent(getActivity(), SendNewMessageActivity.class);
+                Intent intent = new Intent(getActivity(), SendNewMessageActivity.class);
                 startActivity(intent);
                 getActivity().finish();
                 // showDialog();
@@ -155,15 +146,10 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
 
     }
 
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-
-    public void getNotifications(){
+    public void getNotifications() {
         SharedPreferences pref = getContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        final String userid=pref.getString("user_id","");
-        ringProgressDialog = ProgressDialog.show(getContext(), "","Please wait ...", true);
+        final String userid = pref.getString("user_id", "");
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -174,8 +160,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
                         ringProgressDialog.dismiss();
                         try {
                             JSONArray array = new JSONArray(response);
-                            for (int i = 0;i<array.length();i++)
-                            {
+                            for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject object = new JSONObject(array.getString(i));
 
@@ -191,7 +176,6 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
                                 projectPojoData.setSubject(object.getString("message_subject"));
 
                                 listPojo.add(projectPojoData);
-
 
 
                             }
@@ -241,7 +225,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
                 String userId = pref.getString("user_id", "");
 
 
-                params.put("userId",userId);
+                params.put("userId", userId);
                 return params;
             }
         };
@@ -253,6 +237,10 @@ public class InboxFragment extends Fragment implements View.OnClickListener{
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(request);
 
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
 
 }

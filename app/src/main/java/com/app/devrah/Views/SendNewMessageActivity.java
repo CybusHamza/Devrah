@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -51,10 +54,13 @@ public class SendNewMessageActivity extends AppCompatActivity {
     private RichEditor mEditor;
     private TextView mPreview;
     Toolbar toolbar;
-    EditText to,subject;
+    EditText subject;
+    AutoCompleteTextView to;
     Spinner project,card,board;
     Button send,cancel;
 
+    ArrayList<String> ids;
+    ArrayList<String> name;
     String message;
 
     // projects arraylist
@@ -85,7 +91,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Send New Message");
 
-        to = (EditText) findViewById(R.id.etEmails);
+        to = (AutoCompleteTextView) findViewById(R.id.etEmails);
         subject = (EditText) findViewById(R.id.etSubject);
         mEditor = (RichEditor) findViewById(R.id.editor);
         project = (Spinner) findViewById(R.id.projectSpinner);
@@ -93,6 +99,23 @@ public class SendNewMessageActivity extends AppCompatActivity {
         board = (Spinner) findViewById(R.id.boardSpinner);
         send = (Button) findViewById(R.id.send_button);
         cancel = (Button) findViewById(R.id.cancel_button);
+
+        to.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchUser(to.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -687,6 +710,88 @@ public class SendNewMessageActivity extends AppCompatActivity {
         requestQueue.add(request);
 
 
+    }
+
+    private void searchUser(final String email) {
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEARCH_USER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ids = new ArrayList<>();
+                        name = new ArrayList<>();
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                ids.add(jsonObject.getString("id"));
+                                name.add(jsonObject.getString("email"));
+                            }
+
+                            ArrayAdapter<String> adapter =
+                                    new ArrayAdapter<String>(SendNewMessageActivity.this, android.R.layout.simple_list_item_1, name);
+                            to.setAdapter(adapter);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("member_single_name", email);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
     }
 
     public void getcards ( final String board_id) {
