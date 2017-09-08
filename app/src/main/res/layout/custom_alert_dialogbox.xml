@@ -8,25 +8,25 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/Title"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="20dp"
-        android:textColorHint="#BFBFBF"
-        android:layout_height="wrap_content">
+        android:textColorHint="#BFBFBF">
 
         <EditText
             android:id="@+id/input_watever"
             android:layout_width="match_parent"
-            android:hint="Title"
-            android:textColorHint="#00FA9A"
-            android:backgroundTint="#00FA9A"
-            android:textColor="@color/colorAccent"
             android:layout_height="wrap_content"
-            />
+            android:backgroundTint="#00FA9A"
+            android:hint="Title"
+            android:singleLine="true"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="#00FA9A" />
 
     </android.support.design.widget.TextInputLayout>
 
-<LinearLayout
+    <LinearLayout
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

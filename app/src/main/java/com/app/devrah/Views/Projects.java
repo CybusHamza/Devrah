@@ -636,8 +636,14 @@ public class Projects extends Fragment implements View.OnClickListener {
             StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT_ET, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    getProjectsData();
-                    Toast.makeText(getActivity().getApplicationContext(),"Project Added Successfully", Toast.LENGTH_SHORT).show();
+                    String checkResponse=response.trim();
+                    if(!checkResponse.equals("Project already exist")) {
+                        getProjectsData();
+                        Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity().getApplicationContext(), "Error, project's group name already exists!", Toast.LENGTH_SHORT).show();
+
+                    }
 
                 }
             }, new Response.ErrorListener() {

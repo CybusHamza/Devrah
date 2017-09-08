@@ -51,10 +51,11 @@
         <EditText
             android:id="@+id/input_name"
             android:layout_width="match_parent"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorWhite"
             android:hint="First Name"
             android:backgroundTint="#fff"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             />
 
     </android.support.design.widget.TextInputLayout>
@@ -70,10 +71,11 @@
         <EditText
             android:id="@+id/input_last_name"
             android:layout_width="match_parent"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorWhite"
             android:hint="Last Name"
             android:backgroundTint="#fff"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             />
 
     </android.support.design.widget.TextInputLayout>
@@ -90,8 +92,9 @@
             android:layout_width="match_parent"
             android:hint="Email"
             android:backgroundTint="#fff"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorWhite"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             />
 
     </android.support.design.widget.TextInputLayout>
@@ -109,11 +112,12 @@
         <EditText
             android:id="@+id/input_password"
             android:layout_width="match_parent"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorWhite"
             android:hint="Password"
             android:inputType="textPassword"
             android:backgroundTint="#fff"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             />
 
     </android.support.design.widget.TextInputLayout>
@@ -133,7 +137,8 @@
             android:backgroundTint="#fff"
             android:hint="Confirm Password"
             android:inputType="textPassword"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorWhite"
+            android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
 

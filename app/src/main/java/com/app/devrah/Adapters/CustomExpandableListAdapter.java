@@ -32,9 +32,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> projectids; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
+    private HashMap<String, List<String>> listStatusData;
 
 
-    public CustomExpandableListAdapter(Activity context, List<String> listDataHeader, HashMap<String, List<String>> listChildData, ArrayList<String> ids, ArrayList<String> status, ArrayList<String> projectids) {
+    public CustomExpandableListAdapter(Activity context, List<String> listDataHeader, HashMap<String, List<String>> listChildData, ArrayList<String> ids, ArrayList<String> status, ArrayList<String> projectids, HashMap<String, List<String>> listStatusData) {
 
 
         this.context = context;
@@ -43,6 +44,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         this.projectids = projectids;
         this.ids = ids;
         this.status = status;
+        this.listStatusData = listStatusData;
 
 
     }
@@ -83,6 +85,15 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .get(childPosition);
     }
 
+    public Object getChildExactPosition(int groupPosition, int childPosition) {
+
+        String data = ids.get(groupPosition);
+
+
+        return this.listStatusData.get(data)
+                .get(childPosition);
+    }
+
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
@@ -120,8 +131,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final String childText = (String) getChild(groupPosition, childPosition);
+        final String childStatus=(String)getChild(groupPosition,childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -138,7 +150,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 Intent intent = new Intent(context, BoardsActivity.class);
                 intent.putExtra("pid", projectids.get(groupPosition));
                 intent.putExtra("ptitle", childText);
-                intent.putExtra("status", status.get(groupPosition));
+                intent.putExtra("status", childStatus);
                 context.startActivity(intent);
 
             }
@@ -148,10 +160,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(childText);
         TextView statusList = (TextView) convertView
                 .findViewById(R.id.btnActive);
-        if (status.get(groupPosition).equals("1")) {
+        if (childStatus.equals("1")) {
             statusList.setText("Active");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
-        }else if (status.get(groupPosition).equals("2")) {
+        }else if (childStatus.equals("2")) {
             statusList.setText("Completed");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.darkgreen));
         } else {

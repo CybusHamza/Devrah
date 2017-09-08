@@ -133,7 +133,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     public static TextView labelAdd;
     static List<String> asliList;
     static List<String> labelNameList;
-    String dueDate,dueTime,startDate,startTime,cardDescription,cardIsComplete;
+    static String dueDate,dueTime,startDate,startTime,cardDescription,cardIsComplete;
     static RVLabelAdapter rvAdapterLabel;
     static List<Integer> colorList;
     static List<String> colorList1;
@@ -166,7 +166,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<String> spinnerDateList, spinnertTimeList,spinnerStartDateList,spinnerStartTimeList;
     static Activity activity;
     EditText etComment, etCheckList;
-    String CardHeading,list_id;
+    static String CardHeading,list_id;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     TextView tvMembers,heading;
@@ -222,7 +222,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<String> postions_list;
 
 
-    String isCardLocked,isCardSubscribed;
+    static String isCardLocked,isCardSubscribed;
 
     public static void showLabelsMenu() {
 
@@ -258,6 +258,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 labelAdd.setVisibility(View.GONE);
                 rvLabel.setVisibility(View.GONE);
 
+                menuChanger(menu, false);
 
                 return true;
             }
@@ -406,7 +407,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         dataList.add(new DrawerPojo("Update Card Name"));
         dataList.add(new DrawerPojo("Copy"));
         dataList.add(new DrawerPojo("Move"));
-        if(isCardSubscribed.equals("0")) {
+        if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null")) {
             dataList.add(new DrawerPojo("Subscribe"));
         }else {
             dataList.add(new DrawerPojo("Un-subscribe"));
@@ -429,7 +430,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         heading = (TextView) findViewById(R.id.heading);
 
         etDescription = (EditText) findViewById(R.id.description);
-        etDescription.setText(cardDescription);
+        if(!cardDescription.equals("null"))
+            etDescription.setText(cardDescription);
+
         etDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -748,7 +751,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     showDialog("move");
                         break;
                     case 3:
-                        if(isCardSubscribed.equals("0")){
+                        if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null")){
                             subscribe();
                         }else {
                             unSubscribe();
@@ -1642,8 +1645,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             Intent intent=new Intent(CardActivity.this,BoardExtended.class);
             intent.putExtra("b_id",BoardExtended.boardId);
             intent.putExtra("p_id",BoardExtended.projectId);
-            intent.putExtra("ptitle",BoardExtended.pTitle);
-            intent.putExtra("TitleData",CardHeading);
+            intent.putExtra("TitleData",BoardExtended.bTitle);
+            //intent.putExtra("TitleData",CardHeading);
             finish();
             startActivity(intent);
         }
@@ -3632,8 +3635,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
-               updateCardName(etCardName.getText().toString());
+
+                if(!etCardName.getText().toString().equals("")) {
+                    updateCardName(etCardName.getText().toString());
+                    alertDialog.dismiss();
+                }else {
+                    Toast.makeText(CardActivity.this,"Card Name is must!",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -3766,6 +3774,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 }else if(listSpinner.getSelectedItemPosition()==0 || listSpinner.getSelectedItemPosition()==-1){
                     Toast.makeText(CardActivity.this,"Error, list name is must!",Toast.LENGTH_LONG).show();
                 }else {
+                    alertDialog.dismiss();
                     copyCard();
                 }
                // moveCard();
@@ -3814,6 +3823,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onClick(View view) {
                 moveCard();
+                alertDialog.dismiss();
             }
         });
 
@@ -3840,6 +3850,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         collapsingToolbarLayout.setTitle(updatedText);
                         CardHeading=updatedText;
                         Toast.makeText(activity, "Card Name Updated Successfully", Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawer(Gravity.END);
 
 
 

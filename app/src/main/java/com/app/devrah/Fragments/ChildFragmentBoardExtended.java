@@ -211,7 +211,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                 return true;
                             case R.id.deleteList:
                                 new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                                        .setTitleText("Error!")
+                                        .setTitleText("Confirmation!")
                                         .setCancelText("Cancel")
                                         .setConfirmText("OK").setContentText("Are You sure you want to Remove this list")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1039,7 +1039,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 String userId = pref.getString("user_id", "");
 
-                params.put("user_id", userId);
+                params.put("userId", userId);
                 return params;
             }
         };
@@ -1164,6 +1164,14 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                         boards_name.add(0,"Select");
                         boards_ids.add(0,"0");
+                        if(response.equals("{\"nodata\":0}")){
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                    (getActivity(),R.layout.nothing_selected_spinnerdate,boards_name);
+                            dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+                            boards.setAdapter(dataAdapter);
+                        }
+
 
                         try {
                             JSONArray jsonArray = new JSONArray(response);

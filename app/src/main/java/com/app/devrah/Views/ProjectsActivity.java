@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
+import com.app.devrah.Adapters.GroupProjectAdapter;
 import com.app.devrah.R;
 import com.app.devrah.pojo.DrawerPojo;
 
@@ -147,6 +148,7 @@ public class ProjectsActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         setupTabIcons();
+
     }
 
     private void setupTabIcons() {
@@ -298,7 +300,7 @@ public class ProjectsActivity extends AppCompatActivity {
 
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentPagerAdapter{
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -321,10 +323,13 @@ public class ProjectsActivity extends AppCompatActivity {
             mFragmentTitleList.add(title);
         }
 
+
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+
     }
 
 }

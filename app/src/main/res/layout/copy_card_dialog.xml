@@ -175,7 +175,7 @@
         android:layout_alignEnd="@+id/linearLayout1"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="10dp"
-        android:text="Move"
+        android:text="Copy"
         android:layout_marginBottom="5dp"/>
 
     <Button

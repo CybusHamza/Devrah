@@ -44,13 +44,14 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.GET_GROUP_PROJECTS;
 
-public class GroupProjects extends Fragment implements View.OnClickListener {
+public class GroupProjects extends Fragment implements View.OnClickListener,readyInterface{
 
 
     EditText edt;
     List<String> listDataHeader;
 
     HashMap<String, List<String>> listDataChild;
+    HashMap<String, List<String>> listDataStatus;
     View view;
     Button addGrouProjects;
     ExpandableListView expandableLv;
@@ -150,7 +151,14 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
 
         }
 
+
 */
+    }
+
+    @Override
+    public void ready() {
+
+        prepareDataList();
     }
 
     public interface OnFragmentInteractionListener {
@@ -204,6 +212,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
 
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
+        listDataStatus = new HashMap<String, List<String>>();
         projectNames = new ArrayList<>();
          dummy = new ArrayList<String>();
 
@@ -288,6 +297,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
                                     }
 
                                     listDataChild.put(projectName.get(i)+"", MyList);
+                                    listDataStatus.put(projectName.get(i)+"", projectStatus);
                                 }
 
 
@@ -295,7 +305,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
                                 e.printStackTrace();
                             }
 
-                            customAdapter = new CustomExpandableListAdapter(getActivity(), projectId, listDataChild , projectName,projectStatus,projectids);
+                            customAdapter = new CustomExpandableListAdapter(getActivity(), projectId, listDataChild , projectName,projectStatus,projectids,listDataStatus);
                             expandableLv.setAdapter(customAdapter);
                         }
                     }
@@ -390,7 +400,8 @@ public class GroupProjects extends Fragment implements View.OnClickListener {
         }
             return projectName;
         }
-    }
+
+}
 
 
 

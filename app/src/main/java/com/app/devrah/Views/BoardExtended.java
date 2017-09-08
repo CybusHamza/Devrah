@@ -73,7 +73,7 @@ public class BoardExtended extends AppCompatActivity {
     String b_id, p_id,projectTitle,list_id;
     public static String projectId;
     public static String boardId;
-    public static String pTitle;
+    public static String bTitle;
     CustomDrawerAdapter DrawerAdapter;
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
@@ -111,15 +111,18 @@ public class BoardExtended extends AppCompatActivity {
         projectTitle = intent.getStringExtra("ptitle");
         projectId=p_id;
         boardId=b_id;
-        pTitle=projectTitle;
+      //  pTitle=projectTitle;
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         title = getIntent().getStringExtra("TitleData");
+        bTitle=title;
         //toolbar.setTitle(title);
         final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
         tv.setText(title);
         tv.setCursorVisible(false);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,7 +246,9 @@ public class BoardExtended extends AppCompatActivity {
 
 
 
-        //..    lastFrag = (FragmentBoardExtendedLast)this.getSupportFragmentManager().;
+        //..    lastFrag = (FragmentBoardExt
+        //
+        // endedLast)this.getSupportFragmentManager().;
         //  etPageName =(EditText)findViewById(R.id.editTextPageName);
         //  addFrag = (Button)findViewById(R.id.btnAddFrag);
 
@@ -964,7 +969,7 @@ public class BoardExtended extends AppCompatActivity {
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 String userId = pref.getString("user_id", "");
 
-                params.put("user_id", userId);
+                params.put("userId", userId);
                 return params;
             }
         };

@@ -282,10 +282,10 @@ public class LabelColorFragment extends Fragment {
                     public void onClick(View v) {
 
                         new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Conftimr!")
+                                .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")
                                 .showCancelButton(true)
-                                .setConfirmText("OK").setContentText("Are you sure you want to delete this lable")
+                                .setConfirmText("OK").setContentText("Are you sure you want to delete this label")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {

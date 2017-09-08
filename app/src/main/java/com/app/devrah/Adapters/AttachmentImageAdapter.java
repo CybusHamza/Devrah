@@ -214,8 +214,9 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                 }else {
                     Picasso.with(activity).load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + imageName).into(picassoImageTarget(activity, "imageDir", imageName));
                     //  Target target=picassoImageTarget(activity, "imageDir",imageName);
-                    Toast.makeText(activity, "Image Saved to the Directory imageDir", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity, "Image Saved to the Directory imageDir", Toast.LENGTH_LONG).show();
                     myalertdialog.dismiss();
+                    ShowToast();
                 }
                /* if (success) {
                     Toast.makeText(activity, "Image saved with success",
@@ -474,6 +475,9 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(request);
+    }
+    public void ShowToast(){
+        Toast.makeText(activity, "Image Save to the directory file_name", Toast.LENGTH_SHORT).show();
     }
 
 }
