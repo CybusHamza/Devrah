@@ -133,6 +133,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final String childText = (String) getChild(groupPosition, childPosition);
+
         final String childStatus=(String)getChild(groupPosition,childPosition);
 
         if (convertView == null) {
