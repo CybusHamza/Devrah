@@ -68,11 +68,11 @@ public class team_addapter extends BaseAdapter {
 
 
 
-        if(membersPojo.getProfile_pic().equals("null"))
+        if(membersPojo.getProfile_pic().equals("null") || membersPojo.getProfile_pic().equals(""))
         {
             holder.alias_img.setVisibility(View.VISIBLE);
             holder.alias_img.setText(membersPojo.getInetial());
-        }else if(!membersPojo.getGp_pic().equals("null")){
+        }else if(!membersPojo.getGp_pic().equals("null") && !membersPojo.getGp_pic().equals("")){
             Picasso.with(activity)
                     .load(membersPojo.getGp_pic())
                     .into( holder.imgProfile );

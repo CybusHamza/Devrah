@@ -488,6 +488,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     projectsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
                                     projectsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
                                     projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
+                                    projectsPojo.setAssignedTo(jsonObject.getString("assigned_to"));
 
                                    // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
                                     //projectsPojo.setLabels(jsonObject.getString("label_color"));
@@ -993,6 +994,8 @@ public class ChildFragmentBoardExtended extends Fragment {
                     @Override
                     public void onResponse(String response) {
 
+                        spinnerValues.add(0,"Select");
+                        spinnerGroupIds.add(0,"0");
                         try {
 
                             JSONArray array = new JSONArray(response);
@@ -1056,7 +1059,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
-            if(pos!=-1)
+            if(pos!=-1 && pos!=0)
             getBorads(spinnerGroupIds.get(pos));
 
 

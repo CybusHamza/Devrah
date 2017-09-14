@@ -10,6 +10,36 @@ public class ProjectsPojo {
 
     public String data;
     public String boardID;
+
+    public String getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+    public String assignedTo;
+
+    public String getReferenceBoardStar() {
+        return referenceBoardStar;
+    }
+
+    public void setReferenceBoardStar(String referenceBoardStar) {
+        this.referenceBoardStar = referenceBoardStar;
+    }
+
+    public String referenceBoardStar;
+
+    public String getBoardStar() {
+        return boardStar;
+    }
+
+    public void setBoardStar(String boardStar) {
+        this.boardStar = boardStar;
+    }
+
+    public String boardStar;
     public String projectStatus;
 
     public String getStartDate() {

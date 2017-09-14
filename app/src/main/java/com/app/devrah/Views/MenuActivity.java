@@ -258,8 +258,11 @@ public class MenuActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-
-                        getMyTeams();
+                        if(!response.equals("0")) {
+                            getMyTeams();
+                        }else {
+                            Toast.makeText(MenuActivity.this,"Error, team name already exists!",Toast.LENGTH_LONG).show();
+                        }
 
                     }
                 }, new Response.ErrorListener() {

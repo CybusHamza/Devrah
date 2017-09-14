@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,23 @@ public class ReferenceBoardAdapter extends BaseAdapter {
         holder.data = (TextView) convertView.findViewById(R.id.tvBoardsData);
         ListItemString = projectsList.get(position).getData();
         holder.data.setText(ListItemString);
+        holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
+        if(projectsList.get(position).getReferenceBoardStar().equals("1")){
+            Drawable d = convertView.getResources().getDrawable(R.drawable.star_default);
+            holder.favouriteIcon.setImageDrawable(d);
+        }else  if(projectsList.get(position).getReferenceBoardStar().equals("2")){
+            Drawable d = convertView.getResources().getDrawable(R.drawable.mark_favourite);
+            holder.favouriteIcon.setImageDrawable(d);
+        }else  if(projectsList.get(position).getReferenceBoardStar().equals("3")){
+            Drawable d = convertView.getResources().getDrawable(R.drawable.favourite_star_icon);
+            holder.favouriteIcon.setImageDrawable(d);
+        }
+        holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

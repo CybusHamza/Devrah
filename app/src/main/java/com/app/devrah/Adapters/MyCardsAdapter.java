@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
+import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.MyCardsPojo;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener 
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder vh;
         MyCardsAdapter.ViewHolder holder = new MyCardsAdapter.ViewHolder();
@@ -79,6 +80,24 @@ public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener 
             public void onClick(View v) {
 //                Intent intent = new Intent(activity,BoardsActivity.class);
 //                activity.startActivity(intent);
+                Intent intent = new Intent(activity,CardActivity.class);
+                intent.putExtra("CardHeaderData", projectsList.get(position).getCard_name());
+                intent.putExtra("card_id",projectsList.get(position).getCardId());
+                intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
+                intent.putExtra("cardduetime",projectsList.get(position).getDueTime());
+                intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
+                intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
+                intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
+                intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
+                intent.putExtra("isSubscribed",projectsList.get(position).getIsCardSubscribed());
+                intent.putExtra("list_id",projectsList.get(position).getListid());
+                intent.putExtra("board_id",projectsList.get(position).getBoradid());
+                intent.putExtra("project_id",projectsList.get(position).getProjecct_id());
+                intent.putExtra("board_name",projectsList.get(position).getBoardname());
+                intent.putExtra("fromMyCards","true");
+                activity.finish();
+                activity.startActivity(intent);
 
             }
         });

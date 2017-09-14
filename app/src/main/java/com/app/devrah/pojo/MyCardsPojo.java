@@ -70,4 +70,78 @@ public class MyCardsPojo {
     public void setListname(String listname) {
         this.listname = listname;
     }
+    String dueDate;
+    String startDate;
+    String dueTime;
+    String startTime;
+    String isCardComplete;
+
+    public String getIsCardSubscribed() {
+        return isCardSubscribed;
+    }
+
+    public void setIsCardSubscribed(String isCardSubscribed) {
+        this.isCardSubscribed = isCardSubscribed;
+    }
+
+    String isCardSubscribed;
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getDueTime() {
+        return dueTime;
+    }
+
+    public void setDueTime(String dueTime) {
+        this.dueTime = dueTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getIsCardComplete() {
+        return isCardComplete;
+    }
+
+    public void setIsCardComplete(String isCardComplete) {
+        this.isCardComplete = isCardComplete;
+    }
+
+    public String getIsCardLocked() {
+        return isCardLocked;
+    }
+
+    public void setIsCardLocked(String isCardLocked) {
+        this.isCardLocked = isCardLocked;
+    }
+
+    public String getCardDescription() {
+        return cardDescription;
+    }
+
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
+
+    String isCardLocked;
+    String cardDescription;
 }

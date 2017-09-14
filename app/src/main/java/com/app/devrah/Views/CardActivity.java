@@ -189,7 +189,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<AttachmentsPojo> attachmentsList;
     List<AttachmentsImageFilePojo> attachmentsList1;
     private ListView mDrawerList;
-   static String cardId;
+    static String cardId;
+
     List<ProjectsPojo> listPojo1,labelsPojoList;
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
     static  List<CardAssociatedLabelsPojo> cardLabelsPojoListstat;
@@ -220,6 +221,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     ArrayList<String> lists_name ;
     ArrayList<String> list_ids ;
     List<String> postions_list;
+    static String isFromMyCardsScreen;
 
 
     static String isCardLocked,isCardSubscribed;
@@ -322,7 +324,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         cardIsComplete = intent.getStringExtra("isComplete");
         isCardLocked = intent.getStringExtra("isLocked");
         isCardSubscribed = intent.getStringExtra("isSubscribed");
-
+        isFromMyCardsScreen = intent.getStringExtra("fromMyCards");
+        //if(isFromMyCardsScreen.equals("true")){
+            BoardExtended.bTitle=intent.getStringExtra("board_name");
+            projectId=intent.getStringExtra("project_id");
+            BoardExtended.boardId=intent.getStringExtra("board_id");
+        //}
 
         getCardList();
 
@@ -584,7 +591,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 otherFiles.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         alertDialog.dismiss();
 
                         Intent intent = new Intent();
@@ -689,19 +695,24 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onClick(View v) {
                 //dueDate();
+                if(isCompletedBtn.getText().equals("Mark Completed"))
                 pickDueDate("dueDate");
+
             }
         });
         cbDueTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 pickATime("dueTime");
+
             }
         });
 
         cbStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isCompletedBtn.getText().equals("Mark Completed"))
                 pickDueDate("startDate");
                 //  dueDate();
             }
@@ -1640,6 +1651,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //            ColorsPojo colorsPojo = new ColorsPojo();
 //            colorList.add(colorsPojo.getColor());
 //            showLabelsMenu();
+        }else if(isFromMyCardsScreen.equals("true")){
+            super.onBackPressed();
+            Intent intent=new Intent(CardActivity.this,MyCardsActivity.class);
+            finish();
+            startActivity(intent);
         } else {
             super.onBackPressed();
             Intent intent=new Intent(CardActivity.this,BoardExtended.class);
@@ -2102,6 +2118,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
         final int mHour = c.get(Calendar.HOUR);
         final int mMin = c.get(Calendar.MINUTE);
+
         datePickerDialog = new DatePickerDialog(CardActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
 
@@ -2123,6 +2140,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     }
                 }, mYear, mMonth, mDay);
+       if(!startDate.equals("") && !startDate.equals("null") && dateType.equals("dueDate")) {
+           String checkStartDate[] = startDate.split("-");
+           Calendar maxDate = Calendar.getInstance();
+           maxDate.set(Calendar.DAY_OF_MONTH,Integer.valueOf(checkStartDate[2]));
+           maxDate.set(Calendar.MONTH, Integer.valueOf(checkStartDate[1])-1);
+           maxDate.set(Calendar.YEAR, Integer.valueOf(checkStartDate[0]));
+
+           datePickerDialog.getDatePicker().setMinDate(maxDate.getTimeInMillis());
+       }
         datePickerDialog.show();
     }
     public void pickATime(final String timeType){
@@ -3543,7 +3569,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     }
 
 
-    private void saveFile(final String attachmentName,final String originalName) {
+    private void saveFile(final String attachmentName,final String originalName,final String fileType) {
         ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
@@ -3606,7 +3632,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("cardId",cardId);
                 params.put("original_name",originalName);
                 params.put("name",attachmentName);
-                params.put("type_file","file");
+                params.put("type_file",fileType);
                 final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 params.put("userId", pref.getString("user_id",""));
                 params.put("row", "1");
@@ -3822,8 +3848,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moveCard();
-                alertDialog.dismiss();
+                if(boardSpinner.getSelectedItemPosition()==0 || boardSpinner.getSelectedItemPosition()==-1){
+                    Toast.makeText(CardActivity.this,"Error, board name is must!",Toast.LENGTH_LONG).show();
+                }else if(listSpinner.getSelectedItemPosition()==0 || listSpinner.getSelectedItemPosition()==-1){
+                    Toast.makeText(CardActivity.this,"Error, list name is must!",Toast.LENGTH_LONG).show();
+                }else {
+                    moveCard();
+                    alertDialog.dismiss();
+                }
             }
         });
 
@@ -4032,12 +4064,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 int pos1 = listSpinner.getSelectedItemPosition();
                 int pos = boardSpinner.getSelectedItemPosition();
                 int pos2 = positionSpinner.getSelectedItemPosition();
+                String positionOfCard;
+                if(pos2==-1){
+                    positionOfCard="0";
+                }else {
+                    positionOfCard=postions_list.get(pos2);
+                }
                 final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
 
                 params.put("move_boardsList", boards_ids.get(pos));
                 params.put("move_boardsList_opt", list_ids.get(pos1));
-                params.put("move_boardsList_pos_opt", postions_list.get(pos2));
+                params.put("move_boardsList_pos_opt", positionOfCard);
 
                 params.put("menu_form_mv_cpy_nm_title", CardHeading);
                 params.put("u_id",pref.getString("user_id",""));
@@ -4546,8 +4584,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         ringProgressDialog.dismiss();
         if(output.equals("200"))
         {
+            String fileType;
            // Toast.makeText(mcontext, "uploaded Succesfully"+ fileName, Toast.LENGTH_SHORT).show();
-            saveFile(file,file);
+            if(file.contains(".jpg") || file.contains(".jpeg")){
+                fileType="image";
+            }else {
+                fileType="file";
+            }
+            saveFile(file,file,fileType);
 
         }
         else

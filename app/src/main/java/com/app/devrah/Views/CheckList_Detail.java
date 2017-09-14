@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.app.devrah.Views.CardActivity.CardHeading;
 import static com.app.devrah.Views.CardActivity.cardDescription;
 import static com.app.devrah.Views.CardActivity.cardId;
 import static com.app.devrah.Views.CardActivity.cardIsComplete;
@@ -37,6 +39,7 @@ import static com.app.devrah.Views.CardActivity.dueDate;
 import static com.app.devrah.Views.CardActivity.dueTime;
 import static com.app.devrah.Views.CardActivity.isCardLocked;
 import static com.app.devrah.Views.CardActivity.isCardSubscribed;
+import static com.app.devrah.Views.CardActivity.isFromMyCardsScreen;
 import static com.app.devrah.Views.CardActivity.list_id;
 import static com.app.devrah.Views.CardActivity.startDate;
 import static com.app.devrah.Views.CardActivity.startTime;
@@ -65,9 +68,31 @@ public class CheckList_Detail extends AppCompatActivity {
         checkListiItemIds = intent.getStringArrayListExtra("checkListiItemIds");
         checkListiItemName = intent.getStringArrayListExtra("checkListiItemName");
         checkedItem = intent.getStringArrayListExtra("checkedItem");
-        name = intent.getStringExtra("name");
         checklistid = intent.getStringExtra("checklistid");
+        name = intent.getStringExtra("name");
+
         toolbar = (Toolbar) findViewById(R.id.header);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent(CheckList_Detail.this,CardActivity.class);
+                finish();
+                intent.putExtra("card_id",cardId);
+                intent.putExtra("list_id",list_id);
+                intent.putExtra("cardduedate",dueDate);
+                intent.putExtra("cardduetime",dueTime);
+                intent.putExtra("cardstartdate",startDate);
+                intent.putExtra("cardstarttime",startTime);
+                intent.putExtra("cardDescription",cardDescription);
+                intent.putExtra("isComplete",cardIsComplete);
+                intent.putExtra("isLocked",isCardLocked);
+                intent.putExtra("isSubscribed",isCardSubscribed);
+                intent.putExtra("CardHeaderData",CardHeading);
+                intent.putExtra("fromMyCards",isFromMyCardsScreen);
+                startActivity(intent);
+            }
+        });
         addCheckbox = (EditText) findViewById(R.id.addItem);
         addButton = (Button) findViewById(R.id.send_checkbox);
 
@@ -75,9 +100,12 @@ public class CheckList_Detail extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 checkboxname = addCheckbox.getText().toString();
-                add_checkbox(checkboxname);
+                if(!checkboxname.equals("")) {
+                    add_checkbox(checkboxname);
+                }else {
+                    Toast.makeText(CheckList_Detail.this,"Name is must",Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -203,6 +231,8 @@ public class CheckList_Detail extends AppCompatActivity {
         intent.putExtra("isComplete",cardIsComplete);
         intent.putExtra("isLocked",isCardLocked);
         intent.putExtra("isSubscribed",isCardSubscribed);
+        intent.putExtra("CardHeaderData",CardHeading);
+        intent.putExtra("fromMyCards",isFromMyCardsScreen);
         startActivity(intent);
 
 

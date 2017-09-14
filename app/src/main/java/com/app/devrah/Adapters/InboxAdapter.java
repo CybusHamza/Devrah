@@ -83,7 +83,10 @@ public class InboxAdapter extends BaseAdapter {
             holder.img.setImageResource(R.drawable.close_email);
         }
         holder.data.setText("Subject : "+inboxPojo.getSubject());
+        if(!inboxPojo.getFrom().equals("null"))
         holder.to.setText("From : "+inboxPojo.getFrom());
+        else
+            holder.to.setText("From : ");
         holder.date.setText(inboxPojo.getDate());
         if(inboxPojo.getCardif().equals("null"))
         {

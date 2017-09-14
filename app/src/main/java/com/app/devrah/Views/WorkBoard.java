@@ -378,7 +378,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                         myList = new ArrayList<>() ;
                         if(response.equals("{\"nodata\":0}"))
                         {
-                            Toast.makeText(getActivity(), "No Data Found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Workboard is empty", Toast.LENGTH_SHORT).show();
                         }
                         else {
 
@@ -395,6 +395,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                                     projectsPojo.setBoardID(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("board_name"));
                                     projectsPojo.setId(jsonObject.getString("project_id"));
+                                    projectsPojo.setBoardStar(jsonObject.getString("board_star"));
 
                                     myList.add(projectsPojo);
 

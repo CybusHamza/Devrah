@@ -20,12 +20,12 @@
         android:id="@+id/tvProjectsData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-
+        android:layout_marginTop="20dp"
         android:background="@drawable/inner_drawable_for_card"
         android:gravity="center"
         android:padding="3dp"
         android:text="sdfghj"
+        android:layout_below="@id/tvDescription"
         android:textColor="#000"
         android:textSize="15sp" />
 

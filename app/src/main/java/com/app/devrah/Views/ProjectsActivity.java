@@ -55,6 +55,7 @@ public class ProjectsActivity extends AppCompatActivity {
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     private ListView mDrawerList;
+    ViewPagerAdapter adapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,13 +143,31 @@ public class ProjectsActivity extends AppCompatActivity {
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        adapter1 = new ViewPagerAdapter(getSupportFragmentManager());
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         setupTabIcons();
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==1){
+                    ((GroupProjects)adapter1.getItem(position)).prepareDataList();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setupTabIcons() {
@@ -175,12 +194,12 @@ public class ProjectsActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new Projects(), "Projects");
-        adapter.addFrag(new GroupProjects(), "Group Projects");
+
+        adapter1.addFrag(new Projects(), "Projects");
+        adapter1.addFrag(new GroupProjects(), "Group Projects");
 
         //  adapter.addFrag(new ThreeFragment(), "THREE");
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter1);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +71,23 @@ public class BoardsAdapter extends BaseAdapter {
         ListItemString = projectsList.get(position).getData();
         holder.data.setText(ListItemString);
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
+        holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
+        if(projectsList.get(position).getBoardStar().equals("1")){
+            Drawable d = convertView.getResources().getDrawable(R.drawable.star_default);
+            holder.favouriteIcon.setImageDrawable(d);
+        }else  if(projectsList.get(position).getBoardStar().equals("2")){
+            Drawable d = convertView.getResources().getDrawable(R.drawable.mark_favourite);
+            holder.favouriteIcon.setImageDrawable(d);
+        }else  if(projectsList.get(position).getBoardStar().equals("3")){
+            Drawable d = convertView.getResources().getDrawable(R.drawable.favourite_star_icon);
+            holder.favouriteIcon.setImageDrawable(d);
+        }
+        holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

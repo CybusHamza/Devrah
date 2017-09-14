@@ -116,10 +116,10 @@ public class TeamMembersAdapter extends BaseAdapter {
 
             }
         });
-        if(membersList.get(position).getImage().equals("null") && membersList.get(position).getGpimageView().equals("null")){
+        if((membersList.get(position).getImage().equals("null") || membersList.get(position).getImage().equals("")) && (membersList.get(position).getGpimageView().equals("null") || membersList.get(position).getGpimageView().equals(""))){
             holder.alias_img.setVisibility(View.VISIBLE);
             holder.alias_img.setText(membersList.get(position).getInitials());
-        }else if(!membersList.get(position).getImage().equals("null")){
+        }else if(!membersList.get(position).getImage().equals("null") && !membersList.get(position).getImage().equals("")){
             holder.alias_img.setVisibility(View.GONE);
             Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + membersList.get(position).getImage())

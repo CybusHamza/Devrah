@@ -145,6 +145,7 @@
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content"
+                android:inputType="phone"
                 />
 
         </android.support.design.widget.TextInputLayout>

@@ -436,12 +436,13 @@ public class BoardsActivity extends AppCompatActivity {
 
                     case 5:
                         new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Error!")
-                                .setCancelText("Cancle")
+                                .setTitleText("Confirmation!")
+                                .setCancelText("Cancel")
                                 .setConfirmText("OK").setContentText("Are You sure you want to leave this project")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
                                         LeaveProject();
                                     }
                                 })
@@ -547,10 +548,16 @@ public class BoardsActivity extends AppCompatActivity {
 
                         ringProgressDialog.dismiss();
 
+                        if(response.equals("1")){
+                            Toast.makeText(BoardsActivity.this,"You are admin of this project , You can not leave project !",Toast.LENGTH_LONG).show();
+                        }else if(response.equals("{\"project_left\":1}")) {
+                            Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
+                            finish();
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(BoardsActivity.this,"No data found!",Toast.LENGTH_LONG).show();
 
-                        Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
-                        finish();
-                        startActivity(intent);
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -631,7 +638,7 @@ public class BoardsActivity extends AppCompatActivity {
             imgactive.setVisibility(View.VISIBLE);
             active.setClickable(false);
             active.setEnabled(false);
-        } else if (status.equals("0")) {
+        } else if (status.equals("2")) {
             igminactive.setVisibility(View.VISIBLE);
             inactive.setClickable(false);
             inactive.setEnabled(false);
@@ -654,7 +661,7 @@ public class BoardsActivity extends AppCompatActivity {
         inactive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeStatus("0");
+                changeStatus("2");
                 imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.VISIBLE);
                 imgcomplete.setVisibility(View.GONE);
@@ -665,7 +672,7 @@ public class BoardsActivity extends AppCompatActivity {
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeStatus("2");
+                changeStatus("3");
 
                 imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.GONE);
@@ -917,7 +924,7 @@ public class BoardsActivity extends AppCompatActivity {
 
     }
 
-    public void changeStatus(final String status) {
+    public void changeStatus(final String stats) {
 
 
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
@@ -929,6 +936,7 @@ public class BoardsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
+                        status=stats;
                        // Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
 
                     }
@@ -957,7 +965,7 @@ public class BoardsActivity extends AppCompatActivity {
 
 
                 params.put("project_id", projectID);
-                params.put("project_status", status);
+                params.put("project_status", stats);
                 params.put("userId", userId);
 
                 return params;

@@ -125,7 +125,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
 
 
                 new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Error!")
+                        .setTitleText("Confirmation!")
                         .setCancelText("Cancel")
                         .setConfirmText("OK").setContentText("Are You sure you want to Remove this image")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {

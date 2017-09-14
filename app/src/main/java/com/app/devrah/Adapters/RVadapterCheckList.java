@@ -150,6 +150,7 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
                     intent.putExtra("checkedItem","");
                     intent.putExtra("checklistid",CheckListItems.get(position).getId());
                     intent.putExtra("name",CheckListItems.get(position).getName());
+                    activity.finish();
                     activity.startActivity(intent);
                 }
 
@@ -169,6 +170,7 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
                     intent.putExtra("checkedItem",checkedItem);
                     intent.putExtra("checklistid",CheckListItems.get(position).getId());
                     intent.putExtra("name",CheckListItems.get(position).getName());
+                    activity.finish();
                     activity.startActivity(intent);
                 }
 
@@ -189,7 +191,9 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
                     ringProgressDialog.dismiss();
                     if (!(response.equals(""))) {
 
-                       // notifyDataSetChanged();
+                        CheckListItems.get(position).setName(s);
+                        notifyDataSetChanged();
+
 /*
 
                         Intent intent = new Intent(activity, CheckList_Detail.class);

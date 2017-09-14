@@ -131,7 +131,8 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
             @Override
             public void onClick(View view) {
                 new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Confirm!")
+                        .setTitleText("Confirmation!")
+                        .setCancelText("Cancel")
                         .setConfirmText("OK").setContentText("Do you really want to remove checkbox?")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
@@ -178,11 +179,11 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                 if(checkBox.isChecked())
                 {
 
-                    check_checkbox(checkListiItemIds.get(position));
+                    check_checkbox(checkListiItemIds.get(position),position);
 
                 }
                 else{
-                    un_check_checkbox(checkListiItemIds.get(position));
+                    un_check_checkbox(checkListiItemIds.get(position),position);
 
 
                 }
@@ -213,7 +214,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
 
     }
 
-    private void check_checkbox(final String checkbox) {
+    private void check_checkbox(final String checkbox,final int pos) {
         ringProgressDialog = ProgressDialog.show(activity, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
@@ -224,8 +225,8 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                 // loading.dismiss();
                 ringProgressDialog.dismiss();
                 if (!(response.equals(""))) {
-
-
+                    checkedItem.remove(pos);
+                    checkedItem.add(pos,"1");
                 }
             }
 
@@ -285,7 +286,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
         requestQueue.add(request);
     }
 
-    private void un_check_checkbox(final String checkbox) {
+    private void un_check_checkbox(final String checkbox,final int pos) {
         ringProgressDialog = ProgressDialog.show(activity, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
@@ -296,7 +297,8 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                 // loading.dismiss();
                 ringProgressDialog.dismiss();
                 if (!(response.equals(""))) {
-
+                    checkedItem.remove(pos);
+                    checkedItem.add(pos,"0");
 
 
                 }
@@ -467,8 +469,9 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                     intent.putExtra("checkListiItemIds",checkListiItemIds);
                     intent.putExtra("checkListiItemName",checkListiItemName);
                     intent.putExtra("checkedItem",checkedItem);
-                    intent.putExtra("checklistid",checklistid);
-                    intent.putExtra("name",name);
+                    intent.putExtra("checklistid",name);
+                    intent.putExtra("name",checklistid);
+
                     activity.startActivity(intent);
 
 

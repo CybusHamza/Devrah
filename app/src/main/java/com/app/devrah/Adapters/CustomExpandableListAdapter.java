@@ -68,6 +68,16 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         // 0;
     }
 
+    public int getChildrenExactPositionCount(int groupPosition) {
+
+        String data = ids.get(groupPosition);
+
+        return this.listStatusData.get(data).size();
+
+
+        // 0;
+    }
+
     @Override
     public Object getGroup(int groupPosition) {
 
@@ -132,9 +142,14 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final String child = (String) getChild(groupPosition, childPosition);
+        final String[] text=child.split(",");
+        final String childText=text[0];
+        final String childStatus=text[1];
+        final String projectId=text[2];
 
-        final String childStatus=(String)getChild(groupPosition,childPosition);
+
+      //  final String childStatus=(String)getChild(groupPosition,childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -149,7 +164,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, BoardsActivity.class);
-                intent.putExtra("pid", projectids.get(childPosition));
+                intent.putExtra("pid", projectId);
                 intent.putExtra("ptitle", childText);
                 intent.putExtra("status", childStatus);
                 context.startActivity(intent);
@@ -165,11 +180,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             statusList.setText("Active");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
         }else if (childStatus.equals("2")) {
-            statusList.setText("Completed");
-            statusList.setBackgroundColor(context.getResources().getColor(R.color.darkgreen));
-        } else {
             statusList.setText("In-Active");
             statusList.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
+        } else {
+            statusList.setText("Completed");
+            statusList.setBackgroundColor(context.getResources().getColor(R.color.darkgreen));
         }
         return convertView;
 

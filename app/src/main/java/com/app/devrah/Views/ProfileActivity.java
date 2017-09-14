@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText etEmail,etF_name,etL_name,etPhoneNumber,etDevrahTag,etCompany,etPosition,etWebsite;
     String email,f_name,l_name,f_num,devrah_tag,s_company,s_position,s_website,initials,id;
 
-    Button chooseFile,updateProfile;
+    Button chooseFile,updateProfile,cancelBtn;
     private static final int REQUEST_PERMISSIONS=0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -80,6 +80,15 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         toolbar = (Toolbar) findViewById(R.id.header);
         updateProfile = (Button) findViewById(R.id.btnUpdate);
+        cancelBtn = (Button) findViewById(R.id.btnCancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        toolbar.setTitle("Edit Profile");
 
         etF_name = (EditText)findViewById(R.id.etFname);
         etL_name = (EditText)findViewById(R.id.etLName);
@@ -206,13 +215,21 @@ public class ProfileActivity extends AppCompatActivity {
                         ringProgressDialog.dismiss();
                         if(!response.equals("0")){
                             Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putString("email", email);
+                            editor.putString("first_name", f_name);
+                            editor.putString("last_name", l_name);
+                            editor.putString("phone", f_num);
+                            editor.putString("company", s_company);
+                            editor.putString("dev_tag", devrah_tag);
+                            editor.putString("position", s_position);
+                            editor.putString("website", s_website);
+                            editor.apply();
+                            finish();
+                        }else {
+                            Toast.makeText(getApplicationContext(),"No Change Found!",Toast.LENGTH_SHORT).show();
                         }
-
-                   // Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
-
-
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -452,9 +469,9 @@ public class ProfileActivity extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 //NavUtils.navigateUpFromSameTask(this);
-                Intent intent=new Intent(this,Dashboard.class);
+                //Intent intent=new Intent(this,Dashboard.class);
                 finish();
-                startActivity(intent);
+                //startActivity(intent);
                 onBackPressed();
                 return true;
         }

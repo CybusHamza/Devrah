@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.R;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
@@ -23,6 +26,8 @@ import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by AQSA SHaaPARR on 6/5/2017.
@@ -415,7 +420,11 @@ public class FragmentBoardsAdapter extends BaseAdapter{
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         //}
-
+        SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
+            projectsList.remove(position);
+            notifyDataSetChanged();
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -433,6 +442,10 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
                 intent.putExtra("isSubscribed",projectsList.get(position).getIsCardSubscribed());
                 intent.putExtra("list_id",list_id);
+                intent.putExtra("project_id", BoardExtended.projectId);
+                intent.putExtra("board_id", BoardExtended.boardId);
+                intent.putExtra("board_name", BoardExtended.bTitle);
+                intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);
 

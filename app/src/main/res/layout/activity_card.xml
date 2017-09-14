@@ -128,12 +128,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:clickable="true" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp">
                     <TextView
                         android:id="@+id/tvStartDate"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
+
                         android:buttonTint="#000"
                         android:padding="5dp"
                         android:text="boom boom"
@@ -147,7 +153,6 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
                         android:buttonTint="#000"
                         android:padding="5dp"
                         android:text="boom boom"
@@ -155,12 +160,19 @@
                         android:textSize="15sp"
                         android:background="@drawable/bg_boards_extended_list_white"
                         android:visibility="gone" />
+                    </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp">
                     <TextView
                         android:id="@+id/tvStartTime"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
+
                         android:buttonTint="#000"
                         android:padding="5dp"
                         android:text="boom boom"
@@ -174,7 +186,6 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
                         android:buttonTint="#000"
                         android:padding="5dp"
                         android:text="boom boom"
@@ -182,6 +193,7 @@
                         android:textSize="15sp"
                         android:background="@drawable/bg_boards_extended_list_white"
                         android:visibility="gone" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btnComplete"

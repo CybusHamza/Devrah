@@ -1,5 +1,6 @@
 package com.app.devrah.Views;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -209,7 +210,10 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
 
     public void prepareDataList() {
 
-
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
         listDataStatus = new HashMap<String, List<String>>();
@@ -231,7 +235,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        ringProgressDialog.dismiss();
                         //  ringProgressDialog.dismiss();
                         if (response.equals("false")) {
                             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
@@ -287,7 +291,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                         String projectid =projectName.get(i) ;
                                         if(projectid.equals(id))
                                         {
-                                            MyList.add( jsonObject.getString("project_name"));
+                                            MyList.add( jsonObject.getString("project_name")+","+jsonObject.getString("project_status")+","+jsonObject.getString("project_id"));
                                             projectStatus.add(jsonObject.getString("project_status"));
                                             projectids.add(jsonObject.getString("project_id"));
 
@@ -312,7 +316,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                ringProgressDialog.dismiss();
 //                ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 

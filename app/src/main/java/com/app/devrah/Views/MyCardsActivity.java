@@ -539,6 +539,14 @@ public class MyCardsActivity extends AppCompatActivity {
                 myCardsPojo.setProjecct_id(jsonObject.getString("project_id"));
                 myCardsPojo.setProjectname(jsonObject.getString("project_name"));
                 myCardsPojo.setListname(jsonObject.getString("list_name"));
+                myCardsPojo.setDueDate(jsonObject.getString("card_end_date"));
+                myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
+                myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
+                myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
+                myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
+                myCardsPojo.setCardDescription(jsonObject.getString("card_description"));
 
                 listPojo.add(myCardsPojo);
             }

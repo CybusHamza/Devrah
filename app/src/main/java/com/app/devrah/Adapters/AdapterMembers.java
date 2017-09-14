@@ -72,7 +72,7 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
             holder.alias = (TextView) convertView.findViewById(R.id.alias_img);
             String currentImage=myList.get(position).getProfile_pic();
 
-            if(myList.get(position).getProfile_pic().equals("null"))
+            if(myList.get(position).getProfile_pic().equals("null") || myList.get(position).getProfile_pic().equals(""))
             {
                 holder.alias.setVisibility(View.VISIBLE);
                 holder.alias.setText(myList.get(position).getInetial());

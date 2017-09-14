@@ -92,15 +92,13 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
         edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
-        toolbar.inflateMenu(R.menu.search_menu);
+        toolbar.inflateMenu(R.menu.search_menu_team_activity);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
 
                 switch (id) {
-                    case R.id.action_settings:
-                        return true;
                     case R.id.action_search:
                         handleMenuSearch();
                         return true;

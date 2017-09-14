@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -48,6 +49,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import jp.wasabeef.richeditor.RichEditor;
 
 import static com.app.devrah.R.id.editor;
+import static com.app.devrah.R.id.position;
 
 public class SendNewMessageActivity extends AppCompatActivity {
 
@@ -81,6 +83,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
     long p_pos,b_pos,c_pos;
 
     String strSubject ,strTO ,strproject,strboard,strcard;
+    TextView c_to,c_tv_message;
 
 
 
@@ -90,6 +93,10 @@ public class SendNewMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_new_message);
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Send New Message");
+        c_to= (TextView) findViewById(R.id.to);
+        c_tv_message= (TextView) findViewById(R.id.message);
+        c_to.setText(Html.fromHtml( "To "+ "<font color=#eb5a46>" + "*" + "</font>"));
+        c_tv_message.setText(Html.fromHtml( "Message "+ "<font color=#eb5a46>" + "*" + "</font>"));
 
         to = (AutoCompleteTextView) findViewById(R.id.etEmails);
         subject = (EditText) findViewById(R.id.etSubject);
@@ -154,11 +161,15 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
                 if(subject.getText().toString().equals("") || to .getText().toString().equals(""))
                 {
-                    Toast.makeText(SendNewMessageActivity.this, "Fields are missing", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SendNewMessageActivity.this, "Fill the mandatory fields ", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    sendMessage();
+                    if(strTO.contains(",")){
+                        Toast.makeText(SendNewMessageActivity.this, "Please use ';' to send message to multiple users", Toast.LENGTH_SHORT).show();
+                    }else {
+                        sendMessage();
+                    }
                 }
 
 
