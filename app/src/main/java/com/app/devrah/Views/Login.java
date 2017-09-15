@@ -196,7 +196,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
                             try {
 
-                                String firstname, email, lastName,phone,company,dev_tag,position,website, profilePic;
+                                String firstname, email, lastName,phone,company,dev_tag,position,website, profilePic,initials;
 
                                 JSONObject object = new JSONObject(response);
 
@@ -210,6 +210,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                                 position=object.getString("position");
                                 website=object.getString("website");
                                 profilePic = object.getString("profile_pic").trim();
+                                initials = object.getString("initials");
 
 
                                 SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -227,6 +228,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                                 editor.putString("position", position);
                                 editor.putString("website", website);
                                 editor.putString("profile_pic", profilePic);
+                                editor.putString("initials", initials);
                                 editor.apply();
 
 

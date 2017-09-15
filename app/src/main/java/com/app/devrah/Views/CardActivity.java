@@ -591,12 +591,25 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 otherFiles.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alertDialog.dismiss();
+                        if(ActivityCompat.checkSelfPermission(CardActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
-                        Intent intent = new Intent();
-                        intent.setType("*/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+                            if (Build.VERSION.SDK_INT > 22) {
+
+                                requestPermissions(new String[]{Manifest.permission
+                                                .WRITE_EXTERNAL_STORAGE},
+                                        10);
+
+                                alertDialog.dismiss();
+                            }
+
+                        }else {
+                            alertDialog.dismiss();
+
+                            Intent intent = new Intent();
+                            intent.setType("*/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+                        }
 
 
                     }
@@ -2682,6 +2695,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                             FilePojo.setIsCover(jsonObject.getString("make_cover"));
                                             attachmentsList1.add(FilePojo);
                                         } else {
+                                            membersPojo.setFileId(jsonObject.getString("id"));
                                             membersPojo.setNameOfFile(jsonObject.getString("original_name"));
                                             membersPojo.setDateUpload(jsonObject.getString("added_on"));
                                             membersPojo.setIsCover(jsonObject.getString("make_cover"));
@@ -2703,7 +2717,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     rvAttachmentImages.setAdapter(imageAdapter);
                                     rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                                    FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity);
+                                    FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity,cardId);
                                     rvFiles.setAdapter(adapter);
                                 }
                                 /*try {
@@ -3354,6 +3368,17 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
+        if(requestCode==10) {
+            if (requestCode == 10 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent();
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+            } else {
+
+                Toast.makeText(CardActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -3570,9 +3595,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
     private void saveFile(final String attachmentName,final String originalName,final String fileType) {
-        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+       /* ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
-        ringProgressDialog.show();
+        ringProgressDialog.show();*/
         StringRequest request = new StringRequest(Request.Method.POST,End_Points.SAVE_NEW_ATTACHMENT_BY_CARD_ID, new Response.Listener<String>() {
 
             @Override
@@ -4581,7 +4606,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     @Override
     public void processFinish(String output) {
 
-        ringProgressDialog.dismiss();
+       // ringProgressDialog.dismiss();
         if(output.equals("200"))
         {
             String fileType;
@@ -4596,6 +4621,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }
         else
         {
+            ringProgressDialog.dismiss();
             Toast.makeText(mcontext, "upload error", Toast.LENGTH_SHORT).show();
 
         }

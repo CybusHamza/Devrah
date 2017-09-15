@@ -56,6 +56,16 @@ public class AttachmentsPojo {
 
     public String isCover;
 
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public String fileId;
+
 
 
 }

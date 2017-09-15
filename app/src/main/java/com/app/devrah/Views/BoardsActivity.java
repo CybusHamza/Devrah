@@ -855,7 +855,7 @@ public class BoardsActivity extends AppCompatActivity {
                 String userId = pref.getString("user_id", "");
 
                 int pos = project_groups.getSelectedItemPosition();
-                params.put("user_id", userId);
+                params.put("userId", userId);
                 params.put("project_id", projectID);
                 params.put("group_id", spinnerGroupIds.get(pos));
                 return params;

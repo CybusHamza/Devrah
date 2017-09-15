@@ -1,8 +1,10 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +12,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.Holders.FilesHolder;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.pojo.AttachmentsPojo;
 
 import java.io.DataInputStream;
@@ -22,23 +37,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.R.id.position;
 
 
 public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
-
+    ProgressDialog ringProgressDialog;
     private List<AttachmentsPojo> attachmentList;
     Activity activity;
+    String cardId;
 
 
 
-
-   public FilesAdapter(List<AttachmentsPojo> mAttachmentList, Activity mActivity){
+   public FilesAdapter(List<AttachmentsPojo> mAttachmentList, Activity mActivity,String cardId){
 
         this.attachmentList = mAttachmentList;
         this.activity = mActivity;
+        this.cardId = cardId;
 
     }
 
@@ -101,10 +122,126 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
 
 
         });
+        holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Confirmation!")
+                        .setCancelText("Cancel")
+                        .setConfirmText("OK").setContentText("Are You sure you want to Remove this file")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+
+                                sDialog.dismiss();
+                                deleteFile(cardId,attachmentList.get(position).getFileId(),position);
+                            }
+                        })
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .show();
+
+              /*  Bitmap bitmap = mList.get(position);
+                Intent intent = new Intent(activity.getApplicationContext(), ImageDescription.class);
+                intent.putExtra("BitmapImage",bitmap);
+                activity.startActivity(intent);*/
+
+
+
+
+
+            }
+        });
 
         //}
 
 
+    }
+
+    private void deleteFile(final String cardId, final String attch_id, final int position) {
+        ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "deleting ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_ATTACHMENT_BY_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        if(!response.equals("")) {
+                            Toast.makeText(activity, "Attachment deleted", Toast.LENGTH_SHORT).show();
+                            attachmentList.remove(position);
+                            notifyDataSetChanged();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId", BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("card",cardId);
+                params.put("attach_id",attch_id);
+
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
     }
 
     @Override

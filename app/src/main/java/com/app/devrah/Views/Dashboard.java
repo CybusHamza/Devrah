@@ -25,14 +25,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Dashboard extends AppCompatActivity {
 
-    TextView tvTime, tvQuote;
+    TextView tvTime, tvQuote,tvAlias;
     String[] quotes;
     ImageView imgProjects, imgFavourites, imgMyCards, imgNotifications, imgInbox, imgMenu;
     String quote;
     Random rand;
     CircleImageView imgProfile;
     // int random;
-    String currentImage;
+    String currentImage,initials;
     Activity mActivity;
     String[] ProfileArray = {"Edit Profile", "Logoff", "Change Password"};
 
@@ -43,6 +43,7 @@ public class Dashboard extends AppCompatActivity {
 
         tvTime = (TextView) findViewById(R.id.tvTime);
         tvQuote = (TextView) findViewById(R.id.tvQuote);
+        tvAlias = (TextView) findViewById(R.id.alias_img);
         imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
         imgFavourites = (ImageView) findViewById(R.id.imageFavourites);
         imgMyCards = (ImageView) findViewById(R.id.imageView6);
@@ -53,11 +54,16 @@ public class Dashboard extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         currentImage = pref.getString("profile_pic", "");
+        initials = pref.getString("initials", "");
 
-
-        Picasso.with(getApplicationContext())
-                .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
-                .into(imgProfile);
+        if(!currentImage.equals("") && !currentImage.equals("null")) {
+            Picasso.with(getApplicationContext())
+                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+                    .into(imgProfile);
+        }else {
+            tvAlias.setVisibility(View.VISIBLE);
+            tvAlias.setText(initials);
+        }
         /*Intent intent1=getIntent();
         if(intent1.getStringExtra("Glogin").equals("true")){
             String url=intent1.getStringExtra("Gprofile");
@@ -155,7 +161,7 @@ public class Dashboard extends AppCompatActivity {
                                         editor.clear();
                                         editor.apply();
                                         Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
-                                        //  finish();
+                                          finish();
                                         startActivity(logOutIntent);
 
 
