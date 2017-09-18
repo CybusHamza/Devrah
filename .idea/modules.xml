@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Devrah.iml" filepath="$PROJECT_DIR$/Devrah.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Devrah_Git.iml" filepath="$PROJECT_DIR$/Devrah_Git.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
