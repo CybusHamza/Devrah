@@ -370,7 +370,7 @@ public class BoardExtended extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void doSearch() {
+    public void doSearch() {
 //
     }
 

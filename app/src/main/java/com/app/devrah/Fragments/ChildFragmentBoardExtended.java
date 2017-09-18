@@ -8,10 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -73,7 +77,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     Button purpleColor;
     Button yellowColor;
     Button redColor ;
-
+    private List<ProjectsPojo> HistoryList = new ArrayList<ProjectsPojo>();
     Spinner Projects,Postions,boards;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -106,6 +110,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
     List<String> postions_list;
+    EditText edtSeach;
 
     private OnFragmentInteractionListener mListener;
 
@@ -139,7 +144,6 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         tvName = (TextView)view.findViewById(R.id.textName);
         boardMenu = (ImageView)view.findViewById(R.id.menuBoards);
-
 
         tvAddCard = (TextView)view.findViewById(R.id.addCard);
         Bundle bundle = this.getArguments();
@@ -177,6 +181,36 @@ public class ChildFragmentBoardExtended extends Fragment {
             }
         }
         lv = (ListView) view.findViewById(R.id.boardFragmentListView);
+        edtSeach = (EditText) getActivity().findViewById(R.id.edtSearch);
+        edtSeach.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String nameToSearch = edtSeach.getText().toString();
+                ArrayList<ProjectsPojo> filteredLeaves = new ArrayList<ProjectsPojo>();
+
+                for (ProjectsPojo data : listPojo) {
+                    if (data.getData().toLowerCase().contains(nameToSearch.toLowerCase())) {
+                        filteredLeaves.add(data);
+                    }
+
+
+                }
+                adapter = new FragmentBoardsAdapter(getActivity(), filteredLeaves,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id);
+                lv.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         //relativeLayout=(RelativeLayout)findViewById(R.id.layoutTestRecycleView);
 //        cardAssociatedLabelRecycler=(RecyclerView)view.findViewById(R.id.labelsListView);
 

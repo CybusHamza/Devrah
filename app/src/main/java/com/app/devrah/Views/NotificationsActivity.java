@@ -31,6 +31,7 @@ public class NotificationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Notifications and Activities");
+        toolbar.inflateMenu(R.menu.my_menu);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

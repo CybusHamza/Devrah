@@ -1,8 +1,11 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,8 @@ import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
+
+import static com.app.devrah.Views.CardActivity.view;
 
 
 public class ProjectsAdapter extends BaseAdapter {
@@ -81,6 +86,16 @@ public class ProjectsAdapter extends BaseAdapter {
                 intent.putExtra("status",projectsList.get(position).getProjectStatus());
                 activity.startActivity(intent);
 
+            }
+        });
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public boolean onLongClick(View v) {
+                ClipData data = ClipData.newPlainText("","");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+                v.startDragAndDrop(data,shadowBuilder,v,0 );
+                return true;
             }
         });
 

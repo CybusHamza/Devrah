@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,7 +111,6 @@ public class Projects extends Fragment implements View.OnClickListener {
         btnAddProject = (Button) view.findViewById(R.id.buttonAddProject);
         listPojo = new ArrayList<>();
         lv = (ListView) view.findViewById(R.id.projectsListView);
-
         //   spinnerValues = new String[]{};
 
 
@@ -493,6 +493,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                 String userId = pref.getString("user_id", "");
 
                 params.put("id", userId);
+                params.put("status",ProjectsActivity.status);
                 // params.put("password",strPassword );
                 return params;
             }

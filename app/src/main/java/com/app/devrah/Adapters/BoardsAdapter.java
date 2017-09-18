@@ -1,6 +1,7 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -11,13 +12,31 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.BoardsActivity;
+import com.app.devrah.Views.Login;
+import com.app.devrah.Views.SignUpActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by AQSA SHaaPARR on 6/1/2017.
@@ -25,7 +44,7 @@ import java.util.List;
 
 public class BoardsAdapter extends BaseAdapter {
 
-
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
 
     List<ProjectsPojo> projectsList;
     String ListItemString;
@@ -72,6 +91,7 @@ public class BoardsAdapter extends BaseAdapter {
         holder.data.setText(ListItemString);
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
         holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
+
         if(projectsList.get(position).getBoardStar().equals("1")){
             Drawable d = convertView.getResources().getDrawable(R.drawable.star_default);
             holder.favouriteIcon.setImageDrawable(d);
@@ -85,7 +105,13 @@ public class BoardsAdapter extends BaseAdapter {
         holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(projectsList.get(position).getBoardStar().equals("1")){
+                    mardkBoardStar("2",projectsList.get(position).getBoardID(),position);
+                }else if (projectsList.get(position).getBoardStar().equals("2")){
+                    mardkBoardStar("3",projectsList.get(position).getBoardID(),position);
+                }else {
+                    mardkBoardStar("1",projectsList.get(position).getBoardID(),position);
+                }
             }
         });
 
@@ -109,6 +135,56 @@ public class BoardsAdapter extends BaseAdapter {
         });
 
         return convertView;
+    }
+
+    private void mardkBoardStar(final String starType, final String boardId, final int position) {
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.MARDK_FAVOURITE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(starType.equals("1")){
+                           projectsList.get(position).setBoardStar("1");
+                        }else if(starType.equals("2")){
+                            projectsList.get(position).setBoardStar("2");
+                        }else {
+                            projectsList.get(position).setBoardStar("3");
+                        }
+                        notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(activity,"No Internet Connection!",Toast.LENGTH_LONG).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(activity,"Connection Timeout error!",Toast.LENGTH_LONG).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_star", starType);
+                params.put("board_id", boardId);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
     }
 
 

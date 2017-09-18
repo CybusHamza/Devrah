@@ -357,6 +357,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                 String userId = pref.getString("user_id", "");
 
                 params.put("id", userId);
+                params.put("status", ProjectsActivity.status);
                 // params.put("password",strPassword );
                 return params;
             }

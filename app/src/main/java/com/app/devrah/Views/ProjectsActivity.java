@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -22,6 +23,8 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,6 +45,7 @@ public class ProjectsActivity extends AppCompatActivity {
     String title;
     View logo;
     CustomDrawerAdapter adapter;
+    static String status;
     //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
@@ -61,8 +65,7 @@ public class ProjectsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
-
-
+        status="0";
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 //        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
@@ -88,6 +91,7 @@ public class ProjectsActivity extends AppCompatActivity {
         View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
 
         dataList.add(new DrawerPojo("Create New Team"));
+        dataList.add(new DrawerPojo("Change Status Filter"));
 //        dataList.add(new DrawerPojo("Copy Project"));
 //        dataList.add(new DrawerPojo("Move Project"));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
@@ -160,6 +164,8 @@ public class ProjectsActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if(position==1){
                     ((GroupProjects)adapter1.getItem(position)).prepareDataList();
+                }else if(position==0){
+                    ((Projects)adapter1.getItem(position)).getProjectsData();
                 }
             }
 
@@ -311,11 +317,144 @@ public class ProjectsActivity extends AppCompatActivity {
                         finish();
 
                         break;
+                    case 2:
+                        changeProjectStatus();
+                        break;
 
                 }
 
             }
         });
+
+    }
+
+    private void changeProjectStatus() {
+        LayoutInflater inflater = LayoutInflater.from(ProjectsActivity.this);
+        View customView = inflater.inflate(R.layout.project_filter_status_menu_drawer, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(ProjectsActivity.this).create();
+
+
+        LinearLayout active, inactive, complete,all;
+        final ImageView imgactive, igminactive, imgcomplete,imgall,crossIcon;
+
+
+        active = (LinearLayout) customView.findViewById(R.id.active);
+        inactive = (LinearLayout) customView.findViewById(R.id.inactive);
+        complete = (LinearLayout) customView.findViewById(R.id.completed);
+        all = (LinearLayout) customView.findViewById(R.id.all);
+
+
+        imgactive = (ImageView) customView.findViewById(R.id.activeimg);
+        igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
+        imgcomplete = (ImageView) customView.findViewById(R.id.complete);
+        imgall = (ImageView) customView.findViewById(R.id.allimg);
+        crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
+        crossIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                drawerLayout.closeDrawer(Gravity.END);
+            }
+        });
+
+        if (status.equals("1")) {
+            imgactive.setVisibility(View.VISIBLE);
+            active.setClickable(false);
+            active.setEnabled(false);
+        } else if (status.equals("2")) {
+            igminactive.setVisibility(View.VISIBLE);
+            inactive.setClickable(false);
+            inactive.setEnabled(false);
+        } else if (status.equals("3")) {
+            imgcomplete.setVisibility(View.VISIBLE);
+            complete.setClickable(false);
+            complete.setEnabled(false);
+        }else if (status.equals("0")) {
+            imgall.setVisibility(View.VISIBLE);
+            all.setClickable(false);
+            all.setEnabled(false);
+        }
+
+        active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status="1";
+                imgactive.setVisibility(View.VISIBLE);
+                igminactive.setVisibility(View.GONE);
+                imgcomplete.setVisibility(View.GONE);
+                imgall.setVisibility(View.GONE);
+                alertDialog.dismiss();
+                int position=viewPager.getCurrentItem();
+                if(position==1){
+                    ((GroupProjects)adapter1.getItem(position)).prepareDataList();
+                }else if(position==0){
+                    ((Projects)adapter1.getItem(position)).getProjectsData();
+                }
+                drawerLayout.closeDrawer(Gravity.END);
+            }
+        });
+
+        inactive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status="2";
+                imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.VISIBLE);
+                imgcomplete.setVisibility(View.GONE);
+                imgall.setVisibility(View.GONE);
+                alertDialog.dismiss();
+                int position=viewPager.getCurrentItem();
+                if(position==1){
+                    ((GroupProjects)adapter1.getItem(position)).prepareDataList();
+                }else if(position==0){
+                    ((Projects)adapter1.getItem(position)).getProjectsData();
+                }
+                drawerLayout.closeDrawer(Gravity.END);
+            }
+        });
+
+
+        complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status="3";
+                imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.GONE);
+                imgcomplete.setVisibility(View.VISIBLE);
+                imgall.setVisibility(View.GONE);
+                alertDialog.dismiss();
+                int position=viewPager.getCurrentItem();
+                if(position==1){
+                    ((GroupProjects)adapter1.getItem(position)).prepareDataList();
+                }else if(position==0){
+                    ((Projects)adapter1.getItem(position)).getProjectsData();
+                }
+                drawerLayout.closeDrawer(Gravity.END);
+            }
+        });
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status="0";
+                imgall.setVisibility(View.VISIBLE);
+                imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.GONE);
+                imgcomplete.setVisibility(View.GONE);
+                alertDialog.dismiss();
+                int position=viewPager.getCurrentItem();
+                if(position==1){
+                    ((GroupProjects)adapter1.getItem(position)).prepareDataList();
+                }else if(position==0){
+                    ((Projects)adapter1.getItem(position)).getProjectsData();
+                }
+                drawerLayout.closeDrawer(Gravity.END);
+            }
+        });
+
+
+
+        alertDialog.setView(customView);
+        alertDialog.show();
 
     }
 
