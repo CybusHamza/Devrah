@@ -1,8 +1,8 @@
 package com.app.devrah.Views;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -54,6 +54,7 @@ public class viewMessage extends AppCompatActivity {
         else
         project.setText(strproject);
         subject.setText(strsubject);
+
         message.setText(Html.fromHtml(Html.fromHtml(strmessage).toString()));
 
 
