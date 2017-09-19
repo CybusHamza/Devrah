@@ -95,5 +95,15 @@ public class InboxPojo {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    public String messageType;
 }
 

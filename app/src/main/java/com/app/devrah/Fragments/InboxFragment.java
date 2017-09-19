@@ -179,7 +179,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener {
 
 
                             }
-                            adapter = new InboxAdapter(getActivity(), listPojo);
+                            adapter = new InboxAdapter(getActivity(), listPojo,"inbox");
                             lv.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

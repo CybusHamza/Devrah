@@ -25,11 +25,13 @@ public class InboxAdapter extends BaseAdapter {
     List<InboxPojo> projectsList;
     Activity activity;
     private LayoutInflater inflater;
+    String messageType;
 
 
-    public InboxAdapter(Activity activity, List<InboxPojo> projectsList) {
+    public InboxAdapter(Activity activity, List<InboxPojo> projectsList,String messageType) {
         this.activity = activity;
         this.projectsList = projectsList;
+        this.messageType = messageType;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -83,10 +85,17 @@ public class InboxAdapter extends BaseAdapter {
             holder.img.setImageResource(R.drawable.close_email);
         }
         holder.data.setText("Subject : "+inboxPojo.getSubject());
-        if(!inboxPojo.getFrom().equals("null"))
-        holder.to.setText("From : "+inboxPojo.getFrom());
-        else
-            holder.to.setText("From : ");
+        if(messageType.equals("inbox")) {
+            if (!inboxPojo.getFrom().equals("null"))
+                holder.to.setText("From : " + inboxPojo.getFrom());
+            else
+                holder.to.setText("From : ");
+        }else {
+            if (!inboxPojo.getFrom().equals("null"))
+                holder.to.setText("To : " + inboxPojo.getFrom());
+            else
+                holder.to.setText("To : ");
+        }
         holder.date.setText(inboxPojo.getDate());
         if(inboxPojo.getCardif().equals("null"))
         {
@@ -126,6 +135,7 @@ public class InboxAdapter extends BaseAdapter {
                 intent.putExtra("board",inboxPojo.getB_id());
                 intent.putExtra("subject",inboxPojo.getSubject());
                 intent.putExtra("message",inboxPojo.getMessage());
+                intent.putExtra("messageType",messageType);
 
                 activity.startActivity(intent);
 

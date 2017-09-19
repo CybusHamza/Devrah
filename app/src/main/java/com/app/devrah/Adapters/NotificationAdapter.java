@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
+import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.NotificationsPojo;
 import com.app.devrah.pojo.boardNotificationsPojo;
 import com.app.devrah.pojo.cardNotificationsPojo;
@@ -95,7 +96,24 @@ public class NotificationAdapter extends BaseAdapter {
                     intent.putExtra("ptitle",projectsList.get(position).getProjectTitle());
                     activity.startActivity(intent);
                 }else if(projectsList.get(position).getLabel().equals(" added you to the card ")){
-                    Toast.makeText(activity,"Module not working yet",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(activity,CardActivity.class);
+                    intent.putExtra("CardHeaderData", projectsList.get(position).getData());
+                    intent.putExtra("card_id",projectsList.get(position).getCardId());
+                    intent.putExtra("cardduedate",projectsList.get(position).getCardDueDate());
+                    intent.putExtra("cardduetime",projectsList.get(position).getCardDueTime());
+                    intent.putExtra("cardstartdate",projectsList.get(position).getCardStartDate());
+                    intent.putExtra("cardstarttime",projectsList.get(position).getCardStartTime());
+                    intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
+                    intent.putExtra("isComplete",projectsList.get(position).getIsComplete());
+                    intent.putExtra("isLocked",projectsList.get(position).getIsLocked());
+                    intent.putExtra("isSubscribed",projectsList.get(position).getIsSubscribed());
+                    intent.putExtra("list_id",projectsList.get(position).getListId());
+                    intent.putExtra("board_id",projectsList.get(position).getBoardId());
+                    intent.putExtra("project_id",projectsList.get(position).getProjectId());
+                    intent.putExtra("board_name",projectsList.get(position).getBoard_name());
+                    intent.putExtra("fromMyCards","notifi");
+                    activity.finish();
+                    activity.startActivity(intent);
                 }
             }
         });

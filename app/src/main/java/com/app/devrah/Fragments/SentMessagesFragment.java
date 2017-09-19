@@ -190,7 +190,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
 
                             }
-                            adapter = new InboxAdapter(getActivity(), listPojo);
+                            adapter = new InboxAdapter(getActivity(), listPojo,"sent");
                             lv.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

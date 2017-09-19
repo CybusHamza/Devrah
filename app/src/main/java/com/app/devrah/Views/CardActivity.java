@@ -1669,6 +1669,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             Intent intent=new Intent(CardActivity.this,MyCardsActivity.class);
             finish();
             startActivity(intent);
+        }else if(isFromMyCardsScreen.equals("notifi")){
+            super.onBackPressed();
+            Intent intent=new Intent(CardActivity.this,NotificationsActivity.class);
+            finish();
+            startActivity(intent);
         } else {
             super.onBackPressed();
             Intent intent=new Intent(CardActivity.this,BoardExtended.class);

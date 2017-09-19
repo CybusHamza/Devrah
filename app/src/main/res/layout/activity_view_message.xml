@@ -170,10 +170,20 @@
                 android:gravity="end"
                 android:layout_below="@+id/textEditorLayout">
                 <Button
+                    android:id="@+id/reply_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reply"
+                    android:background="@drawable/bg_boards_extended_green"
+                    android:layout_marginRight="5dp"
+                    />
+                <Button
                     android:id="@+id/cancel_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancel"/>
+                    android:text="Close"
+                    android:background="@drawable/bg_boards_extended_list"
+                    />
 
 
             </LinearLayout>

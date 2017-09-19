@@ -3,6 +3,7 @@ package com.app.devrah.Views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +16,15 @@ public class viewMessage extends AppCompatActivity {
 
     EditText  from ,message ,board,card,project,subject;
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
-    Button cancel_button;
+    Button cancel_button,reply_btn;
+    Toolbar toolbar;
+    String messageType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_message);
-
+        toolbar = (Toolbar) findViewById(R.id.header);
+        toolbar.setTitle("Read Message");
         from = (EditText) findViewById(R.id.etEmails);
         board = (EditText) findViewById(R.id.boardSpinner);
         card = (EditText) findViewById(R.id.cardSpinner);
@@ -28,6 +32,7 @@ public class viewMessage extends AppCompatActivity {
         subject = (EditText) findViewById(R.id.etSubject);
         message = (EditText) findViewById(R.id.editor);
         cancel_button = (Button) findViewById(R.id.cancel_button);
+        reply_btn = (Button) findViewById(R.id.reply_button);
 
         Intent intent = getIntent();
 
@@ -37,6 +42,24 @@ public class viewMessage extends AppCompatActivity {
         strcard = intent.getStringExtra("card");
         strproject = intent.getStringExtra("project");
         strsubject = intent.getStringExtra("subject");
+        messageType = intent.getStringExtra("messageType");
+        if(messageType.equals("sent")){
+            reply_btn.setVisibility(View.INVISIBLE);
+        }
+        reply_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(viewMessage.this,Reply.class);
+                intent.putExtra("to",strfrom);
+                intent.putExtra("project",strproject);
+                intent.putExtra("card",strcard);
+                intent.putExtra("board",strboard);
+                intent.putExtra("subject",strsubject);
+                intent.putExtra("message",strmessage);
+                finish();
+                startActivity(intent);
+            }
+        });
 
 
         from.setText(strfrom);
