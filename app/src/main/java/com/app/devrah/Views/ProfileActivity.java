@@ -85,7 +85,9 @@ public class ProfileActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(ProfileActivity.this,Dashboard.class);
                 finish();
+                startActivity(intent);
             }
         });
 
@@ -497,13 +499,14 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if (!(response.equals(""))) {
                     //Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                    img = response.trim();
                     uploadData();
 //                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //                    SharedPreferences.Editor editor = preferences.edit();
 //                    editor.putString("img",response);
 //                    editor.apply();
 
-                    img = response.trim();
+
 
 
 

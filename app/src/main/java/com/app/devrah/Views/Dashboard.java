@@ -18,6 +18,7 @@ import com.app.devrah.FireBase_Notifications.RegistrationIntentService;
 import com.app.devrah.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -205,9 +206,7 @@ public class Dashboard extends AppCompatActivity {
 
 
         final Calendar c = Calendar.getInstance();
-        String hour = String.valueOf(c.get(Calendar.HOUR));
-        int minute = c.get(Calendar.MINUTE);
-        int seconds = c.get(Calendar.SECOND);
+
 
 
         //  tvTime.setText(hour +":" +String.valueOf(minute) + ":" + String.valueOf(seconds) + " "+ amOrpm);
@@ -217,13 +216,16 @@ public class Dashboard extends AppCompatActivity {
 
             public void onTick(long millisUntilFinished) {
                 Calendar c = Calendar.getInstance();
+                int hours =c.get(Calendar.HOUR);
+                int minutes = c.get(Calendar.MINUTE);
+                int seconds = c.get(Calendar.SECOND);
 
                 int zone = c.get(Calendar.AM_PM);
 
                 String amOrpm = ((zone == Calendar.AM) ? "am" : "pm");
 
-
-                tvTime.setText(c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND) + " " + amOrpm);
+                tvTime.setText((hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes)+ ":" + (seconds < 10 ? "0" + seconds : seconds) + " " + amOrpm);
+               // tvTime.setText(c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND) + " " + amOrpm);
             }
 
             public void onFinish() {

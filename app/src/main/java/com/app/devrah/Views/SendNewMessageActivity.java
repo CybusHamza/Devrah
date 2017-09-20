@@ -955,5 +955,13 @@ public class SendNewMessageActivity extends AppCompatActivity {
         }
 
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
+        startActivity(intent);
+        finish();
+    }
+
 
 }

@@ -182,6 +182,14 @@ public class BoardsAdapter extends BaseAdapter {
                                     i--;
                                 }
                             }
+                            for (int j = 0; j < projectsList.size(); j++) {
+                                int swap = Integer.valueOf(projectsList.get(j).getBoardStar());
+                                if (current > swap && position > j) {
+                                    Collections.swap(projectsList, j, position);
+                                } else if (current < swap && position < j) {
+                                    Collections.swap(projectsList, j, position);
+                                }
+                            }
                         }
 
                     }
