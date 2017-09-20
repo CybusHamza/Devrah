@@ -78,11 +78,11 @@ public class InboxAdapter extends BaseAdapter {
 
         if (inboxPojo.isread.equals("0"))
         {
-            holder.img.setImageResource(R.drawable.open_email);
+            holder.img.setImageResource(R.drawable.close_email);
         }
         else{
 
-            holder.img.setImageResource(R.drawable.close_email);
+            holder.img.setImageResource(R.drawable.open_email);
         }
         holder.data.setText("Subject : "+inboxPojo.getSubject());
         if(messageType.equals("inbox")) {

@@ -69,8 +69,12 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
     @Override
     public void onBindViewHolder(final Cheklist holder, final int position) {
 
-
-        holder.checklistName.setText(CheckListItems.get(position).getName());
+            String check=CheckListItems.get(position).getName().toString();
+        if(!check.equals("") && !check.equals("null")) {
+            holder.checklistName.setText(CheckListItems.get(position).getName());
+        }else {
+            holder.checklistName.setText("Checklist");
+        }
 
 
         holder.checklistName.setOnEditorActionListener(new TextView.OnEditorActionListener() {

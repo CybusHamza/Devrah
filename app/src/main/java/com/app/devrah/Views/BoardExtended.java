@@ -143,14 +143,19 @@ public class BoardExtended extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId==6 ) {
-                    isEditOpened = false;
-                    tv.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
-                    UpdateBoardName(tv.getText().toString());
-                    toolbar.getMenu().clear();
-                    toolbar.inflateMenu(R.menu.menu_with_back_button);
-                    toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    String check=tv.getText().toString();
+                    if(!check.equals("")) {
+                        isEditOpened = false;
+                        tv.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                        UpdateBoardName(tv.getText().toString());
+                        toolbar.getMenu().clear();
+                        toolbar.inflateMenu(R.menu.menu_with_back_button);
+                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    }else {
+                        Toast.makeText(BoardExtended.this,"Board Name is must!",Toast.LENGTH_LONG).show();
+                    }
 
                 }
                 return true;
@@ -192,14 +197,19 @@ public class BoardExtended extends AppCompatActivity {
                         return true;
                     case R.id.tick:
                         final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
-                        tv.clearFocus();
-                        tv.setCursorVisible(false);
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
-                        UpdateBoardName(tv.getText().toString());
-                        toolbar.getMenu().clear();
-                        toolbar.inflateMenu(R.menu.menu_with_back_button);
-                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        String check=tv.getText().toString();
+                        if(!check.equals("")) {
+                            tv.clearFocus();
+                            tv.setCursorVisible(false);
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                            UpdateBoardName(tv.getText().toString());
+                            toolbar.getMenu().clear();
+                            toolbar.inflateMenu(R.menu.menu_with_back_button);
+                            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        }else {
+                            Toast.makeText(BoardExtended.this,"Board Name is must!",Toast.LENGTH_LONG).show();
+                        }
                         return true;
 
                 }
@@ -213,6 +223,7 @@ public class BoardExtended extends AppCompatActivity {
             public void onClick(View v) {
                 if(Cancelbtn){
                     final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                    tv.setText(title);
                     tv.clearFocus();
                     tv.setCursorVisible(false);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

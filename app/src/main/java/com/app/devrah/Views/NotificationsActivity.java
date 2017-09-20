@@ -6,15 +6,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.devrah.Fragments.ActivitiesFragment;
+import com.app.devrah.Fragments.InboxFragment;
 import com.app.devrah.Fragments.NotificationsFragment;
+import com.app.devrah.Fragments.SentMessagesFragment;
 import com.app.devrah.R;
 
 import java.util.ArrayList;
@@ -24,6 +31,8 @@ public class NotificationsActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     Toolbar toolbar;
+    ViewPagerAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +72,14 @@ public class NotificationsActivity extends AppCompatActivity {
 //        tabLayout.getTabAt(2).setCustomView(tabThree);
     }
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new NotificationsFragment(), "Notifications");
         adapter.addFrag(new ActivitiesFragment(), "Activities");
         //  adapter.addFrag(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter);
+
     }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

@@ -2144,9 +2144,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
                         if(dateType.equals("dueDate")){
-                            updateCardDueDate(dayOfMonth+"-"+(monthOfYear+1)+"-"+year);
+                            updateCardDueDate(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                         }else if(dateType.equals("startDate")){
-                            updateCardStartDate(dayOfMonth+"-"+(monthOfYear+1)+"-"+year);
+                            updateCardStartDate(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                         }
                         // set day of month , month and year value in the edit text
 //                                                date.setText(dayOfMonth + "/"
@@ -2795,13 +2795,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     }
 
-    public  void updateCardDueDate(final String dueDate) {
+    public  void updateCardDueDate(final String dueDat) {
         final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_DUE_DATES_BY_ID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbDueDate.setText(dueDate);
+                        cbDueDate.setText(dueDat);
+                        dueDate=dueDat;
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
 
 
@@ -2852,7 +2853,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("projectid",BoardExtended.projectId);
                 params.put("card_id",cardId);
                 params.put("strt_dt",startDate);
-                params.put("end_dt",dueDate);
+                params.put("end_dt",dueDat);
                 final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 params.put("userId", pref.getString("user_id",""));
                 return params;
@@ -2867,13 +2868,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         requestQueue.add(request);
 
     }
-    public  void updateCardStartDate(final String startDate) {
+    public  void updateCardStartDate(final String startDat) {
         final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_START_DATES_BY_ID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbStartDate.setText(startDate);
+                        cbStartDate.setText(startDat);
+                        startDate=startDat;
+
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
 
 
@@ -2923,7 +2926,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("boardId",BoardExtended.boardId);
                 params.put("projectid",BoardExtended.projectId);
                 params.put("card_id",cardId);
-                params.put("strt_dt",startDate);
+                params.put("strt_dt",startDat);
                 params.put("end_dt",dueDate);
                 final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 params.put("userId", pref.getString("user_id",""));
@@ -3691,8 +3694,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(!etCardName.getText().toString().equals("")) {
+                String check=etCardName.getText().toString();
+                if(!check.equals("") && check!="") {
                     updateCardName(etCardName.getText().toString());
                     alertDialog.dismiss();
                 }else {

@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.InboxAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.MessagesActivity;
 import com.app.devrah.Views.SendNewMessageActivity;
 import com.app.devrah.pojo.InboxPojo;
 
@@ -99,7 +100,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener {
 
         view = inflater.inflate(R.layout.fragment_messages, container, false);
         btnSendNewMessage = (Button) view.findViewById(R.id.buttonSendNewMessage);
-        listPojo = new ArrayList<>();
+
         lv = (ListView) view.findViewById(R.id.messagesListView);
        /* projectPojoData = new AcitivitiesPojo();
         for(int i=0;i<3;i++) {
@@ -158,6 +159,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
+                        listPojo = new ArrayList<>();
                         try {
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
@@ -226,6 +228,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener {
 
 
                 params.put("userId", userId);
+                params.put("filter", MessagesActivity.filter);
                 return params;
             }
         };

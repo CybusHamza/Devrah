@@ -59,7 +59,7 @@
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:hint="E-mail"
-
+                android:editable="false"
                 android:textColorHint="#00FA9A"
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"

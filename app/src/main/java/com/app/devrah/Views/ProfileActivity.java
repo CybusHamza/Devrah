@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -169,8 +170,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if (b64 != null){
                     LoadImage();
+                }else {
+                    uploadData();
                 }
-                uploadData();
 
                 //}
                // else {
@@ -225,8 +227,11 @@ public class ProfileActivity extends AppCompatActivity {
                             editor.putString("dev_tag", devrah_tag);
                             editor.putString("position", s_position);
                             editor.putString("website", s_website);
+                            editor.putString("profile_pic", img);
                             editor.apply();
+                            Intent intent=new Intent(ProfileActivity.this,Dashboard.class);
                             finish();
+                            startActivity(intent);
                         }else {
                             Toast.makeText(getApplicationContext(),"No Change Found!",Toast.LENGTH_SHORT).show();
                         }
@@ -469,9 +474,9 @@ public class ProfileActivity extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 //NavUtils.navigateUpFromSameTask(this);
-                //Intent intent=new Intent(this,Dashboard.class);
+                Intent intent=new Intent(this,Dashboard.class);
                 finish();
-                //startActivity(intent);
+                startActivity(intent);
                 onBackPressed();
                 return true;
         }
@@ -479,23 +484,27 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void LoadImage(){
-
+      final ProgressDialog  ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Updating...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_mobile.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
 
-                // loading.dismiss();
+                ringProgressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
 
                 if (!(response.equals(""))) {
-                    Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                    uploadData();
 //                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //                    SharedPreferences.Editor editor = preferences.edit();
 //                    editor.putString("img",response);
 //                    editor.apply();
 
                     img = response.trim();
+
 
 
 
@@ -510,11 +519,14 @@ public class ProfileActivity extends AppCompatActivity {
         {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //   loading.dismiss();
+                ringProgressDialog.dismiss();
                 String message = null;
                 if (error instanceof NetworkError) {
                     message = "Cannot connect to Internet...Please check your connection!";
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                }else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getApplicationContext(),"Time Out error",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -537,5 +549,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
-
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(ProfileActivity.this,Dashboard.class);
+        finish();
+        startActivity(a);
+        super.onBackPressed();
+    }
 }

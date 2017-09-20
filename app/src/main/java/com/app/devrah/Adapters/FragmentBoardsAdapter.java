@@ -362,7 +362,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
 
         }*/
-        holder.attachment.setVisibility(View.INVISIBLE);
+        holder.attachment.setVisibility(View.GONE);
         String cover[]=coverList.get(position).getIsCover();
         String fileName[]=coverList.get(position).getFileName();
         for(int i=0;i<cover.length;i++) {
@@ -370,9 +370,10 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 holder.attachment.setVisibility(View.VISIBLE);
                 Picasso.with(activity)
                         .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + fileName[i])
+                        .resize(250,200)
                         .into(holder.attachment);
             } else {
-                holder.attachment.setVisibility(View.INVISIBLE);
+                holder.attachment.setVisibility(View.GONE);
             }
         }
 

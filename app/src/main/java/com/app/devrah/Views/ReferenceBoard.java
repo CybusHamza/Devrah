@@ -279,7 +279,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                                  }
                         else {
 
-
+                            hidentxt.setVisibility(View.INVISIBLE);
 
                         try {
                             JSONArray jsonArray = new JSONArray(response);

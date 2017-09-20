@@ -151,7 +151,7 @@ public class Dashboard extends AppCompatActivity {
                                 switch (which) {
                                     case 0:
                                         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                                        // finish();
+                                         finish();
                                         startActivity(intent);
                                         break;
                                     case 1:
