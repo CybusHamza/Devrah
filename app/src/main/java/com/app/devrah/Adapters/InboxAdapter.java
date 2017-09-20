@@ -129,6 +129,8 @@ public class InboxAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity,viewMessage.class);
+                intent.putExtra("message_id",inboxPojo.getId());
+                intent.putExtra("isRead",inboxPojo.getIsread());
                 intent.putExtra("to",inboxPojo.getFrom());
                 intent.putExtra("project",inboxPojo.getP_id());
                 intent.putExtra("card",inboxPojo.getCardif());
