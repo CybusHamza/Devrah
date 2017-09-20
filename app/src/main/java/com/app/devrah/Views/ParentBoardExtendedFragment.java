@@ -160,7 +160,7 @@ public class ParentBoardExtendedFragment extends Fragment {
 //        if (adapter.getCount() > 0) tabLayout.setupWithViewPager(viewPager);
 
 
-        viewPager.setCurrentItem(adapter.getCount() - 1);
+        viewPager.setCurrentItem(0);
       //  adapter.addFrag(fragLa,"");
 
 

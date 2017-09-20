@@ -338,7 +338,7 @@ public class BoardsActivity extends AppCompatActivity {
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
-            //toolbar.setTitle("Projects");
+            toolbar.setTitle(projectTitle);
             logo.setVisibility(View.INVISIBLE);
             edtSeach.setText("");
 
@@ -354,7 +354,7 @@ public class BoardsActivity extends AppCompatActivity {
 
             //  action.setCustomView(R.layout.search_bar);//add the custom view
             // action.setDisplayShowTitleEnabled(false); //hide the title
-            //toolbar.setTitle("");
+            toolbar.setTitle("");
 
             //the text editor
 
