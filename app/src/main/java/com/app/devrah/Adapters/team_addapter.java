@@ -78,7 +78,7 @@ public class team_addapter extends BaseAdapter {
                     .load(membersPojo.getGp_pic())
                     .into( holder.imgProfile );
         }
-        else{
+        else {
             holder.alias_img.setVisibility(View.INVISIBLE);
             Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + membersPojo.getProfile_pic())
