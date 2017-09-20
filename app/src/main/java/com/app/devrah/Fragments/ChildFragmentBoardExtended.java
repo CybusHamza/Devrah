@@ -1,6 +1,7 @@
 package com.app.devrah.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -454,8 +456,11 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
                     lv.setAdapter(adapter);*/
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
                    row++;
                    saveCardByListId(boardsFragmentData,row);
+
                     alertDialog.dismiss();
                 }
                 else {

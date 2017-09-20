@@ -423,6 +423,7 @@
         android:layout_marginLeft="5dp"
         android:id="@+id/dateLabel"
         android:textColor="#000"
+        android:visibility="gone"
         />
     <ImageView
         android:layout_below="@id/tvFragmentBoardsList"
@@ -433,7 +434,7 @@
         android:id="@+id/attachmentIcon"
         android:textColor="#000"
         android:background="@drawable/attachment_icon"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
     <TextView
         android:layout_below="@id/tvFragmentBoardsList"
@@ -446,7 +447,7 @@
         android:text=""
         android:id="@+id/nOfAttachments"
         android:textColor="#000"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
     <HorizontalScrollView
         android:layout_below="@id/dateLabel"

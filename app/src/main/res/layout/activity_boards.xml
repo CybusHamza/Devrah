@@ -16,7 +16,7 @@
         >
         <include
             android:id="@+id/header"
-            layout="@layout/app_bar1">
+            layout="@layout/app_bar">
         </include>
 
         <android.support.v4.view.ViewPager

@@ -403,19 +403,24 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
+        holder.nOfAttachments.setVisibility(View.GONE);
+        holder.attachmentIcon.setVisibility(View.GONE);
         if(!projectsList.get(position).getnOfAttachments().equals("0")){
             holder.nOfAttachments.setVisibility(View.VISIBLE);
             holder.attachmentIcon.setVisibility(View.VISIBLE);
         holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         }else {
-            holder.nOfAttachments.setVisibility(View.INVISIBLE);
-            holder.attachmentIcon.setVisibility(View.INVISIBLE);
+            holder.nOfAttachments.setVisibility(View.GONE);
+            holder.attachmentIcon.setVisibility(View.GONE);
         }
         holder.data.setText(projectsList.get(position).getData());
             BoardsListData = projectsList.get(position).getData();
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
-        if(!projectsList.get(position).getDueDate().equals("null"))
-        holder.dueDate.setText(projectsList.get(position).getDueDate()+" "+projectsList.get(position).getDuetTime());
+        holder.dueDate.setVisibility(View.GONE);
+        if(!projectsList.get(position).getDueDate().equals("null")) {
+            holder.dueDate.setVisibility(View.VISIBLE);
+            holder.dueDate.setText(projectsList.get(position).getDueDate() + " " + projectsList.get(position).getDuetTime());
+        }
         else
             holder.dueDate.setText("");
        // if(projectsList.get(position).getnOfAttachments().length()>0){

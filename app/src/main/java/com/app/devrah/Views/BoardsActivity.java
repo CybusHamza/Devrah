@@ -112,9 +112,9 @@ public class BoardsActivity extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.header);
-        toolbar.setTitle("");
+        toolbar.setTitle(projectTitle);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
-        final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+       /* final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
        // toolbar.setFocusable(true);
         //toolbar.setFocusableInTouchMode(true);
         tv.setText(projectTitle);
@@ -164,7 +164,7 @@ public class BoardsActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        });*/
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -172,7 +172,7 @@ public class BoardsActivity extends AppCompatActivity {
 
         dataList = new ArrayList<>();
         View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
-
+        dataList.add(new DrawerPojo("Update Project Name"));
         dataList.add(new DrawerPojo("Manage Status"));
         dataList.add(new DrawerPojo("Copy Project"));
         dataList.add(new DrawerPojo("Move Project"));
@@ -410,7 +410,46 @@ public class BoardsActivity extends AppCompatActivity {
     private void doSearch() {
 //
     }
+    private void updateProjectNameDialog() {
+        LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
+        View customView = inflater.inflate(R.layout.update_card_name_dialog, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this).create();
 
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+        Button cancel, copy;
+        final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
+        final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
+        tvheading.setText("Update Project Name");
+        etCardName.setText(projectTitle);
+
+        copy = (Button) customView.findViewById(R.id.copy);
+        cancel = (Button) customView.findViewById(R.id.close);
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String check=etCardName.getText().toString();
+                if(!check.equals("") && check!="") {
+                    UpdateProjectName(etCardName.getText().toString());
+                    alertDialog.dismiss();
+                }else {
+                    Toast.makeText(BoardsActivity.this,"Project Name is must!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                alertDialog.dismiss();
+
+            }
+        });
+
+    }
     public void openDrawer() {
         adapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(adapter);
@@ -420,24 +459,27 @@ public class BoardsActivity extends AppCompatActivity {
                 switch (position) {
 
                     case 1:
+                        updateProjectNameDialog();
+                        break;
+                    case 2:
                         showStatus();
 
                         break;
 
 
-                    case 2:
+                    case 3:
 
                         showDialog("copy");
                         break;
 
 
-                    case 3:
+                    case 4:
 
                         showDialog("move");
                         break;
 
 
-                    case 4:
+                    case 5:
 
                         Intent intent = new Intent(BoardsActivity.this, manage_members.class);
                         intent.putExtra("P_id",projectID);
@@ -445,7 +487,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                         break;
 
-                    case 5:
+                    case 6:
                         new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")
@@ -486,7 +528,11 @@ public class BoardsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         ptitle=updatedText;
+                        projectTitle=updatedText;
+                        toolbar.setTitle(updatedText);
                         ringProgressDialog.dismiss();
+                        Toast.makeText(BoardsActivity.this, "Project Name Updated Successfully", Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawer(Gravity.END);
 
 
                     }
