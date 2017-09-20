@@ -72,7 +72,8 @@
         <activity
             android:name=".Views.manage_members"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Views.Manage_Board_Members" />
+        <activity android:name=".Views.Manage_Board_Members"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Views.CheckList_Detail"
             android:windowSoftInputMode="adjustPan"></activity>
