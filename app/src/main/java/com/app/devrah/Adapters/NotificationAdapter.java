@@ -111,6 +111,7 @@ public class NotificationAdapter extends BaseAdapter {
                     intent.putExtra("board_id",projectsList.get(position).getBoardId());
                     intent.putExtra("project_id",projectsList.get(position).getProjectId());
                     intent.putExtra("board_name",projectsList.get(position).getBoard_name());
+                    intent.putExtra("project_title",projectsList.get(position).getProjectTitle());
                     intent.putExtra("fromMyCards","notifi");
                     activity.finish();
                     activity.startActivity(intent);

@@ -605,6 +605,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                                 adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id);
                                 lv.setAdapter(adapter);
+
                                 /*try {
                                     cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);
                                     cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
@@ -664,7 +665,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("board_id", BoardExtended.boardId);
                 params.put("project_id", BoardExtended.projectId);
-                // params.put("userId", pref.getString("user_id",""));
+                 params.put("userId", pref.getString("user_id",""));
                  params.put("list_id", lsitId);
                 return params;
             }

@@ -27,6 +27,7 @@ import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +138,38 @@ public class ReferenceBoardAdapter extends BaseAdapter {
                             projectsList.get(position).setReferenceBoardStar("3");
                         }
                         notifyDataSetChanged();
+                        int current=Integer.valueOf(projectsList.get(position).getBoardStar());
+                        if(current>1) {
+                            for (int i = 0; i < projectsList.size(); i++) {
+                                int swap = Integer.valueOf(projectsList.get(i).getBoardStar());
+                                if (current > swap && position > i) {
+                                    Collections.swap(projectsList, i, position);
+                                } else if (current < swap && position < i) {
+                                    Collections.swap(projectsList, i, position);
+                                }
+                            }
+                        }else {
+                            int i=projectsList.size()-1;
+
+                            Boolean check=false;
+                            while (check==false && i>position) {
+                                int swap = Integer.valueOf(projectsList.get(i).getBoardStar());
+                                if (swap > current) {
+                                    Collections.swap(projectsList, i, position);
+                                    check=true;
+                                } else {
+                                    i--;
+                                }
+                            }
+                            for (int j = 0; j < projectsList.size(); j++) {
+                                int swap = Integer.valueOf(projectsList.get(j).getBoardStar());
+                                if (current > swap && position > j) {
+                                    Collections.swap(projectsList, j, position);
+                                } else if (current < swap && position < j) {
+                                    Collections.swap(projectsList, j, position);
+                                }
+                            }
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -329,6 +329,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             BoardExtended.bTitle=intent.getStringExtra("board_name");
             projectId=intent.getStringExtra("project_id");
             BoardExtended.boardId=intent.getStringExtra("board_id");
+            BoardExtended.pTitle=intent.getStringExtra("project_title");
         //}
 
         getCardList();
@@ -1680,6 +1681,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             intent.putExtra("b_id",BoardExtended.boardId);
             intent.putExtra("p_id",BoardExtended.projectId);
             intent.putExtra("TitleData",BoardExtended.bTitle);
+            intent.putExtra("ptitle",BoardExtended.pTitle);
             //intent.putExtra("TitleData",CardHeading);
             finish();
             startActivity(intent);

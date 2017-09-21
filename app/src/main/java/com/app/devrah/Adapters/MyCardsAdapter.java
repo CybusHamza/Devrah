@@ -95,6 +95,7 @@ public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener 
                 intent.putExtra("board_id",projectsList.get(position).getBoradid());
                 intent.putExtra("project_id",projectsList.get(position).getProjecct_id());
                 intent.putExtra("board_name",projectsList.get(position).getBoardname());
+                intent.putExtra("project_title",projectsList.get(position).getProjectname());
                 intent.putExtra("fromMyCards","true");
                 activity.finish();
                 activity.startActivity(intent);

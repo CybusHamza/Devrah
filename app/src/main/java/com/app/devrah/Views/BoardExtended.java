@@ -75,6 +75,7 @@ public class BoardExtended extends AppCompatActivity {
     public static String projectId;
     public static String boardId;
     public static String bTitle;
+    public static String pTitle;
     CustomDrawerAdapter DrawerAdapter;
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
@@ -112,6 +113,7 @@ public class BoardExtended extends AppCompatActivity {
         projectTitle = intent.getStringExtra("ptitle");
         projectId=p_id;
         boardId=b_id;
+        pTitle=projectTitle;
       //  pTitle=projectTitle;
 
 
@@ -237,8 +239,8 @@ public class BoardExtended extends AppCompatActivity {
                     Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
                     intent.putExtra("pid", p_id);
                     //projectTitle=BoardsActivity.ptitle;
-                    intent.putExtra("ptitle", BoardsActivity.ptitle);
-                    intent.putExtra("status", BoardsActivity.pstatus);
+                    intent.putExtra("ptitle", pTitle);
+                    intent.putExtra("status","0");
                     finish();
                     startActivity(intent);
                     onBackPressed();
@@ -374,8 +376,8 @@ public class BoardExtended extends AppCompatActivity {
             Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
             intent.putExtra("pid",p_id);
 
-            intent.putExtra("ptitle", BoardsActivity.ptitle);
-            intent.putExtra("status", BoardsActivity.pstatus);
+            intent.putExtra("ptitle", pTitle);
+            intent.putExtra("status", "0");
             finish();
             startActivity(intent);
         }

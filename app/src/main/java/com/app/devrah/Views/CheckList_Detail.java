@@ -93,6 +93,7 @@ public class CheckList_Detail extends AppCompatActivity {
                 intent.putExtra("board_name",BoardExtended.bTitle);
                 intent.putExtra("project_id",BoardExtended.projectId);
                 intent.putExtra("board_id",BoardExtended.boardId);
+                intent.putExtra("project_title",BoardExtended.pTitle);
                 startActivity(intent);
             }
         });
@@ -239,6 +240,7 @@ public class CheckList_Detail extends AppCompatActivity {
         intent.putExtra("board_name",BoardExtended.bTitle);
         intent.putExtra("project_id",BoardExtended.projectId);
         intent.putExtra("board_id",BoardExtended.boardId);
+        intent.putExtra("project_title",BoardExtended.pTitle);
         startActivity(intent);
 
 
