@@ -989,6 +989,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                     if(Projects.getSelectedItemPosition()!=-1) {
                         if(boards.getSelectedItemPosition()!=-1 && boards.getSelectedItemPosition()!=0) {
                             moveList();
+                            alertDialog.dismiss();
                         }else {
                             Toast.makeText(getActivity(), "Please Select Board First", Toast.LENGTH_SHORT).show();
                         }
@@ -999,6 +1000,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                     if(Projects.getSelectedItemPosition()!=-1) {
                         if(boards.getSelectedItemPosition()!=-1 && boards.getSelectedItemPosition()!=0) {
                         copyList();
+                            alertDialog.dismiss();
                         }else {
                             Toast.makeText(getActivity(), "Please Select Board First", Toast.LENGTH_SHORT).show();
                         }

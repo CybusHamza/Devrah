@@ -406,34 +406,39 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
+        holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
         holder.nOfAttachments.setVisibility(View.GONE);
         holder.attachmentIcon.setVisibility(View.GONE);
-        if(!projectsList.get(position).getnOfAttachments().equals("0")){
-            holder.nOfAttachments.setVisibility(View.VISIBLE);
-            holder.attachmentIcon.setVisibility(View.VISIBLE);
-        holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
-        }else {
-            holder.nOfAttachments.setVisibility(View.GONE);
-            holder.attachmentIcon.setVisibility(View.GONE);
-        }
+
         holder.data.setText(projectsList.get(position).getData());
             BoardsListData = projectsList.get(position).getData();
-        holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
+
         holder.dueDate.setVisibility(View.GONE);
         if(!projectsList.get(position).getDueDate().equals("null")) {
             holder.dueDate.setVisibility(View.VISIBLE);
             holder.dueDate.setText(projectsList.get(position).getDueDate() + " " + projectsList.get(position).getDuetTime());
         }
-        else
+        else {
             holder.dueDate.setText("");
+
+        }
+        if(!projectsList.get(position).getnOfAttachments().equals("0")){
+            holder.dueDate.setVisibility(View.VISIBLE);
+            holder.nOfAttachments.setVisibility(View.VISIBLE);
+            holder.attachmentIcon.setVisibility(View.VISIBLE);
+            holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
+        }else {
+            holder.nOfAttachments.setVisibility(View.GONE);
+            holder.attachmentIcon.setVisibility(View.GONE);
+        }
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         //}
         SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
-       /*if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
+      /* if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
           //  Collections.emptyList();
            projectsList.remove(projectsList.get(position));
-            notifyDataSetChanged();
+        //    notifyDataSetChanged();
        }*/
 
         convertView.setOnClickListener(new View.OnClickListener() {

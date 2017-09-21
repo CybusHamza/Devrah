@@ -362,10 +362,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                         try {
                             fos = new FileOutputStream(myImageFile);
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                            Toast.makeText(context,"Image Saved to directory "+myImageFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
+                         //   Toast.makeText(context,"Image Saved to directory "+myImageFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
 
                         } catch (IOException e) {
-                            Toast.makeText(context,"Failed to save image ",Toast.LENGTH_LONG).show();
+                           // Toast.makeText(context,"Failed to save image ",Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         } finally {
                             try {

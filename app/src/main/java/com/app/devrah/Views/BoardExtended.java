@@ -407,7 +407,7 @@ public class BoardExtended extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String check=etCardName.getText().toString();
-                if(!check.equals("") && check!="") {
+                if(!check.equals("") && check!="" && check.trim().length()>0) {
                     UpdateBoardName(etCardName.getText().toString());
                     alertDialog.dismiss();
                 }else {

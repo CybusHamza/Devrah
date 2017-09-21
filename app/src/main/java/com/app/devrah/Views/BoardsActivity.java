@@ -430,7 +430,7 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String check=etCardName.getText().toString();
-                if(!check.equals("") && check!="") {
+                if(!check.equals("") && check!="" && check.trim().length()>0) {
                     UpdateProjectName(etCardName.getText().toString());
                     alertDialog.dismiss();
                 }else {
