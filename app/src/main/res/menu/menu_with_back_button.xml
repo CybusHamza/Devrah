@@ -18,7 +18,7 @@
         android:id="@+id/action_settings"
         android:orderInCategory="200"
         android:title="Setting"
-        android:icon="@drawable/menu_dlt"
+        android:icon="@drawable/white_3_dots"
         app:showAsAction="ifRoom" />
 
 

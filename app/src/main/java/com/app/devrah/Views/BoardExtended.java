@@ -427,6 +427,7 @@ public class BoardExtended extends AppCompatActivity {
         });
 
     }
+
     public void openDrawer() {
         DrawerAdapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(DrawerAdapter);

@@ -361,9 +361,9 @@ public class Reply extends AppCompatActivity {
                 params.put("subjct_email",strsubject);
                 params.put("userId",userId);
                 params.put("listofuserids",strfrom);
-                params.put("add_msg_prjct",strproject);
-                params.put("add_msg_brd",strboard);
-                params.put("add_msg_crd",strcard);
+                params.put("add_msg_prjct",project.getText().toString());
+                params.put("add_msg_brd",board.getText().toString());
+                params.put("add_msg_crd",card.getText().toString());
                 return params;
             }
         };

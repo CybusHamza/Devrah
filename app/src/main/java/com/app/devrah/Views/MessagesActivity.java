@@ -50,8 +50,7 @@ public class MessagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
         filter="1";
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Messages");
         setSupportActionBar(toolbar);
@@ -62,7 +61,6 @@ public class MessagesActivity extends AppCompatActivity {
         dataList = new ArrayList<>();
         dataList.add(new DrawerPojo("Change Message Filter"));
         toolbar.inflateMenu(R.menu.my_menu);
-        openDrawer();
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -131,25 +129,7 @@ public class MessagesActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
 
     }
-    public void openDrawer() {
-        adapterDrawer = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
-        mDrawerList.setAdapter(adapterDrawer);
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
 
-                    case 1:
-                        changeFilter();
-
-                        break;
-
-                }
-
-            }
-        });
-
-    }
 
     private void changeFilter() {
         LayoutInflater inflater = LayoutInflater.from(MessagesActivity.this);

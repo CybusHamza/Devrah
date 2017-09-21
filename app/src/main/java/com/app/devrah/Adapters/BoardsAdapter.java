@@ -157,9 +157,9 @@ public class BoardsAdapter extends BaseAdapter {
                         }
 
                         notifyDataSetChanged();
+                        ((BoardsActivity)activity).updateData();
 
-
-                       int current=Integer.valueOf(projectsList.get(position).getBoardStar());
+                       /*int current=Integer.valueOf(projectsList.get(position).getBoardStar());
                         if(current>1) {
                             for (int i = 0; i < projectsList.size(); i++) {
                                 int swap = Integer.valueOf(projectsList.get(i).getBoardStar());
@@ -190,7 +190,7 @@ public class BoardsAdapter extends BaseAdapter {
                                     Collections.swap(projectsList, j, position);
                                 }
                             }
-                        }
+                        }*/
 
                     }
                 }, new Response.ErrorListener() {

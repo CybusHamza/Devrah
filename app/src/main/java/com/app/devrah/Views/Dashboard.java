@@ -35,6 +35,7 @@ public class Dashboard extends AppCompatActivity {
     // int random;
     String currentImage,initials;
     Activity mActivity;
+    String gLogin;
     String[] ProfileArray = {"Edit Profile", "Logoff", "Change Password"};
 
     @Override
@@ -56,6 +57,8 @@ public class Dashboard extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         currentImage = pref.getString("profile_pic", "");
         initials = pref.getString("initials", "");
+        gLogin = pref.getString("Glogin", "");
+
 
         if(!currentImage.equals("") && !currentImage.equals("null")) {
             Picasso.with(getApplicationContext())
@@ -142,39 +145,67 @@ public class Dashboard extends AppCompatActivity {
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(gLogin.equals("true")){
+                    ProfileArray= new String[]{"Logoff"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                    builder.setTitle("Settings")
+                            .setItems(ProfileArray, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // The 'which' argument contains the index position
+                                    // of the selected item
+                                    switch (which) {
+                                        case 0:
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
-                builder.setTitle("")
-                        .setItems(ProfileArray, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
-                                switch (which) {
-                                    case 0:
-                                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                                         finish();
-                                        startActivity(intent);
-                                        break;
-                                    case 1:
-
-                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = pref.edit();
-                                        editor.clear();
-                                        editor.apply();
-                                        Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
-                                          finish();
-                                        startActivity(logOutIntent);
+                                            SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = pref.edit();
+                                            editor.clear();
+                                            editor.apply();
+                                            Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
+                                            finish();
+                                            startActivity(logOutIntent);
 
 
-                                        break;
-                                    case 2:
-                                        changePasswordDialog();
-                                        break;
+                                            break;
+                                    }
+
                                 }
+                            });
+                    builder.show();
+                }else {
 
-                            }
-                        });
-                builder.show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                    builder.setTitle("")
+                            .setItems(ProfileArray, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // The 'which' argument contains the index position
+                                    // of the selected item
+                                    switch (which) {
+                                        case 0:
+                                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                            finish();
+                                            startActivity(intent);
+                                            break;
+                                        case 1:
+
+                                            SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = pref.edit();
+                                            editor.clear();
+                                            editor.apply();
+                                            Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
+                                            finish();
+                                            startActivity(logOutIntent);
+
+
+                                            break;
+                                        case 2:
+                                            changePasswordDialog();
+                                            break;
+                                    }
+
+                                }
+                            });
+                    builder.show();
+                }
                 //return builder.create();
 
             }

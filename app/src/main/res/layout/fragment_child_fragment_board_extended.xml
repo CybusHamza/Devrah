@@ -5,7 +5,7 @@
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
 
-    android:padding="2dp"
+    android:padding="5dp"
 
     tools:context="com.app.devrah.Fragments.ChildFragmentBoardExtended">
 
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_below="@+id/textName"
-        android:background="#DCDCDC"
+        android:background="@drawable/bg_card_layout_listview"
         android:dividerHeight="3dp"
         android:layout_weight="1"
         />

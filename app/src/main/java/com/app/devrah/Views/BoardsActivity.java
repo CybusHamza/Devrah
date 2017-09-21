@@ -94,7 +94,7 @@ public class BoardsActivity extends AppCompatActivity {
     public static String ptitle="";
     public static String pstatus;
     Boolean Cancelbtn=false;
-
+    ViewPagerAdapter adapter1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,7 +266,14 @@ public class BoardsActivity extends AppCompatActivity {
 
         setupTabIcons();
     }
-
+    public void updateData(){
+        int position=viewPager.getCurrentItem();
+        if(position==1){
+            ((ReferenceBoard)adapter1.getItem(position)).Refrence();
+        }else if(position==0){
+            ((WorkBoard)adapter1.getItem(position)).getWorkBoards();
+        }
+    }
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
@@ -295,7 +302,7 @@ public class BoardsActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("pid", projectID);
         bundle.putString("ptitle", projectTitle);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter1 = new ViewPagerAdapter(getSupportFragmentManager());
 
         WorkBoard workBoard = new WorkBoard();
         workBoard.setArguments(bundle);
@@ -304,10 +311,10 @@ public class BoardsActivity extends AppCompatActivity {
         ReferenceBoard referenceBoard = new ReferenceBoard();
         referenceBoard.setArguments(bundle);
 
-        adapter.addFrag(workBoard, "Work Boards");
-        adapter.addFrag(referenceBoard, "Archive Boards");
+        adapter1.addFrag(workBoard, "Work Boards");
+        adapter1.addFrag(referenceBoard, "Archive Boards");
         //  adapter.addFrag(new ThreeFragment(), "THREE");
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter1);
     }
 
     @Override

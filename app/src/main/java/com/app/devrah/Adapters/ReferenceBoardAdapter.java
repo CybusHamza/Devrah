@@ -25,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
+import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.Collections;
@@ -138,7 +139,9 @@ public class ReferenceBoardAdapter extends BaseAdapter {
                             projectsList.get(position).setReferenceBoardStar("3");
                         }
                         notifyDataSetChanged();
-                        int current=Integer.valueOf(projectsList.get(position).getReferenceBoardStar());
+
+                        ((BoardsActivity)activity).updateData();
+                       /* int current=Integer.valueOf(projectsList.get(position).getReferenceBoardStar());
                         if(current>1) {
                             for (int i = 0; i < projectsList.size(); i++) {
                                 int swap = Integer.valueOf(projectsList.get(i).getReferenceBoardStar());
@@ -169,7 +172,7 @@ public class ReferenceBoardAdapter extends BaseAdapter {
                                     Collections.swap(projectsList, j, position);
                                 }
                             }
-                        }
+                        }*/
                     }
                 }, new Response.ErrorListener() {
             @Override

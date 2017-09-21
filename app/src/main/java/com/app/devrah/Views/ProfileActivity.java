@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -275,7 +276,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
 
@@ -495,7 +499,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 ringProgressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
 
                 if (!(response.equals(""))) {
                     //Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
@@ -543,7 +547,10 @@ public class ProfileActivity extends AppCompatActivity {
                 return map;
             }
         };
-
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(ProfileActivity.this);
         requestQueue.add(request);
 

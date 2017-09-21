@@ -16,7 +16,7 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="300"
-        android:icon="@drawable/menu_dlt"
+        android:icon="@drawable/white_3_dots"
         app:showAsAction="always"
         android:title="jbh"/>
 

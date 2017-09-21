@@ -662,6 +662,7 @@ public class MyCardsActivity extends AppCompatActivity {
                 String userId = pref.getString("user_id", "");
 
                 params.put("id", userId);
+                params.put("status", "0");
 
                 return params;
             }
