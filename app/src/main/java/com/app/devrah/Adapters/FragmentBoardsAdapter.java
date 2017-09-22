@@ -388,21 +388,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                         .into(holder.attachment);
             }
         }*/
-        holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(count==1) {
-                    Drawable d = v.getResources().getDrawable(R.drawable.mark_favourite);
-                    holder.favouriteIcon.setImageDrawable(d);
-                    count=2;
-                }
-                else if(count==2){
-                    Drawable d = v.getResources().getDrawable(R.drawable.favourite_star_icon);
-                    holder.favouriteIcon.setImageDrawable(d);
 
-                }
-            }
-        });
         holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);

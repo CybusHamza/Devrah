@@ -597,4 +597,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Login.this,MainActivity.class);
+        finish();
+        startActivity(a);
+        super.onBackPressed();
+    }
 }

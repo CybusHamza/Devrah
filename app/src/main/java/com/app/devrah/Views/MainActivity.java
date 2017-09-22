@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
 
@@ -45,17 +46,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this,Dashboard.class);
                                     startActivity(intent);
                                     finish();
-
-
         }
-
 
 
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        setContentView(R.layout.activity_main);
+
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -214,5 +212,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+        super.onBackPressed();
     }
 }

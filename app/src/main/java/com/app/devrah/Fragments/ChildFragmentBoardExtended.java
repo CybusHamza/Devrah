@@ -84,7 +84,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
         View view;
-    ImageView tvAddCard;
+    TextView tvAddCard;
     String childname;
     EditText   edt;
     public     TextView tvName;
@@ -147,7 +147,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         tvName = (TextView)view.findViewById(R.id.textName);
         boardMenu = (ImageView)view.findViewById(R.id.menuBoards);
 
-        tvAddCard = (ImageView)view.findViewById(R.id.addCard);
+        tvAddCard = (TextView)view.findViewById(R.id.addCard);
         Bundle bundle = this.getArguments();
         childname = bundle.getString("data");
         p_id = bundle.getString("p_id");
@@ -514,7 +514,6 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                                      projectsPojo = new ProjectsPojo();
                                  // CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
-
                                     projectsPojo.setId(jsonObject.getString("id"));
                                     projectsPojo.setData(jsonObject.getString("card_name"));
                                     projectsPojo.setAttachment(jsonObject.getString("file_name"));

@@ -92,6 +92,7 @@ public class LastItemBoardFragment extends Fragment {
         p_id = bundle.getString("p_id");
         b_id = bundle.getString("b_id");
         adapter = new CustomViewPagerAdapter(getFragmentManager());
+
         tvAddPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

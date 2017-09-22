@@ -290,6 +290,7 @@ public class ProjectsActivity extends AppCompatActivity {
             return;
         } else {
             Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
             startActivity(intent);
 

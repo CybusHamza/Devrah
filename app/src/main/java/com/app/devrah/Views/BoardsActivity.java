@@ -408,6 +408,7 @@ public class BoardsActivity extends AppCompatActivity {
             return;
         } else {
             Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
             startActivity(intent);
         }
