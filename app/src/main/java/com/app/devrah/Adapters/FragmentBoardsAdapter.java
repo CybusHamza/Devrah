@@ -420,7 +420,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         //}
-        SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+       // SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
       /* if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
           //  Collections.emptyList();
            projectsList.remove(projectsList.get(position));
@@ -493,7 +493,12 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             }
 //            membercount=1;
 //        }
-
+       /* SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+       if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
+           convertView.setVisibility(View.GONE);
+       }else {
+           convertView.setVisibility(View.VISIBLE);
+       }*/
         return convertView;
     }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="#fff"
-    android:layout_height="match_parent">
+    android:background="@drawable/bg_project_list_item"
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
@@ -16,9 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="9.5"
+            android:layout_marginTop="5dp"
             android:paddingLeft="10dp"
             android:text="Card:test"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="15sp" />
 
 
@@ -26,7 +27,8 @@
             android:id="@+id/img"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="3dp"
+            android:layout_margin="5dp"
+
             android:background="@drawable/close_email" />
     </LinearLayout>
 
@@ -36,7 +38,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:text="Card:test"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="13sp" />
     <TextView
         android:id="@+id/boardName"
@@ -44,7 +46,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:text="Card:test"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="13sp" />
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +59,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:text="Project:test"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="13sp" />
 
         <TextView
@@ -68,7 +70,7 @@
             android:gravity="end"
             android:text="18-07-2017"
             android:textSize="12sp"
-            android:textColor="#000" />
+            android:textColor="#fff" />
     </LinearLayout>
 
     <TextView

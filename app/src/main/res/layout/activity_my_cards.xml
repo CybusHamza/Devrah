@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_dashboard"
+    android:background="@drawable/bg_projects"
     tools:context="com.app.devrah.Views.FavouritesActivity">
     <include
         android:id="@+id/header"
