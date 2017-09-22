@@ -38,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -329,6 +330,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             BoardExtended.bTitle=intent.getStringExtra("board_name");
             projectId=intent.getStringExtra("project_id");
             BoardExtended.boardId=intent.getStringExtra("board_id");
+            BoardExtended.pTitle=intent.getStringExtra("project_title");
         //}
 
         getCardList();
@@ -439,7 +441,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         etDescription = (EditText) findViewById(R.id.description);
         if(!cardDescription.equals("null"))
             etDescription.setText(cardDescription);
-
         etDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -449,14 +450,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         //  Toast.makeText(getApplicationContext(), "Menu Btn Pressed", Toast.LENGTH_SHORT).show();
-
                         menuChanger(menu, false);
                         etDescription.clearFocus();
                         tick.setVisible(false);
                         addDescription(etDescription.getText().toString());
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(etDescription.getWindowToken(), 0);
 
-
-                        return true;    }
+                        return true;
+                    }
                 });
             }
         });
@@ -680,7 +682,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         FABchecklist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                fabm.close(true);
                 addnewChecklist();
                 /*onFocus = true;
                 menuChanger(menu, onFocus);
@@ -757,7 +759,17 @@ public class CardActivity extends AppCompatActivity  implements callBack {
       //  getChecklistData();
 
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu:
+                drawerLayout.openDrawer(Gravity.RIGHT);
+                openDrawer();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     public void openDrawer() {
         DrawerAdapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(DrawerAdapter);
@@ -1217,7 +1229,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout, null);
         alertDialog = new AlertDialog.Builder(CardActivity.this).create();
         lvMembers = (ListView) view.findViewById(R.id.membersListView);
-        TextView tvDone = (TextView) view.findViewById(R.id.addMember);
+        TextView tvDone1 = (TextView) view.findViewById(R.id.addMember);
         TextView addNewMember = (TextView) view.findViewById(R.id.assignNewMemberBtn);
           membersAdapter = new AdapterMembers(CardActivity.this, cardMembersPojoList1);
 
@@ -1234,7 +1246,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         lvMembers.setAdapter(membersAdapter);*/
 
 
-        tvDone.setOnClickListener(new View.OnClickListener() {
+        tvDone1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
@@ -1340,6 +1352,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 return true;
             }
         });
+
 
         etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -1669,12 +1682,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             Intent intent=new Intent(CardActivity.this,MyCardsActivity.class);
             finish();
             startActivity(intent);
+        }else if(isFromMyCardsScreen.equals("notifi")){
+            super.onBackPressed();
+            Intent intent=new Intent(CardActivity.this,NotificationsActivity.class);
+            finish();
+            startActivity(intent);
         } else {
             super.onBackPressed();
             Intent intent=new Intent(CardActivity.this,BoardExtended.class);
             intent.putExtra("b_id",BoardExtended.boardId);
             intent.putExtra("p_id",BoardExtended.projectId);
             intent.putExtra("TitleData",BoardExtended.bTitle);
+            intent.putExtra("ptitle",BoardExtended.pTitle);
             //intent.putExtra("TitleData",CardHeading);
             finish();
             startActivity(intent);
@@ -2139,9 +2158,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
                         if(dateType.equals("dueDate")){
-                            updateCardDueDate(dayOfMonth+"-"+(monthOfYear+1)+"-"+year);
+                            updateCardDueDate(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                         }else if(dateType.equals("startDate")){
-                            updateCardStartDate(dayOfMonth+"-"+(monthOfYear+1)+"-"+year);
+                            updateCardStartDate(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                         }
                         // set day of month , month and year value in the edit text
 //                                                date.setText(dayOfMonth + "/"
@@ -2675,6 +2694,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                                         if( isUpdate == true){
                                             showMembersDialog();
+                                            isUpdate=false;
                                         }
                                     }
                                    //  labelsPojo.setLabelText(labelText);
@@ -2790,13 +2810,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     }
 
-    public  void updateCardDueDate(final String dueDate) {
+    public  void updateCardDueDate(final String dueDat) {
         final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_DUE_DATES_BY_ID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbDueDate.setText(dueDate);
+                        cbDueDate.setText(dueDat);
+                        dueDate=dueDat;
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
 
 
@@ -2847,7 +2868,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("projectid",BoardExtended.projectId);
                 params.put("card_id",cardId);
                 params.put("strt_dt",startDate);
-                params.put("end_dt",dueDate);
+                params.put("end_dt",dueDat);
                 final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 params.put("userId", pref.getString("user_id",""));
                 return params;
@@ -2862,13 +2883,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         requestQueue.add(request);
 
     }
-    public  void updateCardStartDate(final String startDate) {
+    public  void updateCardStartDate(final String startDat) {
         final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_START_DATES_BY_ID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbStartDate.setText(startDate);
+                        cbStartDate.setText(startDat);
+                        startDate=startDat;
+
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
 
 
@@ -2918,7 +2941,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("boardId",BoardExtended.boardId);
                 params.put("projectid",BoardExtended.projectId);
                 params.put("card_id",cardId);
-                params.put("strt_dt",startDate);
+                params.put("strt_dt",startDat);
                 params.put("end_dt",dueDate);
                 final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 params.put("userId", pref.getString("user_id",""));
@@ -3686,8 +3709,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(!etCardName.getText().toString().equals("")) {
+                String check=etCardName.getText().toString();
+                if(!check.equals("") && check!="" && check.trim().length()>0) {
                     updateCardName(etCardName.getText().toString());
                     alertDialog.dismiss();
                 }else {

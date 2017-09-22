@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -64,6 +65,7 @@ public class manage_members extends AppCompatActivity {
     List<All_Teams> teamLists;
     String teamid,usertoadd;
     Button btnClose,btnSave;
+    TextView heading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +82,8 @@ public class manage_members extends AppCompatActivity {
         TeamMember = (GridView) findViewById(R.id.grid_view_team);
 
         Team_list = (Spinner) findViewById(R.id.search_team);
+        heading = (TextView) findViewById(R.id.heading);
+        heading.setText("Manage Project Member");
 
 
 

@@ -25,11 +25,13 @@ public class InboxAdapter extends BaseAdapter {
     List<InboxPojo> projectsList;
     Activity activity;
     private LayoutInflater inflater;
+    String messageType;
 
 
-    public InboxAdapter(Activity activity, List<InboxPojo> projectsList) {
+    public InboxAdapter(Activity activity, List<InboxPojo> projectsList,String messageType) {
         this.activity = activity;
         this.projectsList = projectsList;
+        this.messageType = messageType;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -76,17 +78,24 @@ public class InboxAdapter extends BaseAdapter {
 
         if (inboxPojo.isread.equals("0"))
         {
-            holder.img.setImageResource(R.drawable.open_email);
+            holder.img.setImageResource(R.drawable.close_email);
         }
         else{
 
-            holder.img.setImageResource(R.drawable.close_email);
+            holder.img.setImageResource(R.drawable.open_email);
         }
         holder.data.setText("Subject : "+inboxPojo.getSubject());
-        if(!inboxPojo.getFrom().equals("null"))
-        holder.to.setText("From : "+inboxPojo.getFrom());
-        else
-            holder.to.setText("From : ");
+        if(messageType.equals("inbox")) {
+            if (!inboxPojo.getFrom().equals("null"))
+                holder.to.setText("From : " + inboxPojo.getFrom());
+            else
+                holder.to.setText("From : ");
+        }else {
+            if (!inboxPojo.getFrom().equals("null"))
+                holder.to.setText("To : " + inboxPojo.getFrom());
+            else
+                holder.to.setText("To : ");
+        }
         holder.date.setText(inboxPojo.getDate());
         if(inboxPojo.getCardif().equals("null"))
         {
@@ -120,12 +129,15 @@ public class InboxAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity,viewMessage.class);
+                intent.putExtra("message_id",inboxPojo.getId());
+                intent.putExtra("isRead",inboxPojo.getIsread());
                 intent.putExtra("to",inboxPojo.getFrom());
                 intent.putExtra("project",inboxPojo.getP_id());
                 intent.putExtra("card",inboxPojo.getCardif());
                 intent.putExtra("board",inboxPojo.getB_id());
                 intent.putExtra("subject",inboxPojo.getSubject());
                 intent.putExtra("message",inboxPojo.getMessage());
+                intent.putExtra("messageType",messageType);
 
                 activity.startActivity(intent);
 

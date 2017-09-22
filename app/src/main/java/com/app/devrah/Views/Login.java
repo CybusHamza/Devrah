@@ -229,6 +229,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                                 editor.putString("website", website);
                                 editor.putString("profile_pic", profilePic);
                                 editor.putString("initials", initials);
+                                editor.putString("Glogin", "false");
                                 editor.apply();
 
 
@@ -422,6 +423,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                             editor.putString("first_name", name);
                             editor.putString("last_name", "");
                             editor.putString("profile_pic", profileurl);
+                            editor.putString("Glogin", "true");
                             editor.apply();
                             Intent intent = new Intent(Login.this, Dashboard.class);
                             intent.putExtra("activityName", "");

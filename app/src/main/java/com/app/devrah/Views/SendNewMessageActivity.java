@@ -599,13 +599,12 @@ public class SendNewMessageActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-
-
                 Map<String, String> params = new HashMap<>();
                 SharedPreferences pref =getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 String userId = pref.getString("user_id", "");
 
                 params.put("id", userId);
+                params.put("status", "0");
 
                 return params;
             }
@@ -956,5 +955,13 @@ public class SendNewMessageActivity extends AppCompatActivity {
         }
 
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
+        startActivity(intent);
+        finish();
+    }
+
 
 }

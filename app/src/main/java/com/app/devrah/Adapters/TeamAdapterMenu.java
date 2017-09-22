@@ -63,9 +63,11 @@ public class TeamAdapterMenu extends BaseAdapter {
         holder.data = (TextView) convertView.findViewById(R.id.tvProjectsData);
         holder.description = (TextView) convertView.findViewById(R.id.tvDescription);
         holder.data.setText(projectsList.get(position).getName());
-
-        if(!projectsList.get(position).getDescription().equals("") && !projectsList.get(position).getDescription().equals("null")){
+        String check=projectsList.get(position).getDescription();
+        if(!check.equals("") && !check.equals("null")){
             holder.description.setText(projectsList.get(position).getDescription());
+        }else {
+            holder.description.setText("");
         }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

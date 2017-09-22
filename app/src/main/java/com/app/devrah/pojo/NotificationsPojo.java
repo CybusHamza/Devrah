@@ -82,4 +82,110 @@ public class NotificationsPojo {
     public void setData(String data) {
         this.data = data;
     }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    String cardId;
+
+    public String getCardStartDate() {
+        return cardStartDate;
+    }
+
+    public void setCardStartDate(String cardStartDate) {
+        this.cardStartDate = cardStartDate;
+    }
+
+    public String getCardDueTime() {
+        return cardDueTime;
+    }
+
+    public void setCardDueTime(String cardDueTime) {
+        this.cardDueTime = cardDueTime;
+    }
+
+    public String getCardStartTime() {
+        return cardStartTime;
+    }
+
+    public void setCardStartTime(String cardStartTime) {
+        this.cardStartTime = cardStartTime;
+    }
+
+    String cardStartDate;
+    String cardDueTime;
+    String cardStartTime;
+
+    public String getCardDescription() {
+        return cardDescription;
+    }
+
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
+
+    String cardDescription;
+
+    public String getCardDueDate() {
+        return cardDueDate;
+    }
+
+    public void setCardDueDate(String cardDueDate) {
+        this.cardDueDate = cardDueDate;
+    }
+
+    String cardDueDate;
+
+    public String getIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsComplete(String isComplete) {
+        this.isComplete = isComplete;
+    }
+
+    public String getIsSubscribed() {
+        return isSubscribed;
+    }
+
+    public void setIsSubscribed(String isSubscribed) {
+        this.isSubscribed = isSubscribed;
+    }
+
+    public String getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(String isLocked) {
+        this.isLocked = isLocked;
+    }
+
+    String isComplete;
+    String isSubscribed;
+    String isLocked;
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
+    String listId;
+
+    public String getBoard_name() {
+        return board_name;
+    }
+
+    public void setBoard_name(String board_name) {
+        this.board_name = board_name;
+    }
+
+    String board_name;
 }

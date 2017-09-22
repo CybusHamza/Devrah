@@ -105,6 +105,7 @@ public class End_Points {
     public static final String ADD_NEW_CHECKLIST= BASE_URL + "addNewChecklist";
     public static final String AUPDATE_CHECKLIST_NAME= BASE_URL + "updatechecklistNameChecklist";
     public static final String MARDK_FAVOURITE= BASE_URL + "markFavourite";
+    public static final String MARK_READ= BASE_URL + "markRead";
 
 
 }

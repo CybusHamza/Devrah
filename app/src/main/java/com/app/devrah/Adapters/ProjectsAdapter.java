@@ -2,15 +2,19 @@ package com.app.devrah.Adapters;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardsActivity;
@@ -67,13 +71,13 @@ public class ProjectsAdapter extends BaseAdapter {
         holder.data.setText(projectsList.get(position).getData());
         if(projectsList.get(position).getProjectStatus().equals("1")) {
             holder.status.setText("Active");
-            holder.status.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+           // holder.status.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
         }else if(projectsList.get(position).getProjectStatus().equals("3")) {
             holder.status.setText("Completed");
-            holder.status.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
+            //holder.status.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
         }else if(projectsList.get(position).getProjectStatus().equals("2")){
             holder.status.setText("In-Active");
-            holder.status.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+            //holder.status.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
         }
 
 
@@ -88,7 +92,7 @@ public class ProjectsAdapter extends BaseAdapter {
 
             }
         });
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+       /* convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public boolean onLongClick(View v) {
@@ -97,7 +101,8 @@ public class ProjectsAdapter extends BaseAdapter {
                 v.startDragAndDrop(data,shadowBuilder,v,0 );
                 return true;
             }
-        });
+        });*/
+
 
         return convertView;
     }

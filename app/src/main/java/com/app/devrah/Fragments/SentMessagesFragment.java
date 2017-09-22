@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.InboxAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.MessagesActivity;
 import com.app.devrah.Views.SendNewMessageActivity;
 import com.app.devrah.pojo.InboxPojo;
 
@@ -103,7 +104,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
         view = inflater.inflate(R.layout.fragment_sent_messages, container, false);
 
         btnSendNewMessage = (Button) view.findViewById(R.id.buttonSendNewMessage);
-        listPojo = new ArrayList<>();
+
         lv = (ListView) view.findViewById(R.id.sentMessagesListView);
 
 
@@ -169,6 +170,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
+                        listPojo = new ArrayList<>();
                         try {
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
@@ -190,7 +192,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
 
                             }
-                            adapter = new InboxAdapter(getActivity(), listPojo);
+                            adapter = new InboxAdapter(getActivity(), listPojo,"sent");
                             lv.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -237,6 +239,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                 String userId = pref.getString("user_id", "");
 
                 params.put("userId",userId);
+                params.put("filter", MessagesActivity.filter);
                 return params;
             }
         };

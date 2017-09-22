@@ -25,8 +25,10 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
+import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +113,7 @@ public class ReferenceBoardAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
                 Intent intent = new Intent(activity,BoardExtended.class);
-                intent.putExtra("TitleData",ListItemString);
+                intent.putExtra("TitleData",projectsList.get(position).getData());
                 intent.putExtra("p_id",projectsList.get(position).getId());
                 intent.putExtra("b_id",projectsList.get(position).getBoardID());
                 intent.putExtra("ptitle",activity.getIntent().getStringExtra("ptitle"));
@@ -137,6 +139,40 @@ public class ReferenceBoardAdapter extends BaseAdapter {
                             projectsList.get(position).setReferenceBoardStar("3");
                         }
                         notifyDataSetChanged();
+
+                        ((BoardsActivity)activity).updateData();
+                       /* int current=Integer.valueOf(projectsList.get(position).getReferenceBoardStar());
+                        if(current>1) {
+                            for (int i = 0; i < projectsList.size(); i++) {
+                                int swap = Integer.valueOf(projectsList.get(i).getReferenceBoardStar());
+                                if (current > swap && position > i) {
+                                    Collections.swap(projectsList, i, position);
+                                } else if (current < swap && position < i) {
+                                    Collections.swap(projectsList, i, position);
+                                }
+                            }
+                        }else {
+                            int i=projectsList.size()-1;
+
+                            Boolean check=false;
+                            while (check==false && i>position) {
+                                int swap = Integer.valueOf(projectsList.get(i).getReferenceBoardStar());
+                                if (swap > current) {
+                                    Collections.swap(projectsList, i, position);
+                                    check=true;
+                                } else {
+                                    i--;
+                                }
+                            }
+                            for (int j = 0; j < projectsList.size(); j++) {
+                                int swap = Integer.valueOf(projectsList.get(j).getReferenceBoardStar());
+                                if (current > swap && position > j) {
+                                    Collections.swap(projectsList, j, position);
+                                } else if (current < swap && position < j) {
+                                    Collections.swap(projectsList, j, position);
+                                }
+                            }
+                        }*/
                     }
                 }, new Response.ErrorListener() {
             @Override

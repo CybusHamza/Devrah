@@ -25,6 +25,9 @@ import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -362,7 +365,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.label2.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
 
         }*/
-        holder.attachment.setVisibility(View.INVISIBLE);
+        holder.attachment.setVisibility(View.GONE);
         String cover[]=coverList.get(position).getIsCover();
         String fileName[]=coverList.get(position).getFileName();
         for(int i=0;i<cover.length;i++) {
@@ -370,9 +373,10 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 holder.attachment.setVisibility(View.VISIBLE);
                 Picasso.with(activity)
                         .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + fileName[i])
+                        .resize(250,200)
                         .into(holder.attachment);
             } else {
-                holder.attachment.setVisibility(View.INVISIBLE);
+                holder.attachment.setVisibility(View.GONE);
             }
         }
 
@@ -402,29 +406,40 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
-        if(!projectsList.get(position).getnOfAttachments().equals("0")){
-            holder.nOfAttachments.setVisibility(View.VISIBLE);
-            holder.attachmentIcon.setVisibility(View.VISIBLE);
-        holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
-        }else {
-            holder.nOfAttachments.setVisibility(View.INVISIBLE);
-            holder.attachmentIcon.setVisibility(View.INVISIBLE);
-        }
+        holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
+        holder.nOfAttachments.setVisibility(View.GONE);
+        holder.attachmentIcon.setVisibility(View.GONE);
+
         holder.data.setText(projectsList.get(position).getData());
             BoardsListData = projectsList.get(position).getData();
-        holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
-        if(!projectsList.get(position).getDueDate().equals("null"))
-        holder.dueDate.setText(projectsList.get(position).getDueDate()+" "+projectsList.get(position).getDuetTime());
-        else
+
+        holder.dueDate.setVisibility(View.GONE);
+        if(!projectsList.get(position).getDueDate().equals("null")) {
+            holder.dueDate.setVisibility(View.VISIBLE);
+            holder.dueDate.setText(projectsList.get(position).getDueDate() + " " + projectsList.get(position).getDuetTime());
+        }
+        else {
             holder.dueDate.setText("");
+
+        }
+        if(!projectsList.get(position).getnOfAttachments().equals("0")){
+            holder.dueDate.setVisibility(View.VISIBLE);
+            holder.nOfAttachments.setVisibility(View.VISIBLE);
+            holder.attachmentIcon.setVisibility(View.VISIBLE);
+            holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
+        }else {
+            holder.nOfAttachments.setVisibility(View.GONE);
+            holder.attachmentIcon.setVisibility(View.GONE);
+        }
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         //}
         SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
-            projectsList.remove(position);
-            notifyDataSetChanged();
-        }
+      /* if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
+          //  Collections.emptyList();
+           projectsList.remove(projectsList.get(position));
+        //    notifyDataSetChanged();
+       }*/
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -445,6 +460,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 intent.putExtra("project_id", BoardExtended.projectId);
                 intent.putExtra("board_id", BoardExtended.boardId);
                 intent.putExtra("board_name", BoardExtended.bTitle);
+                intent.putExtra("project_title", BoardExtended.pTitle);
                 intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);

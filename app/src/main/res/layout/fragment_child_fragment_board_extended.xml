@@ -1,33 +1,27 @@
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_projects"
->
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+
+    android:padding="5dp"
+
+    tools:context="com.app.devrah.Fragments.ChildFragmentBoardExtended">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:padding="2dp"
-        android:background="@drawable/bkg_board"
-        tools:context="com.app.devrah.Fragments.ChildFragmentBoardExtended"
-        >
 
 
     <TextView
         android:id="@+id/textName"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_alignParentTop="true"
+        android:background="@drawable/bg_boards_extended_list_white"
         android:gravity="center"
         android:padding="5dp"
         android:text="TextView"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:textSize="20sp" />
 
     <ImageView
@@ -38,20 +32,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp" />
-
-        <ImageView
-            android:id="@+id/addCard"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="45dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/fab_add"
-            android:padding="5dp"
-            android:text="Add Card"
-            android:textColor="#00FA9A"
-            />
-
 <LinearLayout
     android:id="@+id/layoutListView"
     android:layout_width="match_parent"
@@ -63,16 +43,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_below="@+id/textName"
-        android:background="#DCDCDC"
+        android:background="@drawable/bg_card_layout_listview"
         android:dividerHeight="3dp"
         android:layout_weight="1"
         />
-
+    <TextView
+        android:id="@+id/addCard"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="0"
+        android:background="@drawable/bg_boards_extended_list_white"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Add Card"
+        android:textColor="#00FA9A"
+        />
 </LinearLayout>
 
 
 
-    </RelativeLayout>
 
 
 </RelativeLayout>

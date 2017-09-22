@@ -94,7 +94,7 @@ public class BoardsActivity extends AppCompatActivity {
     public static String ptitle="";
     public static String pstatus;
     Boolean Cancelbtn=false;
-
+    ViewPagerAdapter adapter1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,9 +112,9 @@ public class BoardsActivity extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.header);
-        toolbar.setTitle("");
+        toolbar.setTitle(projectTitle);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
-        final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+       /* final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
        // toolbar.setFocusable(true);
         //toolbar.setFocusableInTouchMode(true);
         tv.setText(projectTitle);
@@ -144,22 +144,27 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == 6) {
-                    isEditOpened = false;
-                    tv.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
-                    UpdateProjectName(tv.getText().toString());
-                    tv.setFocusable(false);
-                    tv.setCursorVisible(false);
-                    tv.setFocusableInTouchMode(false);
-                    toolbar.getMenu().clear();
-                    toolbar.inflateMenu(R.menu.menu_with_back_button);
-                    toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    String check=tv.getText().toString();
+                    if(!check.equals("")) {
+                        isEditOpened = false;
+                        tv.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                        UpdateProjectName(tv.getText().toString());
+                        tv.setFocusable(false);
+                        tv.setCursorVisible(false);
+                        tv.setFocusableInTouchMode(false);
+                        toolbar.getMenu().clear();
+                        toolbar.inflateMenu(R.menu.menu_with_back_button);
+                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    }else {
+                        Toast.makeText(BoardsActivity.this,"Project Name is must!",Toast.LENGTH_LONG).show();
+                    }
 
                 }
                 return true;
             }
-        });
+        });*/
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -167,7 +172,7 @@ public class BoardsActivity extends AppCompatActivity {
 
         dataList = new ArrayList<>();
         View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
-
+        dataList.add(new DrawerPojo("Update Project Name"));
         dataList.add(new DrawerPojo("Manage Status"));
         dataList.add(new DrawerPojo("Copy Project"));
         dataList.add(new DrawerPojo("Move Project"));
@@ -208,14 +213,19 @@ public class BoardsActivity extends AppCompatActivity {
                         return true;
                     case R.id.tick:
                         final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
-                        tv.clearFocus();
-                        tv.setCursorVisible(false);
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
-                        UpdateProjectName(tv.getText().toString());
-                        toolbar.getMenu().clear();
-                        toolbar.inflateMenu(R.menu.menu_with_back_button);
-                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        String check=tv.getText().toString();
+                        if(!check.equals("")) {
+                            tv.clearFocus();
+                            tv.setCursorVisible(false);
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                            UpdateProjectName(tv.getText().toString());
+                            toolbar.getMenu().clear();
+                            toolbar.inflateMenu(R.menu.menu_with_back_button);
+                            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        }else {
+                            Toast.makeText(BoardsActivity.this,"Project Name is must!",Toast.LENGTH_LONG).show();
+                        }
                         return true;
                 }
 
@@ -229,6 +239,7 @@ public class BoardsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(Cancelbtn){
                     final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                    tv.setText(projectTitle);
                     tv.clearFocus();
                     tv.setCursorVisible(false);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -255,7 +266,14 @@ public class BoardsActivity extends AppCompatActivity {
 
         setupTabIcons();
     }
-
+    public void updateData(){
+        int position=viewPager.getCurrentItem();
+        if(position==1){
+            ((ReferenceBoard)adapter1.getItem(position)).Refrence();
+        }else if(position==0){
+            ((WorkBoard)adapter1.getItem(position)).getWorkBoards();
+        }
+    }
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
@@ -284,7 +302,7 @@ public class BoardsActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("pid", projectID);
         bundle.putString("ptitle", projectTitle);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter1 = new ViewPagerAdapter(getSupportFragmentManager());
 
         WorkBoard workBoard = new WorkBoard();
         workBoard.setArguments(bundle);
@@ -293,10 +311,10 @@ public class BoardsActivity extends AppCompatActivity {
         ReferenceBoard referenceBoard = new ReferenceBoard();
         referenceBoard.setArguments(bundle);
 
-        adapter.addFrag(workBoard, "Work Boards");
-        adapter.addFrag(referenceBoard, "Archive Boards");
+        adapter1.addFrag(workBoard, "Work Boards");
+        adapter1.addFrag(referenceBoard, "Archive Boards");
         //  adapter.addFrag(new ThreeFragment(), "THREE");
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter1);
     }
 
     @Override
@@ -327,7 +345,7 @@ public class BoardsActivity extends AppCompatActivity {
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
-            //toolbar.setTitle("Projects");
+            toolbar.setTitle(projectTitle);
             logo.setVisibility(View.INVISIBLE);
             edtSeach.setText("");
 
@@ -343,7 +361,7 @@ public class BoardsActivity extends AppCompatActivity {
 
             //  action.setCustomView(R.layout.search_bar);//add the custom view
             // action.setDisplayShowTitleEnabled(false); //hide the title
-            //toolbar.setTitle("");
+            toolbar.setTitle("");
 
             //the text editor
 
@@ -399,7 +417,46 @@ public class BoardsActivity extends AppCompatActivity {
     private void doSearch() {
 //
     }
+    private void updateProjectNameDialog() {
+        LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
+        View customView = inflater.inflate(R.layout.update_card_name_dialog, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this).create();
 
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+        Button cancel, copy;
+        final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
+        final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
+        tvheading.setText("Update Project Name");
+        etCardName.setText(projectTitle);
+
+        copy = (Button) customView.findViewById(R.id.copy);
+        cancel = (Button) customView.findViewById(R.id.close);
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String check=etCardName.getText().toString();
+                if(!check.equals("") && check!="" && check.trim().length()>0) {
+                    UpdateProjectName(etCardName.getText().toString());
+                    alertDialog.dismiss();
+                }else {
+                    Toast.makeText(BoardsActivity.this,"Project Name is must!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                alertDialog.dismiss();
+
+            }
+        });
+
+    }
     public void openDrawer() {
         adapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(adapter);
@@ -409,24 +466,27 @@ public class BoardsActivity extends AppCompatActivity {
                 switch (position) {
 
                     case 1:
+                        updateProjectNameDialog();
+                        break;
+                    case 2:
                         showStatus();
 
                         break;
 
 
-                    case 2:
+                    case 3:
 
                         showDialog("copy");
                         break;
 
 
-                    case 3:
+                    case 4:
 
                         showDialog("move");
                         break;
 
 
-                    case 4:
+                    case 5:
 
                         Intent intent = new Intent(BoardsActivity.this, manage_members.class);
                         intent.putExtra("P_id",projectID);
@@ -434,7 +494,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                         break;
 
-                    case 5:
+                    case 6:
                         new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")
@@ -475,7 +535,11 @@ public class BoardsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         ptitle=updatedText;
+                        projectTitle=updatedText;
+                        toolbar.setTitle(updatedText);
                         ringProgressDialog.dismiss();
+                        Toast.makeText(BoardsActivity.this, "Project Name Updated Successfully", Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawer(Gravity.END);
 
 
                     }
@@ -829,7 +893,9 @@ public class BoardsActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        Toast.makeText(BoardsActivity.this, "Project has been copied successfully", Toast.LENGTH_SHORT).show();
+                        if(!response.equals("0")) {
+                            Toast.makeText(BoardsActivity.this, "Project has been copied successfully", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

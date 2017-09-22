@@ -47,6 +47,7 @@ import com.app.devrah.pojo.ProjectsPojo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,6 +75,7 @@ public class BoardExtended extends AppCompatActivity {
     public static String projectId;
     public static String boardId;
     public static String bTitle;
+    public static String pTitle;
     CustomDrawerAdapter DrawerAdapter;
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
@@ -111,19 +113,21 @@ public class BoardExtended extends AppCompatActivity {
         projectTitle = intent.getStringExtra("ptitle");
         projectId=p_id;
         boardId=b_id;
+        pTitle=projectTitle;
       //  pTitle=projectTitle;
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         title = getIntent().getStringExtra("TitleData");
         bTitle=title;
+        toolbar.setTitle(title);
         //toolbar.setTitle(title);
-        final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
-        tv.setText(title);
-        tv.setCursorVisible(false);
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
-        tv.setOnClickListener(new View.OnClickListener() {
+       // final TextView tv= (TextView) toolbar.findViewById(R.id.toolbar_title);
+        //tv.setText(title);
+        //tv.setCursorVisible(false);
+        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+       /* tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isEditOpened = false;
@@ -143,19 +147,24 @@ public class BoardExtended extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId==6 ) {
-                    isEditOpened = false;
-                    tv.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
-                    UpdateBoardName(tv.getText().toString());
-                    toolbar.getMenu().clear();
-                    toolbar.inflateMenu(R.menu.menu_with_back_button);
-                    toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    String check=tv.getText().toString();
+                    if(!check.equals("")) {
+                        isEditOpened = false;
+                        tv.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                        UpdateBoardName(tv.getText().toString());
+                        toolbar.getMenu().clear();
+                        toolbar.inflateMenu(R.menu.menu_with_back_button);
+                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                    }else {
+                        Toast.makeText(BoardExtended.this,"Board Name is must!",Toast.LENGTH_LONG).show();
+                    }
 
                 }
                 return true;
             }
-        });
+        });*/
         // adapter = new CustomViewPagerAdapter(getFragmentManager(),getApplicationContext(),)
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
@@ -164,8 +173,7 @@ public class BoardExtended extends AppCompatActivity {
 
         dataList = new ArrayList<>();
 
-
-        dataList.add(new DrawerPojo("Filter Cards"));
+        dataList.add(new DrawerPojo("Update Board Name"));
         dataList.add(new DrawerPojo("Copy Board"));
         dataList.add(new DrawerPojo("Move Board"));
         dataList.add(new DrawerPojo("Manage Members"));
@@ -192,14 +200,19 @@ public class BoardExtended extends AppCompatActivity {
                         return true;
                     case R.id.tick:
                         final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
-                        tv.clearFocus();
-                        tv.setCursorVisible(false);
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
-                        UpdateBoardName(tv.getText().toString());
-                        toolbar.getMenu().clear();
-                        toolbar.inflateMenu(R.menu.menu_with_back_button);
-                        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        String check=tv.getText().toString();
+                        if(!check.equals("")) {
+                            tv.clearFocus();
+                            tv.setCursorVisible(false);
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                            UpdateBoardName(tv.getText().toString());
+                            toolbar.getMenu().clear();
+                            toolbar.inflateMenu(R.menu.menu_with_back_button);
+                            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+                        }else {
+                            Toast.makeText(BoardExtended.this,"Board Name is must!",Toast.LENGTH_LONG).show();
+                        }
                         return true;
 
                 }
@@ -213,6 +226,7 @@ public class BoardExtended extends AppCompatActivity {
             public void onClick(View v) {
                 if(Cancelbtn){
                     final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                    tv.setText(title);
                     tv.clearFocus();
                     tv.setCursorVisible(false);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -225,8 +239,8 @@ public class BoardExtended extends AppCompatActivity {
                     Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
                     intent.putExtra("pid", p_id);
                     //projectTitle=BoardsActivity.ptitle;
-                    intent.putExtra("ptitle", BoardsActivity.ptitle);
-                    intent.putExtra("status", BoardsActivity.pstatus);
+                    intent.putExtra("ptitle", pTitle);
+                    intent.putExtra("status","0");
                     finish();
                     startActivity(intent);
                     onBackPressed();
@@ -362,8 +376,8 @@ public class BoardExtended extends AppCompatActivity {
             Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
             intent.putExtra("pid",p_id);
 
-            intent.putExtra("ptitle", BoardsActivity.ptitle);
-            intent.putExtra("status", BoardsActivity.pstatus);
+            intent.putExtra("ptitle", pTitle);
+            intent.putExtra("status", "0");
             finish();
             startActivity(intent);
         }
@@ -372,6 +386,46 @@ public class BoardExtended extends AppCompatActivity {
 
     public void doSearch() {
 //
+    }
+    private void updateBoardNameDialog() {
+        LayoutInflater inflater = LayoutInflater.from(BoardExtended.this);
+        View customView = inflater.inflate(R.layout.update_card_name_dialog, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this).create();
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+        Button cancel, copy;
+        final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
+        final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
+        tvheading.setText("Update Board Name");
+        etCardName.setText(title);
+
+        copy = (Button) customView.findViewById(R.id.copy);
+        cancel = (Button) customView.findViewById(R.id.close);
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String check=etCardName.getText().toString();
+                if(!check.equals("") && check!="" && check.trim().length()>0) {
+                    UpdateBoardName(etCardName.getText().toString());
+                    alertDialog.dismiss();
+                }else {
+                    Toast.makeText(BoardExtended.this,"Board Name is must!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                alertDialog.dismiss();
+
+            }
+        });
+
     }
 
     public void openDrawer() {
@@ -384,7 +438,7 @@ public class BoardExtended extends AppCompatActivity {
                 switch (i) {
 
                     case 0:
-
+                        updateBoardNameDialog();
                         break;
 
 
@@ -852,6 +906,11 @@ public class BoardExtended extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
+                        toolbar.setTitle(updatedText);
+                        title=updatedText;
+                        bTitle=title;
+                        Toast.makeText(BoardExtended.this, "Board Name Updated Successfully", Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawer(Gravity.END);
 
 
                     }

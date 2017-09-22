@@ -1,6 +1,7 @@
 package com.app.devrah.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -454,8 +456,11 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
                     lv.setAdapter(adapter);*/
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
                    row++;
                    saveCardByListId(boardsFragmentData,row);
+
                     alertDialog.dismiss();
                 }
                 else {
@@ -600,6 +605,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                                 adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id);
                                 lv.setAdapter(adapter);
+
                                 /*try {
                                     cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);
                                     cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
@@ -659,7 +665,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("board_id", BoardExtended.boardId);
                 params.put("project_id", BoardExtended.projectId);
-                // params.put("userId", pref.getString("user_id",""));
+                 params.put("userId", pref.getString("user_id",""));
                  params.put("list_id", lsitId);
                 return params;
             }
@@ -983,6 +989,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                     if(Projects.getSelectedItemPosition()!=-1) {
                         if(boards.getSelectedItemPosition()!=-1 && boards.getSelectedItemPosition()!=0) {
                             moveList();
+                            alertDialog.dismiss();
                         }else {
                             Toast.makeText(getActivity(), "Please Select Board First", Toast.LENGTH_SHORT).show();
                         }
@@ -993,6 +1000,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                     if(Projects.getSelectedItemPosition()!=-1) {
                         if(boards.getSelectedItemPosition()!=-1 && boards.getSelectedItemPosition()!=0) {
                         copyList();
+                            alertDialog.dismiss();
                         }else {
                             Toast.makeText(getActivity(), "Please Select Board First", Toast.LENGTH_SHORT).show();
                         }

@@ -68,16 +68,18 @@ public class team_addapter extends BaseAdapter {
 
 
 
-        if(membersPojo.getProfile_pic().equals("null") || membersPojo.getProfile_pic().equals(""))
+        if((membersPojo.getProfile_pic().equals("null") || membersPojo.getProfile_pic().equals("")) && (membersPojo.getGp_pic().equals("null") || membersPojo.getGp_pic().equals("")))
         {
             holder.alias_img.setVisibility(View.VISIBLE);
             holder.alias_img.setText(membersPojo.getInetial());
         }else if(!membersPojo.getGp_pic().equals("null") && !membersPojo.getGp_pic().equals("")){
+            holder.alias_img.setVisibility(View.INVISIBLE);
             Picasso.with(activity)
                     .load(membersPojo.getGp_pic())
                     .into( holder.imgProfile );
         }
-        else{
+        else {
+            holder.alias_img.setVisibility(View.INVISIBLE);
             Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + membersPojo.getProfile_pic())
                     .into( holder.imgProfile );

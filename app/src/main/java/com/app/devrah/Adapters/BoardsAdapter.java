@@ -1,6 +1,7 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,10 +29,14 @@ import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.BoardsActivity;
+import com.app.devrah.Views.GroupProjects;
 import com.app.devrah.Views.Login;
 import com.app.devrah.Views.SignUpActivity;
+import com.app.devrah.Views.WorkBoard;
 import com.app.devrah.pojo.ProjectsPojo;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,7 +155,43 @@ public class BoardsAdapter extends BaseAdapter {
                         }else {
                             projectsList.get(position).setBoardStar("3");
                         }
+
                         notifyDataSetChanged();
+                        ((BoardsActivity)activity).updateData();
+
+                       /*int current=Integer.valueOf(projectsList.get(position).getBoardStar());
+                        if(current>1) {
+                            for (int i = 0; i < projectsList.size(); i++) {
+                                int swap = Integer.valueOf(projectsList.get(i).getBoardStar());
+                                if (current > swap && position > i) {
+                                    Collections.swap(projectsList, i, position);
+                                } else if (current < swap && position < i) {
+                                    Collections.swap(projectsList, i, position);
+                                }
+                            }
+                        }else {
+                            int i=projectsList.size()-1;
+
+                            Boolean check=false;
+                            while (check==false && i>position) {
+                                int swap = Integer.valueOf(projectsList.get(i).getBoardStar());
+                                if (swap > current) {
+                                    Collections.swap(projectsList, i, position);
+                                    check=true;
+                                } else {
+                                    i--;
+                                }
+                            }
+                            for (int j = 0; j < projectsList.size(); j++) {
+                                int swap = Integer.valueOf(projectsList.get(j).getBoardStar());
+                                if (current > swap && position > j) {
+                                    Collections.swap(projectsList, j, position);
+                                } else if (current < swap && position < j) {
+                                    Collections.swap(projectsList, j, position);
+                                }
+                            }
+                        }*/
+
                     }
                 }, new Response.ErrorListener() {
             @Override
