@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.Views.ProjectsActivity;
 import com.app.devrah.pojo.AcitivitiesPojo;
@@ -71,12 +73,12 @@ public class ActivitiesAdpater extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                if(!projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+                if(!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
                     Intent intent = new Intent(activity,ProjectsActivity.class);
                     intent.putExtra("ScreenName","activities");
                     activity.finish();
                     activity.startActivity(intent);
-                }else if(!projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+                }else if(!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
                     Intent intent = new Intent(activity,BoardsActivity.class);
                     intent.putExtra("ptitle",projectsList.get(position).getDataArray());
                     intent.putExtra("pid",projectsList.get(position).getProjectId());
@@ -84,6 +86,17 @@ public class ActivitiesAdpater extends BaseAdapter {
                     intent.putExtra("ScreenName","activities");
                     activity.finish();
                     activity.startActivity(intent);
+                }else if(!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("")&& !projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+                    Intent intent = new Intent(activity,BoardExtended.class);
+                    intent.putExtra("ptitle","");
+                    intent.putExtra("TitleData",projectsList.get(position).getDataArray());
+                    intent.putExtra("p_id",projectsList.get(position).getProjectId());
+                    intent.putExtra("b_id",projectsList.get(position).getBoardId());
+                    intent.putExtra("ScreenName","activities");
+                    activity.finish();
+                    activity.startActivity(intent);
+                }else {
+                    Toast.makeText(activity,"Data not found",Toast.LENGTH_LONG).show();
                 }
 
 

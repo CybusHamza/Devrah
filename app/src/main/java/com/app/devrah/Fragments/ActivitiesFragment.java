@@ -24,11 +24,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.ActivitiesAdpater;
-import com.app.devrah.Adapters.ProjectsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.AcitivitiesPojo;
-import com.app.devrah.pojo.ProjectsPojo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -240,6 +238,12 @@ public class ActivitiesFragment extends Fragment implements View.OnClickListener
 //                                        String[] subString = dataArray.split(",");
 //                                        String[] finalString = subString[0].split(":");
                                          // acitivitiesPojo.setDataArray(dataArray);
+                                     }else {
+                                         acitivitiesPojo.setDataArray("");
+                                         acitivitiesPojo.setProjectId("");
+                                         acitivitiesPojo.setBoardId("");
+                                         acitivitiesPojo.setListId("");
+                                         acitivitiesPojo.setCardId("");
                                      }
                                     //}
 
