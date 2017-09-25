@@ -1,27 +1,21 @@
 package com.app.devrah.Views;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.devrah.Fragments.ActivitiesFragment;
-import com.app.devrah.Fragments.InboxFragment;
 import com.app.devrah.Fragments.NotificationsFragment;
-import com.app.devrah.Fragments.SentMessagesFragment;
 import com.app.devrah.R;
 
 import java.util.ArrayList;
@@ -43,7 +37,17 @@ public class NotificationsActivity extends AppCompatActivity {
         toolbar.inflateMenu(R.menu.my_menu);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(NotificationsActivity.this,Dashboard.class);
+                finish();
+                startActivity(intent);
+                //  onBackPressed();
+            }
+        });
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         viewPager = (ViewPager) findViewById(R.id.notifications_viewpager);
         setupViewPager(viewPager);
 

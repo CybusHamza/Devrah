@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFC9C6C6"
+    android:layout_height="wrap_content"
+    android:background="@drawable/notifications_border"
     android:padding="15dp">
     <TextView
         android:id="@+id/activities_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:text="test"
+        android:layout_below="@+id/date"
         />
     <TextView
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activities_data"
         android:text="14-06-2017"
         android:gravity="end"
-        android:textColor="#000"/>
+        android:textColor="#fff"/>
 
 
 </RelativeLayout>

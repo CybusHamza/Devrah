@@ -2,15 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFC9C6C6"
+    android:background="@drawable/notifications_border"
     android:padding="15dp">
     <TextView
         android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:text="user name"
+        android:layout_below="@id/date"
         />
     <!--<TextView
         android:layout_toEndOf="@id/userName"
@@ -25,10 +26,10 @@
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/userName"
+
         android:text="14-06-2017"
         android:gravity="end"
-        android:textColor="#000"/>
+        android:textColor="#fff"/>
 
 
 </RelativeLayout>

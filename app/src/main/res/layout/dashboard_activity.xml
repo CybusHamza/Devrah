@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/bg_dashboard"
+    android:background="@drawable/background_dashboard"
     android:layout_height="match_parent"
     tools:context="com.app.devrah.Views.Dashboard">
 
-    <ImageView
+   <!-- <ImageView
         android:id="@+id/imageView2"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -15,19 +15,22 @@
         app:srcCompat="@drawable/logo_y_axis"
         android:layout_marginBottom="189dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentStart="true" />-->
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:id="@+id/rl">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProfile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:srcCompat="@drawable/bg_circle"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="159dp"
         app:civ_border_color="#fff"
         app:civ_border_width="2dp"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/dashboard_projects" />
+        android:layout_toStartOf="@+id/imageView6" />
 
     <TextView
         android:layout_width="50dp"
@@ -49,10 +52,10 @@
 
 
     <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:srcCompat="@drawable/bg__dashboard_calender"
+        android:id="@+id/dashboard_projects"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/dashboard_projects_icon"
         android:layout_marginBottom="3dp"
         android:layout_marginStart="25dp"
         android:layout_above="@+id/imageInbox"
@@ -60,58 +63,64 @@
 
     <ImageView
         android:id="@+id/imageMenu"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:srcCompat="@drawable/bg_dshboard_more"
-        android:layout_alignTop="@+id/imageView6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/dashboard_menu_icon"
+        android:layout_alignTop="@+id/dashboard_projects"
         android:layout_alignStart="@+id/imageNotification" />
 
     <ImageView
         android:id="@+id/imageInbox"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginRight="5dp"
-        app:srcCompat="@drawable/bg_email_dashboard"
+        app:srcCompat="@drawable/dashboard_messages_icon"
         android:layout_marginBottom="12dp"
         android:layout_above="@+id/imageFavourites"
         android:layout_toStartOf="@+id/imageProfile" />
 
     <ImageView
         android:id="@+id/imageFavourites"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:srcCompat="@drawable/bg_dashboard_star"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/dashboard_star_icon"
         android:layout_below="@+id/imageProfile"
-        android:layout_alignStart="@+id/imageView6" />
+        android:layout_alignStart="@+id/dashboard_projects" />
 
     <ImageView
         android:id="@+id/imageNotification"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
 
-        app:srcCompat="@drawable/bg_dashboard_bell"
+        app:srcCompat="@drawable/dashboard_noti_icon"
         android:layout_below="@+id/imageProfile"
-        android:layout_toEndOf="@+id/imageView6"
-        android:layout_marginStart="14dp" />
+        android:layout_toEndOf="@+id/dashboard_projects"
+        android:layout_marginStart="20dp" />
 
     <ImageView
-        android:id="@+id/dashboard_projects"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:id="@+id/imageView6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        app:srcCompat="@drawable/bg_dashboard_project"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/dashboard_my_cards_icon"
         android:layout_alignTop="@+id/imageInbox"
-        android:layout_alignParentEnd="true" />
-
+         />
+</RelativeLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/rl"
+    android:gravity="center_horizontal">
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_alignEnd="@+id/imageNotification"
-        android:layout_marginBottom="68dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="2dp"
         android:textSize="30sp"
+        android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:text="TextView" />
 
@@ -122,7 +131,11 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="TextView"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/tvTime"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/tvTime"
-        android:layout_alignStart="@+id/tvTime" />
+        android:layout_alignEnd="@id/tvTime"
+        android:layout_alignStart="@id/tvTime"
+        />
+</RelativeLayout>
 </RelativeLayout>
