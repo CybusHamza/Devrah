@@ -99,7 +99,7 @@ public class BoardsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boards);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         projectID = intent.getStringExtra("pid");
         projectTitle = intent.getStringExtra("ptitle");
         ptitle=projectTitle;
@@ -249,9 +249,15 @@ public class BoardsActivity extends AppCompatActivity {
                     toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
                     Cancelbtn=false;
                 }else {
-                    Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
-                    finish();
-                    startActivity(intent);
+                    if(intent.hasExtra("ScreenName")){
+                        Intent intent = new Intent(BoardsActivity.this, NotificationsActivity.class);
+                        finish();
+                        startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
+                        finish();
+                        startActivity(intent);
+                    }
                    onBackPressed();
                 }
             }
@@ -407,10 +413,16 @@ public class BoardsActivity extends AppCompatActivity {
             isEditOpened = false;
             return;
         } else {
-            Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
+            Intent intent = getIntent();
+            if(intent.hasExtra("ScreenName")){
+                Intent intent1 = new Intent(BoardsActivity.this, NotificationsActivity.class);
+                finish();
+                startActivity(intent1);
+            }else {
+                Intent intent1 = new Intent(BoardsActivity.this, ProjectsActivity.class);
+                finish();
+                startActivity(intent1);
+            }
         }
         super.onBackPressed();
     }

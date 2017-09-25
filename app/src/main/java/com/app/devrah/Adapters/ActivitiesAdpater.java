@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardsActivity;
+import com.app.devrah.Views.ProjectsActivity;
 import com.app.devrah.pojo.AcitivitiesPojo;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class ActivitiesAdpater extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = new ViewHolder();
         if (inflater== null)
@@ -62,7 +63,7 @@ public class ActivitiesAdpater extends BaseAdapter {
 
         holder.data = (TextView) convertView.findViewById(R.id.activities_data);
         holder.date = (TextView) convertView.findViewById(R.id.date);
-        holder.data.setText(projectsList.get(position).getUserName()+" "+projectsList.get(position).getData());
+        holder.data.setText(projectsList.get(position).getUserName()+" "+projectsList.get(position).getData()+" "+projectsList.get(position).getDataArray());
         holder.date.setText(projectsList.get(position).getDate());
 
 
@@ -70,8 +71,18 @@ public class ActivitiesAdpater extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity,BoardsActivity.class);
-                activity.startActivity(intent);
+                if(!projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+                    Intent intent = new Intent(activity,ProjectsActivity.class);
+                    activity.startActivity(intent);
+                }else if(!projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+                    Intent intent = new Intent(activity,BoardsActivity.class);
+                    intent.putExtra("ptitle",projectsList.get(position).getDataArray());
+                    intent.putExtra("pid",projectsList.get(position).getProjectId());
+                    intent.putExtra("status","0");
+                    intent.putExtra("ScreenName","activities");
+                    activity.startActivity(intent);
+                }
+
 
             }
         });

@@ -168,18 +168,79 @@ public class ActivitiesFragment extends Fragment implements View.OnClickListener
                                     AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
                                     acitivitiesPojo.setData(jsonObject.getString("remarks"));
                                     acitivitiesPojo.setDate(jsonObject.getString("action_time"));
-                                    acitivitiesPojo.setUserName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
-                                   /* if(!jsonObject.getString("project_id").equals("null") && jsonObject.getString("board_id").equals("null") && jsonObject.getString("list_id").equals("null") && jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert")) {
+                                    acitivitiesPojo.setUserName(jsonObject.getString("first_name"));
+                                     if(!(jsonObject.getString("project_id").equals("null")) && jsonObject.getString("board_id").equals("null") && jsonObject.getString("list_id").equals("null") && jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert") && jsonObject.getString("table_name").equals("projects")) {
                                         //String dataArray = jsonObject.getString("data_array");
                                         String dataArray=jsonObject.getString("data_array");
                                         JSONObject jsonObject1=new JSONObject(dataArray);
-                                        acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
+                                         if(jsonObject1.has("project_name"))
+                                             acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
+                                         else
+                                             acitivitiesPojo.setDataArray("");
+
+                                         acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
+                                         acitivitiesPojo.setBoardId("");
+                                         acitivitiesPojo.setListId("");
+                                         acitivitiesPojo.setCardId("");
                                        // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
 //                                    if(!dataArray.equals("null")) {
 //                                        String[] subString = dataArray.split(",");
 //                                        String[] finalString = subString[0].split(":");
                                        // acitivitiesPojo.setDataArray(dataArray);
-                                    }*/
+                                    }
+                                    else if(!(jsonObject.getString("project_id").equals("null")) && !jsonObject.getString("board_id").equals("null") && jsonObject.getString("list_id").equals("null") && jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert") && jsonObject.getString("table_name").equals("boards")) {
+                                        //String dataArray = jsonObject.getString("data_array");
+                                        String dataArray=jsonObject.getString("data_array");
+                                        JSONObject jsonObject1=new JSONObject(dataArray);
+                                         if(jsonObject1.has("board_name"))
+                                             acitivitiesPojo.setDataArray(jsonObject1.getString("board_name"));
+                                         else
+                                             acitivitiesPojo.setDataArray("");
+                                        acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
+                                        acitivitiesPojo.setBoardId(jsonObject.getString("board_id"));
+                                        acitivitiesPojo.setListId("");
+                                        acitivitiesPojo.setCardId("");
+                                        // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
+//                                    if(!dataArray.equals("null")) {
+//                                        String[] subString = dataArray.split(",");
+//                                        String[] finalString = subString[0].split(":");
+                                        // acitivitiesPojo.setDataArray(dataArray);
+                                    }
+                                     else if(!(jsonObject.getString("project_id").equals("null")) && !jsonObject.getString("board_id").equals("null") && !jsonObject.getString("list_id").equals("null") && jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert") && jsonObject.getString("table_name").equals("lists")) {
+                                         //String dataArray = jsonObject.getString("data_array");
+                                         String dataArray=jsonObject.getString("data_array");
+                                         JSONObject jsonObject1=new JSONObject(dataArray);
+                                         if(jsonObject1.has("list_name"))
+                                         acitivitiesPojo.setDataArray(jsonObject1.getString("list_name"));
+                                         else
+                                             acitivitiesPojo.setDataArray("");
+                                         acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
+                                         acitivitiesPojo.setBoardId(jsonObject.getString("board_id"));
+                                         acitivitiesPojo.setListId(jsonObject.getString("list_id"));
+                                         acitivitiesPojo.setCardId("");
+                                         // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
+//                                    if(!dataArray.equals("null")) {
+//                                        String[] subString = dataArray.split(",");
+//                                        String[] finalString = subString[0].split(":");
+                                         // acitivitiesPojo.setDataArray(dataArray);
+                                     }else if(!(jsonObject.getString("project_id").equals("null")) && !jsonObject.getString("board_id").equals("null") && !jsonObject.getString("list_id").equals("null") && !jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert") && jsonObject.getString("table_name").equals("cards")) {
+                                         //String dataArray = jsonObject.getString("data_array");
+                                         String dataArray=jsonObject.getString("data_array");
+                                         JSONObject jsonObject1=new JSONObject(dataArray);
+                                         if(jsonObject1.has("card_name"))
+                                         acitivitiesPojo.setDataArray(jsonObject1.getString("card_name"));
+                                         else
+                                         acitivitiesPojo.setDataArray("");
+                                         acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
+                                         acitivitiesPojo.setBoardId(jsonObject.getString("board_id"));
+                                         acitivitiesPojo.setListId(jsonObject.getString("list_id"));
+                                         acitivitiesPojo.setCardId(jsonObject.getString("card_id"));
+                                         // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
+//                                    if(!dataArray.equals("null")) {
+//                                        String[] subString = dataArray.split(",");
+//                                        String[] finalString = subString[0].split(":");
+                                         // acitivitiesPojo.setDataArray(dataArray);
+                                     }
                                     //}
 
                                     listPojo.add(acitivitiesPojo);

@@ -7,6 +7,43 @@ package com.app.devrah.pojo;
 public class AcitivitiesPojo {
     public String data;
 
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public String projectId;
+    public String boardId;
+    public String listId;
+    public String cardId;
+
     public String getDataArray() {
         return dataArray;
     }
