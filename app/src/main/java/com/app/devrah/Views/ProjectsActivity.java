@@ -138,9 +138,17 @@ public class ProjectsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
-                finish();
-                startActivity(intent);
+                Intent intent1=getIntent();
+                if(intent1.hasExtra("ScreenName")){
+                    Intent intent = new Intent(ProjectsActivity.this, NotificationsActivity.class);
+                    finish();
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
+                    startActivity(intent);
+                }
                 //  onBackPressed();
             }
         });
@@ -289,10 +297,17 @@ public class ProjectsActivity extends AppCompatActivity {
             handleMenuSearch();
             return;
         } else {
-            Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
+            Intent intent1=getIntent();
+            if(intent1.hasExtra("ScreenName")){
+                Intent intent = new Intent(ProjectsActivity.this, NotificationsActivity.class);
+                finish();
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                startActivity(intent);
+            }
 
         }
         super.onBackPressed();

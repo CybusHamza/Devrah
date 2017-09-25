@@ -236,13 +236,20 @@ public class BoardExtended extends AppCompatActivity {
                     toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
                     Cancelbtn=false;
                 }else {
-                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
-                    intent.putExtra("pid", p_id);
-                    //projectTitle=BoardsActivity.ptitle;
-                    intent.putExtra("ptitle", pTitle);
-                    intent.putExtra("status","0");
-                    finish();
-                    startActivity(intent);
+                    Intent intent1 = getIntent();
+                    if(intent1.hasExtra("ScreenName")){
+                        Intent intent = new Intent(BoardExtended.this, NotificationsActivity.class);
+                        finish();
+                        startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                        intent.putExtra("pid", p_id);
+                        //projectTitle=BoardsActivity.ptitle;
+                        intent.putExtra("ptitle", pTitle);
+                        intent.putExtra("status", "0");
+                        finish();
+                        startActivity(intent);
+                    }
                     onBackPressed();
                 }
             }
@@ -373,13 +380,20 @@ public class BoardExtended extends AppCompatActivity {
             isEditOpened = false;
             return;
         } else{
-            Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
-            intent.putExtra("pid",p_id);
+            Intent intent1 = getIntent();
+            if(intent1.hasExtra("ScreenName")){
+                Intent intent = new Intent(BoardExtended.this, NotificationsActivity.class);
+                finish();
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                intent.putExtra("pid", p_id);
 
-            intent.putExtra("ptitle", pTitle);
-            intent.putExtra("status", "0");
-            finish();
-            startActivity(intent);
+                intent.putExtra("ptitle", pTitle);
+                intent.putExtra("status", "0");
+                finish();
+                startActivity(intent);
+            }
         }
         super.onBackPressed();
     }

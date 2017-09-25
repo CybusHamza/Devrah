@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@drawable/bg_project_list_item"
+    android:background="@drawable/inbox_border"
     android:layout_height="wrap_content">
 
 
@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="5dp"
         android:weightSum="10">
 
         <TextView
@@ -37,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:text="Card:test"
         android:textColor="#fff"
         android:textSize="13sp" />
@@ -46,12 +48,14 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:text="Card:test"
+        android:layout_marginLeft="5dp"
         android:textColor="#fff"
         android:textSize="13sp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:id="@+id/board"
@@ -60,13 +64,14 @@
             android:paddingLeft="10dp"
             android:text="Project:test"
             android:textColor="#fff"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:layout_marginStart="5dp"/>
 
         <TextView
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:gravity="end"
             android:text="18-07-2017"
             android:textSize="12sp"
@@ -79,7 +84,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:background="@drawable/inner_drawable_for_card"
         android:gravity="center"
         android:padding="5dp"
         android:text="sdfghj"

@@ -17,8 +17,8 @@
 
     <Button
         android:id="@+id/buttonAddProject"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
         android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"

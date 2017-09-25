@@ -4,17 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.BoardsActivity;
-import com.app.devrah.R;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.NotificationsPojo;
 import com.app.devrah.pojo.boardNotificationsPojo;
@@ -87,6 +85,8 @@ public class NotificationAdapter extends BaseAdapter {
                     Intent intent = new Intent(activity, BoardsActivity.class);
                     intent.putExtra("pid",projectsList.get(position).getProjectId());
                     intent.putExtra("ptitle",projectsList.get(position).getData());
+                    intent.putExtra("ScreenName","activities");
+                    activity.finish();
                     activity.startActivity(intent);
                 }else if(projectsList.get(position).getLabel().equals(" added you to the board ") && !projectsList.get(position).getBoardId().equals("0")){
                     Intent intent = new Intent(activity, BoardExtended.class);
@@ -94,6 +94,8 @@ public class NotificationAdapter extends BaseAdapter {
                     intent.putExtra("b_id",projectsList.get(position).getBoardId());
                     intent.putExtra("TitleData",projectsList.get(position).getData());
                     intent.putExtra("ptitle",projectsList.get(position).getProjectTitle());
+                    intent.putExtra("ScreenName","activities");
+                    activity.finish();
                     activity.startActivity(intent);
                 }else if(projectsList.get(position).getLabel().equals(" added you to the card ")){
                     Intent intent = new Intent(activity,CardActivity.class);
@@ -113,6 +115,7 @@ public class NotificationAdapter extends BaseAdapter {
                     intent.putExtra("board_name",projectsList.get(position).getBoard_name());
                     intent.putExtra("project_title",projectsList.get(position).getProjectTitle());
                     intent.putExtra("fromMyCards","notifi");
+                    intent.putExtra("ScreenName","activities");
                     activity.finish();
                     activity.startActivity(intent);
                 }

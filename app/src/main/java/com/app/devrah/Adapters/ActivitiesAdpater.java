@@ -73,6 +73,8 @@ public class ActivitiesAdpater extends BaseAdapter {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
                 if(!projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
                     Intent intent = new Intent(activity,ProjectsActivity.class);
+                    intent.putExtra("ScreenName","activities");
+                    activity.finish();
                     activity.startActivity(intent);
                 }else if(!projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
                     Intent intent = new Intent(activity,BoardsActivity.class);
@@ -80,6 +82,7 @@ public class ActivitiesAdpater extends BaseAdapter {
                     intent.putExtra("pid",projectsList.get(position).getProjectId());
                     intent.putExtra("status","0");
                     intent.putExtra("ScreenName","activities");
+                    activity.finish();
                     activity.startActivity(intent);
                 }
 
