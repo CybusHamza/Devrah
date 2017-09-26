@@ -195,6 +195,7 @@ public class ProjectsActivity extends AppCompatActivity {
         tabTwo.setText("Projects");
 
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.orange));
         tabLayout.getTabAt(0).setCustomView(tabTwo);
 
 

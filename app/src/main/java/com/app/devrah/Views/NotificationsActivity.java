@@ -62,6 +62,7 @@ public class NotificationsActivity extends AppCompatActivity {
         tabOne.setText("Notifications");
 
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.orange));
         tabLayout.getTabAt(0).setCustomView(tabOne);
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);

@@ -291,6 +291,7 @@ public class BoardsActivity extends AppCompatActivity {
         tabTwo.setText("Archive Boards");
 
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.work_boards, 0, 0);
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.orange));
         tabLayout.getTabAt(1).setCustomView(tabTwo);
 
 

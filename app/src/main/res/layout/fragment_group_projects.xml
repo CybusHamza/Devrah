@@ -16,6 +16,8 @@
 
     <ExpandableListView
         android:id="@+id/lvExp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_height="match_parent"
         android:dividerHeight="7dp"
         android:layout_width="match_parent"/>

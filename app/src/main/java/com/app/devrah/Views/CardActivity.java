@@ -45,6 +45,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -170,7 +171,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     static String CardHeading,list_id;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
-    TextView tvMembers,heading;
+    TextView tvMembers;
+    ImageView heading;
     RecyclerViewAdapterComments adapter;
     RVadapterCheckList rvAdapterChecklist;
     List<CardCommentData> listPojo;
@@ -436,7 +438,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         expandableLv = (RecyclerView) findViewById(R.id.rv_recycler_checklist);
         rvLabel = (RecyclerView) findViewById(R.id.rv_recycler_labels);
         tvMembers = (TextView) findViewById(R.id.tvMembers);
-        heading = (TextView) findViewById(R.id.heading);
+        heading = (ImageView) findViewById(R.id.heading);
 
         etDescription = (EditText) findViewById(R.id.description);
         if(!cardDescription.equals("null"))

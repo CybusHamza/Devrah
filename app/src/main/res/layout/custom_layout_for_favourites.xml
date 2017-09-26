@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="#fff"
+    android:background="@drawable/border_team"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="58dp"
         android:orientation="horizontal"
-        android:background="#fff">
+        android:layout_weight="10"
+        >
 
         <TextView
             android:id="@+id/projectName"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
+            android:layout_marginLeft="3dp"
             android:paddingLeft="10dp"
             android:text="Project:test"
-            android:textColor="#000"
-            android:textSize="20dp" />
+            android:textColor="#fff"
+            android:textSize="18dp"
+            android:layout_weight="7"/>
 
         <ImageView
             android:id="@+id/btnFavourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="7dp"
             android:layout_marginTop="10dp"
             android:padding="5dp"
+            android:layout_weight="3"
             android:src="@drawable/favourite_star_icon"
             android:textColor="#fff" />
     </LinearLayout>
@@ -38,10 +42,9 @@
         android:padding="5dp"
         android:layout_marginTop="5dp"
         android:text="sdfghj"
-        android:background="@drawable/inner_drawable_for_card"
         android:id="@+id/tvFavouritesData"
         android:gravity="center"
-        android:textColor="#000"
+        android:textColor="#fff"
         />
 
 </LinearLayout>
