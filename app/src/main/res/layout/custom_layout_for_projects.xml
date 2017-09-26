@@ -2,30 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/bg_project_list_item"
+    android:background="@drawable/border"
 
     android:layout_height="wrap_content">
-
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:textColor="@color/lightGreen"
-        android:id="@+id/btnActive"
-        android:padding="5dp"
-        android:layout_marginRight="10dp"
-        android:text="Active"
-        android:layout_marginTop="15dp"/>
+        android:orientation="horizontal"
+        android:layout_gravity="right">
+        <ImageView
+            android:id="@+id/icon_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/active"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/lightGreen"
+            android:id="@+id/btnActive"
+            android:padding="5dp"
+            android:layout_marginRight="10dp"
+            android:text="Active"
+            android:layout_marginTop="15dp"/>
+    </LinearLayout>
+
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:padding="3dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="25dp"
         android:text="sdfghj"
-        android:background="@drawable/bg_project_listview_item_tv_projectdata"
         android:id="@+id/tvProjectsData"
         android:gravity="center"
         android:textColor="#fff"

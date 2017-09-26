@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,7 +47,8 @@ public class MenuActivity extends AppCompatActivity {
 
     EditText etTeamName;
     Toolbar toolbar;
-    TextView createNewTeam;
+   // TextView createNewTeam;
+    Button createNewTeam;
     List<All_Teams> teamList;
     ListView lvTeamData;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -71,7 +73,8 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("Menu");
+        toolbar.setTitle("Teams");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         toolbar.setNavigationIcon(R.drawable.back_arrow_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +92,7 @@ public class MenuActivity extends AppCompatActivity {
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-        createNewTeam = (TextView) findViewById(R.id.tvCreateNewTeam);
+        createNewTeam = (Button) findViewById(R.id.buttonTeam);
 
         createNewTeam.setOnClickListener(new View.OnClickListener() {
             @Override

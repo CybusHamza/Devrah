@@ -22,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -425,7 +424,9 @@ public class MyCardsActivity extends AppCompatActivity {
     private void doSearch() {
         //
     }
+    public void updateUI(){
 
+    }
 
     public void getMyCards(final String reload, final String id) {
 

@@ -44,7 +44,8 @@
         <activity android:name=".Views.MyCardsActivity" />
         <activity android:name=".Views.NotificationsActivity" />
         <activity android:name=".Views.MessagesActivity" />
-        <activity android:name=".Views.SendNewMessageActivity" />
+        <activity android:name=".Views.SendNewMessageActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Views.CreateNewTeamActivity" />
         <activity android:name=".Views.ProfileActivity" />
 

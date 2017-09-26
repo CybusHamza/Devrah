@@ -37,7 +37,7 @@
             android:ems="10"
             android:hint="';' seprated email ids"
             android:textColor="#fff"
-            android:textColorHint="#7c7878"
+            android:textColorHint="#b8b7b7"
             app:backgroundTint="#fff"
             android:textCursorDrawable="@null"
             android:layout_alignStart="@+id/projectSpinner"
@@ -56,9 +56,10 @@
             android:id="@+id/projectSpinner"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textColor="#fff"
+            android:textColor="#000"
+            android:popupBackground="#3c3c3c"
             android:layout_below="@+id/etEmails"
-            android:background="@drawable/dropdown_mainscreen"
+            android:background="@drawable/spinner_dropdown"
             android:layout_toRightOf="@+id/project"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"
@@ -79,8 +80,9 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textColor="#fff"
+            android:popupBackground="#3c3c3c"
             android:layout_below="@+id/projectSpinner"
-            android:background="@drawable/dropdown_mainscreen"
+            android:background="@drawable/spinner_dropdown"
             android:layout_toRightOf="@+id/project"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"
@@ -100,9 +102,10 @@
             android:id="@+id/cardSpinner"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textColor="#fff"
+            android:textColor="#000"
+            android:popupBackground="#3c3c3c"
             android:layout_below="@+id/boardSpinner"
-            android:background="@drawable/dropdown_mainscreen"
+            android:background="@drawable/spinner_dropdown"
             android:layout_toRightOf="@+id/project"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"
@@ -438,18 +441,53 @@
                 android:id="@+id/editor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+               />
 
 
 
         </LinearLayout>
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end"
-            android:layout_below="@+id/textEditorLayout">
-            <Button
+            android:layout_below="@+id/textEditorLayout">-->
+
+            <LinearLayout
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_below="@+id/textEditorLayout">
+                <ImageView
+                    android:src="@drawable/cancel_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:textColor="@color/colorWhite"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/textEditorLayout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp">
+                <ImageView
+                    android:src="@drawable/send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Send"
+                    android:textColor="@color/colorWhite"/>
+            </LinearLayout>
+           <!-- <Button
                 android:id="@+id/cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -459,8 +497,8 @@
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send"/>
-        </LinearLayout>
+                android:text="Send"/>-->
+       <!-- </LinearLayout>-->
     </RelativeLayout>
 
     </ScrollView>

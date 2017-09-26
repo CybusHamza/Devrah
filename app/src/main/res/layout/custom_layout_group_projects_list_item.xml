@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@drawable/bg_card_layout_projects"
+    android:background="@drawable/border"
 
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right">
+        <ImageView
+            android:id="@+id/icon_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/active"
 
+            />
     <TextView
         android:id="@+id/btnActive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
-        android:background="@color/lightGreen"
         android:padding="5dp"
         android:text="Active"
-        android:textColor="#fff" />
-
+        android:textColor="@color/lightGreen" />
+</LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:padding="3dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="25dp"
         android:text="sdfghj"
-        android:background="@drawable/inner_drawable_for_card"
-        android:id="@+id/tvProjectsData"
+       android:id="@+id/tvProjectsData"
         android:gravity="center"
-        android:textColor="#000"
+        android:textColor="#fff"
         />
 </LinearLayout>

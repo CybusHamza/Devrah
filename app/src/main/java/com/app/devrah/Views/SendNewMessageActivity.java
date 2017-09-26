@@ -18,8 +18,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +49,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import jp.wasabeef.richeditor.RichEditor;
 
 import static com.app.devrah.R.id.editor;
-import static com.app.devrah.R.id.position;
 
 public class SendNewMessageActivity extends AppCompatActivity {
 
@@ -59,7 +58,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
     EditText subject;
     AutoCompleteTextView to;
     Spinner project,card,board;
-    Button send,cancel;
+    LinearLayout send,cancel;
 
     ArrayList<String> ids;
     ArrayList<String> name;
@@ -104,8 +103,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
         project = (Spinner) findViewById(R.id.projectSpinner);
         card = (Spinner) findViewById(R.id.cardSpinner);
         board = (Spinner) findViewById(R.id.boardSpinner);
-        send = (Button) findViewById(R.id.send_button);
-        cancel = (Button) findViewById(R.id.cancel_button);
+        send = (LinearLayout) findViewById(R.id.send_button);
+        cancel = (LinearLayout) findViewById(R.id.cancel_button);
 
         to.addTextChangedListener(new TextWatcher() {
             @Override
@@ -203,6 +202,16 @@ public class SendNewMessageActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
+                startActivity(intent);
+                finish();
+                //  onBackPressed();
+            }
+        });
         mEditor = (RichEditor) findViewById(editor);
         mEditor.setEditorHeight(200);
         mEditor.setEditorFontSize(22);
@@ -549,7 +558,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             }
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                                    (SendNewMessageActivity.this,android.R.layout.simple_spinner_dropdown_item,project_name);
+                                    (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,project_name);
 
                             project.setAdapter(dataAdapter);
 
@@ -652,7 +661,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             }
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                                    (SendNewMessageActivity.this,android.R.layout.simple_spinner_dropdown_item,boards_name);
+                                    (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,boards_name);
 
                             board.setAdapter(dataAdapter);
 
@@ -835,7 +844,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             }
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                                    (SendNewMessageActivity.this,android.R.layout.simple_spinner_dropdown_item,cards_name);
+                                    (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,cards_name);
 
                             card.setAdapter(dataAdapter);
 
@@ -913,7 +922,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
             if(pos == 0)
             {
-                Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
             }
             else
             {
@@ -938,7 +947,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
             if(pos == 0)
             {
-                Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
             }
             else
             {

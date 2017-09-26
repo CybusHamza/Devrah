@@ -178,13 +178,13 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.btnActive);
         if (childStatus.equals("1")) {
             statusList.setText("Active");
-            statusList.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
+            statusList.setTextColor(context.getResources().getColor(R.color.lightGreen));
         }else if (childStatus.equals("2")) {
             statusList.setText("In-Active");
-            statusList.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
+            statusList.setTextColor(context.getResources().getColor(R.color.colorRed));
         } else {
             statusList.setText("Completed");
-            statusList.setBackgroundColor(context.getResources().getColor(R.color.darkgreen));
+            statusList.setTextColor(context.getResources().getColor(R.color.darkgreen));
         }
         return convertView;
 

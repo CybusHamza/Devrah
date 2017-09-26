@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
 
-        android:textColor="#000"
+        android:textColor="#fff"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:padding="3dp"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:src="@drawable/search_icon_white"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_alignTop="@+id/etSearchBarRB"
         android:layout_alignEnd="@+id/lvRBoard" />
 
@@ -34,9 +34,9 @@
 
     <Button
         android:id="@+id/buttonAddRBoard"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/add_btn"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
+        android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"
@@ -72,6 +72,6 @@
         android:id="@+id/lvRBoard"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="18dp"
-        android:layout_below="@+id/searchBar" />
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvReferenceBoard" />
 </RelativeLayout>
