@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -129,18 +131,20 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
             int a= checkedItem.size();
             float b = (progress/a);
             progress = b*100;
-
-            holder.progressBar.setProgress((int) progress);
-            /*int progres=Integer.valueOf((int) progress);
+            int progres=Integer.valueOf((int) progress);
             if(progres==100){
-              holder.progressBar.setProgressBackgroundTintList();
-            }else if(progres<=50){
-                holder.progressBar.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
-            }else if(progres<=25){
-                holder.progressBar.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
-            }else {
-                holder.progressBar.setBackgroundColor(activity.getResources().getColor(R.color.blue));
-            }*/
+                holder.tvProgress.setTextColor(Color.GREEN);
+                holder.progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+            }else if(progres>25&&progres<=75){
+                holder.tvProgress.setTextColor(activity.getResources().getColor(R.color.colorYellow));
+                holder.progressBar.getProgressDrawable().setColorFilter(activity.getResources().getColor(R.color.colorYellow), PorterDuff.Mode.SRC_IN);
+            }else if(progres>0 &&progres<=25){
+                holder.tvProgress.setTextColor(activity.getResources().getColor(R.color.colorRed));
+                holder.progressBar.getProgressDrawable().setColorFilter(activity.getResources().getColor(R.color.colorRed), PorterDuff.Mode.SRC_IN);
+            }
+            holder.progressBar.setProgress((int) progress);
+            holder.tvProgress.setText((int)progress+"%");
+
         }
 
 

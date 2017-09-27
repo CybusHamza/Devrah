@@ -385,7 +385,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    >
                     <ImageView
                         android:id="@+id/checklist_icon"
                         android:layout_width="25dp"
@@ -396,7 +397,7 @@
                         android:id="@+id/rv_recycler_checklist"
                         android:layout_height="wrap_content"
                         android:background="@drawable/outer_border_checklist"
-                        android:dividerHeight="7dp"
+                        android:dividerHeight="5dp"
                         android:layout_width="match_parent"/>
                     </LinearLayout>
 
@@ -483,7 +484,6 @@
             android:id="@+id/menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
 
