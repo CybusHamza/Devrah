@@ -401,17 +401,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         etCheckList = (EditText) findViewById(R.id.etCheckBox);
         // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        getChecklistData();
-
-        toolbar.setNavigationIcon(R.drawable.back_arrow_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         dataList = new ArrayList<>();
 
@@ -446,6 +436,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         etDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                etDescription.setCursorVisible(true);
+//                etDescription.setBackgroundResource(android.R.drawable.edit_text);
                 menuChanger(menu, true);
                 final MenuItem tick = menu.findItem(R.id.tick);
                 tick.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -458,7 +450,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         addDescription(etDescription.getText().toString());
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(etDescription.getWindowToken(), 0);
-
+                        etDescription.setCursorVisible(false);
+//                        etDescription.setBackgroundResource(android.R.color.transparent);
                         return true;
                     }
                 });
@@ -513,7 +506,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });
 
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
+       // collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
        // FABdueDate = (FloatingActionButton) findViewById(R.id.dueDate);
         FABmembers = (FloatingActionButton) findViewById(R.id.members);
         FABattachments = (FloatingActionButton) findViewById(R.id.attachments);
@@ -535,11 +528,24 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         CardHeading = getIntent().getStringExtra("CardHeaderData");
-        collapsingToolbarLayout.setTitle(CardHeading);
-        collapsingToolbarLayout.setBackground(getResources().getDrawable(R.drawable.bg_signup));
+        //collapsingToolbarLayout.setTitle(CardHeading);
+       // collapsingToolbarLayout.setBackground(getResources().getDrawable(R.drawable.bg_projects));
         etComment = (EditText) findViewById(R.id.etComment);
 
+        toolbar.setTitle(CardHeading);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        getChecklistData();
+
+        toolbar.setNavigationIcon(R.drawable.back_arrow_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         FABattachments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1486,7 +1492,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList,colorList1,"new");
                 rvLabel.setAdapter(rvAdapterLabel);
 */
-
+                fabm.close(true);
                 FragmentManager fm = getSupportFragmentManager();
 
                 RVLabelAdapter.index = -1;
@@ -3929,8 +3935,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
-                        collapsingToolbarLayout.setTitle(updatedText);
+                        //collapsingToolbarLayout.setTitle(updatedText);
                         CardHeading=updatedText;
+                        toolbar.setTitle(updatedText);
                         Toast.makeText(activity, "Card Name Updated Successfully", Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawer(Gravity.END);
 

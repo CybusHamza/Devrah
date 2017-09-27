@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/LinearLayoutheader"
-    android:background="#fff"
+    android:background="@null"
+    android:layout_margin="5dp"
     >
 
 
@@ -21,18 +22,19 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:weightSum="1"
-        android:background="@drawable/bg_boards_extended_list_white"
-        android:orientation="horizontal">
+        android:background="@drawable/outer_border_checklist"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp">
 
 
-        <ImageView
+       <!-- <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
             android:layout_gravity="center"
             android:background="@drawable/checkbox_icon"
-            />
+            />-->
         <EditText
             android:id="@+id/header"
             android:layout_width="wrap_content"
@@ -42,12 +44,12 @@
             android:drawablePadding="30dp"
             android:paddingLeft="20dp"
             android:text="Check List"
-
+            android:layout_marginLeft="5dp"
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:textCursorDrawable="@null"
             android:textSize="17sp"
-            android:textColor="#000"
+            android:textColor="#fff"
              />
     </LinearLayout>
 

@@ -131,6 +131,16 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
             progress = b*100;
 
             holder.progressBar.setProgress((int) progress);
+            /*int progres=Integer.valueOf((int) progress);
+            if(progres==100){
+              holder.progressBar.setProgressBackgroundTintList();
+            }else if(progres<=50){
+                holder.progressBar.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+            }else if(progres<=25){
+                holder.progressBar.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+            }else {
+                holder.progressBar.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+            }*/
         }
 
 
