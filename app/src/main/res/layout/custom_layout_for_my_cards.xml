@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:longClickable="true"
     android:layout_width="match_parent"
-    android:background="@drawable/round_courner"
+    android:background="@drawable/border"
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
@@ -14,32 +14,37 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:paddingLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:text="Project:test"
-            android:textColor="#000"
-            android:textSize="20dp" />
+            android:textColor="#fff"
+            android:textSize="16dp" />
 
     <TextView
         android:id="@+id/boardName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_below="@id/projectName"
         android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:text="Project:test"
-        android:textColor="#000"
-        android:textSize="20dp" />
+        android:textColor="#fff"
+        android:textSize="16dp"
+        android:layout_marginBottom="10dp"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:padding="5dp"
-        android:layout_marginTop="5dp"
+        android:padding="10dp"
+
         android:text="sdfghj"
-        android:background="@drawable/inner_drawable_for_card"
+        android:layout_alignParentBottom="true"
         android:id="@+id/tvFavouritesData"
         android:gravity="center"
-        android:textColor="#000"
+        android:textColor="#fff"
+        android:layout_below="@id/boardName"
+        android:layout_marginBottom="15dp"
         />
 
-</LinearLayout>
+</RelativeLayout>

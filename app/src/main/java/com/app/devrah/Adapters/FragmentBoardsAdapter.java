@@ -3,9 +3,6 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,23 +11,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended;
 import com.app.devrah.Views.CardActivity;
-import com.app.devrah.R;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by AQSA SHaaPARR on 6/5/2017.
@@ -85,6 +77,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
         final ViewHolder holder = new ViewHolder();
 
+
         if (inflater== null)
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -96,6 +89,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
 
         holder.membersView = (LinearLayout)convertView.findViewById(R.id.membersListView);
+
 
 
         holder.labelsLinearLayout= (LinearLayout) convertView.findViewById(R.id.labelsLayout);

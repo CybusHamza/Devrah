@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.MyCardsPojo;
@@ -68,9 +67,9 @@ public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener 
 
         convertView.setOnTouchListener(this);
         holder.data = (TextView) convertView.findViewById(R.id.projectName);
-        holder.data.setText("Project Name : "+projectsList.get(position).getProjectname());
+        holder.data.setText("Project : "+projectsList.get(position).getProjectname());
         holder.boardData = (TextView) convertView.findViewById(R.id.boardName);
-        holder.boardData.setText("Board Name : "+projectsList.get(position).getBoardname());
+        holder.boardData.setText("Board : "+projectsList.get(position).getBoardname());
         holder.cardName = (TextView) convertView.findViewById(R.id.tvFavouritesData);
         holder.cardName.setText(projectsList.get(position).getCard_name());
 

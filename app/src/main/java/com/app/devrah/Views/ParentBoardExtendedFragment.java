@@ -75,7 +75,7 @@ public class ParentBoardExtendedFragment extends Fragment {
             list_id1 = bundle.getString("list_id");
         }
 
-
+        viewPager.setOffscreenPageLimit(5);
 
         viewPager.setAdapter(adapter);
        LastItemBoardFragment fragment = new LastItemBoardFragment();

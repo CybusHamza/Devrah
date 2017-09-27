@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="My Cards"
+        android:visibility="gone"
         android:textSize="30dp"
         android:paddingLeft="10dp"/>
     <ListView
@@ -30,9 +31,9 @@
 
     <Button
         android:id="@+id/buttonAddCard"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/add_btn"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
+        android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"

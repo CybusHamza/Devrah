@@ -32,7 +32,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Volley_helper volley_helper = new Volley_helper();
         Intent intent = null;
 
-        if (remoteMessage.getNotification().getTitle().equals("mycards")) {
+        if (remoteMessage.getNotification().getTitle().equals("mycards") && MyCardsActivity.isMyCardsActive) {
 
             String[] id = remoteMessage.getNotification().getBody().split("%");
             intent = new Intent(this, MyCardsActivity.class);

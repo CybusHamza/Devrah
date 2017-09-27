@@ -94,11 +94,13 @@ public class MyCardsActivity extends AppCompatActivity {
     Spinner projectSpinner,boardSpinner,listSpinner;
     Button saveCard,cancelCard;
     EditText etCardName;
+    public static Boolean isMyCardsActive=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cards);
+        isMyCardsActive=true;
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         userID = pref.getString("user_id", "");
         toolbar = (Toolbar) findViewById(R.id.header);
@@ -132,6 +134,7 @@ public class MyCardsActivity extends AppCompatActivity {
                 Intent intent = new Intent(MyCardsActivity.this, Dashboard.class);
                 finish();
                 startActivity(intent);
+                isMyCardsActive=false;
                 onBackPressed();
             }
         });
@@ -418,6 +421,7 @@ public class MyCardsActivity extends AppCompatActivity {
             handleMenuSearch();
             return;
         }
+        isMyCardsActive=false;
         super.onBackPressed();
     }
 
