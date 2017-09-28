@@ -455,7 +455,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                 String userId = pref.getString("user_id", "");
 
                 params.put("p_id", projectid);
-                params.put("uid",userId );
+              //  params.put("uid",userId );
                 return params;
             }
         };
