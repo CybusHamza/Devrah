@@ -12,13 +12,13 @@
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:layout_marginTop="3dp"
-        android:weightSum="10">
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/to"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="9.5"
+            android:layout_weight="0.9"
             android:layout_marginTop="5dp"
             android:paddingLeft="10dp"
             android:text="Card:test"
@@ -30,9 +30,9 @@
             android:id="@+id/img"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="5dp"
-
-            android:background="@drawable/close_email" />
+           android:layout_margin="10dp"
+            android:layout_weight="0.1"
+            android:src="@drawable/close_email" />
     </LinearLayout>
 
     <TextView
@@ -57,16 +57,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:weightSum="1"
         >
 
         <TextView
             android:id="@+id/board"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:text="Project:test"
             android:textColor="#fff"
             android:textSize="13sp"
+            android:layout_weight="0.6"
             android:layout_marginStart="5dp"/>
 
         <TextView
@@ -75,6 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
+            android:layout_weight="0.4"
             android:gravity="end"
             android:text="18-07-2017"
             android:textSize="12sp"
@@ -86,11 +89,11 @@
         android:id="@+id/activities_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:padding="5dp"
         android:text="sdfghj"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="15sp" />
 
 

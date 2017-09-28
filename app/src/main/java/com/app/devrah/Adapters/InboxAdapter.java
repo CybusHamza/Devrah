@@ -76,7 +76,7 @@ public class InboxAdapter extends BaseAdapter {
         final InboxPojo inboxPojo = projectsList.get(position);
 
 
-        if (inboxPojo.isread.equals("0"))
+        if (inboxPojo.isread.equals("0") && messageType.equals("inbox"))
         {
             holder.img.setImageResource(R.drawable.close_email);
         }
