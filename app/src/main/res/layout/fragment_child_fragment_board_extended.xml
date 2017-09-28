@@ -17,13 +17,12 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/bg_boards_extended_list_white"
+
         android:gravity="center"
         android:padding="5dp"
         android:text="TextView"
         android:textColor="#fff"
         android:textSize="20sp" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="60dp"
@@ -32,6 +31,16 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/add_list_icon"
+        android:id="@+id/addCard"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/menuBoards"
+        android:layout_alignParentTop="true"
+        />
 <LinearLayout
     android:id="@+id/layoutListView"
     android:layout_width="match_parent"
@@ -46,8 +55,9 @@
         android:background="@drawable/bg_card_layout_listview"
         android:dividerHeight="3dp"
         android:layout_weight="1"
+        android:layout_marginBottom="15dp"
         />
-    <TextView
+    <!--<TextView
         android:id="@+id/addCard"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -57,7 +67,7 @@
         android:padding="5dp"
         android:text="Add Card"
         android:textColor="#00FA9A"
-        />
+        />-->
 </LinearLayout>
 
 

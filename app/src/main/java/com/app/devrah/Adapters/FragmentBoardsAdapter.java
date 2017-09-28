@@ -24,6 +24,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by AQSA SHaaPARR on 6/5/2017.
  */
@@ -460,18 +462,19 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                     layoutParams.setMargins(5,0,0,0);
                     //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
                     image.setLayoutParams(layoutParams);
-                    // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
+                    image.setBackground(activity.getResources().getDrawable(R.drawable.bg_circle));
+                   // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
                     image.setMaxHeight(20);
                     image.setMaxWidth(20);
                     image.setText(initials[i]);
-                    image.setBackgroundColor(activity.getResources().getColor(R.color.light_black));
+                    //image.setBackgroundColor(activity.getResources().getColor(R.color.light_black));
                     image.setTextColor(activity.getResources().getColor(R.color.black));
                     image.setGravity(Gravity.CENTER);
 
                     // Adds the view to the layout
                     holder.membersView.addView(image);
                 } else {
-                    ImageView image = new ImageView(activity);
+                    CircleImageView image = new CircleImageView(activity);
                     image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
                     // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
                     image.setMaxHeight(20);

@@ -1883,6 +1883,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             public void onResponse(String response) {
                 // loading.dismiss();
                 ringProgressDialog.dismiss();
+                onBackPressed();
                     Toast.makeText(CardActivity.this,"You have Successfully deleted Card",Toast.LENGTH_LONG).show();
 
             }

@@ -188,14 +188,17 @@ public class ProjectsActivity extends AppCompatActivity {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
 
+        tabOne.setTextColor(getResources().getColor(R.color.colorWhite));
         tabOne.setText("Projects Groups");
 
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabTwo.setTextColor(getResources().getColor(R.color.colorWhite));
         tabTwo.setText("Projects");
 
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.orange));
+        tabLayout.setSelectedTabIndicatorHeight(10);
         tabLayout.getTabAt(0).setCustomView(tabTwo);
 
 
