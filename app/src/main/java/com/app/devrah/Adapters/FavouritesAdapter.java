@@ -72,9 +72,12 @@ public class FavouritesAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity,BoardExtended.class);
-                intent.putExtra("TitleData",projectsList.get(position).getP_name());
+                intent.putExtra("TitleData",projectsList.get(position).getData());
+                intent.putExtra("ptitle",projectsList.get(position).getP_name());
                 intent.putExtra("p_id",projectsList.get(position).getP_status());
                 intent.putExtra("b_id",projectsList.get(position).getBrdid());
+                intent.putExtra("activity","favourites");
+                activity.finish();
 
                 activity.startActivity(intent);
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
@@ -159,6 +160,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.tvProjectsData);
 
+        ImageView isactive = (ImageView) convertView.findViewById(R.id.icon_active);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,12 +181,15 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         if (childStatus.equals("1")) {
             statusList.setText("Active");
             statusList.setTextColor(context.getResources().getColor(R.color.lightGreen));
+            isactive.setImageResource(R.drawable.active);
         }else if (childStatus.equals("2")) {
             statusList.setText("In-Active");
             statusList.setTextColor(context.getResources().getColor(R.color.colorRed));
+            isactive.setImageResource(R.drawable.inactive_icon);
         } else {
             statusList.setText("Completed");
             statusList.setTextColor(context.getResources().getColor(R.color.darkgreen));
+            isactive.setImageResource(R.drawable.active);
         }
         return convertView;
 

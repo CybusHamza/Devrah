@@ -241,6 +241,10 @@ public class BoardExtended extends AppCompatActivity {
                         Intent intent = new Intent(BoardExtended.this, NotificationsActivity.class);
                         finish();
                         startActivity(intent);
+                    }else if(intent1.hasExtra("activity")){
+                        Intent intent = new Intent(BoardExtended.this, FavouritesActivity.class);
+                        finish();
+                        startActivity(intent);
                     }else {
                         Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
                         intent.putExtra("pid", p_id);
@@ -383,6 +387,10 @@ public class BoardExtended extends AppCompatActivity {
             Intent intent1 = getIntent();
             if(intent1.hasExtra("ScreenName")){
                 Intent intent = new Intent(BoardExtended.this, NotificationsActivity.class);
+                finish();
+                startActivity(intent);
+            }else if(intent1.hasExtra("activity")){
+                Intent intent = new Intent(BoardExtended.this, FavouritesActivity.class);
                 finish();
                 startActivity(intent);
             }else {
