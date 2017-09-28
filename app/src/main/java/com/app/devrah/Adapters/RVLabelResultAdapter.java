@@ -49,6 +49,7 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
 
     @Override
     public void onBindViewHolder(ViewHolderRVcardScreenLabelResult holder, int position) {
+
         holder.tvLabelName.setText(labelList.get(position).getLabelTextCards());
         final String labelColor = labelList.get(position).getLabelColorCards();
         if (labelColor.equals("blue")) {

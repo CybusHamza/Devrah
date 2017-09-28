@@ -400,7 +400,7 @@
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
         android:id="@+id/tvFragmentBoardsList"
-        android:textColor="#000"
+        android:textColor="#fff"
         />
 
     <ImageView
@@ -423,7 +423,7 @@
         android:text="due date"
         android:layout_marginLeft="5dp"
         android:id="@+id/dateLabel"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:visibility="gone"
         />
     <ImageView
@@ -433,8 +433,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:id="@+id/attachmentIcon"
-        android:textColor="#000"
-        android:background="@drawable/attachment_icon"
+        android:textColor="#fff"
+        android:background="@drawable/icon_attachment"
         android:visibility="gone"
         />
     <TextView
@@ -447,7 +447,7 @@
         android:layout_marginTop="10dp"
         android:text=""
         android:id="@+id/nOfAttachments"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:visibility="gone"
         />
     <HorizontalScrollView

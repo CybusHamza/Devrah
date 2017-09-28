@@ -76,6 +76,7 @@ public class ParentBoardExtendedFragment extends Fragment {
         }
 
         viewPager.setOffscreenPageLimit(5);
+        viewPager.setPageMargin(15);
 
         viewPager.setAdapter(adapter);
        LastItemBoardFragment fragment = new LastItemBoardFragment();

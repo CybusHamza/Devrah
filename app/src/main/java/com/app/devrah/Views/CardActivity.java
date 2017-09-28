@@ -3720,6 +3720,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 String check=etCardName.getText().toString();
                 if(!check.equals("") && check!="" && check.trim().length()>0) {
                     updateCardName(etCardName.getText().toString());
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etCardName.getWindowToken(), 0);
                     alertDialog.dismiss();
                 }else {
                     Toast.makeText(CardActivity.this,"Card Name is must!",Toast.LENGTH_LONG).show();
@@ -3730,7 +3732,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(etCardName.getWindowToken(), 0);
 
                 alertDialog.dismiss();
 

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
-
+    android:background="@drawable/outer_border_checklist"
     android:padding="5dp"
 
     tools:context="com.app.devrah.Fragments.ChildFragmentBoardExtended">
@@ -21,13 +21,13 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="TextView"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="20sp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:src="@drawable/menu_dlt"
+        android:src="@drawable/white_3_dots"
         android:id="@+id/menuBoards"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"

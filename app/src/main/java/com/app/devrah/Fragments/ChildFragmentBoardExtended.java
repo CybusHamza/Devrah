@@ -11,12 +11,10 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -163,7 +161,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         getCardList(list_id);
         if(check=="") {
             if (list_color.equals("") || list_color == null) {
-                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.colorWhite));
+                tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.float_transparent));
             } else if (list_color.equals("00A2E8")) {
                 tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
             } else if (list_color.equals("B97A57")) {
@@ -886,7 +884,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                         }else if (bgColor.equals("C3C3C3")){
                             tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
                             ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
-                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"C3C3C3 ","",ParentBoardExtendedFragment.getCurrentPosition());
+                            ParentBoardExtendedFragment.updateBundleData(childname,p_id,b_id,list_id,"C3C3C3","",ParentBoardExtendedFragment.getCurrentPosition());
 
                         }
                     }

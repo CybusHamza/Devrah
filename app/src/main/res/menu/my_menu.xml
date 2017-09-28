@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/menu"
-        android:icon="@drawable/menu_dlt"
+        android:icon="@drawable/white_3_dots"
         app:showAsAction="ifRoom"
         android:title="Compose">
     </item>
