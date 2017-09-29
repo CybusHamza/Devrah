@@ -283,11 +283,12 @@ public class BoardsActivity extends AppCompatActivity {
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-
+        tabOne.setTextColor(getResources().getColor(R.color.colorWhite));
         tabOne.setText("Work Boards");
 
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabTwo.setTextColor(getResources().getColor(R.color.colorWhite));
         tabTwo.setText("Archive Boards");
 
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.work_boards, 0, 0);

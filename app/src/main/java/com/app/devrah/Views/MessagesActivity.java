@@ -211,6 +211,7 @@ public class MessagesActivity extends AppCompatActivity {
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabOne.setTextColor(getResources().getColor(R.color.colorWhite));
         tabOne.setText("Inbox");
 
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
@@ -218,6 +219,7 @@ public class MessagesActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setCustomView(tabOne);
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabTwo.setTextColor(getResources().getColor(R.color.colorWhite));
         tabTwo.setText("Sent");
 
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
