@@ -169,8 +169,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    if(strTO.contains(",")){
-                        Toast.makeText(SendNewMessageActivity.this, "Please use ';' to send message to multiple users", Toast.LENGTH_SHORT).show();
+                    if(strTO.contains(";")){
+                        Toast.makeText(SendNewMessageActivity.this, "Please use ',' to send message to multiple users", Toast.LENGTH_SHORT).show();
                     }else {
                         sendMessage();
                     }

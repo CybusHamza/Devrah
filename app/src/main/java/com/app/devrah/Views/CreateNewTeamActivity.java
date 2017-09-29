@@ -2,7 +2,6 @@ package com.app.devrah.Views;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -249,7 +248,22 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
             //the text editor
 
             //this is a listener to do a search when the user clicks on search button
+            edtSeach.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    doSearch();
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -308,15 +322,44 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         LayoutInflater inflater = LayoutInflater.from(CreateNewTeamActivity.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_add_member, null);
         member = (AutoCompleteTextView) subView.findViewById(R.id.etMember);
+       Button save = (Button) subView.findViewById(R.id.saveBtn);
+       Button cancel = (Button) subView.findViewById(R.id.cancelBtn);
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Member");
-        builder.setMessage("Member");
-        builder.setView(subView);
-        AlertDialog alertDialog = builder.create();
+        final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
+        alertDialog.setTitle("Add Members");
+        alertDialog.setCancelable(false);
+        alertDialog.setView(subView);
+        alertDialog.show();
 
 
+      //  final AlertDialog alertDialog = builder.create();
+        //alertDialog.setCancelable(false);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!member.getText().toString().equals("")) {
+                    //addSingleMemberTeam();
+
+                    addinguser(member.getText().toString());
+                   /* membersPojoData = new TeamMembersPojo();
+                    membersPojoData.setData(member.getText().toString());
+                    listPojo.add(membersPojoData);
+                    lv.setAdapter(adapter);*/
+                  //  builder.setCancelable(true);
+                    alertDialog.dismiss();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please Enter Some Name", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // builder.setCancelable(true);
+                alertDialog.dismiss();
+            }
+        });
         member.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -335,31 +378,21 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         });
 
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+ /*       builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (!member.getText().toString().equals("")) {
-                    //addSingleMemberTeam();
 
-                    addinguser(member.getText().toString());
-                   /* membersPojoData = new TeamMembersPojo();
-                    membersPojoData.setData(member.getText().toString());
-                    listPojo.add(membersPojoData);
-                    lv.setAdapter(adapter);*/
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please Enter Some Name", Toast.LENGTH_LONG).show();
-                }
             }
         });
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                alertDialog.dismiss();
             }
-        });
+        });*/
 
-        builder.show();
+       // builder.show();
     }
 
     private void searchUser(final String email) {
@@ -458,12 +491,16 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                         ringProgressDialog.dismiss();
 
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
+                            if(!response.equals("false")) {
+                                JSONArray jsonArray = new JSONArray(response);
 
 
-                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            usertobeAddedId = jsonObject.getString("id");
-                            addSingleMemberTeam();
+                                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                usertobeAddedId = jsonObject.getString("id");
+                                addSingleMemberTeam();
+                            }else {
+                                Toast.makeText(CreateNewTeamActivity.this,"Member Not Found",Toast.LENGTH_LONG).show();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -529,19 +566,25 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         final EditText member = (EditText) subView.findViewById(R.id.etMember);
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Bulk Member");
-        builder.setMessage("Member");
-        builder.setView(subView);
-        AlertDialog alertDialog = builder.create();
+        Button save = (Button) subView.findViewById(R.id.saveBtn);
+        Button cancel = (Button) subView.findViewById(R.id.cancelBtn);
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
+        alertDialog.setTitle("Add Bulk Member");
+        alertDialog.setCancelable(false);
+        alertDialog.setView(subView);
+        alertDialog.show();
+
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View view) {
                 String members = member.getText().toString();
                 if (!member.getText().toString().equals("")) {
-                    bulkAddMembers(members);
+                    if (members.contains(",")) {
+                        Toast.makeText(getApplicationContext(), "Please use ';' to add multiple members", Toast.LENGTH_LONG).show();
+                    } else{
+                        bulkAddMembers(members);
                     /*for (int i = 0; i < members.length; i++) {
                         membersPojoData = new TeamMembersPojo();
                         membersPojoData.setData(members[i]);
@@ -550,20 +593,20 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                     }
 
                     lv.setAdapter(adapter);*/
+                        alertDialog.dismiss();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Enter Some Name", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View view) {
+                alertDialog.dismiss();
             }
         });
-
-        builder.show();
     }
 
 
@@ -602,7 +645,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                                 membersPojoData = new TeamMembersPojo();
                                 membersPojoData.setData(jsonObject1.getString("first_name") + " " + jsonObject1.getString("last_name"));
                                 membersPojoData.setImage(jsonObject1.getString("profile_pic"));
-                                membersPojoData.setId(jsonObject1.getString("id"));
+                                membersPojoData.setId(jsonObject1.getString("teams_id"));
                                 membersPojoData.setInitials(jsonObject1.getString("initials"));
                                 membersPojoData.setGpimageView(jsonObject1.getString("gp_picture"));
                                 listPojo.add(membersPojoData);
@@ -684,12 +727,14 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                         listPojo = new ArrayList<>();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if (!jsonObject.getString("team_new_id").equals("0")) {
-                                getTeamMembers();
-                                Toast.makeText(CreateNewTeamActivity.this, "Member Added Successfully", Toast.LENGTH_LONG).show();
+                            if(jsonObject.has("team_new_id")){
+                                if (!jsonObject.getString("team_new_id").equals("0")) {
+                                 getTeamMembers();
+                                 Toast.makeText(CreateNewTeamActivity.this, "Member Added Successfully", Toast.LENGTH_LONG).show();
 
+                                }
                             } else if (jsonObject.getString("already_exist").equals("0")) {
-                                Toast.makeText(CreateNewTeamActivity.this, "Member already_exist", Toast.LENGTH_LONG).show();
+                                Toast.makeText(CreateNewTeamActivity.this, "This user already exists in this team.", Toast.LENGTH_LONG).show();
                             }
 
 

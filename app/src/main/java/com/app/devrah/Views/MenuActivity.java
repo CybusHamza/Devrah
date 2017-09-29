@@ -163,7 +163,7 @@ public class MenuActivity extends AppCompatActivity {
         ringProgressDialog.show();
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_TEAMS,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_MEMBER_TEAMS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
