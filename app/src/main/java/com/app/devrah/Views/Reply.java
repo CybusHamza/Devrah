@@ -4,10 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,19 +30,21 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import jp.wasabeef.richeditor.RichEditor;
 
+import static com.app.devrah.R.id.editor;
+
 public class Reply extends AppCompatActivity {
     EditText from  ,board,card,project,subject;
-    RichEditor mEditor;
+    private RichEditor mEditor;
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
     Button cancel_button,send_btn;
     Toolbar toolbar;
-    String message;
+    String message,projectId,boardId,cardId,msgDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply);
         toolbar = (Toolbar) findViewById(R.id.header);
-        toolbar.setTitle("Read Message");
+        toolbar.setTitle("Reply");
         from = (EditText) findViewById(R.id.etEmails);
         board = (EditText) findViewById(R.id.boardSpinner);
         card = (EditText) findViewById(R.id.cardSpinner);
@@ -52,15 +53,16 @@ public class Reply extends AppCompatActivity {
         mEditor = (RichEditor) findViewById(R.id.editor);
         cancel_button = (Button) findViewById(R.id.cancel_button);
         send_btn = (Button) findViewById(R.id.send_button);
-        mEditor.setEditorHeight(200);
+        /*mEditor.setEditorHeight(200);
         mEditor.setEditorFontSize(22);
         mEditor.setEditorFontColor(Color.BLACK);
         //mEditor.setEditorBackgroundColor(Color.BLUE);
         //mEditor.setBackgroundColor(Color.BLUE);
         //mEditor.setBackgroundResource(R.drawable.bg);
-        mEditor.setPadding(10, 10, 10, 10);
+        mEditor.setPadding(10, 10, 10, 10);*/
+
         //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
-        mEditor.setPlaceholder("Insert text here...");
+      //  mEditor.setPlaceholder("Insert text here...");
 
         Intent intent = getIntent();
 
@@ -70,13 +72,18 @@ public class Reply extends AppCompatActivity {
         strcard = intent.getStringExtra("card");
         strproject = intent.getStringExtra("project");
         strsubject = intent.getStringExtra("subject");
-
-        send_btn.setOnClickListener(new View.OnClickListener() {
+        projectId = intent.getStringExtra("p_id");
+        boardId = intent.getStringExtra("b_id");
+        cardId = intent.getStringExtra("c_id");
+        msgDate = intent.getStringExtra("date");
+       // String showText="-------------On "+msgDate+"  "+strfrom+"-------------"+'\n'+strmessage
+      //  mEditor.setPlaceholder();
+        /*send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });
+        });*/
         from.setText(strfrom);
         if(strboard.equals("null")){
             board.setText("NA");
@@ -106,6 +113,16 @@ public class Reply extends AppCompatActivity {
         card.setEnabled(false);
         project.setEnabled(false);
         subject.setEnabled(false);
+        mEditor = (RichEditor) findViewById(editor);
+        mEditor.setEditorHeight(200);
+        mEditor.setEditorFontSize(22);
+        mEditor.setEditorFontColor(Color.BLACK);
+        //mEditor.setEditorBackgroundColor(Color.BLUE);
+        //mEditor.setBackgroundColor(Color.BLUE);
+        //mEditor.setBackgroundResource(R.drawable.bg);
+        mEditor.setPadding(10, 10, 10, 10);
+        //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
+        mEditor.setPlaceholder("Insert text here...");
         findViewById(R.id.action_undo).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 mEditor.undo();
@@ -273,6 +290,8 @@ public class Reply extends AppCompatActivity {
                 mEditor.insertTodo();
             }
         });
+
+
         mEditor. setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override
             public void onTextChange(String text) {
@@ -281,7 +300,7 @@ public class Reply extends AppCompatActivity {
                 message = text;
             }
         });
-
+       //mEditor.setHtml("-------------On "+msgDate+"  "+strfrom+"-------------"+'\n'+strmessage);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -361,9 +380,9 @@ public class Reply extends AppCompatActivity {
                 params.put("subjct_email",strsubject);
                 params.put("userId",userId);
                 params.put("listofuserids",strfrom);
-                params.put("add_msg_prjct",project.getText().toString());
-                params.put("add_msg_brd",board.getText().toString());
-                params.put("add_msg_crd",card.getText().toString());
+                params.put("add_msg_prjct",projectId);
+                params.put("add_msg_brd",boardId);
+                params.put("add_msg_crd",cardId);
                 return params;
             }
         };

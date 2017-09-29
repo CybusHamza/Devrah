@@ -176,6 +176,9 @@ public class InboxFragment extends Fragment implements View.OnClickListener {
                                 projectPojoData.setMessage(object.getString("message"));
                                 projectPojoData.setP_id(object.getString("project_name"));
                                 projectPojoData.setSubject(object.getString("message_subject"));
+                                projectPojoData.setProjectId(object.getString("project_id"));
+                                projectPojoData.setBoardId(object.getString("board_id"));
+                                projectPojoData.setCardId(object.getString("card_id"));
 
                                 listPojo.add(projectPojoData);
 

@@ -138,6 +138,10 @@ public class InboxAdapter extends BaseAdapter {
                 intent.putExtra("subject",inboxPojo.getSubject());
                 intent.putExtra("message",inboxPojo.getMessage());
                 intent.putExtra("messageType",messageType);
+                intent.putExtra("p_id",inboxPojo.getProjectId());
+                intent.putExtra("b_id",inboxPojo.getBoardId());
+                intent.putExtra("c_id",inboxPojo.getCardId());
+                intent.putExtra("date",inboxPojo.getDate());
 
                 activity.startActivity(intent);
 

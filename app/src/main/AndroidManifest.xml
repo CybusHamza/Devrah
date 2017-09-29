@@ -78,7 +78,8 @@
         <activity
             android:name=".Views.CheckList_Detail"
             android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".Views.Reply"></activity>
+        <activity android:name=".Views.Reply"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

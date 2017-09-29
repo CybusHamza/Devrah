@@ -17,9 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +56,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
     private TextView mPreview;
     Toolbar toolbar;
     EditText subject;
-    AutoCompleteTextView to;
+    MultiAutoCompleteTextView to;
     Spinner project,card,board;
     LinearLayout send,cancel;
 
@@ -85,7 +85,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
     TextView c_to,c_tv_message;
 
 
-
+    TextView emailIds;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +97,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
         c_to.setText(Html.fromHtml( "To "+ "<font color=#eb5a46>" + "*" + "</font>"));
         c_tv_message.setText(Html.fromHtml( "Message "+ "<font color=#eb5a46>" + "*" + "</font>"));
 
-        to = (AutoCompleteTextView) findViewById(R.id.etEmails);
+        to = (MultiAutoCompleteTextView) findViewById(R.id.etEmails);
+        emailIds = (TextView) findViewById(R.id.emailIds);
         subject = (EditText) findViewById(R.id.etSubject);
         mEditor = (RichEditor) findViewById(R.id.editor);
         project = (Spinner) findViewById(R.id.projectSpinner);
@@ -115,6 +116,10 @@ public class SendNewMessageActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 searchUser(to.getText().toString());
+               /* String test=to.getText().toString();
+                if(test.contains(";")){
+
+                }*/
             }
 
             @Override
@@ -755,6 +760,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             ArrayAdapter<String> adapter =
                                     new ArrayAdapter<String>(SendNewMessageActivity.this, android.R.layout.simple_list_item_1, name);
                             to.setAdapter(adapter);
+                            to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 
                         } catch (JSONException e) {
@@ -799,7 +805,14 @@ public class SendNewMessageActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("member_single_name", email);
+                String emailtoSearch;
+                if(email.contains(",")){
+                    String[] emails=email.split(", ");
+                    emailtoSearch=emails[emails.length-1];
+                }else {
+                    emailtoSearch=email;
+                }
+                params.put("member_single_name", emailtoSearch);
 
                 return params;
             }

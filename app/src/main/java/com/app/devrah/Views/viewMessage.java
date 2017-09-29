@@ -1,16 +1,14 @@
 package com.app.devrah.Views;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -22,20 +20,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.InboxAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.pojo.InboxPojo;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class viewMessage extends AppCompatActivity {
 
@@ -44,7 +33,7 @@ public class viewMessage extends AppCompatActivity {
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
     Button cancel_button,reply_btn;
     Toolbar toolbar;
-    String messageType,message_id,isRead;
+    String messageType,message_id,isRead,projectId,boardId,cardId,msgDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +60,10 @@ public class viewMessage extends AppCompatActivity {
         messageType = intent.getStringExtra("messageType");
         message_id = intent.getStringExtra("message_id");
         isRead = intent.getStringExtra("isRead");
+        projectId = intent.getStringExtra("p_id");
+        boardId = intent.getStringExtra("b_id");
+        cardId = intent.getStringExtra("c_id");
+        msgDate = intent.getStringExtra("date");
         if(isRead.equals("0")){
             markAsRead();
         }
@@ -87,6 +80,10 @@ public class viewMessage extends AppCompatActivity {
                 intent.putExtra("board",strboard);
                 intent.putExtra("subject",strsubject);
                 intent.putExtra("message",strmessage);
+                intent.putExtra("p_id",projectId);
+                intent.putExtra("b_id",boardId);
+                intent.putExtra("c_id",cardId);
+                intent.putExtra("date",msgDate);
                 finish();
                 startActivity(intent);
             }
