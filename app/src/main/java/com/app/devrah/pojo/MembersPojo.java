@@ -56,4 +56,14 @@ public class MembersPojo {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public String getTick() {
+        return tick;
+    }
+
+    public void setTick(String tick) {
+        this.tick = tick;
+    }
+
+    public String tick;
 }

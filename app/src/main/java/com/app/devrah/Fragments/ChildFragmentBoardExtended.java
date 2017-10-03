@@ -81,7 +81,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     Spinner Projects,Postions,boards;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-        View view;
+    View view;
     ImageView tvAddCard;
     String childname;
     EditText   edt;
@@ -159,7 +159,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
         getCardList(list_id);
-        if(check=="") {
+        if(check.equals("")) {
             if (list_color.equals("") || list_color == null) {
                 tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.float_transparent));
             } else if (list_color.equals("00A2E8")) {
@@ -230,6 +230,11 @@ public class ChildFragmentBoardExtended extends Fragment {
                               //  boardMenu.setBackgroundColor(getActivity().getResources().getColor(R.color.lightGreen));
                                 // TODO Something when menu item selected
                                 return true;
+                            case R.id.updateListName:
+                               customDialogueUpdateListName(childname,list_color);
+                                //  boardMenu.setBackgroundColor(getActivity().getResources().getColor(R.color.lightGreen));
+                                // TODO Something when menu item selected
+                                return true;
 
                             case R.id.changeListColor:
                                 // TODO Something when menu item selected
@@ -296,6 +301,124 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
         return view;
+    }
+
+    private void customDialogueUpdateListName(String listName, final String list_color) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View customView = inflater.inflate(R.layout.update_card_name_dialog, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+        Button cancel, copy;
+        final EditText etListName= (EditText) customView.findViewById(R.id.etCardName);
+        final TextView heading= (TextView) customView.findViewById(R.id.heading);
+        heading.setText("Update List Name");
+        etListName.setText(listName);
+
+        copy = (Button) customView.findViewById(R.id.copy);
+        cancel = (Button) customView.findViewById(R.id.close);
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String check=etListName.getText().toString();
+                if(!check.equals("") && check!="" && check.trim().length()>0) {
+                    updateListName(etListName.getText().toString(),list_color);
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etListName.getWindowToken(), 0);
+                    alertDialog.dismiss();
+                }else {
+                    Toast.makeText(getActivity(),"List Name is must!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(etListName.getWindowToken(), 0);
+
+                alertDialog.dismiss();
+
+            }
+        });
+    }
+
+    private void updateListName(final String s,final String list_color) {
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_LIST_NAME,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                      // if (bgColor.equals("C3C3C3")){
+                           // tvName.setText(s);
+                        ParentBoardExtendedFragment.removeSpecificPage(ParentBoardExtendedFragment.getCurrentPosition(),"delete");
+                        ParentBoardExtendedFragment.updateBundleData(s,p_id,b_id,list_id,list_color,"",ParentBoardExtendedFragment.getCurrentPosition());
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                   /* new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("brd_id", BoardExtended.boardId);
+                params.put("prjct_id", BoardExtended.projectId);
+                params.put("lst_id", list_id);
+                params.put("name", s);
+                params.put("userId",pref.getString("user_id","") );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
     }
 
     private void changeListColorPopup() {
@@ -478,6 +601,9 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
     public void getCardList(final String lsitId) {
+
+
+
         final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, GET_CARDS_FOR_LIST,
                 new Response.Listener<String>() {

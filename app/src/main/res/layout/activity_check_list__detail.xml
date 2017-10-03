@@ -36,6 +36,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textColor="@color/colorWhite"
+        android:hint="add new item"
         android:textCursorDrawable="@null"
         android:id="@+id/addItem" />
 

@@ -178,6 +178,7 @@ public class BoardExtended extends AppCompatActivity {
         dataList.add(new DrawerPojo("Move Board"));
         dataList.add(new DrawerPojo("Manage Members"));
         dataList.add(new DrawerPojo("Leave Board"));
+        dataList.add(new DrawerPojo("Delete Board"));
 
 
         edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
@@ -413,7 +414,7 @@ public class BoardExtended extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(BoardExtended.this);
         View customView = inflater.inflate(R.layout.update_card_name_dialog, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this).create();
-
+        alertDialog.setCancelable(false);
         alertDialog.setView(customView);
         alertDialog.show();
 
@@ -510,12 +511,13 @@ public class BoardExtended extends AppCompatActivity {
                     case 5:
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirm!")
-                                .setCancelText("Cancle")
-                                .setConfirmText("OK").setContentText("You will no longer recieve notifications and view activities of this board. Do you really want to delete?")
+                                .setCancelText("Cancel")
+                                .setConfirmText("OK").setContentText("Do you really want to delete Board?")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        LeaveBoard();
+                                        sDialog.dismiss();
+                                        deleteBoard();
                                     }
                                 })
                                 .showCancelButton(true)
@@ -527,6 +529,7 @@ public class BoardExtended extends AppCompatActivity {
                                 })
                                 .show();
                         break;
+
                 }
             }
         });
@@ -632,52 +635,24 @@ public class BoardExtended extends AppCompatActivity {
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST, GET_ALL_BOARD_LIST,
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.DELETE_BOARD,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
+                        if(!response.equals("0")){
+                            Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                            intent.putExtra("pid", p_id);
 
-                        if (response.equals("false")) {
-                            ParentBoardExtendedFragment.removeAllFrags();
-                            ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
-
-                        } else {
-
-
-                            ParentBoardExtendedFragment.removeAllFrags();
-
-
-                            try {
-                                JSONArray jsonArray = new JSONArray(response);
-
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                                    ProjectsPojo projectsPojo = new ProjectsPojo();
-
-                                    projectsPojo.setId(jsonObject.getString("list_id"));
-                                    projectsPojo.setData(jsonObject.getString("list_name"));
-                                    projectsPojo.setListId(jsonObject.getString("list_id"));
-
-                                    ParentBoardExtendedFragment.addPage(jsonObject.getString("list_name"),p_id,b_id,jsonObject.getString("list_id"),jsonObject.getString("list_color"),"");
-                                    //     parentBoardExtendedFragment.setArguments(bundle);
-
-                                }
-
-
-                                ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-
-
-                            }
-
+                            intent.putExtra("ptitle", pTitle);
+                            intent.putExtra("status", "0");
+                            finish();
+                            startActivity(intent);
                         }
+
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -694,9 +669,11 @@ public class BoardExtended extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismiss();
-                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
-                                    intent.putExtra("pid",p_id);
-                                    intent.putExtra("ptitle",projectTitle);
+                                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                                    intent.putExtra("pid", p_id);
+
+                                    intent.putExtra("ptitle", pTitle);
+                                    intent.putExtra("status", "0");
                                     finish();
                                     startActivity(intent);
                                 }
@@ -713,9 +690,11 @@ public class BoardExtended extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismiss();
-                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
-                                    intent.putExtra("pid",p_id);
-                                    intent.putExtra("ptitle",projectTitle);
+                                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                                    intent.putExtra("pid", p_id);
+
+                                    intent.putExtra("ptitle", pTitle);
+                                    intent.putExtra("status", "0");
                                     finish();
                                     startActivity(intent);
                                 }
@@ -730,6 +709,10 @@ public class BoardExtended extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("board_id", b_id);
                 params.put("project_id", p_id);
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+                params.put("userId", pref.getString("user_id",""));
+
                 // params.put("password",strPassword );
                 return params;
             }
@@ -741,14 +724,13 @@ public class BoardExtended extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
         requestQueue.add(request);
-
     }
     private void showDialog(final String data) {
 
         LayoutInflater inflater = LayoutInflater.from(BoardExtended.this);
         View customView = inflater.inflate(R.layout.move_board_menu, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this).create();
-
+        alertDialog.setCancelable(false);
         alertDialog.setView(customView);
         alertDialog.show();
 
@@ -866,9 +848,11 @@ public class BoardExtended extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismiss();
-                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
-                                    intent.putExtra("pid",p_id);
-                                    intent.putExtra("ptitle",projectTitle);
+                                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                                    intent.putExtra("pid", p_id);
+
+                                    intent.putExtra("ptitle", pTitle);
+                                    intent.putExtra("status", "0");
                                     finish();
                                     startActivity(intent);
                                 }
@@ -885,9 +869,11 @@ public class BoardExtended extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismiss();
-                                    Intent intent=new Intent(BoardExtended.this,BoardsActivity.class);
-                                    intent.putExtra("pid",p_id);
-                                    intent.putExtra("ptitle",projectTitle);
+                                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                                    intent.putExtra("pid", p_id);
+
+                                    intent.putExtra("ptitle", pTitle);
+                                    intent.putExtra("status", "0");
                                     finish();
                                     startActivity(intent);
                                 }

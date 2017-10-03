@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -72,24 +73,54 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
     public void onBindViewHolder(final Cheklist holder, final int position) {
 
             String check=CheckListItems.get(position).getName().toString();
-        if(!check.equals("") && !check.equals("null")) {
+       // if(!check.equals("") && !check.equals("null")) {
             holder.checklistName.setText(CheckListItems.get(position).getName());
-        }else {
-            holder.checklistName.setText("Checklist");
-        }
+        //}else {
+           // holder.checklistName.setText("Checklist");
+        //}
 
+        holder.deleteCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Confirmation!")
+                        .setCancelText("Cancel")
+                        .setConfirmText("OK").setContentText("Do you really want to delete Checklist")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
 
+                                sDialog.dismiss();
+                                deleteCheckList(CheckListItems.get(position).getId(), position);
+                            }
+                        })
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
         holder.checklistName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
                 if (i==6 ) {
-                    holder.checklistName.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(holder.checklistName.getWindowToken(), 0);
-                    edit_checkbox (holder.checklistName.getText().toString(),CheckListItems.get(position).getId(),position);
-
+                    String check=holder.checklistName.getText().toString();
+                    if(!check.equals("") && check.trim().length()>0) {
+                        holder.checklistName.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(holder.checklistName.getWindowToken(), 0);
+                        edit_checkbox(holder.checklistName.getText().toString(), CheckListItems.get(position).getId(), position);
+                        //CardActivity.menuChanger(CardActivity.menu,false);
+                    }else {
+                        Toast.makeText(activity,"Checklist name is must!",Toast.LENGTH_LONG).show();
+                    }
                 }
+
                 return true;
             }
         });
@@ -194,6 +225,97 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
 
             }
         });
+
+    }
+
+    private void deleteCheckList(final String id, final int position) {
+        ringProgressDialog = ProgressDialog.show(activity, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_CHECKLIST, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // loading.dismiss();
+                ringProgressDialog.dismiss();
+                if (!(response.equals(""))) {
+
+                   CheckListItems.remove(position);
+                    notifyDataSetChanged();
+
+/*
+
+                        Intent intent = new Intent(activity, CheckList_Detail.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        activity.finish();
+                        intent.putExtra("checkListiItemIds",checkListiItemIds);
+                        intent.putExtra("checkListiItemName",checkListiItemName);
+                        intent.putExtra("checkedItem",checkedItem);
+                        intent.putExtra("checklistid",CheckListItems.get(position).getId());
+                        intent.putExtra("name",CheckListItems.get(position).getName());
+                        activity.startActivity(intent);
+*/
+
+
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("id",id);
+                params.put("is_active","0");
+                params.put("u_id", pref.getString("user_id",""));
+
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
 
     }
 

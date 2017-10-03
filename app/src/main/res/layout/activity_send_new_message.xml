@@ -42,7 +42,7 @@
             android:layout_alignParentTop="true"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:hint="';' seprated email ids"
+            android:hint="',' separated email ids"
             android:textColor="#fff"
             android:textColorHint="#b8b7b7"
             app:backgroundTint="#fff"

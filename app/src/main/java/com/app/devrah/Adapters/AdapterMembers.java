@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
@@ -70,6 +71,7 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
             holder.userID = (TextView)convertView.findViewById(R.id.tvNameOfPerson);
             holder.profile = (CircleImageView) convertView.findViewById(R.id.imageView);
             holder.alias = (TextView) convertView.findViewById(R.id.alias_img);
+            holder.tick = (ImageView) convertView.findViewById(R.id.tickMember);
             String currentImage=myList.get(position).getProfile_pic();
 
             if(myList.get(position).getProfile_pic().equals("null") || myList.get(position).getProfile_pic().equals(""))
@@ -91,6 +93,12 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
             holder.Name.setText(myList.get(position).getInetial());
 
             holder.userID.setText(myList.get(position).getName());
+
+            if(myList.get(position).getTick().equals("1")){
+                holder.tick.setVisibility(View.VISIBLE);
+            }else {
+                holder.tick.setVisibility(View.GONE);
+            }
             //holder.userID.setText(myList.get(position).getProfile_pic());
 
 
@@ -112,6 +120,7 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
     public static class ViewHolder{
         TextView userID,Name,alias;
         CircleImageView profile;
+        ImageView tick;
     }
 
 

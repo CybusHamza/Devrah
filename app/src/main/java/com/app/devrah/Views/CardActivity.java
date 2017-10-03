@@ -426,6 +426,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //
 //        setTitle();rvChecklist
         expandableLv = (RecyclerView) findViewById(R.id.rv_recycler_checklist);
+
         rvLabel = (RecyclerView) findViewById(R.id.rv_recycler_labels);
         tvMembers = (TextView) findViewById(R.id.tvMembers);
         heading = (ImageView) findViewById(R.id.heading);
@@ -666,7 +667,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 FragmentManager fm = getSupportFragmentManager();
 
                 LabelColorFragment colorFragment = new LabelColorFragment();
-
+                    LabelColorFragment.textLabelName="";
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.add(R.id.fragmentContainer, colorFragment).addToBackStack("Frag1").commit();
 
@@ -757,6 +758,53 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });*/
 
         fabm = (FloatingActionMenu) findViewById(R.id.menu);
+        fabm.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if(opened) {
+                    cbDueDate.setEnabled(false);
+                    cbDueTime.setEnabled(false);
+                    cbStartDate.setEnabled(false);
+                    cbStartTime.setEnabled(false);
+                    isCompletedBtn.setEnabled(false);
+                    etDescription.setEnabled(false);
+                    drawerLayout.setEnabled(false);
+                    etCheckList.setEnabled(false);
+
+
+                }else {
+                    cbDueDate.setEnabled(true);
+                    cbDueTime.setEnabled(true);
+                    cbStartDate.setEnabled(true);
+                    cbStartTime.setEnabled(true);
+                    isCompletedBtn.setEnabled(true);
+                    etDescription.setEnabled(true);
+                    drawerLayout.setEnabled(true);
+                    etCheckList.setEnabled(true);
+                    expandableLv.setEnabled(true);
+                }
+            }
+
+
+                /*if(fabm.getKeepScreenOn()){
+                        cbDueDate.setEnabled(false);
+                        cbDueTime.setEnabled(false);
+                        cbStartDate.setEnabled(false);
+                        cbStartTime.setEnabled(false);
+                        isCompletedBtn.setEnabled(false);
+                        etDescription.setEnabled(false);
+                        drawerLayout.setEnabled(false);
+                    }else {
+                        cbDueDate.setEnabled(true);
+                        cbDueTime.setEnabled(true);
+                        cbStartDate.setEnabled(true);
+                        cbStartTime.setEnabled(true);
+                        isCompletedBtn.setEnabled(true);
+                        etDescription.setEnabled(true);
+                        drawerLayout.setEnabled(true);
+                }*/
+        });
 
 
         rv = (RecyclerView) findViewById(R.id.rv_recycler_view);
@@ -764,6 +812,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //        menuChanger(menu,false);
 
         openDrawer();
+
       //  getChecklistData();
 
     }
@@ -1497,6 +1546,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 RVLabelAdapter.index = -1;
                 LabelColorFragment colorFragment = new LabelColorFragment();
+                LabelColorFragment.textLabelName="";
 
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.add(R.id.fragmentContainer, colorFragment).addToBackStack("Frag1").commit();
@@ -2517,6 +2567,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                 membersPojo.setUserId(jsonObject.getString("id"));
                                 membersPojo.setInetial(jsonObject.getString("initials"));
 
+                                membersPojo.setTick("0");
 
                                 membersPojos.add(membersPojo);
 
@@ -2687,6 +2738,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         membersPojo.setInetial(jsonObject.getString("initials"));
                                         membersPojo.setUserId(jsonObject.getString("uid"));
                                         membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
+                                        membersPojo.setTick("1");
                                         //  members[k]=jsonObject.getString("profile_pic");
                                         // labelText[k]=jsonObject.getString("initials");
                                        /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
@@ -3705,7 +3757,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
         View customView = inflater.inflate(R.layout.update_card_name_dialog, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
-
+        alertDialog.setCancelable(false);
         alertDialog.setView(customView);
         alertDialog.show();
 

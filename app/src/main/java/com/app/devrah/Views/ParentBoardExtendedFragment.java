@@ -75,10 +75,12 @@ public class ParentBoardExtendedFragment extends Fragment {
             list_id1 = bundle.getString("list_id");
         }
 
+
         viewPager.setOffscreenPageLimit(5);
         viewPager.setPageMargin(15);
 
         viewPager.setAdapter(adapter);
+
        LastItemBoardFragment fragment = new LastItemBoardFragment();
 
 
@@ -179,7 +181,11 @@ public class ParentBoardExtendedFragment extends Fragment {
         adapter.deletePage(position);
         adapter.notifyDataSetChanged();
     }
+    public static void updateListName(String listName,int position){
+        adapter.updateListTitle(listName,position);
+        adapter.notifyDataSetChanged();
 
+    }
     public static void  removeAllFrags(){
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         adapter.renewPage();

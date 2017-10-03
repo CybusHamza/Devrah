@@ -436,7 +436,7 @@ public class BoardsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
         View customView = inflater.inflate(R.layout.update_card_name_dialog, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this).create();
-
+        alertDialog.setCancelable(false);
         alertDialog.setView(customView);
         alertDialog.show();
 
@@ -771,7 +771,7 @@ public class BoardsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
         View customView = inflater.inflate(R.layout.move_card_menu, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this).create();
-
+        alertDialog.setCancelable(false);
         alertDialog.setView(customView);
         alertDialog.show();
 

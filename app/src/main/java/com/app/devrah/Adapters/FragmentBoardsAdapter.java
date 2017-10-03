@@ -388,6 +388,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
+        holder.subscribe = (ImageView) convertView.findViewById(R.id.subscribedIcon);
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
         holder.nOfAttachments.setVisibility(View.GONE);
         holder.attachmentIcon.setVisibility(View.GONE);
@@ -412,6 +413,11 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         }else {
             holder.nOfAttachments.setVisibility(View.GONE);
             holder.attachmentIcon.setVisibility(View.GONE);
+        }
+        if(projectsList.get(position).getIsCardSubscribed().equals("1")){
+            holder.subscribe.setVisibility(View.VISIBLE);
+        }else {
+            holder.subscribe.setVisibility(View.INVISIBLE);
         }
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
@@ -505,7 +511,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         LinearLayout membersView;
         TextView data,dueDate,nOfAttachments;
         ImageView favouriteIcon,attachmentIcon;
-        ImageView attachment;
+        ImageView attachment,subscribe;
         RecyclerView recyclerView;
         LinearLayout labelsLinearLayout,labelsLinearLayout1,labelsLinearLayout2,labelsLinearLayout3,labelsLinearLayout4;
         LinearLayout label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11,label12,label13,label14,label15;

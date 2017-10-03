@@ -1,5 +1,6 @@
 package com.app.devrah.Views;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -594,14 +596,18 @@ public class LabelColorFragment extends Fragment {
                 if(RVLabelAdapter.index == -1)
                 {
                     addLable(colorselected,s);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
                 }
                 else
                 {
                     updateLAble(colorselected,s);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
 
                 }
 
-
+                CardActivity.menuChanger(CardActivity.menu, false);
 
 
 
@@ -628,7 +634,7 @@ public class LabelColorFragment extends Fragment {
                         rvLabelResult.setVisibility(View.VISIBLE);
 
                         ((CardActivity)getActivity()).updateUI();
-
+                       // etLabelName.setText("");
                         fm.popBackStack();
 
                     }

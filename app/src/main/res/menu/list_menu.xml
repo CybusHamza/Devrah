@@ -4,6 +4,9 @@
     <item
         android:id="@+id/addNewCard"
         android:title="Add New Card"/>
+    <item
+        android:id="@+id/updateListName"
+        android:title="Update List Name"/>
 
     <item
         android:id="@+id/changeListColor"

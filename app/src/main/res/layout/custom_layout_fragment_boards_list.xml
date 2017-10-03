@@ -413,6 +413,16 @@
         android:layout_marginBottom="5dp"
         android:visibility="invisible"
         app:srcCompat="@drawable/star_default" />
+    <ImageView
+        android:id="@+id/subscribedIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:background="@drawable/subscribe_eye"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+       android:visibility="gone"
+        />
     <TextView
         android:layout_below="@id/tvFragmentBoardsList"
         android:layout_width="wrap_content"
@@ -421,10 +431,12 @@
         android:padding="5dp"
         android:layout_marginTop="10dp"
         android:text="due date"
+        android:layout_toRightOf="@+id/subscribedIcon"
         android:layout_marginLeft="5dp"
         android:id="@+id/dateLabel"
         android:textColor="#fff"
         android:visibility="gone"
+
         />
     <ImageView
         android:layout_below="@id/tvFragmentBoardsList"

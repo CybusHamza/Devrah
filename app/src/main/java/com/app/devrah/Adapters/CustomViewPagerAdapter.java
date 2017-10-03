@@ -83,6 +83,12 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
         notifyDataSetChanged();
     }
+    public void updateListTitle(String listName,int position){
+        mFragmentTitleList.set(position,listName);
+        notifyDataSetChanged();
+
+    }
+
 
     public void removeFragAt(int position) {
 

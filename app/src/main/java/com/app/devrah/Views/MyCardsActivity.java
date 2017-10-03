@@ -4,13 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -150,7 +147,7 @@ public class MyCardsActivity extends AppCompatActivity {
             }
         });
 
-        lv.setLongClickable(true);
+        /*lv.setLongClickable(true);
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -204,7 +201,7 @@ public class MyCardsActivity extends AppCompatActivity {
                 return true;
             }
 
-        });
+        });*/
 
                 Intent intent = getIntent();
 
@@ -303,7 +300,7 @@ public class MyCardsActivity extends AppCompatActivity {
                                         sDialog.dismiss();
                                         Intent intent = getIntent();
                                         String id = intent.getStringExtra("id");
-                                        getMyCards("",id);
+                                        getMyCards("load","0");
                                     }
                                 })
                                 .show();
@@ -457,6 +454,7 @@ public class MyCardsActivity extends AppCompatActivity {
 
                         }
                         else {
+                            listPojo = new ArrayList<>();
                             listPojo =  parseJson(response,reload,id);
                             ringProgressDialog.dismiss();
                         }
@@ -570,6 +568,8 @@ public class MyCardsActivity extends AppCompatActivity {
             else{
 
                 adapter = new MyCardsAdapter(MyCardsActivity.this, listPojo);
+               // adapter.notifyDataSetChanged();
+
                 lv.setAdapter(adapter);
 
             }
