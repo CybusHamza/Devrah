@@ -2,19 +2,14 @@ package com.app.devrah.Adapters;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -104,7 +99,7 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
                         .show();
             }
         });
-        holder.checklistName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*holder.checklistName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
@@ -123,7 +118,7 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
 
                 return true;
             }
-        });
+        });*/
         checkListiItemIds= new ArrayList<String>();
         checkListiItemName= new ArrayList<String>();
         checkedItem= new ArrayList<String>();
@@ -138,6 +133,9 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
         {
 
             holder.progressBar.setProgress(0);
+            holder.tvProgress.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+            holder.progressBar.getProgressDrawable().setColorFilter(activity.getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_IN);
+
         }
         
          else
@@ -172,6 +170,10 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
             }else if(progres>0 &&progres<=25){
                 holder.tvProgress.setTextColor(activity.getResources().getColor(R.color.colorRed));
                 holder.progressBar.getProgressDrawable().setColorFilter(activity.getResources().getColor(R.color.colorRed), PorterDuff.Mode.SRC_IN);
+            }else if(progres==0){
+                holder.tvProgress.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+                holder.progressBar.getProgressDrawable().setColorFilter(activity.getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_IN);
+
             }
             holder.progressBar.setProgress((int) progress);
             holder.tvProgress.setText((int)progress+"%");

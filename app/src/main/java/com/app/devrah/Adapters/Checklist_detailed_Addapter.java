@@ -378,6 +378,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
 
                     Intent intent = new Intent(activity, CheckList_Detail.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    activity.overridePendingTransition(0, 0);
                     activity.finish();
                     intent.putExtra("checkListiItemIds",checkListiItemIds);
                     intent.putExtra("checkListiItemName",checkListiItemName);
@@ -385,6 +386,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                     intent.putExtra("checklistid",name);
                     intent.putExtra("name",checklistid);
                     activity.startActivity(intent);
+                    activity.overridePendingTransition(0, 0);
 
 
 
@@ -465,6 +467,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
 
                     Intent intent = new Intent(activity, CheckList_Detail.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    activity.overridePendingTransition(0, 0);
                     activity.finish();
                     intent.putExtra("checkListiItemIds",checkListiItemIds);
                     intent.putExtra("checkListiItemName",checkListiItemName);
@@ -473,6 +476,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                     intent.putExtra("name",checklistid);
 
                     activity.startActivity(intent);
+                    activity.overridePendingTransition(0, 0);
 
 
                 }

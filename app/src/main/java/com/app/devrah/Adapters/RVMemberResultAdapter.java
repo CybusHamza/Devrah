@@ -1,0 +1,90 @@
+package com.app.devrah.Adapters;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.app.devrah.Holders.ViewHolderMember;
+import com.app.devrah.R;
+import com.app.devrah.Views.Manage_Card_Members;
+import com.app.devrah.pojo.MembersPojo;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+/**
+ * Created by Hamza Android on 10/3/2017.
+ */
+public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember> {
+    Activity activity;
+    private List<MembersPojo> memberList;
+    String cardId,listId,boardId,projectId;
+    public RVMemberResultAdapter(Activity context, List<MembersPojo> memberList,String cardId,String listId,String boardId,String projectId){
+        this.memberList = memberList;
+        this.activity = context;
+        this.cardId = cardId;
+        this.listId = listId;
+        this.boardId = boardId;
+        this.projectId = projectId;
+
+
+    }
+
+    @Override
+    public ViewHolderMember onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_members,parent,false);
+        ViewHolderMember holder = new ViewHolderMember(view);
+
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolderMember holder, int position) {
+        if((memberList.get(position).getProfile_pic().equals("null") || memberList.get(position).getProfile_pic().equals("")) && (memberList.get(position).getGp_pic().equals("null") || memberList.get(position).getGp_pic().equals(""))){
+            holder.initials.setVisibility(View.VISIBLE);
+            holder.initials.setText(memberList.get(position).getInetial());
+        }else if(!memberList.get(position).getProfile_pic().equals("null") && !memberList.get(position).getProfile_pic().equals("")){
+            holder.initials.setVisibility(View.GONE);
+            Picasso.with(activity)
+                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
+                    .placeholder(R.drawable.bg_circle)
+                    .into(holder.member);
+        }else {
+            holder.initials.setVisibility(View.GONE);
+            Picasso.with(activity)
+                    .load(memberList.get(position).getGp_pic())
+                    .placeholder(R.drawable.bg_circle)
+                    .into(holder.member);
+        }
+        holder.member.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, Manage_Card_Members.class);
+                intent.putExtra("P_id",projectId);
+                intent.putExtra("b_id",boardId);
+                intent.putExtra("c_id",cardId);
+                intent.putExtra("l_id",listId);
+                activity.startActivity(intent);
+            }
+        });
+        holder.initials.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, Manage_Card_Members.class);
+                intent.putExtra("P_id",projectId);
+                intent.putExtra("b_id",boardId);
+                intent.putExtra("c_id",cardId);
+                intent.putExtra("l_id",listId);
+                activity.startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return memberList.size();
+    }
+}

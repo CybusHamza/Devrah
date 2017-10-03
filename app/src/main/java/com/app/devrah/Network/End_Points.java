@@ -110,6 +110,8 @@ public class End_Points {
     public static final String DELETE_CHECKLIST= BASE_URL + "deleteCheckList";
     public static final String UPDATE_LIST_NAME= BASE_URL + "updateListName";
     public static final String DELETE_BOARD= BASE_URL + "deleteBoard";
+    public static final String GET_CARD_MEMBERS= BASE_URL + "getCardMembers";
+    public static final String DELETE_CARD_MEMBER= BASE_URL + "deleteCardMember";
 
 
 }

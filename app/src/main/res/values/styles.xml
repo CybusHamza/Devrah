@@ -39,6 +39,9 @@
     <style name="CustomEditTextTheme" parent="TextAppearance.AppCompat">
         <item name="colorAccent">@color/colorGreen</item>
     </style>
+    <style name="noAnimTheme" parent="android:Theme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 
 
 </resources>

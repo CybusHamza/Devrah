@@ -268,6 +268,24 @@
                         />
                     </LinearLayout>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+                        <ImageView
+                            android:id="@+id/membersIcon"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/members_icon"/>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_members_list"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:clickable="true" />
+                    </LinearLayout>
 
 
                     <Button
@@ -282,30 +300,48 @@
                         android:text="Mark Completed"
                         android:textColor="#fff"
                         android:textSize="15sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="start"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
                         android:src="@drawable/attachment_icon_card"
-                        android:visibility="gone"
+                        android:visibility="invisible"
                         android:id="@+id/heading" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_files_cardscreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:clickable="true" />
 
+                        android:layout_gravity="left"
+                        android:clickable="true" />
+                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/attachment_icon_card"
+                        android:visibility="gone"
+                        android:id="@+id/heading1" />
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvImagesAttachment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"/>
-
+                        />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvMembers"
@@ -578,7 +614,8 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
 
     <ListView

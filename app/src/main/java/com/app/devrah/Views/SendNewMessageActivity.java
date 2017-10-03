@@ -138,7 +138,9 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
 
                 strSubject = subject.getText().toString();
-                strTO = to.getText().toString();
+                strTO = to.getText().toString().trim();
+                strTO=strTO.replaceAll(" ","");
+                strTO = strTO.trim().replaceAll(",$", "");
 
                 if(c_pos == 0 ||c_pos ==-1 )
                 {

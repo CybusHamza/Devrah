@@ -69,7 +69,11 @@ public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener 
         holder.data = (TextView) convertView.findViewById(R.id.projectName);
         holder.data.setText("Project : "+projectsList.get(position).getProjectname());
         holder.boardData = (TextView) convertView.findViewById(R.id.boardName);
-        holder.boardData.setText("Board : "+projectsList.get(position).getBoardname());
+        if(!projectsList.get(position).getBoardname().equals("null")) {
+            holder.boardData.setText("Board : " + projectsList.get(position).getBoardname());
+        }else {
+            holder.boardData.setText("Board : ");
+        }
         holder.cardName = (TextView) convertView.findViewById(R.id.tvFavouritesData);
         holder.cardName.setText(projectsList.get(position).getCard_name());
 

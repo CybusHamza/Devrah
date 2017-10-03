@@ -44,8 +44,9 @@
         <activity android:name=".Views.MyCardsActivity" />
         <activity android:name=".Views.NotificationsActivity" />
         <activity android:name=".Views.MessagesActivity" />
-        <activity android:name=".Views.SendNewMessageActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".Views.SendNewMessageActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Views.CreateNewTeamActivity" />
         <activity android:name=".Views.ProfileActivity" />
 
@@ -73,13 +74,17 @@
         <activity
             android:name=".Views.manage_members"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Views.Manage_Board_Members"
+        <activity
+            android:name=".Views.Manage_Board_Members"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Views.CheckList_Detail"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".Views.Reply"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Views.Reply"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Views.Manage_Card_Members"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

@@ -45,6 +45,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -71,6 +72,7 @@ import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.FilesAdapter;
 import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Adapters.RVLabelResultAdapter;
+import com.app.devrah.Adapters.RVMemberResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
 import com.app.devrah.Adapters.team_addapter;
@@ -114,6 +116,7 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.app.devrah.Network.End_Points.GET_LABELS;
+import static com.app.devrah.Views.BoardExtended.boardId;
 import static com.app.devrah.Views.BoardExtended.projectId;
 import static com.app.devrah.Views.FilePath.getDataColumn;
 import static com.app.devrah.Views.FilePath.isDownloadsDocument;
@@ -131,12 +134,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     public static RelativeLayout container;
     public static ProgressBar simpleProgressBar;
     public static Menu menu;
-    public static RecyclerView rv, rvLabel, rvLabelResult, rvAttachmentImages;
+    public static RecyclerView rv, rvLabel, rvLabelResult, rvAttachmentImages,rvMembersResult;
     public static TextView labelAdd;
     static List<String> asliList;
     static List<String> labelNameList;
     static String dueDate,dueTime,startDate,startTime,cardDescription,cardIsComplete;
     static RVLabelAdapter rvAdapterLabel;
+    RVMemberResultAdapter memberAdapter;
     static List<Integer> colorList;
     static List<String> colorList1;
     static List<Integer> listt;
@@ -423,6 +427,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
         rvLabelResult = (RecyclerView) findViewById(R.id.rv_labels_card_screen_result);
+        rvMembersResult = (RecyclerView) findViewById(R.id.rv_members_list);
 //
 //        setTitle();rvChecklist
         expandableLv = (RecyclerView) findViewById(R.id.rv_recycler_checklist);
@@ -709,7 +714,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             public void onClick(View v) {
                 onFocus = true;
 
-                showMembersDialog();
+               // showMembersDialog();
+                Intent intent = new Intent(CardActivity.this, Manage_Card_Members.class);
+                intent.putExtra("P_id",projectId);
+                intent.putExtra("b_id",boardId);
+                intent.putExtra("c_id",cardId);
+                intent.putExtra("l_id",list_id);
+                startActivity(intent);
                 fabm.close(true);
             }
         });
@@ -758,6 +769,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });*/
 
         fabm = (FloatingActionMenu) findViewById(R.id.menu);
+        fabm.setClosedOnTouchOutside(true);
+        fabm.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fabm.toggle(true);
+            }
+        });
         fabm.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
 
             @Override
@@ -773,6 +791,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     etCheckList.setEnabled(false);
 
 
+
                 }else {
                     cbDueDate.setEnabled(true);
                     cbDueTime.setEnabled(true);
@@ -783,27 +802,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     drawerLayout.setEnabled(true);
                     etCheckList.setEnabled(true);
                     expandableLv.setEnabled(true);
+
                 }
             }
 
-
-                /*if(fabm.getKeepScreenOn()){
-                        cbDueDate.setEnabled(false);
-                        cbDueTime.setEnabled(false);
-                        cbStartDate.setEnabled(false);
-                        cbStartTime.setEnabled(false);
-                        isCompletedBtn.setEnabled(false);
-                        etDescription.setEnabled(false);
-                        drawerLayout.setEnabled(false);
-                    }else {
-                        cbDueDate.setEnabled(true);
-                        cbDueTime.setEnabled(true);
-                        cbStartDate.setEnabled(true);
-                        cbStartTime.setEnabled(true);
-                        isCompletedBtn.setEnabled(true);
-                        etDescription.setEnabled(true);
-                        drawerLayout.setEnabled(true);
-                }*/
         });
 
 
@@ -2738,6 +2740,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         membersPojo.setInetial(jsonObject.getString("initials"));
                                         membersPojo.setUserId(jsonObject.getString("uid"));
                                         membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
+                                        membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
                                         membersPojo.setTick("1");
                                         //  members[k]=jsonObject.getString("profile_pic");
                                         // labelText[k]=jsonObject.getString("initials");
@@ -2748,16 +2751,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         }*/
                                         cardMembersPojoList1.add(membersPojo);
                                     }
-
-                                    if(membersAdapter != null)
+                                    rvMembersResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
+                                    memberAdapter = new RVMemberResultAdapter(Mactivity,cardMembersPojoList1,cardId,list_id,boardId,projectId);
+                                    rvMembersResult.setAdapter(memberAdapter);
+                                   /* if(membersAdapter != null)
                                     {
                                         membersAdapter.notifyDataSetChanged();
 
                                         if( isUpdate == true){
-                                            showMembersDialog();
+                                         //   showMembersDialog();
                                             isUpdate=false;
                                         }
-                                    }
+                                    }*/
                                    //  labelsPojo.setLabelText(labelText);
 
                                 }
@@ -2870,6 +2875,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         requestQueue.add(request);
 
     }
+
 
     public  void updateCardDueDate(final String dueDat) {
         final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
