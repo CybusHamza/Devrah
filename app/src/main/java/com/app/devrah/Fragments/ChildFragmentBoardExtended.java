@@ -602,7 +602,9 @@ public class ChildFragmentBoardExtended extends Fragment {
 
     public void getCardList(final String lsitId) {
 
-
+      /* final ProgressDialog ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();*/
 
         final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, GET_CARDS_FOR_LIST,
@@ -610,7 +612,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                     @Override
                     public void onResponse(String response) {
 
-
+                      //  ringProgressDialog.dismiss();
                         if (!(response.equals("false"))) {
 
                             listPojo = new ArrayList<>();
@@ -748,7 +750,7 @@ public class ChildFragmentBoardExtended extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-//                ringProgressDialog.dismiss();
+             //ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
 
@@ -827,7 +829,9 @@ public class ChildFragmentBoardExtended extends Fragment {
                             lv.setAdapter(adapter);
 
 
-                        }*/getCardList(list_id);
+                        }*/
+                        Toast.makeText(getActivity(), "Card Saved Successfully !",Toast.LENGTH_LONG).show();
+                        getCardList(list_id);
                     }
                 }, new Response.ErrorListener() {
             @Override

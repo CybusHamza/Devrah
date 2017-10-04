@@ -179,7 +179,7 @@ public class ParentBoardExtendedFragment extends Fragment {
         ChildFragmentBoardExtended fragmentChild = new ChildFragmentBoardExtended();
         fragmentChild.setArguments(bundle);
         adapter.deletePage(position);
-        adapter.notifyDataSetChanged();
+      //  adapter.notifyDataSetChanged();
     }
     public static void updateListName(String listName,int position){
         adapter.updateListTitle(listName,position);

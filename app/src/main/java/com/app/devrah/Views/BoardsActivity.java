@@ -698,10 +698,10 @@ public class BoardsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
         View customView = inflater.inflate(R.layout.status_menu_drawer, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this).create();
-
+        alertDialog.setCancelable(false);
 
         LinearLayout active, inactive, complete;
-        final ImageView imgactive, igminactive, imgcomplete;
+        final ImageView imgactive, igminactive, imgcomplete,crossIcon;
 
 
         active = (LinearLayout) customView.findViewById(R.id.active);
@@ -712,7 +712,14 @@ public class BoardsActivity extends AppCompatActivity {
         imgactive = (ImageView) customView.findViewById(R.id.activeimg);
         igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
         imgcomplete = (ImageView) customView.findViewById(R.id.complete);
-
+        crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
+        crossIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                drawerLayout.closeDrawer(Gravity.END);
+            }
+        });
         if (status.equals("1")) {
             imgactive.setVisibility(View.VISIBLE);
             active.setClickable(false);
@@ -964,7 +971,7 @@ public class BoardsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
-                        Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BoardsActivity.this, "Project has been moved successfully", Toast.LENGTH_SHORT).show();
 
                     }
                 }, new Response.ErrorListener() {

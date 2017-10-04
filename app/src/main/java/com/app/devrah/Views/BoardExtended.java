@@ -557,7 +557,25 @@ public class BoardExtended extends AppCompatActivity {
                             }
                             else{
                                 Toast.makeText(BoardExtended.this, "Board Left Successfully", Toast.LENGTH_SHORT).show();
-
+                                Intent intent1 = getIntent();
+                                if(intent1.hasExtra("ScreenName")){
+                                    Intent intent = new Intent(BoardExtended.this, NotificationsActivity.class);
+                                    finish();
+                                    startActivity(intent);
+                                }else if(intent1.hasExtra("activity")){
+                                    Intent intent = new Intent(BoardExtended.this, FavouritesActivity.class);
+                                    finish();
+                                    startActivity(intent);
+                                }else {
+                                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                                    intent.putExtra("pid", p_id);
+                                    //projectTitle=BoardsActivity.ptitle;
+                                    intent.putExtra("ptitle", pTitle);
+                                    intent.putExtra("status", "0");
+                                    finish();
+                                    startActivity(intent);
+                                }
+                                onBackPressed();
                             }
 
 

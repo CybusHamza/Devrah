@@ -64,6 +64,7 @@
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 />
 
         </android.support.design.widget.TextInputLayout>
@@ -92,6 +93,7 @@
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 />
 
         </android.support.design.widget.TextInputLayout>
@@ -117,6 +119,7 @@
                 android:backgroundTint="#00FA9A"
                 android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 />
 
         </android.support.design.widget.TextInputLayout>
@@ -146,6 +149,7 @@
                 android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
+                android:singleLine="true"
                 />
 
         </android.support.design.widget.TextInputLayout>
@@ -173,6 +177,7 @@
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -201,6 +206,7 @@
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -226,6 +232,7 @@
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -252,6 +259,7 @@
                     android:backgroundTint="#00FA9A"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     />
 
             </android.support.design.widget.TextInputLayout>

@@ -189,7 +189,7 @@ public class CheckList_Detail extends AppCompatActivity {
         alertDialog.setCancelable(false);
         final EditText edt = (EditText)customView.findViewById(R.id.input_watever);
         final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
-        addCard.setText("Add CheckList");
+        addCard.setText("Add Checkbox");
         final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

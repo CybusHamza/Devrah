@@ -145,7 +145,7 @@ public class Manage_Board_Members extends AppCompatActivity {
 
         getmembers();
 
-
+        getMyTeams();
 
     }
 
@@ -193,7 +193,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        getMyTeams();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -255,7 +255,7 @@ public class Manage_Board_Members extends AppCompatActivity {
     public void getMyTeams() {
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_TEAMS,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_MEMBER_TEAMS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

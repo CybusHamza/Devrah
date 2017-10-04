@@ -91,11 +91,12 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
 
         holder.membersView = (LinearLayout)convertView.findViewById(R.id.membersListView);
+        holder.labelsView = (LinearLayout)convertView.findViewById(R.id.labelsLayout);
 
 
 
-        holder.labelsLinearLayout= (LinearLayout) convertView.findViewById(R.id.labelsLayout);
-        holder.labelsLinearLayout1= (LinearLayout) convertView.findViewById(R.id.labelsLayout2);
+       // holder.labelsLinearLayout= (LinearLayout) convertView.findViewById(R.id.labelsLayout);
+       /* holder.labelsLinearLayout1= (LinearLayout) convertView.findViewById(R.id.labelsLayout2);
         holder.labelsLinearLayout2= (LinearLayout) convertView.findViewById(R.id.labelsLayout3);
         holder.labelsLinearLayout3= (LinearLayout) convertView.findViewById(R.id.labelsLayout4);
         holder.labelsLinearLayout4= (LinearLayout) convertView.findViewById(R.id.labelsLayout5);
@@ -156,56 +157,56 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         if (length>0){
             count1=0;
             holder.labelsLinearLayout.setVisibility(View.VISIBLE);
-           /* holder.label1.setVisibility(View.VISIBLE);
+           *//* holder.label1.setVisibility(View.VISIBLE);
             holder.label2.setVisibility(View.VISIBLE);
-            holder.label3.setVisibility(View.VISIBLE);*/
+            holder.label3.setVisibility(View.VISIBLE);*//*
             if(length>3){
                 holder.labelsLinearLayout1.setVisibility(View.VISIBLE);
-               /* holder.label4.setVisibility(View.VISIBLE);
+               *//* holder.label4.setVisibility(View.VISIBLE);
                 holder.label5.setVisibility(View.VISIBLE);
-                holder.label6.setVisibility(View.VISIBLE);*/
+                holder.label6.setVisibility(View.VISIBLE);*//*
 
             }if(length>7){
                 holder.labelsLinearLayout1.setVisibility(View.VISIBLE);
-                /*holder.label4.setVisibility(View.VISIBLE);
+                *//*holder.label4.setVisibility(View.VISIBLE);
                 holder.label5.setVisibility(View.VISIBLE);
-                holder.label6.setVisibility(View.VISIBLE);*/
+                holder.label6.setVisibility(View.VISIBLE);*//*
                 holder.labelsLinearLayout2.setVisibility(View.VISIBLE);
-               /* holder.label7.setVisibility(View.VISIBLE);
+               *//* holder.label7.setVisibility(View.VISIBLE);
                 holder.label8.setVisibility(View.VISIBLE);
-                holder.label9.setVisibility(View.VISIBLE);*/
+                holder.label9.setVisibility(View.VISIBLE);*//*
 
             }if(length>9){
                 holder.labelsLinearLayout1.setVisibility(View.VISIBLE);
-                /*holder.label4.setVisibility(View.VISIBLE);
+                *//*holder.label4.setVisibility(View.VISIBLE);
                 holder.label5.setVisibility(View.VISIBLE);
-                holder.label6.setVisibility(View.VISIBLE);*/
+                holder.label6.setVisibility(View.VISIBLE);*//*
                 holder.labelsLinearLayout2.setVisibility(View.VISIBLE);
-                /*holder.label7.setVisibility(View.VISIBLE);
+                *//*holder.label7.setVisibility(View.VISIBLE);
                 holder.label8.setVisibility(View.VISIBLE);
-                holder.label9.setVisibility(View.VISIBLE);*/
+                holder.label9.setVisibility(View.VISIBLE);*//*
                 holder.labelsLinearLayout3.setVisibility(View.VISIBLE);
-               /* holder.label10.setVisibility(View.VISIBLE);
+               *//* holder.label10.setVisibility(View.VISIBLE);
                 holder.label11.setVisibility(View.VISIBLE);
-                holder.label12.setVisibility(View.VISIBLE);*/
+                holder.label12.setVisibility(View.VISIBLE);*//*
 
             }if(length>12){
                 holder.labelsLinearLayout1.setVisibility(View.VISIBLE);
-               /* holder.label4.setVisibility(View.VISIBLE);
+               *//* holder.label4.setVisibility(View.VISIBLE);
                 holder.label5.setVisibility(View.VISIBLE);
-                holder.label6.setVisibility(View.VISIBLE);*/
+                holder.label6.setVisibility(View.VISIBLE);*//*
                 holder.labelsLinearLayout2.setVisibility(View.VISIBLE);
-               /* holder.label7.setVisibility(View.VISIBLE);
+               *//* holder.label7.setVisibility(View.VISIBLE);
                 holder.label8.setVisibility(View.VISIBLE);
-                holder.label9.setVisibility(View.VISIBLE);*/
+                holder.label9.setVisibility(View.VISIBLE);*//*
                 holder.labelsLinearLayout3.setVisibility(View.VISIBLE);
-               /* holder.label10.setVisibility(View.VISIBLE);
+               *//* holder.label10.setVisibility(View.VISIBLE);
                 holder.label11.setVisibility(View.VISIBLE);
-                holder.label12.setVisibility(View.VISIBLE);*/
+                holder.label12.setVisibility(View.VISIBLE);*//*
                 holder.labelsLinearLayout4.setVisibility(View.VISIBLE);
-               /* holder.label13.setVisibility(View.VISIBLE);
+               *//* holder.label13.setVisibility(View.VISIBLE);
                 holder.label14.setVisibility(View.VISIBLE);
-                holder.label15.setVisibility(View.VISIBLE);*/
+                holder.label15.setVisibility(View.VISIBLE);*//*
             }
 
                 for(int i=0;i<labels.length;i++) {
@@ -314,7 +315,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
                 }
 
-            }
+            }*/
         /*else if(length==2) {
             for (int i = 0; i < labels.length; i++) {
                 if(count1==0) {
@@ -330,7 +331,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 }
 
             }
-        }*/else {
+        }*//*else {
             count1=0;
             holder.labelsLinearLayout.setVisibility(View.GONE);
             holder.labelsLinearLayout1.setVisibility(View.GONE);
@@ -352,7 +353,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.label13.setVisibility(View.INVISIBLE);
             holder.label14.setVisibility(View.INVISIBLE);
             holder.label15.setVisibility(View.INVISIBLE);
-        }
+        }*/
         /*if(!projectsList.get(position).getBoardAssociatedLabelsId().equals("") || projectsList.get(position).getBoardAssociatedLabelsId()!=null){
             holder.labelsLinearLayout.setVisibility(View.VISIBLE);
             holder.label1.setVisibility(View.VISIBLE);
@@ -414,10 +415,12 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.nOfAttachments.setVisibility(View.GONE);
             holder.attachmentIcon.setVisibility(View.GONE);
         }
+
         if(projectsList.get(position).getIsCardSubscribed().equals("1")){
+            holder.dueDate.setVisibility(View.VISIBLE);
             holder.subscribe.setVisibility(View.VISIBLE);
         }else {
-            holder.subscribe.setVisibility(View.INVISIBLE);
+            holder.subscribe.setVisibility(View.GONE);
         }
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
@@ -455,14 +458,73 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
             }
         });
+        String[] labels=labelList.get(position).getLabels();
+        String[] labelNames=labelList.get(position).getLabelText();
+        holder.labelsView.removeAllViews();
 
+        for (int i = 0; i < labels.length; i++) {
+            TextView image = new TextView(activity);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(120,80);
+            layoutParams.setMargins(10,0,0,0);
+            //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
+            image.setLayoutParams(layoutParams);
+           // image.setBackground(activity.getResources().getDrawable(R.drawable.bg_circle));
+            // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
+            image.setMaxHeight(20);
+            image.setMaxWidth(50);
+
+           // image.setText(l);
+            //image.setBackgroundColor(activity.getResources().getColor(R.color.light_black));
+           // image.setTextColor(activity.getResources().getColor(R.color.black));
+            image.setGravity(Gravity.CENTER);
+
+            // Adds the view to the layout
+
+            if(labels[i].equals("blue")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.blue));
+                //  break;
+            }else if(labels[i].equals("sky-blue")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.wierdBlue));
+                //break;
+            }else if(labels[i].equals("red")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
+                //break;
+            }else if(labels[i].equals("yellow")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.colorYellow));
+                //break;
+            }else if(labels[i].equals("purple")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.purple));
+                //textView.setText(labelNames[i]);
+                //break;
+            }else if(labels[i].equals("pink")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.pink));
+                //break;
+            }else if(labels[i].equals("orange")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.colorOrange));
+                //break;
+            }else if(labels[i].equals("black")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.black));
+                //break;
+            }else if(labels[i].equals("green")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.colorGreen));
+
+                //break;
+            }else if(labels[i].equals("dark-green")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
+                //break;
+            }else if(labels[i].equals("lime")) {
+                image.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+                //break;
+            }
+            holder.labelsView.addView(image);
+        }
         String imageUrl[]=memberList.get(position).getMembers();
         String initials[]=memberList.get(position).getInitials();
         holder.membersView.removeAllViews();
        // if(membercount==0) {
             for (int i = 0; i < imageUrl.length; i++) {
 
-                if (imageUrl[i].equals("null")) {
+                if (imageUrl[i].equals("null") || imageUrl[i].equals("")) {
                     TextView image = new TextView(activity);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(80,80);
                     layoutParams.setMargins(5,0,0,0);
@@ -496,19 +558,18 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             }
 //            membercount=1;
 //        }
-       /* SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+       /* SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
        if(projectsList.get(position).getIsCardLocked().equals("1") && !projectsList.get(position).getAssignedTo().equals(pref.getString("user_id",""))){
-           convertView.setVisibility(View.GONE);
-       }else {
-           convertView.setVisibility(View.VISIBLE);
+          // projectsList.remove(position);
+          // notifyDataSetChanged();
        }*/
         return convertView;
     }
 
-
     public static class ViewHolder{
 
         LinearLayout membersView;
+        LinearLayout labelsView;
         TextView data,dueDate,nOfAttachments;
         ImageView favouriteIcon,attachmentIcon;
         ImageView attachment,subscribe;
@@ -516,9 +577,9 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         LinearLayout labelsLinearLayout,labelsLinearLayout1,labelsLinearLayout2,labelsLinearLayout3,labelsLinearLayout4;
         LinearLayout label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11,label12,label13,label14,label15;
         TextView labelText1,labelText2,labelText3,labelText4,labelText5,labelText6,labelText7,labelText8,labelText9,labelText10,labelText11,labelText12,labelText13,labelText14,labelText15;
-        int[] arrayIds = new int[] {R.id.row_cardscreen_label1,R.id.row_cardscreen_label2,R.id.row_cardscreen_label3,R.id.row_cardscreen_label4,R.id.row_cardscreen_label5,R.id.row_cardscreen_label6,R.id.row_cardscreen_label7,R.id.row_cardscreen_label8,R.id.row_cardscreen_label9,R.id.row_cardscreen_label10,R.id.row_cardscreen_label11,R.id.row_cardscreen_label12,R.id.row_cardscreen_label13,R.id.row_cardscreen_label14,R.id.row_cardscreen_label15};
+       /* int[] arrayIds = new int[] {R.id.row_cardscreen_label1,R.id.row_cardscreen_label2,R.id.row_cardscreen_label3,R.id.row_cardscreen_label4,R.id.row_cardscreen_label5,R.id.row_cardscreen_label6,R.id.row_cardscreen_label7,R.id.row_cardscreen_label8,R.id.row_cardscreen_label9,R.id.row_cardscreen_label10,R.id.row_cardscreen_label11,R.id.row_cardscreen_label12,R.id.row_cardscreen_label13,R.id.row_cardscreen_label14,R.id.row_cardscreen_label15};
         int[] labelNamearrayIds=new int[]{R.id.labelName1,R.id.labelName2,R.id.labelName3,R.id.labelName4,R.id.labelName5,R.id.labelName6,R.id.labelName7,R.id.labelName8,R.id.labelName9,R.id.labelName10,R.id.labelName11,R.id.labelName12,R.id.labelName13,R.id.labelName14,R.id.labelName15};
-
+*/
     }
 
 }

@@ -180,7 +180,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                         ringProgressDialog.dismiss();
                         if (response.equals("Incorrect User name or password")) {
                             new SweetAlertDialog(Login.this, SweetAlertDialog.ERROR_TYPE)
-                                    .setTitleText("Error!")
+                                    .setTitleText("Alert!")
                                     .setConfirmText("OK").setContentText("Incorrect Username or Password")
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override

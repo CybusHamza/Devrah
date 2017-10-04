@@ -2751,7 +2751,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         }*/
                                         cardMembersPojoList1.add(membersPojo);
                                     }
-                                    rvMembersResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
+                                   rvMembersResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
                                     memberAdapter = new RVMemberResultAdapter(Mactivity,cardMembersPojoList1,cardId,list_id,boardId,projectId);
                                     rvMembersResult.setAdapter(memberAdapter);
                                    /* if(membersAdapter != null)
@@ -3682,7 +3682,82 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
         requestQueue.add(request);
     }
+    public void makeCover(final int pos,final String isCover, final String attach_id,final String cardId){
+        ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.MAKE_COVER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        if(!response.equals("")) {
 
+                                 }
+                        //attachmentList.remove(pos);
+                        //notifyDataSetChanged();
+                        //     }else {
+                        // Toast.makeText(activity, "Not updated Cover", Toast.LENGTH_SHORT).show();
+                        //   }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("make_cover",isCover);
+                params.put("attach_id",attach_id);
+                params.put("card_id",cardId);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+    }
 
     private void saveFile(final String attachmentName,final String originalName,final String fileType) {
        /* ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);

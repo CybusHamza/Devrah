@@ -28,7 +28,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.BoardsAdapter;
 import com.app.devrah.Adapters.ReferenceBoardAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
@@ -44,7 +43,6 @@ import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.app.devrah.Network.End_Points.GET_REFRENCE_BOARD;
 
 
 /**
@@ -267,7 +265,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GET_REFRENCE_BOARD,
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GET_REFERENCE_BOARD_TO_MEMBERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

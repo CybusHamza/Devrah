@@ -6,13 +6,27 @@
     android:layout_height="wrap_content">
 
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:textSize="20sp"
-        android:textColor="#000"
         android:layout_height="wrap_content"
-        android:text="Settings  :"/>
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:layout_height="wrap_content"
+            android:text="Settings :"
+            android:layout_weight="0.7"/>
+        <ImageView
+            android:id="@+id/crossIcon"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cross_icon"
+            android:layout_weight="0.3"/>
+    </LinearLayout>
 
 
     <ImageView

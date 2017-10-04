@@ -14,7 +14,22 @@
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:visibility="gone"/>
-   <LinearLayout
+    <HorizontalScrollView
+        android:layout_below="@+id/cardImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:id="@+id/labelScroller"
+        >
+        <LinearLayout
+            android:id="@+id/labelsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            tools:ignore="Orientation">
+        </LinearLayout>
+    </HorizontalScrollView>
+   <!--<LinearLayout
        android:layout_below="@id/cardImage"
        android:layout_margin="4dp"
        android:id="@+id/labelsLayout"
@@ -43,8 +58,8 @@
             android:id="@+id/labelName1"
             />
 
-    </LinearLayout>
-       <LinearLayout
+    </LinearLayout>-->
+      <!--&lt;!&ndash; <LinearLayout
            android:orientation="vertical"
            android:layout_width="80dp"
            android:layout_margin="5dp"
@@ -314,7 +329,7 @@
                 android:id="@+id/labelName12"
                />
 
-        </LinearLayout>
+        </LinearLayout>&ndash;&gt;
     </LinearLayout>
     <LinearLayout
         android:layout_margin="4dp"
@@ -387,10 +402,10 @@
                 android:id="@+id/labelName15"
                />
 
-        </LinearLayout>
-    </LinearLayout>
+        </LinearLayout>-->
+   <!-- </LinearLayout>-->
     <TextView
-        android:layout_below="@id/labelsLayout3"
+        android:layout_below="@id/labelScroller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
@@ -419,6 +434,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/subscribe_eye"
+        android:layout_toEndOf="@+id/nOfAttachments"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
        android:visibility="gone"
@@ -431,7 +447,6 @@
         android:padding="5dp"
         android:layout_marginTop="10dp"
         android:text="due date"
-        android:layout_toRightOf="@+id/subscribedIcon"
         android:layout_marginLeft="5dp"
         android:id="@+id/dateLabel"
         android:textColor="#fff"

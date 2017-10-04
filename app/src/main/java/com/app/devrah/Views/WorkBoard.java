@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.BoardsAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.ProjectsPojo;
 
@@ -43,7 +44,6 @@ import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.ADD_WORK_BOARD;
-import static com.app.devrah.Network.End_Points.GET_WORK_BOARD;
 
 
 public class WorkBoard extends Fragment implements View.OnClickListener {
@@ -368,7 +368,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST,GET_WORK_BOARD,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_WORK_BOARD_TO_MEMBERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -455,7 +455,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                 String userId = pref.getString("user_id", "");
 
                 params.put("p_id", projectid);
-              //  params.put("uid",userId );
+                params.put("uid",userId );
                 return params;
             }
         };

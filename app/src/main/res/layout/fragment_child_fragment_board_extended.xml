@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_below="@+id/textName"
-        android:background="@drawable/bg_card_layout_listview"
+
         android:dividerHeight="3dp"
         android:layout_weight="1"
         android:layout_marginBottom="15dp"

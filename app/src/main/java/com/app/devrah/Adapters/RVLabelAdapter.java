@@ -282,6 +282,8 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
 
                     colorFragment.textLabelName = labelNameList.get(position);
                     // colorFragment.etLabelName.setText(labelNameList.get(position));
+                }else {
+                    colorFragment.textLabelName="";
                 }
 
                 fragmentTransaction.add(R.id.fragmentContainer, colorFragment).addToBackStack("Frag2").commit();
