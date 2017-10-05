@@ -11,6 +11,16 @@ public class ProjectsPojo {
     public String data;
     public String boardID;
 
+    public String getCardAssignedMemberId() {
+        return cardAssignedMemberId;
+    }
+
+    public void setCardAssignedMemberId(String cardAssignedMemberId) {
+        this.cardAssignedMemberId = cardAssignedMemberId;
+    }
+
+    public String cardAssignedMemberId;
+
     public String getAssignedTo() {
         return assignedTo;
     }
@@ -246,6 +256,15 @@ public class ProjectsPojo {
 
     String isCardSubscribed;
 
+    public String getProjectCreatedBy() {
+        return projectCreatedBy;
+    }
+
+    public void setProjectCreatedBy(String projectCreatedBy) {
+        this.projectCreatedBy = projectCreatedBy;
+    }
+
+    String projectCreatedBy;
 
 
 

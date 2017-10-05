@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +23,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
-import com.app.devrah.Views.BoardsActivity;
 import com.app.devrah.R;
-import com.app.devrah.Views.CreateNewTeamActivity;
+import com.app.devrah.Views.MenuActivity;
 import com.app.devrah.pojo.TeamMembersPojo;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,6 +163,13 @@ public class TeamMembersAdapter extends BaseAdapter {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if(jsonObject.getString("member_deleted").equals("1")){
+                                SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                                String userId = pref.getString("user_id", "");
+                                if(membersList.get(position).getUserId().equals(userId)){
+                                    Intent intent = new Intent(activity, MenuActivity.class);
+                                    activity.finish();
+                                    activity.startActivity(intent);
+                                }
                                 new SweetAlertDialog(activity, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("Success!")
                                         .setConfirmText("OK").setContentText("Removed User Successfully")

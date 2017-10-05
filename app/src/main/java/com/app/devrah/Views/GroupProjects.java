@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
     CustomExpandableListAdapter customAdapter;
 
     private OnFragmentInteractionListener mListener;
+    SwipeRefreshLayout mySwipeRefreshLayout;
 
     public GroupProjects() {
         // Required empty public constructor
@@ -121,6 +123,17 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
         prepareDataList();
 
         expandableLv = (ExpandableListView) view.findViewById(R.id.lvExp);
+        mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        //   spinnerValues = new String[]{};
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        prepareDataList();
+                        mySwipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
 //        addGrouProjects.setOnClickListener(this);
         // Inflate the layout for this fragment
         return view;

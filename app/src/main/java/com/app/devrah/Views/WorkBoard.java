@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -60,7 +61,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
     private String mParam1;
     String projectid;
     private String mParam2;
-
+    SwipeRefreshLayout mySwipeRefreshLayout;
     private OnFragmentInteractionListener mListener;
 
     public WorkBoard() {
@@ -97,6 +98,17 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         search = (ImageView)view.findViewById(R.id.searchBar);
         etSearch = (EditText)view.findViewById(R.id.etSearchWBoard);
         tvWorkBoard = (TextView)view.findViewById(R.id.tvReferenceBoard);
+        mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        //   spinnerValues = new String[]{};
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                       getWorkBoards();
+                        mySwipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
         etSearch.setVisibility(View.INVISIBLE);
         addBoard.setOnClickListener(this);
         Bundle bundle = this.getArguments();

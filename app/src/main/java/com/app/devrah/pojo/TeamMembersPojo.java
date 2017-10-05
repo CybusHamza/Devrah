@@ -1,7 +1,5 @@
 package com.app.devrah.pojo;
 
-import android.widget.ImageView;
-
 /**
  * Created by Rizwan Butt on 19-Jun-17.
  */
@@ -9,6 +7,16 @@ import android.widget.ImageView;
 public class TeamMembersPojo {
     public String data;
     String imageView;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    String userId;
 
     public String getGpimageView() {
         return gpimageView;

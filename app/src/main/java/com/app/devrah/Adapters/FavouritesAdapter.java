@@ -64,7 +64,7 @@ public class FavouritesAdapter extends BaseAdapter {
         holder.data = (TextView) convertView.findViewById(R.id.tvFavouritesData);
         holder.p_name = (TextView) convertView.findViewById(R.id.projectName);
         holder.data.setText('"'+projectsList.get(position).getData()+'"');
-        holder.p_name.setText(projectsList.get(position).getP_name());
+        holder.p_name.setText("Project: "+projectsList.get(position).getP_name());
 
 
 

@@ -1,11 +1,15 @@
 package com.app.devrah.Views;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -84,7 +88,16 @@ public class manage_members extends AppCompatActivity {
         heading = (TextView) findViewById(R.id.heading);
         heading.setText("Manage Project Member");
 
-
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if  ((i == EditorInfo.IME_ACTION_SEARCH)) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+                }
+                return true;
+            }
+        });
 
 
         currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,8 +115,11 @@ public class manage_members extends AppCompatActivity {
                                     sDialog.dismiss();
                                     //teamid = teamListids .get(i);
                                     usertoadd = membersPojos.get(i).getUserId();
+                                    SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                    String userId = pref.getString("user_id", "");
 
-                                    deletemember();
+                                        deletemember();
+
                                 }
                             }).setCancelText("Cancel")
                             .showCancelButton(true)
@@ -528,7 +544,11 @@ public class manage_members extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        getmembers();
+                        if(response.equals("0")){
+                            Toast.makeText(manage_members.this,"Admin user cannot be deleted!",Toast.LENGTH_LONG).show();
+                        }else {
+                            getmembers();
+                        }
 
                     }
                 }, new Response.ErrorListener() {

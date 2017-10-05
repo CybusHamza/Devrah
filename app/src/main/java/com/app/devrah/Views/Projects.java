@@ -5,11 +5,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,6 +80,7 @@ public class Projects extends Fragment implements View.OnClickListener {
     private String mParam2;
     private OnFragmentInteractionListener mListener;
     AlertDialog alertDialog;
+    SwipeRefreshLayout mySwipeRefreshLayout;
 
     public Projects() {
         // Required empty public constructor
@@ -111,8 +112,17 @@ public class Projects extends Fragment implements View.OnClickListener {
         btnAddProject = (Button) view.findViewById(R.id.buttonAddProject);
         listPojo = new ArrayList<>();
         lv = (ListView) view.findViewById(R.id.projectsListView);
+        mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         //   spinnerValues = new String[]{};
-
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        getProjectsData();
+                        mySwipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
 
         //getSpinnerData();
 
@@ -266,9 +276,12 @@ public class Projects extends Fragment implements View.OnClickListener {
                                 @Override
                                 public void onResponse(String response) {
                                     ringProgressDialog.dismiss();
-                                    getProjectsData();
-                                    Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
-
+                                    if(response.equals("0")){
+                                        Toast.makeText(getActivity().getApplicationContext(), "Project name already exists!", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        getProjectsData();
+                                        Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
@@ -432,6 +445,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                                     projectPojoData.setData(object.getString("project_name"));
                                     projectPojoData.setId(object.getString("project_id"));
                                     projectPojoData.setProjectStatus(object.getString("project_status"));
+                                    projectPojoData.setProjectCreatedBy(object.getString("project_created_by"));
                                     listPojo.add(projectPojoData);
 
 

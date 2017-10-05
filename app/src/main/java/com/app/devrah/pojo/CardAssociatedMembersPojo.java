@@ -24,4 +24,14 @@ public class CardAssociatedMembersPojo {
     }
 
     String[] initials;
+
+    public String[] getGp_pictures() {
+        return gp_pictures;
+    }
+
+    public void setGp_pictures(String[] gp_pictures) {
+        this.gp_pictures = gp_pictures;
+    }
+
+    String[] gp_pictures;
 }

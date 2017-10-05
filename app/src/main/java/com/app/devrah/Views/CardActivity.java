@@ -45,7 +45,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -559,7 +558,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             public void onClick(View v) {
 
                 fabm.close(true);
-                LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
+                final LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
                 View view = inflater.inflate(R.layout.custom_attachments_layout_dialog, null);
 
 
@@ -626,6 +625,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             Intent intent = new Intent();
                             intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                         //   intent.setSelector(Intent.getIntent().removeCategory(););
+
                             startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
                         }
 
@@ -4803,7 +4805,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         {
             String fileType;
            // Toast.makeText(mcontext, "uploaded Succesfully"+ fileName, Toast.LENGTH_SHORT).show();
-            if(file.contains(".jpg") || file.contains(".jpeg")){
+            if(file.contains(".jpg") || file.contains(".jpeg") || file.contains(".png") || file.contains(".gif")){
                 fileType="image";
             }else {
                 fileType="file";

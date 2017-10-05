@@ -27,6 +27,12 @@
           android:src="@drawable/search_icon_white"
           android:layout_alignTop="@+id/tvReferenceBoard"
           android:layout_alignParentEnd="true" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvReferenceBoard" >
     <ListView
         android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
@@ -37,6 +43,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/tvReferenceBoard" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
     <Button

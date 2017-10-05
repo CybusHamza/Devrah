@@ -71,7 +71,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
-
+   // MenuItem searchBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +91,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
         edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
+       // searchBar = (MenuItem)findViewById(R.id.action_search);
         toolbar.inflateMenu(R.menu.search_menu_team_activity);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -232,6 +233,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
             logo.setVisibility(View.INVISIBLE);
             edtSeach.setText("");
 
+            //mSearchAction.setVisible(true);
             //add the search icon in the action bar
             // mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
 
@@ -269,6 +271,8 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         doSearch();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
                         return true;
                     }
                     return false;
@@ -281,7 +285,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
             //open the keyboard focused in the edtSearch
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
-
+           // mSearchAction.setVisible(false);
 
             //add the close icon
 //            mSearchAction.setIcon(getResources().getDrawable(R.drawable.search_workboard));
@@ -648,6 +652,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                                 membersPojoData.setId(jsonObject1.getString("teams_id"));
                                 membersPojoData.setInitials(jsonObject1.getString("initials"));
                                 membersPojoData.setGpimageView(jsonObject1.getString("gp_picture"));
+                                membersPojoData.setUserId(jsonObject1.getString("id"));
                                 listPojo.add(membersPojoData);
                                 //}
                             }

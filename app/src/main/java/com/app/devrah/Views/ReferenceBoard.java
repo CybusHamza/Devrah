@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -71,7 +72,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
 
 
-
+    SwipeRefreshLayout mySwipeRefreshLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -137,7 +138,17 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
         etSearch.setVisibility(View.INVISIBLE);
         search.setOnClickListener(this);
-
+        mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        //   spinnerValues = new String[]{};
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Refrence();
+                        mySwipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
         Refrence();
 
 
@@ -350,6 +361,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 String userId = pref.getString("user_id", "");
 
                 params.put("p_id", projectid);
+                params.put("uid",userId );
                 // params.put("password",strPassword );
                 return params;
             }

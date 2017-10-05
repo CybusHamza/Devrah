@@ -520,11 +520,12 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         }
         String imageUrl[]=memberList.get(position).getMembers();
         String initials[]=memberList.get(position).getInitials();
+        String gp_picture[]=memberList.get(position).getGp_pictures();
         holder.membersView.removeAllViews();
        // if(membercount==0) {
             for (int i = 0; i < imageUrl.length; i++) {
 
-                if (imageUrl[i].equals("null") || imageUrl[i].equals("")) {
+                if ((imageUrl[i].equals("null") || imageUrl[i].equals("")) && (gp_picture[i].equals("null") || gp_picture[i].equals(""))) {
                     TextView image = new TextView(activity);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(80,80);
                     layoutParams.setMargins(5,0,0,0);
@@ -541,7 +542,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
                     // Adds the view to the layout
                     holder.membersView.addView(image);
-                } else {
+                } else if(!imageUrl[i].equals("null") && !imageUrl[i].equals("")){
                     CircleImageView image = new CircleImageView(activity);
                     image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
                     // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
@@ -550,6 +551,19 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
                     Picasso.with(activity)
                             .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + imageUrl[i])
+                            .into(image);
+
+                    // Adds the view to the layout
+                    holder.membersView.addView(image);
+                }else {
+                    CircleImageView image = new CircleImageView(activity);
+                    image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
+                    // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
+                    image.setMaxHeight(20);
+                    image.setMaxWidth(20);
+
+                    Picasso.with(activity)
+                            .load( gp_picture[i])
                             .into(image);
 
                     // Adds the view to the layout

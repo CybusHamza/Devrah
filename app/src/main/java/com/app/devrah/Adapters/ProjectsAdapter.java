@@ -87,6 +87,7 @@ public class ProjectsAdapter extends BaseAdapter {
                 intent.putExtra("pid",projectsList.get(position).getId());
                 intent.putExtra("ptitle",projectsList.get(position).getData());
                 intent.putExtra("status",projectsList.get(position).getProjectStatus());
+                intent.putExtra("project_created_by",projectsList.get(position).getProjectCreatedBy());
                 activity.startActivity(intent);
 
             }

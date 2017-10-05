@@ -651,6 +651,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     projectsPojo.setStartTime(jsonObject.getString("card_start_time"));
                                     projectsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
                                     projectsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
+                                   // projectsPojo.setCardAssignedMemberId(jsonObject.getString("crd_assigned_membr_id"));
                                     projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
                                     projectsPojo.setAssignedTo(jsonObject.getString("assigned_to"));
 
@@ -688,11 +689,13 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     JSONArray jsonArray=jsonArrayMembers.getJSONArray(j);
                                     String[] members = new String[jsonArray.length()];
                                     String[] labelText = new String[jsonArray.length()];
+                                    String[] gp_picture = new String[jsonArray.length()];
                                     for (int k=0;k<jsonArray.length();k++){
 
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
                                         members[k]=jsonObject.getString("profile_pic");
                                         labelText[k]=jsonObject.getString("initials");
+                                        gp_picture[k]=jsonObject.getString("gp_picture");
                                        /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
                                             labelText[k]="";
                                         }else {
@@ -701,6 +704,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     }
                                     membersPojo.setMembers(members);
                                     membersPojo.setInitials(labelText);
+                                    membersPojo.setGp_pictures(gp_picture);
                                   //  labelsPojo.setLabelText(labelText);
                                     cardMembersPojoList.add(membersPojo);
                                 }
@@ -1248,7 +1252,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
             if(pos!=0 && pos!=-1)
-            getPosition(spinnerGroupIds.get(pos));
+            getPosition(boards_ids.get(pos));
 
 
 
@@ -1265,7 +1269,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
     public void getPosition(final String P_id) {
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GETPOSITION,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_POSITION_LIST,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -1304,7 +1308,8 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("p_id", P_id);
+                params.put("b_id", P_id);
+                params.put("p_id", p_id);
                 return params;
             }
         };

@@ -367,9 +367,9 @@ public class LabelColorFragment extends Fragment {
 //                        Drawable background = rOne.getBackground();
 //                        if (background instanceof ColorDrawable)
 //                            color = ((ColorDrawable) background).getColor();
-                    //tvDone.setTextColor(color);
-                    color = myColorList.get(0);
 
+                    color = myColorList.get(0);
+                    tvDone.setTextColor(color);
 
                 }
 
@@ -444,7 +444,7 @@ public class LabelColorFragment extends Fragment {
                     Drawable background = rFour.getBackground();
                     if (background instanceof ColorDrawable)
                         color = ((ColorDrawable) background).getColor();
-                    //tvDone.setTextColor(color);
+                    tvDone.setTextColor(color);
 //                    color = myColorList.get(3);
 
                 }
