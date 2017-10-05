@@ -1,7 +1,9 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.app.devrah.Holders.ViewHolderMember;
 import com.app.devrah.R;
-import com.app.devrah.Views.Manage_Card_Members;
+import com.app.devrah.Views.ManageCardMembers;
 import com.app.devrah.pojo.MembersPojo;
 import com.squareup.picasso.Picasso;
 
@@ -62,23 +64,39 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
         holder.member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, Manage_Card_Members.class);
+                FragmentManager fragmentManager = ((AppCompatActivity) activity).getSupportFragmentManager();
+
+                ManageCardMembers manageCardMembers = new ManageCardMembers();
+                // LabelColorFragment.textLabelName="";
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fragmentContainer1, manageCardMembers).addToBackStack("Frag4").commit();
+
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+               /* Intent intent = new Intent(activity, Manage_Card_Members.class);
                 intent.putExtra("P_id",projectId);
                 intent.putExtra("b_id",boardId);
                 intent.putExtra("c_id",cardId);
                 intent.putExtra("l_id",listId);
-                activity.startActivity(intent);
+                activity.startActivity(intent);*/
             }
         });
         holder.initials.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, Manage_Card_Members.class);
+                FragmentManager fragmentManager = ((AppCompatActivity) activity).getSupportFragmentManager();
+
+                ManageCardMembers manageCardMembers = new ManageCardMembers();
+                // LabelColorFragment.textLabelName="";
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fragmentContainer1, manageCardMembers).addToBackStack("Frag4").commit();
+
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+              /*  Intent intent = new Intent(activity, Manage_Card_Members.class);
                 intent.putExtra("P_id",projectId);
                 intent.putExtra("b_id",boardId);
                 intent.putExtra("c_id",cardId);
                 intent.putExtra("l_id",listId);
-                activity.startActivity(intent);
+                activity.startActivity(intent);*/
             }
         });
     }

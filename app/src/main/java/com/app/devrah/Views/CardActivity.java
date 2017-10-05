@@ -132,6 +132,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     public static CardActivity Mactivity;
     public static String labelName;
     public static RelativeLayout container;
+    public static RelativeLayout container1;
     public static ProgressBar simpleProgressBar;
     public static Menu menu;
     public static RecyclerView rv, rvLabel, rvLabelResult, rvAttachmentImages,rvMembersResult;
@@ -344,6 +345,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         labelNameList = new ArrayList<>();
         asliList = new ArrayList<>();
         container = (RelativeLayout) findViewById(R.id.fragmentContainer);
+        container1 = (RelativeLayout) findViewById(R.id.fragmentContainer1);
         rvFiles = (RecyclerView) findViewById(R.id.rv_files_cardscreen);
         fileList = new ArrayList<>();
         attachmentsList = new ArrayList<>();
@@ -715,13 +717,22 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 onFocus = true;
 
                // showMembersDialog();
-                Intent intent = new Intent(CardActivity.this, Manage_Card_Members.class);
+               /* Intent intent = new Intent(CardActivity.this, Manage_Card_Members.class);
                 intent.putExtra("P_id",projectId);
                 intent.putExtra("b_id",boardId);
                 intent.putExtra("c_id",cardId);
                 intent.putExtra("l_id",list_id);
-                startActivity(intent);
+                startActivity(intent);*/
+
+                FragmentManager fm = getSupportFragmentManager();
                 fabm.close(true);
+                ManageCardMembers manageCardMembers = new ManageCardMembers();
+               // LabelColorFragment.textLabelName="";
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.add(R.id.fragmentContainer1, manageCardMembers).addToBackStack("Frag3").commit();
+
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
             }
         });
 
@@ -829,6 +840,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
     public void openDrawer() {
         DrawerAdapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(DrawerAdapter);
@@ -1723,10 +1736,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //            ColorsPojo colorsPojo = new ColorsPojo();
 //            colorList.add(colorsPojo.getColor());
 //            showLabelsMenu();
-        }
+        }else if (getSupportFragmentManager().findFragmentByTag("Frag4") != null) {
+//            CardActivity.showLabelsMenu();
+
+            getSupportFragmentManager().popBackStackImmediate("Frag4", 0);
+//            showLabelsMenu();
 
 
-        if (getSupportFragmentManager().findFragmentByTag("Frag2") != null) {
+            //   colorList.add(LabelColorFragment.getColor());
+//            ColorsPojo colorsPojo = new ColorsPojo();
+//            colorList.add(colorsPojo.getColor());
+//            showLabelsMenu();
+        } else if (getSupportFragmentManager().findFragmentByTag("Frag2") != null) {
 //            CardActivity.showLabelsMenu();
 
             getSupportFragmentManager().popBackStackImmediate("Frag2", 0);
@@ -1737,6 +1758,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //            ColorsPojo colorsPojo = new ColorsPojo();
 //            colorList.add(colorsPojo.getColor());
 //            showLabelsMenu();
+        }else if(getSupportFragmentManager().findFragmentByTag("Frag3") != null){
+            getSupportFragmentManager().popBackStackImmediate("Frag3", 0);
         }else if(isFromMyCardsScreen.equals("true")){
             super.onBackPressed();
             Intent intent=new Intent(CardActivity.this,MyCardsActivity.class);

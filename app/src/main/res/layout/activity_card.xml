@@ -602,14 +602,21 @@
 
         </com.github.clans.fab.FloatingActionMenu>
 
+
+    <RelativeLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true" />
         <RelativeLayout
-            android:id="@+id/fragmentContainer"
+            android:id="@+id/fragmentContainer1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true" />
 
+</RelativeLayout>
 
-    </RelativeLayout>
+
 
     <FrameLayout
         android:id="@+id/content_frame"
