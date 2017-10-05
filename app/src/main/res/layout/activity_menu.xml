@@ -40,6 +40,12 @@
         android:layout_height="2dp"
         android:background="#fff"
         android:layout_margin="10dp"/>-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar">
     <ListView
         android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
@@ -47,6 +53,7 @@
         android:id="@+id/lvTeams"
         android:dividerHeight="4dp"
         android:layout_margin="10dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
     <Button
         android:id="@+id/buttonTeam"
         android:layout_width="40dp"
