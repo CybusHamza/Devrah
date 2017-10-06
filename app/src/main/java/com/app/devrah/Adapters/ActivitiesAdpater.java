@@ -11,9 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended;
-import com.app.devrah.Views.BoardsActivity;
-import com.app.devrah.Views.ProjectsActivity;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
+import com.app.devrah.Views.Board.BoardsActivity;
+import com.app.devrah.Views.Project.ProjectsActivity;
 import com.app.devrah.pojo.AcitivitiesPojo;
 
 import java.util.List;

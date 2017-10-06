@@ -62,6 +62,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
     ArrayList<String> ids;
     ArrayList<String> name;
+    ArrayList<String> devTag;
     String message;
 
     // projects arraylist
@@ -748,6 +749,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
                         ids = new ArrayList<>();
                         name = new ArrayList<>();
+                        devTag = new ArrayList<>();
 
                         try {
                             JSONArray jsonArray = new JSONArray(response);
@@ -757,6 +759,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 ids.add(jsonObject.getString("id"));
                                 name.add(jsonObject.getString("email"));
+                                devTag.add(jsonObject.getString("dev_tag"));
                             }
 
                             ArrayAdapter<String> adapter =

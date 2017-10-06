@@ -27,7 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Holders.FilesHolder;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.pojo.AttachmentsPojo;
 
 import java.io.DataInputStream;

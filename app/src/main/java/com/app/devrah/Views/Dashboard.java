@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.app.devrah.FireBase_Notifications.RegistrationIntentService;
 import com.app.devrah.R;
+import com.app.devrah.Views.Project.ProjectsActivity;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 

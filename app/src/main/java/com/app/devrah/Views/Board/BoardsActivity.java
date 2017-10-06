@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Board;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -48,6 +47,9 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.NotificationsActivity;
+import com.app.devrah.Views.Project.ProjectsActivity;
+import com.app.devrah.Views.manage_members;
 import com.app.devrah.pojo.DrawerPojo;
 
 import org.json.JSONArray;

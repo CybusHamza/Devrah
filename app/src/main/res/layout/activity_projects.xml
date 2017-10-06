@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    tools:context="com.app.devrah.Views.ProjectsActivity"
+    tools:context=".Views.Project.ProjectsActivity"
     >
 
 <RelativeLayout

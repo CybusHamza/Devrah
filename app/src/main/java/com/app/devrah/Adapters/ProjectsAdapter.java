@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardsActivity;
+import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;

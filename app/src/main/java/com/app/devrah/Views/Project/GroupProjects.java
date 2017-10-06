@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Project;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -30,6 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomExpandableListAdapter;
 import com.app.devrah.Adapters.GroupProjectAdapter;
 import com.app.devrah.R;
+import com.app.devrah.Views.readyInterface;
 import com.app.devrah.pojo.GroupProjectsPojo;
 
 import org.json.JSONArray;
@@ -46,7 +47,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.GET_GROUP_PROJECTS;
 
-public class GroupProjects extends Fragment implements View.OnClickListener,readyInterface{
+public class GroupProjects extends Fragment implements View.OnClickListener,readyInterface {
 
 
     EditText edt;

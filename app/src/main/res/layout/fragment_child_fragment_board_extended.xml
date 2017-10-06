@@ -7,7 +7,7 @@
     android:background="@drawable/outer_border_checklist"
     android:padding="5dp"
 
-    tools:context="com.app.devrah.Fragments.ChildFragmentBoardExtended">
+    tools:context=".Views.BoardExtended.ChildFragmentBoardExtended">
 
     <!-- TODO: Update blank fragment layout -->
 

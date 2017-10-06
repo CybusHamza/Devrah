@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Project;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,8 +29,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
-import com.app.devrah.Adapters.GroupProjectAdapter;
 import com.app.devrah.R;
+import com.app.devrah.Views.Dashboard;
+import com.app.devrah.Views.MenuActivity;
+import com.app.devrah.Views.NotificationsActivity;
 import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;

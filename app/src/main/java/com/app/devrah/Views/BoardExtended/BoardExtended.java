@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.BoardExtended;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -41,13 +40,16 @@ import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.Board.BoardsActivity;
+import com.app.devrah.Views.FavouritesActivity;
+import com.app.devrah.Views.Manage_Board_Members;
+import com.app.devrah.Views.NotificationsActivity;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;

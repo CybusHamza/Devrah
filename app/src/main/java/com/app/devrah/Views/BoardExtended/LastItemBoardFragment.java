@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.BoardExtended;
 
 import android.app.ProgressDialog;
 import android.net.Uri;
@@ -204,7 +204,7 @@ public class LastItemBoardFragment extends Fragment {
 
                         ringProgressDialog.dismiss();
                         adapter = new CustomViewPagerAdapter(getFragmentManager());
-                        ParentBoardExtendedFragment.addPageAt(projectData,adapter.getCount(),BoardExtended.projectId,BoardExtended.boardId,response.trim().toString(),"new list");
+                        ParentBoardExtendedFragment.addPageAt(projectData,adapter.getCount(), BoardExtended.projectId,BoardExtended.boardId,response.trim().toString(),"new list");
                         adapter.notifyDataSetChanged();
                        ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
 

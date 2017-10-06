@@ -24,11 +24,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended;
-import com.app.devrah.Views.BoardsActivity;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
+import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

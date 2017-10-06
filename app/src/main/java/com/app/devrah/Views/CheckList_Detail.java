@@ -32,6 +32,7 @@ import com.app.devrah.Adapters.Checklist_detailed_Addapter;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class CheckList_Detail extends AppCompatActivity {
                 intent.putExtra("isSubscribed",isCardSubscribed);
                 intent.putExtra("CardHeaderData",CardHeading);
                 intent.putExtra("fromMyCards",isFromMyCardsScreen);
-                intent.putExtra("board_name",BoardExtended.bTitle);
+                intent.putExtra("board_name", BoardExtended.bTitle);
                 intent.putExtra("project_id",BoardExtended.projectId);
                 intent.putExtra("board_id",BoardExtended.boardId);
                 intent.putExtra("project_title",BoardExtended.pTitle);

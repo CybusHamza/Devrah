@@ -78,6 +78,7 @@ import com.app.devrah.Adapters.team_addapter;
 import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.pojo.AttachmentsImageFilePojo;
 import com.app.devrah.pojo.AttachmentsPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
@@ -115,8 +116,8 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.app.devrah.Network.End_Points.GET_LABELS;
-import static com.app.devrah.Views.BoardExtended.boardId;
-import static com.app.devrah.Views.BoardExtended.projectId;
+import static com.app.devrah.Views.BoardExtended.BoardExtended.boardId;
+import static com.app.devrah.Views.BoardExtended.BoardExtended.projectId;
 import static com.app.devrah.Views.FilePath.getDataColumn;
 import static com.app.devrah.Views.FilePath.isDownloadsDocument;
 import static com.app.devrah.Views.FilePath.isExternalStorageDocument;
@@ -625,7 +626,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             Intent intent = new Intent();
                             intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
-                            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                          //   intent.setSelector(Intent.getIntent().removeCategory(););
 
                             startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);

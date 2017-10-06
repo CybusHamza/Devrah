@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.BoardExtended;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
-import com.app.devrah.Fragments.ChildFragmentBoardExtended;
 import com.app.devrah.R;
 
 

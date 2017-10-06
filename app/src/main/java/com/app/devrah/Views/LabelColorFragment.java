@@ -32,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.RVLabelAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -679,7 +680,7 @@ public class LabelColorFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("board_id",BoardExtended.boardId);
+                params.put("board_id", BoardExtended.boardId);
                 params.put("card_id",cardId);
                 params.put("label_text",lableText);
                 params.put("label_data",lableid);

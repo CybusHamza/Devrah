@@ -1,4 +1,4 @@
-package com.app.devrah.Fragments;
+package com.app.devrah.Views.BoardExtended;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -41,8 +41,6 @@ import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Adapters.FragmentBoardsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended;
-import com.app.devrah.Views.ParentBoardExtendedFragment;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;

@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Board;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;

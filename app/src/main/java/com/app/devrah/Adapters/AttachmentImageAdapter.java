@@ -5,15 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
@@ -23,9 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,13 +36,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Holders.ImageAttachmentsHolder;
 import com.app.devrah.Network.End_Points;
-import com.app.devrah.Views.BoardExtended;
-import com.app.devrah.Views.CardActivity;
-import com.app.devrah.Views.ImageDescription;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.R;
-import com.app.devrah.Views.MyCardsActivity;
 import com.app.devrah.pojo.AttachmentsImageFilePojo;
-import com.app.devrah.pojo.AttachmentsPojo;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -63,7 +54,6 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static android.content.Context.CAMERA_SERVICE;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 

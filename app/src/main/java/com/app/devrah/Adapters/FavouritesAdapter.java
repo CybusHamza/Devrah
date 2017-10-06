@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.pojo.FavouritesPojo;
 
 import java.util.List;

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.app.devrah.Views.LastItemBoardFragment;
+import com.app.devrah.Views.BoardExtended.LastItemBoardFragment;
 
 import java.util.ArrayList;
 

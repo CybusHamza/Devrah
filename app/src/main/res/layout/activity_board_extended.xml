@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.app.devrah.Views.BoardExtended"
+    tools:context=".Views.BoardExtended.BoardExtended"
 
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -32,7 +32,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
 
-    android:name="com.app.devrah.Views.ParentBoardExtendedFragment"
+    android:name="com.app.devrah.Views.BoardExtended.ParentBoardExtendedFragment"
     android:layout_below="@+id/app_bar"
     android:layout_alignParentStart="true"
     />

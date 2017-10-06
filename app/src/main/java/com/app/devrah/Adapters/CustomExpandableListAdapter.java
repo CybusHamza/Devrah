@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardsActivity;
+import com.app.devrah.Views.Board.BoardsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

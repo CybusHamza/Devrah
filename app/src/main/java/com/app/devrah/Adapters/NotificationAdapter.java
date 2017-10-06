@@ -11,8 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended;
-import com.app.devrah.Views.BoardsActivity;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
+import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.NotificationsPojo;
 import com.app.devrah.pojo.boardNotificationsPojo;

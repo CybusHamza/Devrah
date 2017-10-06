@@ -1,8 +1,6 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -27,21 +25,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended;
-import com.app.devrah.Views.BoardsActivity;
-import com.app.devrah.Views.GroupProjects;
-import com.app.devrah.Views.Login;
-import com.app.devrah.Views.SignUpActivity;
-import com.app.devrah.Views.WorkBoard;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
+import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by AQSA SHaaPARR on 6/1/2017.
