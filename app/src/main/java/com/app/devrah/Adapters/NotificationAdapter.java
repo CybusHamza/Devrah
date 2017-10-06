@@ -11,8 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.Board.BoardsActivity;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.NotificationsPojo;
 import com.app.devrah.pojo.boardNotificationsPojo;
@@ -72,7 +72,13 @@ public class NotificationAdapter extends BaseAdapter {
         //holder.userName.setText(projectsList.get(position).getUserName()+ projectsList.get(position).getLabel()+ projectsList.get(position).getData());
         holder.userName.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()  + "</b> "+ projectsList.get(position).getLabel()+ "<font color=#3F51B5>" + projectsList.get(position).getData() + "</font>"));
         holder.date = (TextView) convertView.findViewById(R.id.date);
+        /* String inputPattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        String date=inputFormat.format(projectsList.get(position).getDate());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm a");
+        String newDateFormate = outputFormat.format(date);*/
         holder.date.setText(projectsList.get(position).getDate());
+
 //        holder.data = (TextView) convertView.findViewById(R.id.activities_data);
 //        holder.data.setText();
 

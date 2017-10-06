@@ -79,7 +79,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnSignUp = (TextView) findViewById(R.id.btn_signup);
-
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String cbValue= pref.getString("Checkbox_value","");
+        if (cbValue.equals("true")){
+            Intent intent = new Intent(Login.this,Dashboard.class);
+            startActivity(intent);
+            finish();
+        }
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -599,9 +605,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     }
     @Override
     public void onBackPressed() {
-        Intent a = new Intent(Login.this,MainActivity.class);
-        finish();
-        startActivity(a);
         super.onBackPressed();
     }
 }

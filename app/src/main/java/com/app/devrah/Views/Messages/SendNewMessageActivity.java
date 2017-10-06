@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Messages;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -88,7 +88,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
     TextView emailIds;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_new_message);
         toolbar = (Toolbar) findViewById(R.id.header);

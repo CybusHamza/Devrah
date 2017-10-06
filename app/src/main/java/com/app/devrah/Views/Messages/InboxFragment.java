@@ -1,4 +1,4 @@
-package com.app.devrah.Fragments;
+package com.app.devrah.Views.Messages;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -26,8 +26,6 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.InboxAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.MessagesActivity;
-import com.app.devrah.Views.SendNewMessageActivity;
 import com.app.devrah.pojo.InboxPojo;
 
 import org.json.JSONArray;

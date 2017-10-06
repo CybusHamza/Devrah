@@ -31,8 +31,8 @@ import android.widget.TextView;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.R;
 import com.app.devrah.Views.Dashboard;
-import com.app.devrah.Views.MenuActivity;
-import com.app.devrah.Views.NotificationsActivity;
+import com.app.devrah.Views.Teams.MenuActivity;
+import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;
@@ -192,19 +192,22 @@ public class ProjectsActivity extends AppCompatActivity {
 
         tabOne.setTextColor(getResources().getColor(R.color.colorWhite));
         tabOne.setText("Projects Groups");
+        tabOne.setTextSize(15);
 
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabTwo.setTextColor(getResources().getColor(R.color.colorWhite));
         tabTwo.setText("Projects");
+        tabTwo.setTextSize(15);
 
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
+       // tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.orange));
+        tabLayout.setSelectedTabIndicatorHeight(15);
 
         tabLayout.getTabAt(0).setCustomView(tabTwo);
 
 
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
+       // tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
         tabLayout.getTabAt(1).setCustomView(tabOne);
 
 //        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);

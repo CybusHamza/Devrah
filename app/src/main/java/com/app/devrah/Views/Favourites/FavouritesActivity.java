@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Favourites;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.FavouritesAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.Dashboard;
 import com.app.devrah.pojo.FavouritesPojo;
 
 import org.json.JSONArray;

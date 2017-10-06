@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.viewMessage;
+import com.app.devrah.Views.Messages.viewMessage;
 import com.app.devrah.pojo.InboxPojo;
 
 import java.util.List;

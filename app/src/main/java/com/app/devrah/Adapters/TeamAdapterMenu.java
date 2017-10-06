@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.app.devrah.Views.CreateNewTeamActivity;
+import com.app.devrah.Views.Teams.CreateNewTeamActivity;
 import com.app.devrah.R;
 import com.app.devrah.pojo.All_Teams;
 

@@ -120,6 +120,7 @@
         android:layout_marginTop="45dp"
         android:layout_marginBottom="2dp"
         android:textSize="30sp"
+        android:gravity="center"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:text="TextView" />
@@ -136,6 +137,19 @@
         android:layout_marginTop="15dp"
         android:layout_alignEnd="@id/tvTime"
         android:layout_alignStart="@id/tvTime"
+        />
+    <TextView
+        android:id="@+id/tvAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:text=""
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/tvQuote"
+        android:layout_marginTop="3dp"
+        android:layout_alignEnd="@id/tvQuote"
+        android:gravity="end"
         />
 </RelativeLayout>
 </RelativeLayout>

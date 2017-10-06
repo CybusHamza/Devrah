@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_projects"
-    tools:context="com.app.devrah.Views.SendNewMessageActivity">
+    tools:context=".Views.Messages.SendNewMessageActivity">
     <include
         android:id="@+id/header"
         layout="@layout/app_bar">
@@ -473,8 +473,8 @@
                 android:layout_below="@+id/textEditorLayout">
                 <ImageView
                     android:src="@drawable/cancel_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -491,8 +491,8 @@
                 android:layout_marginEnd="10dp">
                 <ImageView
                     android:src="@drawable/send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -1,23 +1,17 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.ManageMembers;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,20 +41,13 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ManageCardMembers.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ManageCardMembers#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ManageCardMembers extends Fragment {
+public class Manage_Board_Members extends AppCompatActivity {
+
     EditText search;
     GridView currentMember, TeamMember;
     Spinner Team_list;
     Button Close;
-    String b_id,p_id,c_id,l_id;
+    String b_id,p_id;
 
     ArrayList<String> teamList;
     ArrayList<String> teamListids;
@@ -74,86 +61,36 @@ public class ManageCardMembers extends Fragment {
     List<All_Teams> teamLists;
     String teamid,usertoadd;
     Button btnClose,btnSave;
-    TextView heading;
-    FragmentManager fm;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public ManageCardMembers() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ManageCardMembers.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ManageCardMembers newInstance(String param1, String param2) {
-        ManageCardMembers fragment = new ManageCardMembers();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        setContentView(R.layout.magnage_members_popup);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.magnage_members_popup, container, false);
-        Intent intent = getActivity().getIntent();
 
-        p_id = intent.getStringExtra("project_id");
-        b_id = intent.getStringExtra("board_id");
-        c_id = intent.getStringExtra("card_id");
-        l_id = intent.getStringExtra("list_id");
+        Intent intent = getIntent();
 
-        search = (EditText) view.findViewById(R.id.search);
+        p_id = intent.getStringExtra("P_id");
+        b_id = intent.getStringExtra("b_id");
 
-        currentMember = (GridView) view.findViewById(R.id.grid_view);
-        TeamMember = (GridView) view.findViewById(R.id.grid_view_team);
-        heading = (TextView) view.findViewById(R.id.heading);
-        heading.setText("Manage Card Member");
-        Team_list = (Spinner) view.findViewById(R.id.search_team);
-        btnClose= (Button) view.findViewById(R.id.close);
-        btnSave= (Button) view.findViewById(R.id.save);
-        fm = getFragmentManager();
+        search = (EditText) findViewById(R.id.search);
+
+        currentMember = (GridView) findViewById(R.id.grid_view);
+        TeamMember = (GridView) findViewById(R.id.grid_view_team);
+
+        Team_list = (Spinner) findViewById(R.id.search_team);
+        btnClose= (Button) findViewById(R.id.close);
+        btnSave= (Button) findViewById(R.id.save);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fm.popBackStack();
-                ((CardActivity)getActivity()).updateUI();
+                finish();
             }
         });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((CardActivity)getActivity()).updateUI();
-                fm.popBackStack();
-
-                Toast.makeText(getActivity(),"Members managed Successfully !",Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(),"Members managed Successfully !",Toast.LENGTH_LONG).show();
+                finish();
             }
         });
 
@@ -163,9 +100,9 @@ public class ManageCardMembers extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 if(membersPojos.size()==1){
-                    Toast.makeText(getActivity(),"You have to keep atleast one user in board!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"You have to keep atleast one user in board!",Toast.LENGTH_LONG).show();
                 }else {
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("Remove This member")
                             .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -207,36 +144,20 @@ public class ManageCardMembers extends Fragment {
         });
 
         getmembers();
+
         getMyTeams();
-        return view;
+
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
     public void getmembers() {
 
 
-        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_CARD_MEMBERS,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_BOARD_MEMBERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -263,7 +184,7 @@ public class ManageCardMembers extends Fragment {
 
                                 membersPojos.add(membersPojo);
 
-                                addapter = new team_addapter(getActivity(), membersPojos);
+                                addapter = new team_addapter(Manage_Board_Members.this, membersPojos);
 
                                 currentMember.setAdapter(addapter);
 
@@ -281,7 +202,7 @@ public class ManageCardMembers extends Fragment {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -294,7 +215,7 @@ public class ManageCardMembers extends Fragment {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -314,7 +235,7 @@ public class ManageCardMembers extends Fragment {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("card_id", c_id);
+                params.put("board_id", b_id);
 
                 return params;
             }
@@ -325,7 +246,7 @@ public class ManageCardMembers extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(Manage_Board_Members.this);
         requestQueue.add(request);
 
 
@@ -357,7 +278,7 @@ public class ManageCardMembers extends Fragment {
 
                             }
 
-                            projectADdapter = new ArrayAdapter<String>(getActivity(), R.layout.nothing_selected_spinnerdate, teamList);
+                            projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, teamList);
                             projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                             Team_list.setAdapter(projectADdapter);
 
@@ -376,7 +297,7 @@ public class ManageCardMembers extends Fragment {
 
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -388,7 +309,7 @@ public class ManageCardMembers extends Fragment {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -405,7 +326,7 @@ public class ManageCardMembers extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
                 params.put("userId", pref.getString("user_id", ""));
 
@@ -417,7 +338,7 @@ public class ManageCardMembers extends Fragment {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
 
     }
@@ -452,7 +373,7 @@ public class ManageCardMembers extends Fragment {
                                 //}
                             }
 
-                            addapter = new team_addapter(getActivity(), listPojo);
+                            addapter = new team_addapter(Manage_Board_Members.this, listPojo);
                             TeamMember.setAdapter(addapter);
 
                         } catch (JSONException e) {
@@ -468,7 +389,7 @@ public class ManageCardMembers extends Fragment {
 
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -480,7 +401,7 @@ public class ManageCardMembers extends Fragment {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -507,7 +428,7 @@ public class ManageCardMembers extends Fragment {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
 
     }
@@ -515,11 +436,11 @@ public class ManageCardMembers extends Fragment {
     public void addmember() {
 
 
-        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ASSOSIATE_USER_CARD,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_BOARD_MEMBERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -535,7 +456,7 @@ public class ManageCardMembers extends Fragment {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -548,7 +469,7 @@ public class ManageCardMembers extends Fragment {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -568,14 +489,12 @@ public class ManageCardMembers extends Fragment {
 
                 Map<String, String> params = new HashMap<>();
 
+                params.put("usr_id", usertoadd);
+                params.put("prjct_id",p_id);
                 params.put("brd_id",b_id);
-                params.put("prjct_id", p_id);
-                params.put("card_id",c_id);
-                params.put("list_id",l_id);
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
-                SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-
-                params.put("userId",usertoadd);
+                params.put("userId", pref.getString("user_id", ""));
 
                 return params;
             }
@@ -586,7 +505,7 @@ public class ManageCardMembers extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(Manage_Board_Members.this);
         requestQueue.add(request);
 
 
@@ -595,11 +514,11 @@ public class ManageCardMembers extends Fragment {
     public void deletemember() {
 
 
-        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_CARD_MEMBER,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_BOARD_MEMBERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -615,7 +534,7 @@ public class ManageCardMembers extends Fragment {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -628,7 +547,7 @@ public class ManageCardMembers extends Fragment {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -649,10 +568,10 @@ public class ManageCardMembers extends Fragment {
                 Map<String, String> params = new HashMap<>();
 
                 params.put("user_id", usertoadd);
-                params.put("card_id",c_id);
-                params.put("list_id",l_id);
+                params.put("project_id",p_id);
+                params.put("brd_id",b_id);
 
-                SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
                 params.put("userId", pref.getString("user_id", ""));
 
@@ -665,7 +584,7 @@ public class ManageCardMembers extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(Manage_Board_Members.this);
         requestQueue.add(request);
 
 
@@ -693,5 +612,4 @@ public class ManageCardMembers extends Fragment {
         }
 
     }
-
 }

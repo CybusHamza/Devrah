@@ -1,4 +1,4 @@
-package com.app.devrah.Fragments;
+package com.app.devrah.Views.Notifications;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;

@@ -24,7 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.MenuActivity;
+import com.app.devrah.Views.Teams.MenuActivity;
 import com.app.devrah.pojo.TeamMembersPojo;
 import com.squareup.picasso.Picasso;
 
@@ -99,7 +99,7 @@ public class TeamMembersAdapter extends BaseAdapter {
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
-                                alertRemove(membersList.get(position).getId(),position);
+                                alertRemove(membersList.get(position).getId(),membersList.get(position).getUserId(),position);
                                 sDialog.dismiss();
                             }
                         })
@@ -144,11 +144,11 @@ public class TeamMembersAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void alertRemove(String id,int position) {
-        deleteUserFromTeam(id,position);
+    public void alertRemove(String id,String userId,int position) {
+        deleteUserFromTeam(id,userId,position);
     }
 
-    public void deleteUserFromTeam(final String id, final int position) {
+    public void deleteUserFromTeam(final String id,final String userid, final int position) {
         ringProgressDialog = ProgressDialog.show(activity, "", "Please wait ...Removing User....", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
@@ -239,6 +239,7 @@ public class TeamMembersAdapter extends BaseAdapter {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("associatedid",id);
+                params.put("uid",userid);
 
                 return params;
             }

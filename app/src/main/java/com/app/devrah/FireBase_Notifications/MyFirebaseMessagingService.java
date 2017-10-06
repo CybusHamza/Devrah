@@ -12,7 +12,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.app.devrah.Views.MainActivity;
-import com.app.devrah.Views.MyCardsActivity;
+import com.app.devrah.Views.MyCards.MyCardsActivity;
 import com.app.devrah.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

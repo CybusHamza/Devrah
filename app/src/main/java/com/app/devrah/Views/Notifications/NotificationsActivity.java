@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Notifications;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.app.devrah.Fragments.ActivitiesFragment;
-import com.app.devrah.Fragments.NotificationsFragment;
 import com.app.devrah.R;
+import com.app.devrah.Views.Dashboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,16 +60,19 @@ public class NotificationsActivity extends AppCompatActivity {
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabOne.setTextColor(getResources().getColor(R.color.colorWhite));
         tabOne.setText("Notifications");
+        tabOne.setTextSize(15);
 
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
+        //tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_group, 0, 0);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.orange));
+        tabLayout.setSelectedTabIndicatorHeight(15);
         tabLayout.getTabAt(0).setCustomView(tabOne);
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabTwo.setTextColor(getResources().getColor(R.color.colorWhite));
         tabTwo.setText("Activities");
+        tabTwo.setTextSize(15);
 
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
+       // tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dashboard_resize_projects, 0, 0);
         tabLayout.getTabAt(1).setCustomView(tabTwo);
 
 //        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);

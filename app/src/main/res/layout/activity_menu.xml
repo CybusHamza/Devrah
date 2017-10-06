@@ -7,7 +7,7 @@
 
     android:background="@drawable/bg_projects"
     android:orientation="vertical"
-    tools:context="com.app.devrah.Views.MenuActivity">
+    tools:context=".Views.Teams.MenuActivity">
 
     <include
 

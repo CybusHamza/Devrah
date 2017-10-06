@@ -16,7 +16,12 @@ import android.widget.TextView;
 
 import com.app.devrah.FireBase_Notifications.RegistrationIntentService;
 import com.app.devrah.R;
+import com.app.devrah.Views.Favourites.FavouritesActivity;
+import com.app.devrah.Views.Messages.MessagesActivity;
+import com.app.devrah.Views.MyCards.MyCardsActivity;
+import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Project.ProjectsActivity;
+import com.app.devrah.Views.Teams.MenuActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -26,8 +31,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Dashboard extends AppCompatActivity {
 
-    TextView tvTime, tvQuote,tvAlias;
-    String[] quotes;
+    TextView tvTime, tvQuote,tvAlias,tvAuthor;
+    String[] quotes,authorName;
     ImageView imgProjects, imgFavourites, imgMyCards, imgNotifications, imgInbox, imgMenu;
     String quote;
     Random rand;
@@ -45,6 +50,7 @@ public class Dashboard extends AppCompatActivity {
 
         tvTime = (TextView) findViewById(R.id.tvTime);
         tvQuote = (TextView) findViewById(R.id.tvQuote);
+        tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvAlias = (TextView) findViewById(R.id.alias_img);
         imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
         imgFavourites = (ImageView) findViewById(R.id.imageFavourites);
@@ -160,7 +166,7 @@ public class Dashboard extends AppCompatActivity {
                                             SharedPreferences.Editor editor = pref.edit();
                                             editor.clear();
                                             editor.apply();
-                                            Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
+                                            Intent logOutIntent = new Intent(Dashboard.this, Login.class);
                                             finish();
                                             startActivity(logOutIntent);
 
@@ -191,7 +197,7 @@ public class Dashboard extends AppCompatActivity {
                                             SharedPreferences.Editor editor = pref.edit();
                                             editor.clear();
                                             editor.apply();
-                                            Intent logOutIntent = new Intent(Dashboard.this, MainActivity.class);
+                                            Intent logOutIntent = new Intent(Dashboard.this, Login.class);
                                             finish();
                                             startActivity(logOutIntent);
 
@@ -234,6 +240,28 @@ public class Dashboard extends AppCompatActivity {
                 "Remember it takes a lot of shit, to create a beautiful flower.",
                 "I never let my schooling get in the way of my education."
         };
+        authorName = new String[]{
+                "Charles E. Weller",
+                " DIETER RAMS ",
+                "Nathan Hale",
+                "Charles Bukowski",
+                "W. Edwards Deming",
+                "BERNARD SHAW ",
+                "Yoda",
+                "Unknown",
+                "John Maeda",
+                "Mariona Lopez",
+                "Milton Glaser",
+                "Unknown",
+                "Woody Allen ",
+                "Chris Campbell",
+                " Jeff Goins",
+                "Charles Bukowski",
+                "Thomas Vasquez",
+                "Brian Reed",
+                "Jacob Cass",
+                "Mark Twain"
+        };
 
 
         final Calendar c = Calendar.getInstance();
@@ -250,12 +278,15 @@ public class Dashboard extends AppCompatActivity {
                 int hours =c.get(Calendar.HOUR);
                 int minutes = c.get(Calendar.MINUTE);
                 int seconds = c.get(Calendar.SECOND);
+                if(hours==0){
+                    hours=12;
+                }
 
                 int zone = c.get(Calendar.AM_PM);
 
                 String amOrpm = ((zone == Calendar.AM) ? "am" : "pm");
-
-                tvTime.setText((hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes)+ ":" + (seconds < 10 ? "0" + seconds : seconds) + " " + amOrpm);
+                ///+ ":" + (seconds < 10 ? "0" + seconds : seconds)
+                tvTime.setText((hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes)+ " " + amOrpm);
                // tvTime.setText(c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND) + " " + amOrpm);
             }
 
@@ -287,6 +318,7 @@ public class Dashboard extends AppCompatActivity {
 
 
                 tvQuote.setText(quotes[random]);
+                tvAuthor.setText(authorName[random]);
 
 
             }

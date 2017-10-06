@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.app.devrah.Holders.ViewHolderMember;
 import com.app.devrah.R;
-import com.app.devrah.Views.ManageCardMembers;
+import com.app.devrah.Views.ManageMembers.ManageCardMembers;
 import com.app.devrah.pojo.MembersPojo;
 import com.squareup.picasso.Picasso;
 

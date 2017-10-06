@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.SendNewMessageActivity;
+import com.app.devrah.Views.Messages.SendNewMessageActivity;
 import com.app.devrah.pojo.SentMessagesPojo;
 
 import java.util.List;

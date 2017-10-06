@@ -1,4 +1,4 @@
-package com.app.devrah.Fragments;
+package com.app.devrah.Views.Notifications;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -24,24 +24,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.NotificationAdapter;
-import com.app.devrah.Adapters.ProjectsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.NotificationsPojo;
-import com.app.devrah.pojo.ProjectsPojo;
 import com.app.devrah.pojo.boardNotificationsPojo;
 import com.app.devrah.pojo.cardNotificationsPojo;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -160,6 +155,7 @@ public void getNotifications() {
                              listPojo = new ArrayList<>();
                              boardlistPojo = new ArrayList<>();
                              cardlistPojo = new ArrayList<>();
+
                              try {
                                  JSONObject mainObject = new JSONObject(response);
                                  JSONArray jsonArrayProjectNotifications = mainObject.getJSONArray("project_notifications");

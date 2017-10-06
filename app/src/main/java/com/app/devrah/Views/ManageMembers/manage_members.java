@@ -1,17 +1,22 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.ManageMembers;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,13 +46,15 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class Manage_Board_Members extends AppCompatActivity {
+
+public class manage_members extends AppCompatActivity {
+
 
     EditText search;
     GridView currentMember, TeamMember;
     Spinner Team_list;
     Button Close;
-    String b_id,p_id;
+    String p_id;
 
     ArrayList<String> teamList;
     ArrayList<String> teamListids;
@@ -55,12 +62,13 @@ public class Manage_Board_Members extends AppCompatActivity {
     ArrayList<MembersPojo> listPojo;
     MembersPojo membersPojoData;
     ArrayAdapter<String> projectADdapter;
-    team_addapter addapter;
+    team_addapter team_addapter;
     ArrayList<MembersPojo> membersPojos;
     ProgressDialog ringProgressDialog;
     List<All_Teams> teamLists;
     String teamid,usertoadd;
     Button btnClose,btnSave;
+    TextView heading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +78,6 @@ public class Manage_Board_Members extends AppCompatActivity {
         Intent intent = getIntent();
 
         p_id = intent.getStringExtra("P_id");
-        b_id = intent.getStringExtra("b_id");
 
         search = (EditText) findViewById(R.id.search);
 
@@ -78,6 +85,73 @@ public class Manage_Board_Members extends AppCompatActivity {
         TeamMember = (GridView) findViewById(R.id.grid_view_team);
 
         Team_list = (Spinner) findViewById(R.id.search_team);
+        heading = (TextView) findViewById(R.id.heading);
+        heading.setText("Manage Project Member");
+
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if  ((i == EditorInfo.IME_ACTION_SEARCH)) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+                }
+                return true;
+            }
+        });
+
+
+        currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                if(membersPojos.size()==1){
+                    Toast.makeText(getApplicationContext(),"You have to keep atleast one user in a project!",Toast.LENGTH_LONG).show();
+                }else {
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Remove This member")
+                            .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    //teamid = teamListids .get(i);
+                                    usertoadd = membersPojos.get(i).getUserId();
+                                    SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                    String userId = pref.getString("user_id", "");
+
+                                        deletemember();
+
+                                }
+                            }).setCancelText("Cancel")
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+
+            }
+        });
+
+        TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int pos=Team_list.getSelectedItemPosition();
+                teamid = teamListids .get(pos);
+                usertoadd = listPojo.get(i).getUserId();
+
+
+                addmember();
+
+            }
+        });
+
+        getmembers();
+        getMyTeams();
+
+
         btnClose= (Button) findViewById(R.id.close);
         btnSave= (Button) findViewById(R.id.save);
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -91,62 +165,9 @@ public class Manage_Board_Members extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"Members managed Successfully !",Toast.LENGTH_LONG).show();
                 finish();
-            }
-        });
-
-
-
-        currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                if(membersPojos.size()==1){
-                    Toast.makeText(getApplicationContext(),"You have to keep atleast one user in board!",Toast.LENGTH_LONG).show();
-                }else {
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Remove This member")
-                            .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismiss();
-                                    //teamid = teamListids .get(i);
-                                    usertoadd = membersPojos.get(i).getUserId();
-
-                                    deletemember();
-                                }
-                            }).setCancelText("Cancel")
-                            .showCancelButton(true)
-                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
-                                }
-                            })
-                            .show();
-                }
-
 
             }
         });
-
-        TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int pos=Team_list.getSelectedItemPosition();
-
-                teamid = teamListids .get(pos);
-                usertoadd = listPojo.get(i).getUserId();
-
-
-                addmember();
-
-            }
-        });
-
-        getmembers();
-
-        getMyTeams();
-
     }
 
 
@@ -157,7 +178,7 @@ public class Manage_Board_Members extends AppCompatActivity {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_BOARD_MEMBERS,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_MEMBERS_PROJECT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -184,9 +205,9 @@ public class Manage_Board_Members extends AppCompatActivity {
 
                                 membersPojos.add(membersPojo);
 
-                                addapter = new team_addapter(Manage_Board_Members.this, membersPojos);
+                                team_addapter = new team_addapter(manage_members.this, membersPojos);
 
-                                currentMember.setAdapter(addapter);
+                                currentMember.setAdapter(team_addapter);
 
                             }
                         } catch (JSONException e) {
@@ -202,7 +223,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -215,7 +236,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -235,7 +256,7 @@ public class Manage_Board_Members extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("board_id", b_id);
+                params.put("project_id", p_id);
 
                 return params;
             }
@@ -246,7 +267,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Manage_Board_Members.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(manage_members.this);
         requestQueue.add(request);
 
 
@@ -297,7 +318,7 @@ public class Manage_Board_Members extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -309,7 +330,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -373,8 +394,8 @@ public class Manage_Board_Members extends AppCompatActivity {
                                 //}
                             }
 
-                            addapter = new team_addapter(Manage_Board_Members.this, listPojo);
-                            TeamMember.setAdapter(addapter);
+                            team_addapter = new team_addapter(manage_members.this, listPojo);
+                            TeamMember.setAdapter(team_addapter);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -389,7 +410,7 @@ public class Manage_Board_Members extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -401,7 +422,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -440,7 +461,7 @@ public class Manage_Board_Members extends AppCompatActivity {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_BOARD_MEMBERS,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ASSOSIATE_USET_TO_PROJECT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -456,7 +477,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -469,7 +490,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -491,7 +512,6 @@ public class Manage_Board_Members extends AppCompatActivity {
 
                 params.put("usr_id", usertoadd);
                 params.put("prjct_id",p_id);
-                params.put("brd_id",b_id);
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
                 params.put("userId", pref.getString("user_id", ""));
@@ -505,7 +525,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Manage_Board_Members.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(manage_members.this);
         requestQueue.add(request);
 
 
@@ -518,13 +538,17 @@ public class Manage_Board_Members extends AppCompatActivity {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_BOARD_MEMBERS,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_PROJECT_MEMBER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        getmembers();
+                        if(response.equals("0")){
+                            Toast.makeText(manage_members.this,"Admin user cannot be deleted!",Toast.LENGTH_LONG).show();
+                        }else {
+                            getmembers();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -534,7 +558,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -547,7 +571,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(Manage_Board_Members.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -567,13 +591,8 @@ public class Manage_Board_Members extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("user_id", usertoadd);
+                params.put("member_id", usertoadd);
                 params.put("project_id",p_id);
-                params.put("brd_id",b_id);
-
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-
-                params.put("userId", pref.getString("user_id", ""));
 
                 return params;
             }
@@ -584,7 +603,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Manage_Board_Members.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(manage_members.this);
         requestQueue.add(request);
 
 
@@ -612,4 +631,6 @@ public class Manage_Board_Members extends AppCompatActivity {
         }
 
     }
+
+
 }

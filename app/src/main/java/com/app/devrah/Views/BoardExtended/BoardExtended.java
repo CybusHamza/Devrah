@@ -41,9 +41,9 @@ import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.Board.BoardsActivity;
-import com.app.devrah.Views.FavouritesActivity;
-import com.app.devrah.Views.Manage_Board_Members;
-import com.app.devrah.Views.NotificationsActivity;
+import com.app.devrah.Views.Favourites.FavouritesActivity;
+import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
+import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 

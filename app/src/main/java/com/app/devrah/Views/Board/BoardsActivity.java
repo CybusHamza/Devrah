@@ -47,9 +47,9 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.NotificationsActivity;
+import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Project.ProjectsActivity;
-import com.app.devrah.Views.manage_members;
+import com.app.devrah.Views.ManageMembers.manage_members;
 import com.app.devrah.pojo.DrawerPojo;
 
 import org.json.JSONArray;
@@ -286,19 +286,22 @@ public class BoardsActivity extends AppCompatActivity {
 
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabOne.setTextColor(getResources().getColor(R.color.colorWhite));
+        tabOne.setTextSize(15);
         tabOne.setText("Work Boards");
 
 
         TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabTwo.setTextColor(getResources().getColor(R.color.colorWhite));
+        tabTwo.setTextSize(15);
         tabTwo.setText("Archive Boards");
 
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.work_boards, 0, 0);
+       // tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.work_boards, 0, 0);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.orange));
+        tabLayout.setSelectedTabIndicatorHeight(15);
         tabLayout.getTabAt(1).setCustomView(tabTwo);
 
 
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.reference_boards, 0, 0);
+       // tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.reference_boards, 0, 0);
         tabLayout.getTabAt(0).setCustomView(tabOne);
 
 //        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);

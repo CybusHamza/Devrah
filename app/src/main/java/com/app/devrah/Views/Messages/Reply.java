@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Messages;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -24,6 +24,8 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +38,7 @@ public class Reply extends AppCompatActivity {
     EditText from  ,board,card,project,subject;
     private RichEditor mEditor;
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
-    Button cancel_button,send_btn;
+    LinearLayout cancel_button,send_btn;
     Toolbar toolbar;
     String message,projectId,boardId,cardId,msgDate;
     @Override
@@ -51,8 +53,8 @@ public class Reply extends AppCompatActivity {
         project = (EditText) findViewById(R.id.projectSpinner);
         subject = (EditText) findViewById(R.id.etSubject);
         mEditor = (RichEditor) findViewById(R.id.editor);
-        cancel_button = (Button) findViewById(R.id.cancel_button);
-        send_btn = (Button) findViewById(R.id.send_button);
+        cancel_button = (LinearLayout) findViewById(R.id.cancel_button);
+        send_btn = (LinearLayout) findViewById(R.id.send_button);
         /*mEditor.setEditorHeight(200);
         mEditor.setEditorFontSize(22);
         mEditor.setEditorFontColor(Color.BLACK);
@@ -113,6 +115,14 @@ public class Reply extends AppCompatActivity {
         card.setEnabled(false);
         project.setEnabled(false);
         subject.setEnabled(false);
+        mEditor. setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
+            @Override
+            public void onTextChange(String text) {
+                // Do Something
+
+                message = text;
+            }
+        });
         mEditor = (RichEditor) findViewById(editor);
         mEditor.setEditorHeight(200);
         mEditor.setEditorFontSize(22);
@@ -292,15 +302,15 @@ public class Reply extends AppCompatActivity {
         });
 
 
-        mEditor. setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
-            @Override
-            public void onTextChange(String text) {
-                // Do Something
 
-                message = text;
-            }
-        });
-       //mEditor.setHtml("-------------On "+msgDate+"  "+strfrom+"-------------"+'\n'+strmessage);
+        SharedPreferences pref =getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String userName=pref.getString("first_name","")+ pref.getString("last_name", "");
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+        Date todayDate = new Date();
+        String thisDate = currentDate.format(todayDate);
+        mEditor.setEditorFontSize(15);
+        String defualtText="\n"+"-------------On "+thisDate+"  "+userName+"-------------"+"\n"+strmessage;
+       mEditor.setHtml(defualtText);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
