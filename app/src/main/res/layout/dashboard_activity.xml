@@ -132,6 +132,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="TextView"
+        android:maxLines="7"
         android:textColor="@color/colorWhite"
         android:layout_below="@id/tvTime"
         android:layout_marginTop="15dp"

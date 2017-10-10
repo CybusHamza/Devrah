@@ -176,7 +176,12 @@ public class SendNewMessageActivity extends AppCompatActivity {
                     if(strTO.contains(";")){
                         Toast.makeText(SendNewMessageActivity.this, "Please use ',' to send message to multiple users", Toast.LENGTH_SHORT).show();
                     }else {
-                        sendMessage();
+                        /*String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                        if(!strTO.matches(emailPattern) && !strTO.contains(",")){
+                            Toast.makeText(getApplicationContext(),"Plz Enter a valid User",Toast.LENGTH_LONG).show();
+                        }else {*/
+                            sendMessage();
+                       // }
                     }
                 }
 
@@ -768,6 +773,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             to.setAdapter(adapter);
                             to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
+                            //to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -831,7 +837,21 @@ public class SendNewMessageActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
     }
+    public class CustomOnItemSelectedListener_position implements AdapterView.OnItemSelectedListener {
 
+        public void onItemSelected(AdapterView<?> parent, View view, final int pos,
+                                   long id) {
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
     public void getcards ( final String board_id) {
         final ProgressDialog ringProgressDialog;
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);

@@ -317,8 +317,8 @@ public class manage_members extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 if (error instanceof NoConnectionError) {
-
-                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
+                    Toast.makeText(manage_members.this,"No Internet Connection",Toast.LENGTH_LONG).show();
+                   /* new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -327,10 +327,10 @@ public class manage_members extends AppCompatActivity {
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 } else if (error instanceof TimeoutError) {
-
-                    new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
+                    Toast.makeText(manage_members.this,"Connection TimeOut! Please check your internet connection.",Toast.LENGTH_LONG).show();
+                   /* new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -339,7 +339,7 @@ public class manage_members extends AppCompatActivity {
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 }
             }
         }) {

@@ -568,17 +568,17 @@
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/labels"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_star"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/fab_label_icon"
                 app:fab_label="Labels"
                 app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/members"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_star"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/fab_icon_member"
                 app:fab_label="Members"
                 app:fab_size="mini" />
 
@@ -586,17 +586,17 @@
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/CheckList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_star"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/fab_label_checklist"
                 app:fab_label="Check List"
                 app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/attachments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_star"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/fab_icon_attachment"
                 app:fab_label="Attachments"
                 app:fab_size="mini" />
 

@@ -1273,6 +1273,9 @@ public class ChildFragmentBoardExtended extends Fragment {
                     public void onResponse(String response) {
 
                         postions_list = new ArrayList<>();
+                        if(response.equals("0")){
+                            postions_list.add(1+"");
+                        }
                         for (int i = 1; i <=Integer.valueOf(response); i++) {
 
                             postions_list.add(i+"");

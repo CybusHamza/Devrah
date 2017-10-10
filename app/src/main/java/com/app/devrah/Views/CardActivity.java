@@ -1145,60 +1145,60 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     checklistid = new ArrayList<>();
 
                     listDataChild = new HashMap<>();
-                    JSONObject object = new JSONObject(response);
+                    if(!response.equals("false")) {
+                        JSONObject object = new JSONObject(response);
 
-                    String data =  object.getString("checklist_heading");
+                        String data = object.getString("checklist_heading");
 
-                    JSONArray jsonArray = new JSONArray(data);
-
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        JSONObject obj = new JSONObject(jsonArray.getString(i));
-
-                        check_model model = new check_model();
-                        model.setId(obj.getString("id"));
-                        model.setName(obj.getString("checklist_name"));
-                        //checkid.add(obj.getString("card_id"));
+                        JSONArray jsonArray = new JSONArray(data);
 
 
-                        CheckListname.add(model);
+                        for (int i = 0; i < jsonArray.length(); i++) {
 
-                        listDataChild.put(CheckListname.get(i).getId()+"", null);
+                            JSONObject obj = new JSONObject(jsonArray.getString(i));
 
-                        // String id  = obj.getString("id");
-                        //  listDataChild.put(id,null);
-                    }
-
-
-                    String data2 =  object.getString("checklist_data");
-
-                    JSONArray jsonArray1 = new JSONArray(data2);
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        check_name = new ArrayList<>();
-                        childDAta = new ArrayList<>();
-                        check_id = new ArrayList<>();
-                        for (int j = 0 ; j<jsonArray1.length();j++)
-                        {
-
-                            JSONObject jsonObject = jsonArray1.getJSONObject(j);
-                            String id = jsonObject.getString("checklist_id");
-                            String projectid =CheckListname.get(i).getId() ;
-                            if (projectid.equals(id)) {
-                                check_model model = new check_model();
-                                model.setName(jsonObject.getString("checkbox_name"));
-                                model.setChecked(jsonObject.getString("is_checked"));
+                            check_model model = new check_model();
+                            model.setId(obj.getString("id"));
+                            model.setName(obj.getString("checklist_name"));
+                            //checkid.add(obj.getString("card_id"));
 
 
-                                model.setId(jsonObject.getString("check_id"));
+                            CheckListname.add(model);
 
-                                childDAta.add(model);
+                            listDataChild.put(CheckListname.get(i).getId() + "", null);
 
-                            }
+                            // String id  = obj.getString("id");
+                            //  listDataChild.put(id,null);
+                        }
 
-                            listDataChild.put(CheckListname.get(i).getId()+"", childDAta);
+
+                        String data2 = object.getString("checklist_data");
+
+                        JSONArray jsonArray1 = new JSONArray(data2);
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            check_name = new ArrayList<>();
+                            childDAta = new ArrayList<>();
+                            check_id = new ArrayList<>();
+                            for (int j = 0; j < jsonArray1.length(); j++) {
+
+                                JSONObject jsonObject = jsonArray1.getJSONObject(j);
+                                String id = jsonObject.getString("checklist_id");
+                                String projectid = CheckListname.get(i).getId();
+                                if (projectid.equals(id)) {
+                                    check_model model = new check_model();
+                                    model.setName(jsonObject.getString("checkbox_name"));
+                                    model.setChecked(jsonObject.getString("is_checked"));
+
+
+                                    model.setId(jsonObject.getString("check_id"));
+
+                                    childDAta.add(model);
+
+                                }
+
+                                listDataChild.put(CheckListname.get(i).getId() + "", childDAta);
 
 //
 //                            JSONObject jsonObject = jsonArray1.getJSONObject(j);
@@ -1211,12 +1211,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //                            childDAta.add(model);
 
 
+                            }
+
+                            //    listDataChild.put(checklistID.get(i)+"", check_name);
                         }
 
-                        //    listDataChild.put(checklistID.get(i)+"", check_name);
                     }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -2034,7 +2034,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                if(response.equals("1")){
                    Toast.makeText(CardActivity.this,"You are admin of this Card, You cannot leave this card!",Toast.LENGTH_LONG).show();
                }else  if(response.equals("2")){
-                    Toast.makeText(CardActivity.this,"No data found!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(CardActivity.this,"You are no longer assigned to this card",Toast.LENGTH_LONG).show();
                }else if(response.equals("0")){
                    Toast.makeText(CardActivity.this,"You have Successfully left Card",Toast.LENGTH_LONG).show();
                }
@@ -3697,6 +3697,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("boardId",BoardExtended.boardId);
                 params.put("projectId", projectId);
                 params.put("cardId",cardId);
+                params.put("listId",list_id);
                 params.put("original_name",originalName);
                 params.put("name",attachmentName);
                 params.put("type_file","image");

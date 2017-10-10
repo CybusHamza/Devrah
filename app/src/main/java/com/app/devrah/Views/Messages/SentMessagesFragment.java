@@ -171,25 +171,34 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                         listPojo = new ArrayList<>();
                         try {
                             JSONArray array = new JSONArray(response);
+                            String[] test=new String[array.length()];
                             for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject object = new JSONObject(array.getString(i));
-
                                 projectPojoData = new InboxPojo();
-                                projectPojoData.setId(object.getString("id"));
-                                projectPojoData.setB_id(object.getString("board_name"));
-                                projectPojoData.setCardif(object.getString("card_name"));
-                                projectPojoData.setDate(object.getString("datetime"));
-                                projectPojoData.setFrom(object.getString("email"));
-                                projectPojoData.setIsread(object.getString("is_read"));
-                                projectPojoData.setMessage(object.getString("message"));
-                                projectPojoData.setP_id(object.getString("project_name"));
-                                projectPojoData.setSubject(object.getString("message_subject"));
-                                projectPojoData.setProjectId(object.getString("project_id"));
-                                projectPojoData.setBoardId(object.getString("board_id"));
-                                projectPojoData.setCardId(object.getString("card_id"));
+                                for(int j=0;j<array.length() ;j++) {
+                                    JSONObject object1=new JSONObject(array.getString(j));
+                                    test[i]=object.getString("email");
+                                    if(object1.getString("card_id").equals(object.getString("card_id")) && object1.getString("board_id").equals(object.getString("board_id")) &&  object1.getString("project_id").equals(object.getString("project_id"))){
+                                        test[i]=test[i]+","+object1.getString("email");
+                                    }
+
+                                }
+                                 projectPojoData.setId(object.getString("id"));
+                                 projectPojoData.setB_id(object.getString("board_name"));
+                                 projectPojoData.setCardif(object.getString("card_name"));
+                                 projectPojoData.setDate(object.getString("datetime"));
+                                 projectPojoData.setFrom(test[i]);
+                                 projectPojoData.setIsread(object.getString("is_read"));
+                                 projectPojoData.setMessage(object.getString("message"));
+                                 projectPojoData.setP_id(object.getString("project_name"));
+                                 projectPojoData.setSubject(object.getString("message_subject"));
+                                 projectPojoData.setProjectId(object.getString("project_id"));
+                                 projectPojoData.setBoardId(object.getString("board_id"));
+                                 projectPojoData.setCardId(object.getString("card_id"));
 
                                 listPojo.add(projectPojoData);
+
 
 
                             }
