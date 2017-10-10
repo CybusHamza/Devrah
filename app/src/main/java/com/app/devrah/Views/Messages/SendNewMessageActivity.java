@@ -82,7 +82,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
     long p_pos,b_pos,c_pos;
 
-    String strSubject ,strTO ,strproject,strboard,strcard;
+    String strSubject ,strTO,strTo1 ,strproject,strboard,strcard;
     TextView c_to,c_tv_message;
 
 
@@ -469,6 +469,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                     ringProgressDialog.dismiss();
+
                         Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
                         startActivity(intent);
                         finish();
@@ -773,7 +774,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             to.setAdapter(adapter);
                             to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-                            //to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
+                            to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -841,8 +842,10 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
-
-
+            if(strTo1.length()>0)
+                strTo1=strTo1+","+name.get(pos);
+            else
+                strTo1=name.get(pos);
         }
 
         @Override

@@ -1,9 +1,11 @@
 package com.app.devrah.Views.Messages;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -165,22 +167,26 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.SENT_MESSAGES,
                 new Response.Listener<String>() {
+                    @TargetApi(Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
                         listPojo = new ArrayList<>();
                         try {
                             JSONArray array = new JSONArray(response);
-                            String[] test=new String[array.length()];
+                            JSONArray array1=new JSONArray(response);
+                            String test="";//new String[array.length()];
                             for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject object = new JSONObject(array.getString(i));
                                 projectPojoData = new InboxPojo();
-                                for(int j=0;j<array.length() ;j++) {
-                                    JSONObject object1=new JSONObject(array.getString(j));
-                                    test[i]=object.getString("email");
+                                for(int j=0;j<array1.length() ;j++) {
+                                    JSONObject object1=new JSONObject(array1.getString(j));
+
+                                    test=object.getString("email");
                                     if(object1.getString("card_id").equals(object.getString("card_id")) && object1.getString("board_id").equals(object.getString("board_id")) &&  object1.getString("project_id").equals(object.getString("project_id"))){
-                                        test[i]=test[i]+","+object1.getString("email");
+                                        test=test+","+object1.getString("email");
+                                       array1.remove(j);
                                     }
 
                                 }
@@ -188,7 +194,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                                  projectPojoData.setB_id(object.getString("board_name"));
                                  projectPojoData.setCardif(object.getString("card_name"));
                                  projectPojoData.setDate(object.getString("datetime"));
-                                 projectPojoData.setFrom(test[i]);
+                                 projectPojoData.setFrom(test);
                                  projectPojoData.setIsread(object.getString("is_read"));
                                  projectPojoData.setMessage(object.getString("message"));
                                  projectPojoData.setP_id(object.getString("project_name"));
