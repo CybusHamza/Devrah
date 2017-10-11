@@ -772,9 +772,15 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             ArrayAdapter<String> adapter =
                                     new ArrayAdapter<String>(SendNewMessageActivity.this, android.R.layout.simple_list_item_1, name);
                             to.setAdapter(adapter);
+                            to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
                             to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-                            to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
+                            /*to.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                }
+                            });*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();

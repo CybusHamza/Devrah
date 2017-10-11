@@ -266,6 +266,16 @@ public class ProjectsPojo {
 
     String projectCreatedBy;
 
+    public String getIsFavouriteFromMembers() {
+        return isFavouriteFromMembers;
+    }
+
+    public void setIsFavouriteFromMembers(String isFavouriteFromMembers) {
+        this.isFavouriteFromMembers = isFavouriteFromMembers;
+    }
+
+    String isFavouriteFromMembers;
+
 
 
 }

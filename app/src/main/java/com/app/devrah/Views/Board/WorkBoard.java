@@ -409,6 +409,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                                     projectsPojo.setData(jsonObject.getString("board_name"));
                                     projectsPojo.setId(jsonObject.getString("project_id"));
                                     projectsPojo.setBoardStar(jsonObject.getString("board_star"));
+                                    projectsPojo.setIsFavouriteFromMembers(jsonObject.getString("is_favourite"));
 
                                     myList.add(projectsPojo);
 

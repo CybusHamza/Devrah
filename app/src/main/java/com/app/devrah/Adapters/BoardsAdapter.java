@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,8 +26,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.Board.BoardsActivity;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.HashMap;
@@ -87,25 +88,38 @@ public class BoardsAdapter extends BaseAdapter {
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
         holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
 
-        if(projectsList.get(position).getBoardStar().equals("1")){
-            Drawable d = convertView.getResources().getDrawable(R.drawable.star_default);
-            holder.favouriteIcon.setImageDrawable(d);
-        }else  if(projectsList.get(position).getBoardStar().equals("2")){
-            Drawable d = convertView.getResources().getDrawable(R.drawable.mark_favourite);
-            holder.favouriteIcon.setImageDrawable(d);
-        }else  if(projectsList.get(position).getBoardStar().equals("3")){
-            Drawable d = convertView.getResources().getDrawable(R.drawable.favourite_star_icon);
-            holder.favouriteIcon.setImageDrawable(d);
+       if(projectsList.get(position).getIsFavouriteFromMembers().equals("1")){
+           Drawable d = convertView.getResources().getDrawable(R.drawable.star_default);
+           holder.favouriteIcon.setImageDrawable(d);
+          /* if(projectsList.get(position).getBoardStar().equals("1")){
+               Drawable d = convertView.getResources().getDrawable(R.drawable.star_default);
+               holder.favouriteIcon.setImageDrawable(d);
+           }else  if(projectsList.get(position).getBoardStar().equals("2")){
+               Drawable d = convertView.getResources().getDrawable(R.drawable.mark_favourite);
+               holder.favouriteIcon.setImageDrawable(d);
+           }else if(projectsList.get(position).getBoardStar().equals("3")){
+               Drawable d = convertView.getResources().getDrawable(R.drawable.star_default);
+               holder.favouriteIcon.setImageDrawable(d);
+           }*/
         }
+        else if(projectsList.get(position).getIsFavouriteFromMembers().equals("2")){
+           Drawable d = convertView.getResources().getDrawable(R.drawable.mark_favourite);
+           holder.favouriteIcon.setImageDrawable(d);
+           /* Drawable d = convertView.getResources().getDrawable(R.drawable.favourite_star_icon);
+            holder.favouriteIcon.setImageDrawable(d);*/
+        }else if(projectsList.get(position).getIsFavouriteFromMembers().equals("3")){
+           Drawable d = convertView.getResources().getDrawable(R.drawable.favourite_star_icon);
+           holder.favouriteIcon.setImageDrawable(d);
+       }
         holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(projectsList.get(position).getBoardStar().equals("1")){
-                    mardkBoardStar("2",projectsList.get(position).getBoardID(),position);
-                }else if (projectsList.get(position).getBoardStar().equals("2")){
-                    mardkBoardStar("3",projectsList.get(position).getBoardID(),position);
+                if(projectsList.get(position).getIsFavouriteFromMembers().equals("1")){
+                    mardkBoardStar("2",projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position);
+                }else if (projectsList.get(position).getIsFavouriteFromMembers().equals("2")){
+                    mardkBoardStar("3",projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position);
                 }else {
-                    mardkBoardStar("1",projectsList.get(position).getBoardID(),position);
+                    mardkBoardStar("1",projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position);
                 }
             }
         });
@@ -132,18 +146,18 @@ public class BoardsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void mardkBoardStar(final String starType, final String boardId, final int position) {
+    private void mardkBoardStar(final String starType, final String boardId,final String projectId, final int position) {
 
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.MARDK_FAVOURITE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         if(starType.equals("1")){
-                           projectsList.get(position).setBoardStar("1");
+                           projectsList.get(position).setIsFavouriteFromMembers("1");
                         }else if(starType.equals("2")){
-                            projectsList.get(position).setBoardStar("2");
+                            projectsList.get(position).setIsFavouriteFromMembers("2");
                         }else {
-                            projectsList.get(position).setBoardStar("3");
+                            projectsList.get(position).setIsFavouriteFromMembers("3");
                         }
 
                         notifyDataSetChanged();
@@ -202,8 +216,12 @@ public class BoardsAdapter extends BaseAdapter {
 
 
                 Map<String, String> params = new HashMap<>();
+                SharedPreferences pref =activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+                params.put("userId",userId);
                 params.put("board_star", starType);
                 params.put("board_id", boardId);
+                params.put("project_id", projectId);
 
                 return params;
             }

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -320,7 +321,11 @@ public class Reply extends AppCompatActivity {
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMessage();
+                if(message.equals("")){
+                    Toast.makeText(Reply.this,"Please Enter some message",Toast.LENGTH_LONG).show();
+                }else {
+                    sendMessage();
+                }
             }
         });
     }

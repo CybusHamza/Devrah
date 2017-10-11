@@ -13,11 +13,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import android.preference.PreferenceManager;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.MenuItem;
@@ -157,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
         etL_name.setText(l_name);
         etPhoneNumber.setText(f_num);
         etCompany.setText(s_company);
-        etDevrahTag.setText(devrah_tag);
+        etDevrahTag.setText("@"+devrah_tag);
         etWebsite.setText(s_website);
         etPosition.setText(s_position);
 
@@ -202,6 +201,7 @@ public class ProfileActivity extends AppCompatActivity {
         s_website = etWebsite.getText().toString();
         f_num =etPhoneNumber.getText().toString();
         devrah_tag = etDevrahTag.getText().toString();
+        devrah_tag=devrah_tag.substring(1);
       //  img = PreferenceManager.getDefaultSharedPreferencesName(getApplicationContext())
       //  img =
         if(f_name.length()>0 && l_name.length()>0) {
