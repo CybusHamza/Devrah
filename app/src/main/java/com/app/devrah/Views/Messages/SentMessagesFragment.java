@@ -174,27 +174,24 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                         listPojo = new ArrayList<>();
                         try {
                             JSONArray array = new JSONArray(response);
-                            JSONArray array1=new JSONArray(response);
-                            String test="";//new String[array.length()];
+                           // JSONArray array1=new JSONArray(response);
+                           // String test="";//new String[array.length()];
                             for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject object = new JSONObject(array.getString(i));
                                 projectPojoData = new InboxPojo();
-                                for(int j=0;j<array1.length() ;j++) {
-                                    JSONObject object1=new JSONObject(array1.getString(j));
 
-                                    test=object.getString("email");
-                                    if(object1.getString("card_id").equals(object.getString("card_id")) && object1.getString("board_id").equals(object.getString("board_id")) &&  object1.getString("project_id").equals(object.getString("project_id"))){
-                                        test=test+","+object1.getString("email");
-                                       array1.remove(j);
-                                    }
-
-                                }
                                  projectPojoData.setId(object.getString("id"));
                                  projectPojoData.setB_id(object.getString("board_name"));
                                  projectPojoData.setCardif(object.getString("card_name"));
                                  projectPojoData.setDate(object.getString("datetime"));
-                                 projectPojoData.setFrom(test);
+                               // String from=object.getString("email");
+                                JSONArray array1=object.getJSONArray("to_name");
+                                String finalData="";
+                                for (int j=0;j<array1.length();j++) {
+                                    finalData=finalData+","+array1.get(j).toString();
+                                    projectPojoData.setFrom(finalData);
+                                }
                                  projectPojoData.setIsread(object.getString("is_read"));
                                  projectPojoData.setMessage(object.getString("message"));
                                  projectPojoData.setP_id(object.getString("project_name"));
