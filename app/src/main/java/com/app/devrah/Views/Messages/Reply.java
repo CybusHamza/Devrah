@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -311,7 +312,7 @@ public class Reply extends AppCompatActivity {
         String thisDate = currentDate.format(todayDate);
         mEditor.setEditorFontSize(15);
         String defualtText="\n"+"-------------On "+thisDate+"  "+userName+"-------------"+"\n"+strmessage;
-       mEditor.setHtml(defualtText);
+       mEditor.setHtml(Html.fromHtml(defualtText).toString());
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
