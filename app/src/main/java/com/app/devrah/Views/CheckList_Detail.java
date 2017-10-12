@@ -325,7 +325,7 @@ public class CheckList_Detail extends AppCompatActivity {
 
                     new SweetAlertDialog(CheckList_Detail.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -435,7 +435,7 @@ public class CheckList_Detail extends AppCompatActivity {
 
                     new SweetAlertDialog(CheckList_Detail.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {

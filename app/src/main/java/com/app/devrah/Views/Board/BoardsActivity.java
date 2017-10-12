@@ -572,7 +572,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                     new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -653,7 +653,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                     new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -878,7 +878,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(BoardsActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BoardsActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(BoardsActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -931,7 +931,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(BoardsActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BoardsActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(BoardsActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -986,7 +986,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(BoardsActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BoardsActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(BoardsActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -1040,7 +1040,7 @@ public class BoardsActivity extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(BoardsActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BoardsActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(BoardsActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();

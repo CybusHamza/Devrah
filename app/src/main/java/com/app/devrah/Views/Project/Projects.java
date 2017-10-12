@@ -288,7 +288,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                                 public void onErrorResponse(VolleyError error) {
                                     ringProgressDialog.dismiss();
                                     alertDialog.dismiss();
-                                    Toast.makeText(getActivity().getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 
                                 }
                             }
@@ -470,7 +470,7 @@ public class Projects extends Fragment implements View.OnClickListener {
               ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(getContext(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 
 //                    new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
 //                            .setTitleText("Error!")
@@ -604,7 +604,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                 //alertDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connectionn", Toast.LENGTH_SHORT).show();
 
 
                 } else if (error instanceof TimeoutError) {
@@ -665,7 +665,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Toast.makeText(getActivity().getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 
                 }
             }

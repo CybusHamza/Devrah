@@ -2053,7 +2053,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -2123,7 +2123,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -2192,7 +2192,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -2620,7 +2620,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -2857,7 +2857,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(CardActivity.this, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CardActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
@@ -2926,10 +2926,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3082,7 +3082,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3152,10 +3152,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3223,10 +3223,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3296,10 +3296,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3377,10 +3377,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3598,7 +3598,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3665,7 +3665,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3817,7 +3817,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -3929,7 +3929,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -4118,10 +4118,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
                     ringProgressDialog.dismiss();
 
-                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -4186,7 +4186,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(CardActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CardActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(CardActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -4270,7 +4270,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(CardActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CardActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(CardActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -4369,7 +4369,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -4490,7 +4490,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -4581,7 +4581,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(CardActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CardActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(CardActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -4854,7 +4854,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {

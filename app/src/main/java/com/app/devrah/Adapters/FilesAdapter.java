@@ -192,10 +192,10 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {

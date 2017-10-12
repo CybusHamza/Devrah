@@ -219,7 +219,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
                     new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {

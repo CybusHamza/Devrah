@@ -225,7 +225,7 @@ public class manage_members extends AppCompatActivity {
 
                     new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -317,7 +317,7 @@ public class manage_members extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 if (error instanceof NoConnectionError) {
-                    Toast.makeText(manage_members.this,"No Internet Connection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(manage_members.this,"check your internet connection",Toast.LENGTH_LONG).show();
                    /* new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
@@ -412,7 +412,7 @@ public class manage_members extends AppCompatActivity {
 
                     new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -479,7 +479,7 @@ public class manage_members extends AppCompatActivity {
 
                     new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -560,7 +560,7 @@ public class manage_members extends AppCompatActivity {
 
                     new SweetAlertDialog(manage_members.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {

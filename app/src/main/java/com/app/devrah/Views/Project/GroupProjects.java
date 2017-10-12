@@ -335,7 +335,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity().getApplicationContext(), "No iNternet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 //                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
 //                            .setTitleText("Error!")
 //                            .setConfirmText("OK").setContentText("No Internet Connection")

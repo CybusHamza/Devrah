@@ -321,7 +321,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity().getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 //                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
 //                            .setTitleText("Error!")
 //                            .setConfirmText("OK").setContentText("No Internet Connection")
@@ -432,7 +432,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity().getApplicationContext(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 //                    new SweetAlertDialog(getActivity().getC, SweetAlertDialog.ERROR_TYPE)
 //                            .setTitleText("Error!")
 //                            .setConfirmText("OK").setContentText("No Internet Connection")

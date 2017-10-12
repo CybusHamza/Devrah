@@ -246,7 +246,7 @@ public class ProfileActivity extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(getApplicationContext(),"No connection",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"check your internet connection",Toast.LENGTH_SHORT).show();
 
             } else if (error instanceof TimeoutError) {
 
@@ -529,7 +529,7 @@ public class ProfileActivity extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 String message = null;
                 if (error instanceof NetworkError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
+                    message = "check your internet connection";
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 }else if (error instanceof TimeoutError) {
 

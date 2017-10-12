@@ -258,7 +258,7 @@ public void getNotifications() {
                          ringProgressDialog.dismiss();
                          if (error instanceof NoConnectionError) {
 
-                                 Toast.makeText(getContext(), "No internet", Toast.LENGTH_SHORT).show();
+                                 Toast.makeText(getContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 
 //             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
 //                     .setTitleText("Error!")

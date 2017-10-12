@@ -368,7 +368,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                     /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
@@ -756,10 +756,10 @@ public class ChildFragmentBoardExtended extends Fragment {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -843,10 +843,10 @@ public class ChildFragmentBoardExtended extends Fragment {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                     new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -915,7 +915,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                     /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
@@ -1028,7 +1028,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(getActivity(), "No internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                     /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
@@ -1197,7 +1197,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -1295,7 +1295,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -1386,7 +1386,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                     new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -1457,7 +1457,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
@@ -1519,7 +1519,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                 if (error instanceof NoConnectionError) {
 
-                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof TimeoutError) {
 
                     Toast.makeText(getActivity(), "Connection time out Error", Toast.LENGTH_SHORT).show();
