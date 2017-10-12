@@ -304,7 +304,6 @@ public class Reply extends AppCompatActivity {
         });
 
 
-
         SharedPreferences pref =getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userName=pref.getString("first_name","")+ pref.getString("last_name", "");
         SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
