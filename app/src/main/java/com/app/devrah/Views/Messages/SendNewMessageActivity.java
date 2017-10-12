@@ -469,10 +469,21 @@ public class SendNewMessageActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                     ringProgressDialog.dismiss();
+                        try {
+                            JSONObject object=new JSONObject(response);
+                            if(object.getString("message_sent").equals("0")){
+                                Toast.makeText(SendNewMessageActivity.this,"User not found",Toast.LENGTH_LONG).show();
+                            }else {
+                                Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
+                                startActivity(intent);
+                                finish();
+                            }
 
-                        Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
-                        startActivity(intent);
-                        finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
