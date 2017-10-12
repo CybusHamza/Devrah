@@ -415,8 +415,13 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.nOfAttachments.setVisibility(View.GONE);
             holder.attachmentIcon.setVisibility(View.GONE);
         }
+       /* String memberSubscribed[]=memberList.get(position).getMemberSubscribed();
+        SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        for(int i=0;i<memberSubscribed.length;i++){
+            if(memberList.get(i))
 
-        if(projectsList.get(position).getIsCardSubscribed().equals("1")){
+        }*/
+        if(memberList.get(position).getMemberSubscribed().equals("1")){
             holder.dueDate.setVisibility(View.VISIBLE);
             holder.subscribe.setVisibility(View.VISIBLE);
         }else {
@@ -446,7 +451,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
                 intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
-                intent.putExtra("isSubscribed",projectsList.get(position).getIsCardSubscribed());
+                intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
                 intent.putExtra("list_id",list_id);
                 intent.putExtra("project_id", BoardExtended.projectId);
                 intent.putExtra("board_id", BoardExtended.boardId);

@@ -688,12 +688,17 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     String[] members = new String[jsonArray.length()];
                                     String[] labelText = new String[jsonArray.length()];
                                     String[] gp_picture = new String[jsonArray.length()];
+                                    String subsribed = "";
+                                   // SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                                     for (int k=0;k<jsonArray.length();k++){
 
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
                                         members[k]=jsonObject.getString("profile_pic");
                                         labelText[k]=jsonObject.getString("initials");
                                         gp_picture[k]=jsonObject.getString("gp_picture");
+                                       if(jsonObject.getString("uid").equals(pref.getString("user_id",""))) {
+                                            subsribed = jsonObject.getString("subscribed");
+                                        }
                                        /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
                                             labelText[k]="";
                                         }else {
@@ -703,6 +708,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     membersPojo.setMembers(members);
                                     membersPojo.setInitials(labelText);
                                     membersPojo.setGp_pictures(gp_picture);
+                                    membersPojo.setMemberSubscribed(subsribed);
                                   //  labelsPojo.setLabelText(labelText);
                                     cardMembersPojoList.add(membersPojo);
                                 }

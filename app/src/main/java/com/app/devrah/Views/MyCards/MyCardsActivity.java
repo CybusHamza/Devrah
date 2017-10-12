@@ -329,8 +329,8 @@ public class MyCardsActivity extends AppCompatActivity {
                 filter="1";
                 imgactive.setVisibility(View.VISIBLE);
                 igminactive.setVisibility(View.GONE);
-
                 alertDialog.dismiss();
+                getMyCards("load","0");
             }
         });
 
@@ -341,6 +341,7 @@ public class MyCardsActivity extends AppCompatActivity {
                 imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.VISIBLE);
                 alertDialog.dismiss();
+                getMyCards("load","0");
 
             }
         });
@@ -580,6 +581,7 @@ public class MyCardsActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("uid", userID);
+                params.put("filter", filter);
                 params.put("project_id", "0");
                 params.put("board_id", "0");
 

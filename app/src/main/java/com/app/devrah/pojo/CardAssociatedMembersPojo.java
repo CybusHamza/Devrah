@@ -15,6 +15,16 @@ public class CardAssociatedMembersPojo {
 
     String[] members;
 
+    public String getMemberSubscribed() {
+        return memberSubscribed;
+    }
+
+    public void setMemberSubscribed(String memberSubscribed) {
+        this.memberSubscribed = memberSubscribed;
+    }
+
+    String memberSubscribed;
+
     public String[] getInitials() {
         return initials;
     }
