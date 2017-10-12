@@ -15,6 +15,7 @@
             android:layout_margin="10dp"
             android:textSize="18sp"
             android:textColor="#000"
+            android:id="@+id/tvHeading"
             android:layout_height="wrap_content"
             android:text="Message Fliter"
             android:layout_weight="0.7"/>

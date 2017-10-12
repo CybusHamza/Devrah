@@ -8,17 +8,22 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -93,32 +98,37 @@ public class MyCardsActivity extends AppCompatActivity {
     Button saveCard,cancelCard;
     EditText etCardName;
     public static Boolean isMyCardsActive=false;
+    String filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cards);
         isMyCardsActive=true;
+        filter="1";
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         userID = pref.getString("user_id", "");
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("My Cards");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        logo = getLayoutInflater().inflate(R.layout.search_bar, null);
-        toolbar.addView(logo);
-        logo.setVisibility(View.INVISIBLE);
-        edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
-        toolbar.inflateMenu(R.menu.search_menu);
+      //  logo = getLayoutInflater().inflate(R.layout.search_bar, null);
+       // toolbar.addView(logo);
+        //logo.setVisibility(View.INVISIBLE);
+        //edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
+        toolbar.inflateMenu(R.menu.my_menu_filter);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
 
                 switch (id) {
-                    case R.id.action_settings:
+                    /*case R.id.action_settings:
                         return true;
                     case R.id.action_search:
                         handleMenuSearch();
+                        return true;*/
+                    case R.id.menu:
+                        changeFilter();
                         return true;
                 }
 
@@ -280,7 +290,73 @@ public class MyCardsActivity extends AppCompatActivity {
         myalertdialog.show();
         getProjects();
     }
+    private void changeFilter() {
+        LayoutInflater inflater = LayoutInflater.from(MyCardsActivity.this);
+        View customView = inflater.inflate(R.layout.filter_asc_desc_layout, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(MyCardsActivity.this).create();
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.TOP | Gravity.RIGHT;
 
+        // wlp.width = LayoutParams.MATCH_PARENT;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+
+        LinearLayout active, inactive;
+        final ImageView imgactive, igminactive,crossIcon;
+        TextView tvHeading;
+        tvHeading= (TextView) customView.findViewById(R.id.tvHeading);
+        active = (LinearLayout) customView.findViewById(R.id.active);
+        inactive = (LinearLayout) customView.findViewById(R.id.inactive);
+        tvHeading.setText("Change Status Filter");
+
+
+        imgactive = (ImageView) customView.findViewById(R.id.activeimg);
+        igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
+        if (filter.equals("1")) {
+            imgactive.setVisibility(View.VISIBLE);
+            active.setClickable(false);
+            active.setEnabled(false);
+        } else if (filter.equals("0")) {
+            igminactive.setVisibility(View.VISIBLE);
+            inactive.setClickable(false);
+            inactive.setEnabled(false);
+        }
+        active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter="1";
+                imgactive.setVisibility(View.VISIBLE);
+                igminactive.setVisibility(View.GONE);
+
+                alertDialog.dismiss();
+            }
+        });
+
+        inactive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter="0";
+                imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.VISIBLE);
+                alertDialog.dismiss();
+
+            }
+        });
+        crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
+        crossIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+    }
     private void addnewCard(final String p_id, final String b_id, final String l_id, final String card_name) {
         ringProgressDialog = ProgressDialog.show(MyCardsActivity.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);

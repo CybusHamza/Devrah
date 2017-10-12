@@ -754,7 +754,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         cbDueTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(isCompletedBtn.getText().equals("Mark Completed"))
                 pickATime("dueTime");
 
             }
@@ -771,6 +771,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         cbStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isCompletedBtn.getText().equals("Mark Completed"))
                 pickATime("startTime");
             }
         });
@@ -2279,14 +2280,23 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
         final int mHour = c.get(Calendar.HOUR);
         final int mMin = c.get(Calendar.MINUTE);
+
+
+
         timePickerDialog = new TimePickerDialog(CardActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
+                String am_pm="";
+                c.set(Calendar.HOUR_OF_DAY, selectedHour);
+                c.set(Calendar.MINUTE, selectedMinute);
+                if (c.get(Calendar.AM_PM) == Calendar.AM)
+                    am_pm = "AM";
+                else if (c.get(Calendar.AM_PM) == Calendar.PM)
+                    am_pm = "PM";
                 if(timeType.equals("dueTime")){
-                    updateCardTime(selectedHour+":"+selectedMinute);
+                    updateCardTime(selectedHour+":"+selectedMinute+":00"+" "+am_pm);
                 }else if(timeType.equals("startTime")){
-                    updateCardStartTime(selectedHour+":"+selectedMinute);
+                    updateCardStartTime(selectedHour+":"+selectedMinute+":00"+" "+am_pm);
                 }
                /* spinnerStartTimeList.remove(0);
                 spinnerStartTimeList.add(0, selectedHour + ":" + selectedMinute);
@@ -3208,7 +3218,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbDueTime.setText(dueTime+":00");
+                        cbDueTime.setText(dueTime);
 
                         Toast.makeText(activity, "Card Due Time updated", Toast.LENGTH_SHORT).show();
 
@@ -3282,7 +3292,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbStartTime.setText(startTime+":00");
+                        cbStartTime.setText(startTime);
                         Toast.makeText(activity, "Card Due Time updated", Toast.LENGTH_SHORT).show();
 
 

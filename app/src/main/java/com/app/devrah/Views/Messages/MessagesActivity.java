@@ -58,7 +58,7 @@ public class MessagesActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         dataList = new ArrayList<>();
         dataList.add(new DrawerPojo("Change Message Filter"));
-        toolbar.inflateMenu(R.menu.my_menu);
+        toolbar.inflateMenu(R.menu.my_menu_filter);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
