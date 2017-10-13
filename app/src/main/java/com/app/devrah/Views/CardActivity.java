@@ -417,7 +417,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         dataList.add(new DrawerPojo("Update Card Name"));
         dataList.add(new DrawerPojo("Copy"));
         dataList.add(new DrawerPojo("Move"));
-        if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null")) {
+        if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null") || isCardSubscribed.equals("")) {
             dataList.add(new DrawerPojo("Subscribe"));
         }else {
             dataList.add(new DrawerPojo("Un-subscribe"));
@@ -865,7 +865,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     showDialog("move");
                         break;
                     case 3:
-                        if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null")){
+                        if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null") || isCardSubscribed.equals("")){
                             subscribe();
                         }else {
                             unSubscribe();

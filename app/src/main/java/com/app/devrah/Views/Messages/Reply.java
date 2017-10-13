@@ -395,7 +395,7 @@ public class Reply extends AppCompatActivity {
                 String userId = pref.getString("user_id", "");
 
 
-
+                message=mEditor.getHtml();
                 params.put("messageContent",message);
                 params.put("subjct_email",strsubject);
                 params.put("userId",userId);

@@ -45,7 +45,6 @@ import com.app.devrah.R;
 import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.Favourites.FavouritesActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
-import com.app.devrah.Views.MyCards.MyCardsActivity;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.MyCardsPojo;
@@ -574,7 +573,6 @@ public class BoardExtended extends AppCompatActivity {
         Date dat=new Date();
         heading.setText(dateFormatForMonth.format(dat));
         for(int i=1;i<10;i=i+2) {
-            Date date=new Date();
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
             cal.set(Calendar.DAY_OF_MONTH,i);
             cal.set(Calendar.MONTH, 9);
@@ -986,10 +984,7 @@ public class BoardExtended extends AppCompatActivity {
                             ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
 
                         } else {
-
-
                             ParentBoardExtendedFragment.removeAllFrags();
-
 
                             try {
                                 JSONArray jsonArray = new JSONArray(response);

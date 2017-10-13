@@ -86,6 +86,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             startActivity(intent);
             finish();
         }
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -110,6 +111,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                 //Setting onclick listener to signing button
                 //signInButton.setOnClickListener(this);
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                if (mGoogleApiClient.isConnected()) {
+
+                    // clearCookies();
+                    mGoogleApiClient.clearDefaultAccountAndReconnect();
+                    /*Plus.AccountApi
+                            .clearDefaultAccount(mGoogleApiClient);
+
+                    mGoogleApiClient.disconnect();
+
+                    mGoogleApiClient.connect();*/
+                }
 
                 //Starting intent for result
                 startActivityForResult(signInIntent, RC_SIGN_IN);
