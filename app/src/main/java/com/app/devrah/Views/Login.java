@@ -107,7 +107,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             public void onClick(View v) {
 
 
-
                 //Setting onclick listener to signing button
                 //signInButton.setOnClickListener(this);
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
