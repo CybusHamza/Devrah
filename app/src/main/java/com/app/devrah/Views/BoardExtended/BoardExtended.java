@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +21,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -41,14 +39,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
+import com.app.devrah.Adapters.MyCardsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.Favourites.FavouritesActivity;
-import com.app.devrah.Views.MainActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
+import com.app.devrah.Views.MyCards.MyCardsActivity;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.DrawerPojo;
+import com.app.devrah.pojo.MyCardsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -72,7 +72,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static com.app.devrah.Network.End_Points.GET_ALL_BOARD_LIST;
 
 public class BoardExtended extends AppCompatActivity {
-
+    ListView lv;
+    ArrayList<MyCardsPojo> listPojo;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     private boolean isEditOpened = false;
@@ -93,6 +94,7 @@ public class BoardExtended extends AppCompatActivity {
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
     List<String> postions_list;
+    MyCardsAdapter adapter1;
      //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
@@ -565,7 +567,7 @@ public class BoardExtended extends AppCompatActivity {
         alertDialog.show();
         final TextView heading= (TextView) customView.findViewById(R.id.header);
         final CompactCalendarView compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
-        ListView lv= (ListView) customView.findViewById(R.id.listView);
+        lv= (ListView) customView.findViewById(R.id.listView);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
@@ -591,7 +593,12 @@ public class BoardExtended extends AppCompatActivity {
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
-                Toast.makeText(BoardExtended.this,events.toString(),Toast.LENGTH_LONG).show();
+
+                if(events.toArray().length==0){
+                    Toast.makeText(BoardExtended.this,"No card due",Toast.LENGTH_LONG).show();
+                }else {
+                    getCards();
+                }
 
 //                Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
             }
@@ -612,6 +619,92 @@ public class BoardExtended extends AppCompatActivity {
 
 
 
+    }
+    private void getCards(){
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GETMYCARDS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        listPojo = new ArrayList<>();
+                        try {
+                        JSONArray jsonArray = new JSONArray(response);
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            MyCardsPojo myCardsPojo = new MyCardsPojo();
+
+                            myCardsPojo.setBoardname(jsonObject.getString("board_name"));
+                            myCardsPojo.setBoradid(jsonObject.getString("board_id"));
+                            myCardsPojo.setCard_name(jsonObject.getString("card_name"));
+                            myCardsPojo.setCardId(jsonObject.getString("card_id"));
+
+                            myCardsPojo.setListid(jsonObject.getString("list_id"));
+                            myCardsPojo.setProjecct_id(jsonObject.getString("project_id"));
+                            myCardsPojo.setProjectname(jsonObject.getString("project_name"));
+                            myCardsPojo.setListname(jsonObject.getString("list_name"));
+                            myCardsPojo.setDueDate(jsonObject.getString("card_end_date"));
+                            myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                            myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
+                            myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                            myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
+                            myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
+                            myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
+                            myCardsPojo.setCardDescription(jsonObject.getString("card_description"));
+
+                            listPojo.add(myCardsPojo);
+                            adapter1 = new MyCardsAdapter(BoardExtended.this, listPojo);
+                            lv.setAdapter(adapter1);
+
+                        }
+
+                        } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(BoardExtended.this, "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(BoardExtended.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("uid",  pref.getString("user_id",""));
+                params.put("filter", "1");
+                params.put("project_id", "0");
+                params.put("board_id", "0");
+
+
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
+        requestQueue.add(request);
     }
 
     private void LeaveBoard() {

@@ -29,11 +29,17 @@
         app:compactCalendarOtherMonthDaysTextColor="#534c4c"
         app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
         />
-    <ListView
+    <LinearLayout
         android:layout_below="@+id/compactcalendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_projects">
+    <ListView
+
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 
 </RelativeLayout>
