@@ -103,6 +103,8 @@ public class Reply extends AppCompatActivity {
         else
             project.setText(strproject);
         subject.setText("Re: "+strsubject);
+
+        //message=strmessage;
        // mEditor.setHtml(String.valueOf(Html.fromHtml(Html.fromHtml(strmessage).toString())));
 
 
@@ -320,11 +322,15 @@ public class Reply extends AppCompatActivity {
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(message.equals("")){
+               // if(message.equals("")){
+                 //   Toast.makeText(Reply.this,"Please Enter some message",Toast.LENGTH_LONG).show();
+                //}else {
+                if(mEditor.getHtml().isEmpty()){
                     Toast.makeText(Reply.this,"Please Enter some message",Toast.LENGTH_LONG).show();
                 }else {
                     sendMessage();
                 }
+                //}
             }
         });
     }

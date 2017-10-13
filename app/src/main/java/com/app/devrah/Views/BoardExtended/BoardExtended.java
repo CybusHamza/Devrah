@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -42,19 +45,27 @@ import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.Favourites.FavouritesActivity;
+import com.app.devrah.Views.MainActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.ProjectsPojo;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -181,6 +192,7 @@ public class BoardExtended extends AppCompatActivity {
         dataList.add(new DrawerPojo("Manage Members"));
         dataList.add(new DrawerPojo("Leave Board"));
         dataList.add(new DrawerPojo("Delete Board"));
+        dataList.add(new DrawerPojo("Calendar"));
 
 
         edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
@@ -531,10 +543,74 @@ public class BoardExtended extends AppCompatActivity {
                                 })
                                 .show();
                         break;
+                    case 6:
+                        showCalendarDialog();
+
+                        break;
 
                 }
             }
         });
+
+    }
+
+    private void showCalendarDialog() {
+        final SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
+
+        LayoutInflater inflater = LayoutInflater.from(BoardExtended.this);
+        View customView = inflater.inflate(R.layout.calendar_view_dialog, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this).create();
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+        final TextView heading= (TextView) customView.findViewById(R.id.header);
+        final CompactCalendarView compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
+        ListView lv= (ListView) customView.findViewById(R.id.listView);
+        // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
+        // Use constants provided by Java Calendar class
+        compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        Date dat=new Date();
+        heading.setText(dateFormatForMonth.format(dat));
+        for(int i=1;i<10;i=i+2) {
+            Date date=new Date();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            cal.set(Calendar.DAY_OF_MONTH,i);
+            cal.set(Calendar.MONTH, 9);
+            cal.set(Calendar.YEAR, 2017);
+            long time = cal.getTimeInMillis();
+            Event event=new Event(Color.GREEN,time,"event");
+            compactCalendarView.addEvent(event);
+        }
+        List<Event> events = compactCalendarView.getEvents(1433701251000L); // can also take a Date object
+
+        // events has size 2 with the 2 events inserted previously
+//        Log.d(TAG, "Events: " + events);
+
+        // define a listener to receive callbacks when certain events happen.
+        compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
+            @Override
+            public void onDayClick(Date dateClicked) {
+                List<Event> events = compactCalendarView.getEvents(dateClicked);
+                Toast.makeText(BoardExtended.this,events.toString(),Toast.LENGTH_LONG).show();
+
+//                Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+//                int month=firstDayOfNewMonth.getMonth();
+//                String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+                // String monthname=(String)android.text.format.DateFormat.format("MMM", month);
+                heading.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+
+                //  Toast.makeText(CalenderEvents.this,firstDayOfNewMonth.getDate(),Toast.LENGTH_LONG).show();
+                //   Log.d("month", "Month was scrolled to: " + firstDayOfNewMonth);
+            }
+        });
+
+
+
 
     }
 
