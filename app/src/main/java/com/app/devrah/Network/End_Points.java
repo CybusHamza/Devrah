@@ -115,6 +115,8 @@ public class End_Points {
     public static final String GET_WORK_BOARD_TO_MEMBERS= BASE_URL + "getWorkBoardToMembers";
     public static final String GET_REFERENCE_BOARD_TO_MEMBERS= BASE_URL + "getReferenceBoardToMembers";
     public static final String GET_POSITION_LIST= BASE_URL + "getPostionofList";
+    public static final String GET_DUE_DATE= BASE_URL + "getDueDate";
+    public static final String GETMYCARDSBYDUEDATE= BASE_URL + "getMyCardsByDueDate";
 
 
 }

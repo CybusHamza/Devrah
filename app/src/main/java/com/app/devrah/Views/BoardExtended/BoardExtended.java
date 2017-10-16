@@ -37,17 +37,17 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.devrah.Adapters.CalendarAdapter;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Adapters.CustomViewPagerAdapter;
-import com.app.devrah.Adapters.MyCardsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.Favourites.FavouritesActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
+import com.app.devrah.pojo.CalendarPojo;
 import com.app.devrah.pojo.DrawerPojo;
-import com.app.devrah.pojo.MyCardsPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -72,7 +72,7 @@ import static com.app.devrah.Network.End_Points.GET_ALL_BOARD_LIST;
 
 public class BoardExtended extends AppCompatActivity {
     ListView lv;
-    ArrayList<MyCardsPojo> listPojo;
+    ArrayList<CalendarPojo> listPojo;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     private boolean isEditOpened = false;
@@ -93,7 +93,7 @@ public class BoardExtended extends AppCompatActivity {
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
     List<String> postions_list;
-    MyCardsAdapter adapter1;
+    CalendarAdapter adapter1;
      //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
 //            R.drawable.project_group,
@@ -108,6 +108,7 @@ public class BoardExtended extends AppCompatActivity {
     public static BoardExtended Mactivity;
     public static Menu menu;
     Boolean Cancelbtn=false;
+    CompactCalendarView compactCalendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -554,7 +555,84 @@ public class BoardExtended extends AppCompatActivity {
         });
 
     }
+private void getDueDates(){
+    StringRequest request = new StringRequest(Request.Method.POST,End_Points.GET_DUE_DATE,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
+
+                    try {
+                        if (!response.equals("false")) {
+                            JSONArray jsonArray = new JSONArray(response);
+                            compactCalendarView.removeAllEvents();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String dueDate=jsonObject.getString("card_end_date");
+                                String[] dueDateSplit=dueDate.split("-");
+
+                                if(dueDateSplit.length==3) {
+                                    int dayOfMonth = Integer.parseInt(dueDateSplit[2]);
+                                    int month = Integer.parseInt(dueDateSplit[1]);
+                                    int year = Integer.parseInt(dueDateSplit[0]);
+                                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+                                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                    cal.set(Calendar.MONTH, month-1);
+                                    cal.set(Calendar.YEAR, year);
+                                    long time = cal.getTimeInMillis();
+                                    Event event = new Event(Color.GREEN, time, "event");
+                                    compactCalendarView.addEvent(event);
+                                }
+
+
+                            }
+                        }
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+            if (error instanceof NoConnectionError) {
+
+
+                Toast.makeText(BoardExtended.this, "check your internet connection", Toast.LENGTH_SHORT).show();
+
+            } else if (error instanceof TimeoutError) {
+
+
+                Toast.makeText(BoardExtended.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }) {
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+
+            Map<String, String> params = new HashMap<>();
+
+            final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            params.put("uid",  pref.getString("user_id",""));
+            params.put("project_id", projectId);
+            params.put("board_id", boardId);
+
+
+            // params.put("password",strPassword );
+            return params;
+        }
+    };
+
+    request.setRetryPolicy(new DefaultRetryPolicy(
+            10000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
+    requestQueue.add(request);
+}
     private void showCalendarDialog() {
         final SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
 
@@ -565,14 +643,15 @@ public class BoardExtended extends AppCompatActivity {
         alertDialog.setView(customView);
         alertDialog.show();
         final TextView heading= (TextView) customView.findViewById(R.id.header);
-        final CompactCalendarView compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
+       compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
         lv= (ListView) customView.findViewById(R.id.listView);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         Date dat=new Date();
         heading.setText(dateFormatForMonth.format(dat));
-        for(int i=1;i<10;i=i+2) {
+
+       /* for(int i=1;i<10;i=i+2) {
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
             cal.set(Calendar.DAY_OF_MONTH,i);
             cal.set(Calendar.MONTH, 9);
@@ -580,7 +659,7 @@ public class BoardExtended extends AppCompatActivity {
             long time = cal.getTimeInMillis();
             Event event=new Event(Color.GREEN,time,"event");
             compactCalendarView.addEvent(event);
-        }
+        }*/
         List<Event> events = compactCalendarView.getEvents(1433701251000L); // can also take a Date object
 
         // events has size 2 with the 2 events inserted previously
@@ -593,9 +672,14 @@ public class BoardExtended extends AppCompatActivity {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
 
                 if(events.toArray().length==0){
-                    Toast.makeText(BoardExtended.this,"No card due",Toast.LENGTH_LONG).show();
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
+                    String cardsByDate=dateFormat.format(dateClicked);
+                    Toast.makeText(BoardExtended.this,"No cards due on "+cardsByDate,Toast.LENGTH_LONG).show();
                 }else {
-                    getCards();
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String cardsByDate=dateFormat.format(dateClicked);
+                    getCards(cardsByDate);
+
                 }
 
 //                Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
@@ -614,15 +698,15 @@ public class BoardExtended extends AppCompatActivity {
             }
         });
 
-
+        getDueDates();
 
 
     }
-    private void getCards(){
+    private void getCards(final  String dueDate){
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GETMYCARDS,
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GETMYCARDSBYDUEDATE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -634,7 +718,7 @@ public class BoardExtended extends AppCompatActivity {
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            MyCardsPojo myCardsPojo = new MyCardsPojo();
+                            CalendarPojo myCardsPojo = new CalendarPojo();
 
                             myCardsPojo.setBoardname(jsonObject.getString("board_name"));
                             myCardsPojo.setBoradid(jsonObject.getString("board_id"));
@@ -655,7 +739,7 @@ public class BoardExtended extends AppCompatActivity {
                             myCardsPojo.setCardDescription(jsonObject.getString("card_description"));
 
                             listPojo.add(myCardsPojo);
-                            adapter1 = new MyCardsAdapter(BoardExtended.this, listPojo);
+                            adapter1 = new CalendarAdapter(BoardExtended.this, listPojo);
                             lv.setAdapter(adapter1);
 
                         }
@@ -687,9 +771,9 @@ public class BoardExtended extends AppCompatActivity {
 
                 final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 params.put("uid",  pref.getString("user_id",""));
-                params.put("filter", "1");
-                params.put("project_id", "0");
-                params.put("board_id", "0");
+                params.put("project_id",projectId);
+                params.put("board_id", boardId);
+                params.put("card_due_date",dueDate);
 
 
                 // params.put("password",strPassword );

@@ -2283,16 +2283,22 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
 
+
         timePickerDialog = new TimePickerDialog(CardActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 String am_pm="";
                 c.set(Calendar.HOUR_OF_DAY, selectedHour);
                 c.set(Calendar.MINUTE, selectedMinute);
+                if (selectedHour > 12) {
+                    selectedHour -= 12;
+                } else if (selectedHour == 0) {
+                    selectedHour += 12;
+                }
                 if (c.get(Calendar.AM_PM) == Calendar.AM)
-                    am_pm = "AM";
+                    am_pm = "am";
                 else if (c.get(Calendar.AM_PM) == Calendar.PM)
-                    am_pm = "PM";
+                    am_pm = "pm";
                 if(timeType.equals("dueTime")){
                     updateCardTime(selectedHour+":"+selectedMinute+":00"+" "+am_pm);
                 }else if(timeType.equals("startTime")){
@@ -2305,7 +2311,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 spinnerstartTime.setSelection(0);*/
             }
-        }, mHour, mMin, true);//Yes 24 hour time
+        }, mHour, mMin, false);//Yes 24 hour time
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
     }
