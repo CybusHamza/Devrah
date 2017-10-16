@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -38,8 +39,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -216,8 +215,9 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
 
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
+                    Toast.makeText(getContext(),"check your internet connection",Toast.LENGTH_LONG).show();
 
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                   /* new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -226,10 +226,11 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getContext(),"Connection TimeOut! Please check your internet connection.",Toast.LENGTH_LONG).show();
 
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                   /* new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -238,7 +239,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 }
             }
         }) {
