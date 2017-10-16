@@ -1132,74 +1132,79 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
             @Override
             public void onResponse(String response) {
+                LinearLayout linearLayout= (LinearLayout) findViewById(R.id.checkListLayout);
+                if(!response.equals("false")) {
 
-                try {
-                    //   projectNames = new ArrayList<>();
+                    try {
+                        //   projectNames = new ArrayList<>();
 
-                    String firstname, email, lastName, profilePic;
+                        String firstname, email, lastName, profilePic;
 
-                    //  JSONArray array = new JSONArray(response);
+                        //  JSONArray array = new JSONArray(response);
 
-                    checklistID = new ArrayList<>();
-                    CheckListname = new ArrayList<>();
-                    checkid = new ArrayList<>();
-                    checklistid = new ArrayList<>();
+                        checklistID = new ArrayList<>();
+                        CheckListname = new ArrayList<>();
+                        checkid = new ArrayList<>();
+                        checklistid = new ArrayList<>();
 
-                    listDataChild = new HashMap<>();
-                    if(!response.equals("false")) {
-                        JSONObject object = new JSONObject(response);
+                        listDataChild = new HashMap<>();
+                        if (!response.equals("false")) {
+                            // LinearLayout linearLayout = (LinearLayout) findViewById(R.id.checkListLayout);
+                            linearLayout.setVisibility(View.VISIBLE);
+                            JSONObject object = new JSONObject(response);
 
-                        String data = object.getString("checklist_heading");
-
-                        JSONArray jsonArray = new JSONArray(data);
-
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-
-                            JSONObject obj = new JSONObject(jsonArray.getString(i));
-
-                            check_model model = new check_model();
-                            model.setId(obj.getString("id"));
-                            model.setName(obj.getString("checklist_name"));
-                            //checkid.add(obj.getString("card_id"));
+                            String data = object.getString("checklist_heading");
+                            if (!data.equals("false")) {
+                                linearLayout.setVisibility(View.VISIBLE);
+                                JSONArray jsonArray = new JSONArray(data);
 
 
-                            CheckListname.add(model);
+                                for (int i = 0; i < jsonArray.length(); i++) {
 
-                            listDataChild.put(CheckListname.get(i).getId() + "", null);
+                                    JSONObject obj = new JSONObject(jsonArray.getString(i));
 
-                            // String id  = obj.getString("id");
-                            //  listDataChild.put(id,null);
-                        }
-
-
-                        String data2 = object.getString("checklist_data");
-
-                        JSONArray jsonArray1 = new JSONArray(data2);
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-
-                            check_name = new ArrayList<>();
-                            childDAta = new ArrayList<>();
-                            check_id = new ArrayList<>();
-                            for (int j = 0; j < jsonArray1.length(); j++) {
-
-                                JSONObject jsonObject = jsonArray1.getJSONObject(j);
-                                String id = jsonObject.getString("checklist_id");
-                                String projectid = CheckListname.get(i).getId();
-                                if (projectid.equals(id)) {
                                     check_model model = new check_model();
-                                    model.setName(jsonObject.getString("checkbox_name"));
-                                    model.setChecked(jsonObject.getString("is_checked"));
+                                    model.setId(obj.getString("id"));
+                                    model.setName(obj.getString("checklist_name"));
+                                    //checkid.add(obj.getString("card_id"));
 
 
-                                    model.setId(jsonObject.getString("check_id"));
+                                    CheckListname.add(model);
 
-                                    childDAta.add(model);
+                                    listDataChild.put(CheckListname.get(i).getId() + "", null);
 
+                                    // String id  = obj.getString("id");
+                                    //  listDataChild.put(id,null);
                                 }
 
-                                listDataChild.put(CheckListname.get(i).getId() + "", childDAta);
+
+                                String data2 = object.getString("checklist_data");
+
+                                JSONArray jsonArray1 = new JSONArray(data2);
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+
+                                    check_name = new ArrayList<>();
+                                    childDAta = new ArrayList<>();
+                                    check_id = new ArrayList<>();
+                                    for (int j = 0; j < jsonArray1.length(); j++) {
+
+                                        JSONObject jsonObject = jsonArray1.getJSONObject(j);
+                                        String id = jsonObject.getString("checklist_id");
+                                        String projectid = CheckListname.get(i).getId();
+                                        if (projectid.equals(id)) {
+                                            check_model model = new check_model();
+                                            model.setName(jsonObject.getString("checkbox_name"));
+                                            model.setChecked(jsonObject.getString("is_checked"));
+
+
+                                            model.setId(jsonObject.getString("check_id"));
+
+                                            childDAta.add(model);
+
+                                        }
+
+                                        listDataChild.put(CheckListname.get(i).getId() + "", childDAta);
 
 //
 //                            JSONObject jsonObject = jsonArray1.getJSONObject(j);
@@ -1212,14 +1217,22 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //                            childDAta.add(model);
 
 
+                                    }
+
+                                    //    listDataChild.put(checklistID.get(i)+"", check_name);
+                                }
+                            } else {
+
+                                linearLayout.setVisibility(View.GONE);
                             }
 
-                            //    listDataChild.put(checklistID.get(i)+"", check_name);
                         }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else {
+                    linearLayout.setVisibility(View.GONE);
                 }
 
 
@@ -2741,6 +2754,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                 colorList1 = new ArrayList<>();
                                 lableid = new ArrayList<>();
 
+
                                 for(int j=0;j<jsonArrayLabels.length();j++){
 
                                     JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
@@ -2769,7 +2783,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     rvLabelResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
                                     RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList,cardLabelsPojoList);
                                     rvLabelResult.setAdapter(adapter);
-
+                                    if(cardLabelsPojoListstat.toArray().length>0){
+                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.labelsLayout);
+                                        linearLayout.setVisibility(View.VISIBLE);
+                                    }else {
+                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.labelsLayout);
+                                        linearLayout.setVisibility(View.GONE);
+                                    }
                                 }
 
                                 for(int j=0;j<jsonArrayMembers.length();j++){
@@ -2798,6 +2818,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                    rvMembersResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
                                     memberAdapter = new RVMemberResultAdapter(Mactivity,cardMembersPojoList1,cardId,list_id,boardId,projectId);
                                     rvMembersResult.setAdapter(memberAdapter);
+                                    if(cardMembersPojoList1.toArray().length>0){
+                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.membersLayout);
+                                        linearLayout.setVisibility(View.VISIBLE);
+                                    }else {
+                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.membersLayout);
+                                        linearLayout.setVisibility(View.GONE);
+                                    }
                                    /* if(membersAdapter != null)
                                     {
                                         membersAdapter.notifyDataSetChanged();

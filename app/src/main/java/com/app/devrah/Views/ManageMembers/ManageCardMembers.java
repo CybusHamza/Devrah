@@ -163,9 +163,9 @@ public class ManageCardMembers extends Fragment {
         currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                if(membersPojos.size()==1){
+               /* if(membersPojos.size()==1){
                     Toast.makeText(getActivity(),"You have to keep atleast one user in board!",Toast.LENGTH_LONG).show();
-                }else {
+                }else {*/
                     new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("Remove This member")
                             .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
@@ -187,7 +187,7 @@ public class ManageCardMembers extends Fragment {
                                 }
                             })
                             .show();
-                }
+//                }
 
 
             }
@@ -244,35 +244,41 @@ public class ManageCardMembers extends Fragment {
 
                         ringProgressDialog.dismiss();
                         membersPojos = new ArrayList<>();
+                        if(response.equals("false")){
+                            addapter = new team_addapter(getActivity(), membersPojos);
 
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
+                            currentMember.setAdapter(addapter);
 
-
-                            for (int i = 0; i <= jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                                MembersPojo membersPojo = new MembersPojo();
-
-
-                                membersPojo.setName(jsonObject.getString("first_name"));
-                                membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
-                                membersPojo.setUserId(jsonObject.getString("id"));
-                                membersPojo.setInetial(jsonObject.getString("initials"));
-                                membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
+                        }else {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
 
 
-                                membersPojos.add(membersPojo);
+                                for (int i = 0; i <= jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                addapter = new team_addapter(getActivity(), membersPojos);
+                                    MembersPojo membersPojo = new MembersPojo();
 
-                                currentMember.setAdapter(addapter);
 
+                                    membersPojo.setName(jsonObject.getString("first_name"));
+                                    membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
+                                    membersPojo.setUserId(jsonObject.getString("id"));
+                                    membersPojo.setInetial(jsonObject.getString("initials"));
+                                    membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
+
+
+                                    membersPojos.add(membersPojo);
+
+                                    addapter = new team_addapter(getActivity(), membersPojos);
+
+                                    currentMember.setAdapter(addapter);
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-
 
                     }
                 }, new Response.ErrorListener() {
@@ -455,6 +461,7 @@ public class ManageCardMembers extends Fragment {
 
                             addapter = new team_addapter(getActivity(), listPojo);
                             TeamMember.setAdapter(addapter);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

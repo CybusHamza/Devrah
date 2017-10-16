@@ -148,10 +148,12 @@
                         android:textColor="#00FA9A"
                         android:visibility="gone" />
                 <LinearLayout
+                    android:id="@+id/labelsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:visibility="gone">
                     <ImageView
                         android:id="@+id/labelIcon"
                         android:layout_width="25dp"
@@ -269,10 +271,12 @@
                     </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/membersLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_margin="10dp">
+                        android:layout_margin="10dp"
+                        android:visibility="gone">
                         <ImageView
                             android:id="@+id/membersIcon"
                             android:layout_width="25dp"
@@ -419,10 +423,12 @@
 
                     </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/checkListLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="10dp"
+                    android:visibility="gone"
                     >
                     <ImageView
                         android:id="@+id/checklist_icon"
