@@ -16,12 +16,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -638,11 +640,16 @@ private void getDueDates(){
 
         LayoutInflater inflater = LayoutInflater.from(BoardExtended.this);
         View customView = inflater.inflate(R.layout.calendar_view_dialog, null);
-        final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this).create();
 
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this,R.style.full_screen_dialog).create();
+        WindowManager.LayoutParams wmlp = alertDialog.getWindow().getAttributes();
+        alertDialog.getWindow().setLayout(300, DrawerLayout.LayoutParams.MATCH_PARENT);
+
+        wmlp.gravity = Gravity.END;
         alertDialog.setView(customView);
         alertDialog.show();
         final TextView heading= (TextView) customView.findViewById(R.id.header);
+        final ImageView backBtn= (ImageView) customView.findViewById(R.id.backBtnCalender);
        compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
         lv= (ListView) customView.findViewById(R.id.listView);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
@@ -650,6 +657,12 @@ private void getDueDates(){
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         Date dat=new Date();
         heading.setText(dateFormatForMonth.format(dat));
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
 
        /* for(int i=1;i<10;i=i+2) {
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
