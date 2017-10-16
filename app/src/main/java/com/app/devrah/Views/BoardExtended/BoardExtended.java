@@ -650,7 +650,7 @@ private void getDueDates(){
         alertDialog.show();
         final TextView heading= (TextView) customView.findViewById(R.id.header);
         final ImageView backBtn= (ImageView) customView.findViewById(R.id.backBtnCalender);
-       compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
+        compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
         lv= (ListView) customView.findViewById(R.id.listView);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
