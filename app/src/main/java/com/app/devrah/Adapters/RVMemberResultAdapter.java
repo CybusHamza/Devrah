@@ -45,6 +45,7 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
 
     @Override
     public void onBindViewHolder(final ViewHolderMember holder, int position) {
+
         if((memberList.get(position).getProfile_pic().equals("null") || memberList.get(position).getProfile_pic().equals("")) && (memberList.get(position).getGp_pic().equals("null") || memberList.get(position).getGp_pic().equals(""))){
             holder.initials.setVisibility(View.VISIBLE);
             holder.initials.setText(memberList.get(position).getInetial());

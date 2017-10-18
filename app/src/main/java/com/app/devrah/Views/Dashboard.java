@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +90,7 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), ProjectsActivity.class);
-                 finish();
+                // finish();
                 startActivity(intent);
 
             }
@@ -365,11 +366,31 @@ public class Dashboard extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+       // clearBackstack();
         Intent a = new Intent(Intent.ACTION_MAIN);
         a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
         super.onBackPressed();
+    }
+    public void clearBackstack() {
+
+        int backStackEntry = getSupportFragmentManager().getBackStackEntryCount();
+
+        if ( backStackEntry > 0) {
+            for (int i = 0; i < backStackEntry; i++) {
+                getSupportFragmentManager().popBackStackImmediate();
+            }
+        }
+        if (getSupportFragmentManager().getFragments() != null && getSupportFragmentManager().getFragments().size() > 0) {
+            for (int i = 0; i < getSupportFragmentManager().getFragments().size(); i++) {
+                Fragment mFragment = getSupportFragmentManager().getFragments().get(i);
+                if (mFragment != null) {
+                    getSupportFragmentManager().beginTransaction().remove(mFragment).commit();
+                }
+            }
+        }
+
     }
 
 }

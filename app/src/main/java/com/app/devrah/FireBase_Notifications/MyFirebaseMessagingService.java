@@ -11,20 +11,21 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.app.devrah.R;
 import com.app.devrah.Views.MainActivity;
 import com.app.devrah.Views.MyCards.MyCardsActivity;
-import com.app.devrah.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static int NOTIFY_ME_ID = 0;
+   // private LocalBroadcastManager broadcastManager;
 
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
+       // broadcastManager = LocalBroadcastManager.getInstance(this);
          showNotification(remoteMessage.getData().get(""), remoteMessage.getData().get("body"),remoteMessage.getData().get("important"));
 
            //showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),"important");
@@ -35,11 +36,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification().getTitle().equals("mycards") && MyCardsActivity.isMyCardsActive) {
 
             String[] id = remoteMessage.getNotification().getBody().split("%");
-            intent = new Intent(this, MyCardsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+           /* intent = new Intent(this, MyCardsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            //overridePendingTransition(0, 0);
             intent.putExtra("mycards", "mycards");
             intent.putExtra("id", id[1]);
-            startActivity(intent);
+            startActivity(intent);*/
+           // Bundle extras = intent.getExtras();
+            Intent i = new Intent("broadCastName");
+            // Data you need to pass to activity
+            i.putExtra("message",id[1]);
+
+            sendBroadcast(i);
+           // broadcastManager.sendBroadcast(intent);
+           // singletonclass.getInstance().getSingletonModel().textData ="Your data goes here";
 
         }
 

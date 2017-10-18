@@ -147,9 +147,15 @@ public class ProjectsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else {
                     Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                   // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    overridePendingTransition(0, 0);
                     finish();
                     startActivity(intent);
+                    overridePendingTransition(0, 0);
+
                 }
                 //  onBackPressed();
             }
@@ -313,9 +319,14 @@ public class ProjectsActivity extends AppCompatActivity {
                 startActivity(intent);
             }else {
                 Intent intent = new Intent(ProjectsActivity.this, Dashboard.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                overridePendingTransition(0, 0);
                 finish();
                 startActivity(intent);
+                overridePendingTransition(0, 0);
             }
 
         }

@@ -257,8 +257,13 @@ public class BoardsActivity extends AppCompatActivity {
                         startActivity(intent);
                     }else {
                         Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        overridePendingTransition(0, 0);
                         finish();
                         startActivity(intent);
+                        overridePendingTransition(0, 0);
                     }
                    onBackPressed();
                 }
@@ -427,8 +432,13 @@ public class BoardsActivity extends AppCompatActivity {
                 startActivity(intent1);
             }else {
                 Intent intent1 = new Intent(BoardsActivity.this, ProjectsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                overridePendingTransition(0, 0);
                 finish();
                 startActivity(intent1);
+                overridePendingTransition(0, 0);
             }
         }
         super.onBackPressed();

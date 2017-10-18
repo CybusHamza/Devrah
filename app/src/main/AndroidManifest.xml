@@ -81,8 +81,7 @@
             android:name=".Views.ManageMembers.Manage_Board_Members"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Views.CheckList_Detail"
-            android:windowSoftInputMode="stateHidden" />
+            android:name=".Views.CheckList_Detail" android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".Views.Messages.Reply"
             android:windowSoftInputMode="stateHidden" />

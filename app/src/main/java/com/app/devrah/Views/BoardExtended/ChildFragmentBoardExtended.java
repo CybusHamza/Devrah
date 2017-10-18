@@ -111,6 +111,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     EditText edtSeach;
 
     private OnFragmentInteractionListener mListener;
+    static ChildFragmentBoardExtended fragment;
 
     public ChildFragmentBoardExtended() {
 
@@ -118,7 +119,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
     public static ChildFragmentBoardExtended newInstance(String param1, String param2) {
-        ChildFragmentBoardExtended fragment = new ChildFragmentBoardExtended();
+         fragment = new ChildFragmentBoardExtended();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -776,19 +777,21 @@ public class ChildFragmentBoardExtended extends Fragment {
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-
-                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Error!")
-                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismiss();
-                                    getActivity().finish();
-                                }
-                            })
-                            .show();
+                    //    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                   // ChildFragmentBoardExtended fragment = new ChildFragmentBoardExtended();
+                    if(fragment.isVisible()) {
+                        new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Error!")
+                                .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                        getActivity().finish();
+                                    }
+                                })
+                                .show();
+                    }
                 }
             }
         }) {

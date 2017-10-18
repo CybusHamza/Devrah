@@ -109,13 +109,12 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
 
             holder.delete = (ImageView) convertView.findViewById(R.id.delete);
              holder.name = (EditText) convertView.findViewById(R.id.label);
-
-
+            holder.name.setText(checkListiItemName.get(position));
         final Holder finalHolder3 = holder;
         holder.name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
+                finalHolder3.name.setFocusable(true);
                 if (i==6 ) {
                     finalHolder3.name.clearFocus();
                     InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -155,7 +154,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
         });
 
 
-        holder.name.setText(checkListiItemName.get(position));
+
         holder.getCheckBox().setTag(position);
         if(checkedItem.get(position).equals("1"))
         {

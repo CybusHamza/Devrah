@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
@@ -244,6 +245,10 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
 
                    CheckListItems.remove(position);
                     notifyDataSetChanged();
+                    if(CheckListItems.toArray().length<1){
+                        LinearLayout linearLayout= (LinearLayout) activity.findViewById(R.id.checkListLayout);
+                        linearLayout.setVisibility(View.GONE);
+                    }
 
 /*
 

@@ -1263,8 +1263,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             })
                             .show();
                 } else if (error instanceof TimeoutError) {
+                    Toast.makeText(activity,"Connection TimeOut! Please check your internet connection.",Toast.LENGTH_LONG).show();
 
-                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    /*new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1274,7 +1275,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                                 }
                             })
-                            .show();
+                            .show();*/
                 }
             }
 
@@ -2876,6 +2877,17 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                                     FilesAdapter adapter = new FilesAdapter(attachmentsList, Mactivity,cardId);
                                     rvFiles.setAdapter(adapter);
+                                }
+                                if(attachmentsList.toArray().length>0 || attachmentsList1.toArray().length>0){
+                                    LinearLayout linearLayout= (LinearLayout) findViewById(R.id.imageAttachmentLayout);
+                                    LinearLayout linearLayout1= (LinearLayout) findViewById(R.id.filesAttachmentLayout);
+                                    linearLayout.setVisibility(View.VISIBLE);
+                                    linearLayout1.setVisibility(View.VISIBLE);
+                                }else {
+                                    LinearLayout linearLayout= (LinearLayout) findViewById(R.id.imageAttachmentLayout);
+                                    LinearLayout linearLayout1= (LinearLayout) findViewById(R.id.filesAttachmentLayout);
+                                    linearLayout.setVisibility(View.GONE);
+                                    linearLayout1.setVisibility(View.GONE);
                                 }
                                 /*try {
                                     cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);

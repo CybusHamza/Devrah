@@ -1,13 +1,16 @@
 package com.app.devrah.Views.MyCards;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -104,6 +107,7 @@ public class MyCardsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cards);
+        registerReceiver(broadcastReceiver, new IntentFilter("broadCastName"));
         isMyCardsActive=true;
         filter="1";
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -224,7 +228,7 @@ public class MyCardsActivity extends AppCompatActivity {
             HashMap<String, String> params = new HashMap<>();
             params.put("", "");
 
-
+            overridePendingTransition(0,0);
             getMyCards("reload",id);
 
         }
@@ -235,7 +239,21 @@ public class MyCardsActivity extends AppCompatActivity {
         }
 
         }
+    // Add this inside your class
+    BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
+            Bundle b = intent.getExtras();
+
+            String message = b.getString("message");
+            if(message!=""){
+                getMyCards("reload",message);
+            }
+
+            Log.e("newmesage", "" + message);
+        }
+    };
     private void addCardDialog() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(MyCardsActivity.this);
@@ -603,34 +621,60 @@ public class MyCardsActivity extends AppCompatActivity {
         try {
 
             int position = 0;
+
             JSONArray jsonArray = new JSONArray(responce);
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 MyCardsPojo myCardsPojo = new MyCardsPojo();
+                if(tag.equals("reload") && jsonObject.getString("card_id").equals(id)){
+                    myCardsPojo.setBoardname(jsonObject.getString("board_name"));
+                    myCardsPojo.setBoradid(jsonObject.getString("board_id"));
+                    myCardsPojo.setCard_name(jsonObject.getString("card_name"));
+                    myCardsPojo.setCardId(jsonObject.getString("card_id"));
+                    if(jsonObject.getString("card_id").equals(id))
+                    {
+                        position = i;
+                    }
+                    myCardsPojo.setListid(jsonObject.getString("list_id"));
+                    myCardsPojo.setProjecct_id(jsonObject.getString("project_id"));
+                    myCardsPojo.setProjectname(jsonObject.getString("project_name"));
+                    myCardsPojo.setListname(jsonObject.getString("list_name"));
+                    myCardsPojo.setDueDate(jsonObject.getString("card_end_date"));
+                    myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                    myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
+                    myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                    myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
+                    myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
+                    myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
+                    myCardsPojo.setCardDescription(jsonObject.getString("card_description"));
 
-                myCardsPojo.setBoardname(jsonObject.getString("board_name"));
-                myCardsPojo.setBoradid(jsonObject.getString("board_id"));
-                myCardsPojo.setCard_name(jsonObject.getString("card_name"));
-                myCardsPojo.setCardId(jsonObject.getString("card_id"));
-                if(jsonObject.getString("card_id").equals(id))
-                {
-                    position = i;
+                    listPojo.add(myCardsPojo);
+
+
+                }else if(!tag.equals("reload")){
+                    myCardsPojo.setBoardname(jsonObject.getString("board_name"));
+                    myCardsPojo.setBoradid(jsonObject.getString("board_id"));
+                    myCardsPojo.setCard_name(jsonObject.getString("card_name"));
+                    myCardsPojo.setCardId(jsonObject.getString("card_id"));
+                    if (jsonObject.getString("card_id").equals(id)) {
+                        position = i;
+                    }
+                    myCardsPojo.setListid(jsonObject.getString("list_id"));
+                    myCardsPojo.setProjecct_id(jsonObject.getString("project_id"));
+                    myCardsPojo.setProjectname(jsonObject.getString("project_name"));
+                    myCardsPojo.setListname(jsonObject.getString("list_name"));
+                    myCardsPojo.setDueDate(jsonObject.getString("card_end_date"));
+                    myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                    myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
+                    myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                    myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
+                    myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
+                    myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
+                    myCardsPojo.setCardDescription(jsonObject.getString("card_description"));
+
+                    listPojo.add(myCardsPojo);
                 }
-                myCardsPojo.setListid(jsonObject.getString("list_id"));
-                myCardsPojo.setProjecct_id(jsonObject.getString("project_id"));
-                myCardsPojo.setProjectname(jsonObject.getString("project_name"));
-                myCardsPojo.setListname(jsonObject.getString("list_name"));
-                myCardsPojo.setDueDate(jsonObject.getString("card_end_date"));
-                myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
-                myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
-                myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
-                myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
-                myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
-                myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
-                myCardsPojo.setCardDescription(jsonObject.getString("card_description"));
-
-                listPojo.add(myCardsPojo);
             }
 
 
@@ -638,10 +682,14 @@ public class MyCardsActivity extends AppCompatActivity {
             if(tag.equals("reload"))
             {
 
-                adapter = new MyCardsAdapter(MyCardsActivity.this, listPojo);
-                lv.setAdapter(adapter);
+               /* adapter = new MyCardsAdapter(MyCardsActivity.this, listPojo);
+                lv.setAdapter(adapter);*/
+                /*adapter = new MyCardsAdapter(MyCardsActivity.this, listPojo);
+                lv.setAdapter(adapter);*/
+                adapter.notifyDataSetChanged();
 
-                lv.setSelection(position);
+                lv.setSelection(listPojo.size()-1);
+
 
             }
             else{
@@ -659,6 +707,12 @@ public class MyCardsActivity extends AppCompatActivity {
 
         return listPojo;
     }
+   /* private void appendToList(ArrayList<MyCardsPojo> listPojo) {
+        for(String data : newData)
+            adapter.add(data);
+
+        adapter.notifyDatasetChanged();
+    }*/
     public void getProjects() {
         final ProgressDialog ringProgressDialog;
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);

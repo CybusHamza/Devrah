@@ -52,6 +52,7 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
 
         holder.tvLabelName.setText(labelList.get(position).getLabelTextCards());
         final String labelColor = labelList.get(position).getLabelColorCards();
+        
         if (labelColor.equals("blue")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.blue));
         } else if (labelColor.equals("sky-blue")) {
