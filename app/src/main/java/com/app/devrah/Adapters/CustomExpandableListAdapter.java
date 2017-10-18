@@ -132,6 +132,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
+        ImageView ivGroupIndicator = (ImageView) convertView
+                .findViewById(R.id.ivGroupIndicator);
+       ivGroupIndicator.setSelected(isExpanded);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 

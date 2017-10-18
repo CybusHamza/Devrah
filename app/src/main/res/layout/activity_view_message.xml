@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 app:backgroundTint="@color/colorWhite"
+                android:textSize="13sp"
                 android:ems="10"
                 android:textColor="#fff"
                 android:layout_alignStart="@+id/projectSpinner"
@@ -46,7 +47,7 @@
                 android:id="@+id/project"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:text="Project"
                 android:textSize="13sp"
                 android:textColor="#fff"
@@ -58,10 +59,11 @@
                 android:layout_height="40dp"
                 android:textColor="#fff"
                 android:padding="5dp"
+                android:textSize="13sp"
                 android:layout_below="@+id/etEmails"
                 android:background="@drawable/spinner_dropdown"
                 android:layout_toRightOf="@+id/project"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_alignParentEnd="true" />
@@ -69,9 +71,8 @@
                 android:id="@+id/board"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="45dp"
                 android:text="Board"
-
                 android:textSize="13sp"
                 android:textColor="#fff"
                 android:layout_below="@id/project"
@@ -82,10 +83,11 @@
                 android:layout_height="40dp"
                 android:textColor="#fff"
                 android:padding="5dp"
+                android:textSize="13sp"
                 android:layout_below="@+id/projectSpinner"
                 android:background="@drawable/spinner_dropdown"
                 android:layout_toRightOf="@+id/project"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_alignParentEnd="true" />
@@ -93,7 +95,7 @@
                 android:id="@+id/card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
+                android:layout_marginTop="45dp"
                 android:text="Card"
                 android:textSize="13sp"
                 android:textColor="#fff"
@@ -105,10 +107,11 @@
                 android:layout_height="40dp"
                 android:textColor="#fff"
                 android:padding="5dp"
+                android:textSize="13sp"
                 android:layout_below="@+id/boardSpinner"
                 android:background="@drawable/spinner_dropdown"
                 android:layout_toRightOf="@+id/project"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_alignParentEnd="true" />
@@ -116,7 +119,7 @@
                 android:id="@+id/subject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:text="Subject"
                 android:textSize="13sp"
                 android:textColor="#fff"
@@ -128,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:padding="10dp"
+                android:textSize="13sp"
                 android:textColor="#fff"
                 app:backgroundTint="@color/colorWhite"
                 android:layout_alignBaseline="@+id/subject"
@@ -138,7 +142,7 @@
                 android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:text="Message *"
                 android:textSize="13sp"
                 android:textColor="#fff"
@@ -158,35 +162,61 @@
                     android:id="@+id/editor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="100.0dip"
+                    android:clickable="false"
+                    android:textColor="#000"
                     android:background="#fff"
-                    android:textColor="#000" />
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    />
+
 
 
             </LinearLayout>
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_below="@+id/textEditorLayout">
-                <Button
-                    android:id="@+id/reply_button"
+                <ImageView
+                    android:src="@drawable/cancel_message"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+
+                    android:textColor="@color/colorWhite"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/reply_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/textEditorLayout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:src="@drawable/send"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Reply"
-                    android:background="@drawable/bg_boards_extended_green"
-                    android:layout_marginRight="5dp"
-                    />
-                <Button
-                    android:id="@+id/cancel_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Close"
-                    android:background="@drawable/bg_boards_extended_list"
-                    />
 
-
+                    android:textColor="@color/colorWhite"/>
             </LinearLayout>
+
         </RelativeLayout>
 
     </ScrollView>

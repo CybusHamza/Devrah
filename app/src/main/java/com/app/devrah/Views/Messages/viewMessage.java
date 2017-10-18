@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -31,7 +31,7 @@ public class viewMessage extends AppCompatActivity {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     EditText  from ,message ,board,card,project,subject;
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
-    Button cancel_button,reply_btn;
+    LinearLayout cancel_button,reply_btn;
     Toolbar toolbar;
     String messageType,message_id,isRead,projectId,boardId,cardId,msgDate;
     @Override
@@ -46,8 +46,8 @@ public class viewMessage extends AppCompatActivity {
         project = (EditText) findViewById(R.id.projectSpinner);
         subject = (EditText) findViewById(R.id.etSubject);
         message = (EditText) findViewById(R.id.editor);
-        cancel_button = (Button) findViewById(R.id.cancel_button);
-        reply_btn = (Button) findViewById(R.id.reply_button);
+        cancel_button = (LinearLayout) findViewById(R.id.cancel_button);
+        reply_btn = (LinearLayout) findViewById(R.id.reply_button);
 
         Intent intent = getIntent();
 

@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:padding="3dp"
-        android:text="Archive Board"
+        android:text="Archive Boards"
         android:id="@+id/tvReferenceBoard"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/lvRBoard" />
@@ -68,6 +68,8 @@
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_below="@+id/tvReferenceBoard" >
     <ListView
         android:layout_marginBottom="10dp"

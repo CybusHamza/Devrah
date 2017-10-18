@@ -26,7 +26,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         app:srcCompat="@drawable/bg_circle"
-        android:layout_marginTop="159dp"
+        android:layout_marginTop="162dp"
         app:civ_border_color="#fff"
         app:civ_border_width="2dp"
         android:layout_alignParentTop="true"
@@ -56,7 +56,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:srcCompat="@drawable/dashboard_projects_icon"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginStart="25dp"
         android:layout_above="@+id/imageInbox"
         android:layout_alignStart="@+id/imageInbox" />
@@ -112,7 +112,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@id/rl"
-    android:gravity="center_horizontal">
+    >
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
@@ -120,7 +120,8 @@
         android:layout_marginTop="45dp"
         android:layout_marginBottom="2dp"
         android:textSize="30sp"
-        android:gravity="center"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:text="TextView" />
@@ -129,15 +130,14 @@
         android:id="@+id/tvQuote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="17sp"
         android:text="TextView"
         android:maxLines="7"
         android:textColor="@color/colorWhite"
         android:layout_below="@id/tvTime"
-        android:layout_marginTop="15dp"
-        android:layout_alignEnd="@id/tvTime"
-        android:layout_alignStart="@id/tvTime"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
         />
     <TextView
         android:id="@+id/tvAuthor"

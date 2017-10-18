@@ -101,7 +101,7 @@ public class InboxAdapter extends BaseAdapter {
         holder.date.setText(inboxPojo.getDate());
         if(inboxPojo.getCardif().equals("null"))
         {
-            holder.boardName.setText("Card : ");
+            holder.boardName.setText("Card : -");
         }
         else{
             holder.boardName.setText("Card : "+inboxPojo.getCardif());
@@ -109,7 +109,7 @@ public class InboxAdapter extends BaseAdapter {
 
         if(inboxPojo.getP_id().equals("null"))
         {
-            holder.project.setText("Project : ");
+            holder.project.setText("Project : -");
         }
         else{
             holder.project.setText("Project : "+inboxPojo.getP_id());
@@ -117,7 +117,7 @@ public class InboxAdapter extends BaseAdapter {
 
         if(inboxPojo.getB_id().equals("null"))
         {
-            holder.card.setText("Board : ");
+            holder.card.setText("Board : -");
         }
         else{
             holder.card.setText("Board : "+inboxPojo.getB_id());

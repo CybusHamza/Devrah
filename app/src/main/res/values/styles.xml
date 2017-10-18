@@ -29,6 +29,9 @@
         <!-- To change the background of options menu-->
         <item name="android:itemBackground">@color/colorWhite</item>
     </style>
+    <style name="SpinnerUnderlined">
+        <item name="android:background">@drawable/spinner_dropdown_with_line</item>
+    </style>
 
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
         <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
@@ -55,5 +58,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-
+    <style name="Color1SwitchStyle">
+        <item name="colorControlActivated">@color/lightGreen</item>
+    </style>
 </resources>

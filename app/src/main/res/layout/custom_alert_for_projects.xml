@@ -3,20 +3,33 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="#fff"
     android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Project"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        />
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@drawable/border_line"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/Title"
         android:layout_width="match_parent"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:textColorHint="#BFBFBF"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/input_title"
             android:layout_width="match_parent"
-            android:hint="Title"
+            android:hint="Name"
             android:textColorHint="#00FA9A"
             android:backgroundTint="#00FA9A"
             android:textColor="@color/colorAccent"
@@ -32,8 +45,8 @@
         android:gravity="left"
         android:text="Project Groups:"
         android:textColor="#000"
-        android:textSize="17sp"
-        android:layout_margin="10dp"/>
+        android:textSize="15sp"
+        android:layout_margin="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,15 +58,15 @@
     <Spinner android:id="@+id/spinProjectGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"/>
+        android:layout_marginStart="20dp"
+        android:layout_weight="1" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="36dp"
             android:layout_weight="0.15"
             android:id="@+id/showET"
-            android:src="@drawable/add_data_in_spinner"/>
+            android:src="@drawable/plus_btn"/>
 
 
     </LinearLayout>
@@ -94,7 +107,7 @@
         android:layout_width="match_parent"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:textColorHint="#BFBFBF"
         android:layout_height="wrap_content">
 
@@ -121,10 +134,10 @@
         android:text="Cancel"
         android:id="@+id/cancel_btn"
         android:paddingLeft="20dp"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:paddingRight="20dp"
         android:paddingTop="20dp"
-        android:textColor="#00FA9A"/>
+        android:textColor="#f50b22"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -133,11 +146,11 @@
         android:text="Add Project"
         android:id="@+id/addProject"
         android:paddingLeft="20dp"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:paddingRight="20dp"
         android:paddingTop="20dp"
         android:paddingBottom="5dp"
-        android:textColor="#00FA9A"/>
+        android:textColor="@color/colorPrimary"/>
 </LinearLayout>
 
 

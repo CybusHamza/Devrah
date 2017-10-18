@@ -24,15 +24,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.R;
 import com.app.devrah.Views.Dashboard;
-import com.app.devrah.Views.Teams.MenuActivity;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
+import com.app.devrah.Views.Teams.MenuActivity;
 import com.app.devrah.pojo.DrawerPojo;
 
 import java.util.ArrayList;
@@ -370,20 +370,21 @@ public class ProjectsActivity extends AppCompatActivity {
         final AlertDialog alertDialog = new AlertDialog.Builder(ProjectsActivity.this).create();
 
 
-        LinearLayout active, inactive, complete,all;
+       // LinearLayout active, inactive, complete,all;
+        Switch active, inactive, complete,all;
         final ImageView imgactive, igminactive, imgcomplete,imgall,crossIcon;
 
 
-        active = (LinearLayout) customView.findViewById(R.id.active);
-        inactive = (LinearLayout) customView.findViewById(R.id.inactive);
-        complete = (LinearLayout) customView.findViewById(R.id.completed);
-        all = (LinearLayout) customView.findViewById(R.id.all);
+        active = (Switch) customView.findViewById(R.id.active);
+        inactive = (Switch) customView.findViewById(R.id.inactive);
+        complete = (Switch) customView.findViewById(R.id.completed);
+        all = (Switch) customView.findViewById(R.id.all);
 
 
-        imgactive = (ImageView) customView.findViewById(R.id.activeimg);
+        /*imgactive = (ImageView) customView.findViewById(R.id.activeimg);
         igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
         imgcomplete = (ImageView) customView.findViewById(R.id.complete);
-        imgall = (ImageView) customView.findViewById(R.id.allimg);
+        imgall = (ImageView) customView.findViewById(R.id.allimg);*/
         crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
         crossIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -394,31 +395,47 @@ public class ProjectsActivity extends AppCompatActivity {
         });
 
         if (status.equals("1")) {
-            imgactive.setVisibility(View.VISIBLE);
+            active.setChecked(true);
+            inactive.setChecked(false);
+            complete.setChecked(false);
+            all.setChecked(false);
+           // imgactive.setVisibility(View.VISIBLE);
             active.setClickable(false);
-            active.setEnabled(false);
+          //  active.setEnabled(false);
         } else if (status.equals("2")) {
-            igminactive.setVisibility(View.VISIBLE);
+            active.setChecked(false);
+            inactive.setChecked(true);
+            complete.setChecked(false);
+            all.setChecked(false);
+           // igminactive.setVisibility(View.VISIBLE);
             inactive.setClickable(false);
-            inactive.setEnabled(false);
+           // inactive.setEnabled(false);
         } else if (status.equals("3")) {
-            imgcomplete.setVisibility(View.VISIBLE);
+            active.setChecked(false);
+            inactive.setChecked(false);
+            complete.setChecked(true);
+            all.setChecked(false);
+          //  imgcomplete.setVisibility(View.VISIBLE);
             complete.setClickable(false);
-            complete.setEnabled(false);
+           // complete.setEnabled(false);
         }else if (status.equals("0")) {
-            imgall.setVisibility(View.VISIBLE);
+            active.setChecked(false);
+            inactive.setChecked(false);
+            complete.setChecked(false);
+            all.setChecked(true);
+           // imgall.setVisibility(View.VISIBLE);
             all.setClickable(false);
-            all.setEnabled(false);
+           // all.setEnabled(false);
         }
 
         active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 status="1";
-                imgactive.setVisibility(View.VISIBLE);
-                igminactive.setVisibility(View.GONE);
-                imgcomplete.setVisibility(View.GONE);
-                imgall.setVisibility(View.GONE);
+               // imgactive.setVisibility(View.VISIBLE);
+                //igminactive.setVisibility(View.GONE);
+//                imgcomplete.setVisibility(View.GONE);
+//                imgall.setVisibility(View.GONE);
                 alertDialog.dismiss();
                 int position=viewPager.getCurrentItem();
                 if(position==1){
@@ -434,10 +451,10 @@ public class ProjectsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 status="2";
-                imgactive.setVisibility(View.GONE);
-                igminactive.setVisibility(View.VISIBLE);
-                imgcomplete.setVisibility(View.GONE);
-                imgall.setVisibility(View.GONE);
+//                imgactive.setVisibility(View.GONE);
+//                igminactive.setVisibility(View.VISIBLE);
+//                imgcomplete.setVisibility(View.GONE);
+//                imgall.setVisibility(View.GONE);
                 alertDialog.dismiss();
                 int position=viewPager.getCurrentItem();
                 if(position==1){
@@ -454,10 +471,10 @@ public class ProjectsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 status="3";
-                imgactive.setVisibility(View.GONE);
-                igminactive.setVisibility(View.GONE);
-                imgcomplete.setVisibility(View.VISIBLE);
-                imgall.setVisibility(View.GONE);
+//                imgactive.setVisibility(View.GONE);
+//                igminactive.setVisibility(View.GONE);
+//                imgcomplete.setVisibility(View.VISIBLE);
+//                imgall.setVisibility(View.GONE);
                 alertDialog.dismiss();
                 int position=viewPager.getCurrentItem();
                 if(position==1){
@@ -472,10 +489,10 @@ public class ProjectsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 status="0";
-                imgall.setVisibility(View.VISIBLE);
-                imgactive.setVisibility(View.GONE);
-                igminactive.setVisibility(View.GONE);
-                imgcomplete.setVisibility(View.GONE);
+//                imgall.setVisibility(View.VISIBLE);
+//                imgactive.setVisibility(View.GONE);
+//                igminactive.setVisibility(View.GONE);
+//                imgcomplete.setVisibility(View.GONE);
                 alertDialog.dismiss();
                 int position=viewPager.getCurrentItem();
                 if(position==1){

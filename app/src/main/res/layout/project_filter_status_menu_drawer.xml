@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="#fff"
@@ -33,8 +34,58 @@
         android:layout_height="2dp"
         android:layout_margin="10dp"
         android:background="#000"/>
-
-    <LinearLayout
+    <Switch
+        android:layout_margin="5dp"
+        android:id="@+id/all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="   All"
+        app:theme="@style/Color1SwitchStyle"
+        android:gravity="left"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="10dp"
+        android:background="#808080"/>
+    <Switch
+        android:layout_margin="5dp"
+        android:id="@+id/active"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="   Active"
+        app:theme="@style/Color1SwitchStyle"
+        android:gravity="left"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="10dp"
+        android:background="#808080"/>
+    <Switch
+        android:layout_margin="5dp"
+        android:id="@+id/inactive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="   Inactive"
+        app:theme="@style/Color1SwitchStyle"
+        android:gravity="left"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="10dp"
+        android:background="#808080"/>
+    <Switch
+        android:layout_margin="5dp"
+        android:id="@+id/completed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="   Completed"
+        app:theme="@style/Color1SwitchStyle"
+        android:gravity="left"
+        />
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorPrimary"
@@ -173,6 +224,6 @@
             android:background="@drawable/left_arrow" />
 
     </LinearLayout>
-
+-->
 
 </LinearLayout>

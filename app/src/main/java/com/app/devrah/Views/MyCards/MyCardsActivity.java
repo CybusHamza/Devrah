@@ -26,9 +26,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -321,32 +321,37 @@ public class MyCardsActivity extends AppCompatActivity {
         window.setAttributes(wlp);
 
 
-        LinearLayout active, inactive;
+       // LinearLayout active, inactive;
+        Switch active, inactive;
         final ImageView imgactive, igminactive,crossIcon;
         TextView tvHeading;
         tvHeading= (TextView) customView.findViewById(R.id.tvHeading);
-        active = (LinearLayout) customView.findViewById(R.id.active);
-        inactive = (LinearLayout) customView.findViewById(R.id.inactive);
+        active = (Switch) customView.findViewById(R.id.newestFirst);
+        inactive = (Switch) customView.findViewById(R.id.oldestFirst);
         tvHeading.setText("Change Status Filter");
 
 
-        imgactive = (ImageView) customView.findViewById(R.id.activeimg);
-        igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
+       /* imgactive = (ImageView) customView.findViewById(R.id.activeimg);
+        igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);*/
         if (filter.equals("1")) {
-            imgactive.setVisibility(View.VISIBLE);
+            active.setChecked(true);
+            inactive.setChecked(false);
+            //imgactive.setVisibility(View.VISIBLE);
             active.setClickable(false);
-            active.setEnabled(false);
+            //active.setEnabled(false);
         } else if (filter.equals("0")) {
-            igminactive.setVisibility(View.VISIBLE);
+            active.setChecked(false);
+            inactive.setChecked(true);
+           // igminactive.setVisibility(View.VISIBLE);
             inactive.setClickable(false);
-            inactive.setEnabled(false);
+           // inactive.setEnabled(false);
         }
         active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 filter="1";
-                imgactive.setVisibility(View.VISIBLE);
-                igminactive.setVisibility(View.GONE);
+                /*imgactive.setVisibility(View.VISIBLE);
+                igminactive.setVisibility(View.GONE);*/
                 alertDialog.dismiss();
                 getMyCards("load","0");
             }
@@ -356,8 +361,8 @@ public class MyCardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 filter="0";
-                imgactive.setVisibility(View.GONE);
-                igminactive.setVisibility(View.VISIBLE);
+                /*imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.VISIBLE);*/
                 alertDialog.dismiss();
                 getMyCards("load","0");
 

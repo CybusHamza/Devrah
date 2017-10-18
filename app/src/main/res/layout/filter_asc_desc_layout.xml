@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="230dp"
     android:background="#fff"
@@ -35,9 +36,30 @@
         android:layout_margin="10dp"
         android:background="#000"/>
 
-
-
-    <LinearLayout
+    <Switch
+        android:layout_margin="5dp"
+        android:id="@+id/newestFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="   Newest"
+        app:theme="@style/Color1SwitchStyle"
+        android:gravity="left"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="10dp"
+        android:background="#808080"/>
+    <Switch
+        android:layout_margin="5dp"
+        android:id="@+id/oldestFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="   Oldest"
+        app:theme="@style/Color1SwitchStyle"
+        android:gravity="left"
+    />
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#B5DF6B"
@@ -105,7 +127,7 @@
             android:background="@drawable/left_arrow" />
 
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
 

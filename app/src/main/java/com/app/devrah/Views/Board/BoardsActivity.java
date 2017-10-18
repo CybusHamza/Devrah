@@ -28,9 +28,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,9 +47,9 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.ManageMembers.manage_members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Project.ProjectsActivity;
-import com.app.devrah.Views.ManageMembers.manage_members;
 import com.app.devrah.pojo.DrawerPojo;
 
 import org.json.JSONArray;
@@ -715,18 +715,19 @@ public class BoardsActivity extends AppCompatActivity {
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this).create();
         alertDialog.setCancelable(false);
 
-        LinearLayout active, inactive, complete;
+       // LinearLayout active, inactive, complete;
+        Switch active, inactive, complete;
         final ImageView imgactive, igminactive, imgcomplete,crossIcon;
 
 
-        active = (LinearLayout) customView.findViewById(R.id.active);
-        inactive = (LinearLayout) customView.findViewById(R.id.inactive);
-        complete = (LinearLayout) customView.findViewById(R.id.completed);
+        active = (Switch) customView.findViewById(R.id.active);
+        inactive = (Switch) customView.findViewById(R.id.inactive);
+        complete = (Switch) customView.findViewById(R.id.completed);
 
 
-        imgactive = (ImageView) customView.findViewById(R.id.activeimg);
+        /*imgactive = (ImageView) customView.findViewById(R.id.activeimg);
         igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
-        imgcomplete = (ImageView) customView.findViewById(R.id.complete);
+        imgcomplete = (ImageView) customView.findViewById(R.id.complete);*/
         crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
         crossIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -736,26 +737,36 @@ public class BoardsActivity extends AppCompatActivity {
             }
         });
         if (status.equals("1")) {
-            imgactive.setVisibility(View.VISIBLE);
+           // imgactive.setVisibility(View.VISIBLE);
+            active.setChecked(true);
+            inactive.setChecked(false);
+            complete.setChecked(false);
             active.setClickable(false);
-            active.setEnabled(false);
+            //active.setEnabled(false);
         } else if (status.equals("2")) {
-            igminactive.setVisibility(View.VISIBLE);
+            active.setChecked(false);
+            inactive.setChecked(true);
+            complete.setChecked(false);
+           // igminactive.setVisibility(View.VISIBLE);
             inactive.setClickable(false);
-            inactive.setEnabled(false);
+           // inactive.setEnabled(false);
         } else if (!(status.equals("null"))) {
-            imgcomplete.setVisibility(View.VISIBLE);
+            active.setChecked(false);
+            inactive.setChecked(false);
+            complete.setChecked(true);
+           // imgcomplete.setVisibility(View.VISIBLE);
             complete.setClickable(false);
-            complete.setEnabled(false);
+            //complete.setEnabled(false);
         }
 
         active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changeStatus("1");
-                imgactive.setVisibility(View.VISIBLE);
+                alertDialog.dismiss();
+                /*imgactive.setVisibility(View.VISIBLE);
                 igminactive.setVisibility(View.GONE);
-                imgcomplete.setVisibility(View.GONE);
+                imgcomplete.setVisibility(View.GONE);*/
             }
         });
 
@@ -763,9 +774,10 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeStatus("2");
-                imgactive.setVisibility(View.GONE);
+                alertDialog.dismiss();
+               /* imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.VISIBLE);
-                imgcomplete.setVisibility(View.GONE);
+                imgcomplete.setVisibility(View.GONE);*/
             }
         });
 
@@ -774,10 +786,11 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeStatus("3");
+                alertDialog.dismiss();
 
-                imgactive.setVisibility(View.GONE);
+               /* imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.GONE);
-                imgcomplete.setVisibility(View.VISIBLE);
+                imgcomplete.setVisibility(View.VISIBLE);*/
             }
         });
 

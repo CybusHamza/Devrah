@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@drawable/border_team"
+    android:background="@drawable/outer_border_message_screen"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -16,11 +16,11 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-            android:layout_marginLeft="3dp"
+            android:layout_marginStart="5dp"
             android:paddingLeft="10dp"
             android:text="Project:test"
             android:textColor="#fff"
-            android:textSize="18dp"
+            android:textSize="15dp"
             android:layout_weight="7"/>
 
         <ImageView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:padding="5dp"
-        android:layout_marginTop="5dp"
+       android:background="@drawable/bottom_border"
         android:text="sdfghj"
         android:id="@+id/tvFavouritesData"
         android:gravity="center"
