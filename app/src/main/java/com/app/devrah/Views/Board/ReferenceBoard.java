@@ -293,7 +293,17 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                         try {
                             JSONArray jsonArray = new JSONArray(response);
 
+                            if(jsonArray.length()<1){
+                                ProjectsPojo projectsPojo = new ProjectsPojo();
 
+                                projectsPojo.setBoardID("");
+                                projectsPojo.setData("No Board found");
+                                projectsPojo.setId("");
+                                projectsPojo.setReferenceBoardStar("");
+
+                                myList.add(projectsPojo);
+                                //hidentxt.setVisibility(View.VISIBLE);
+                            }
                             for(int i = 0 ; i < jsonArray.length();i++)
                             {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);

@@ -4,23 +4,29 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
-    android:background="@drawable/outer_border_checklist"
     android:padding="5dp"
 
     tools:context=".Views.BoardExtended.ChildFragmentBoardExtended">
 
     <!-- TODO: Update blank fragment layout -->
-
-
+<RelativeLayout
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/board_extended_list_border">
     <TextView
         android:id="@+id/textName"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
-
-        android:gravity="center"
-        android:padding="5dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="60dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingStart="10dp"
         android:text="TextView"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="#fff"
         android:textSize="20sp" />
     <ImageView
@@ -41,21 +47,26 @@
         android:layout_toLeftOf="@+id/menuBoards"
         android:layout_alignParentTop="true"
         />
+</RelativeLayout>
 <LinearLayout
     android:id="@+id/layoutListView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/textName"
+    android:layout_below="@+id/rl"
+    android:background="@drawable/board_extended_listborder"
+
     android:orientation="vertical">
     <ListView
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:id="@+id/boardFragmentListView"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/textName"
 
         android:dividerHeight="3dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="15dp"
+
+        android:layout_marginBottom="5dp"
         />
     <!--<TextView
         android:id="@+id/addCard"
@@ -69,6 +80,7 @@
         android:textColor="#00FA9A"
         />-->
 </LinearLayout>
+
 
 
 

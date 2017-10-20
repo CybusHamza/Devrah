@@ -399,7 +399,17 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
 
+                                if(jsonArray.length()<1){
+                                    ProjectsPojo projectsPojo = new ProjectsPojo();
 
+                                    projectsPojo.setBoardID("");
+                                    projectsPojo.setData("No Board found");
+                                    projectsPojo.setId("");
+                                    projectsPojo.setBoardStar("");
+                                    projectsPojo.setIsFavouriteFromMembers("");
+
+                                    myList.add(projectsPojo);
+                                }
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 

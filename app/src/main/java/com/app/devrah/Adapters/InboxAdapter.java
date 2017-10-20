@@ -91,7 +91,7 @@ public class InboxAdapter extends BaseAdapter {
             else
                 holder.to.setText("From : ");
         }else {
-            if (!inboxPojo.getFrom().equals("null")) {
+            if (!inboxPojo.getFrom().equals("null") && !inboxPojo.getFrom().equals("")) {
                 String finalString = inboxPojo.getFrom().substring(1);
                 holder.to.setText("To : " + finalString);
             }
@@ -122,30 +122,39 @@ public class InboxAdapter extends BaseAdapter {
         else{
             holder.card.setText("Board : "+inboxPojo.getB_id());
         }
+        if(inboxPojo.getId().equals("") && inboxPojo.getSubject().equals("No Messages found")) {
+            holder.img.setVisibility(View.INVISIBLE);
+            holder.to.setText("");
+            holder.boardName.setVisibility(View.GONE);
+            holder.project.setVisibility(View.GONE);
+            holder.card.setVisibility(View.GONE);
+            holder.data.setText(inboxPojo.getSubject());
+        }
 
 
 
-
-        convertView.setOnClickListener(new View.OnClickListener() {
+            convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity,viewMessage.class);
-                intent.putExtra("message_id",inboxPojo.getId());
-                intent.putExtra("isRead",inboxPojo.getIsread());
-                intent.putExtra("to",inboxPojo.getFrom());
-                intent.putExtra("project",inboxPojo.getP_id());
-                intent.putExtra("card",inboxPojo.getCardif());
-                intent.putExtra("board",inboxPojo.getB_id());
-                intent.putExtra("subject",inboxPojo.getSubject());
-                intent.putExtra("message",inboxPojo.getMessage());
-                intent.putExtra("messageType",messageType);
-                intent.putExtra("p_id",inboxPojo.getProjectId());
-                intent.putExtra("b_id",inboxPojo.getBoardId());
-                intent.putExtra("c_id",inboxPojo.getCardId());
-                intent.putExtra("date",inboxPojo.getDate());
+                if(!inboxPojo.getId().equals("") && !inboxPojo.getSubject().equals("No Messages found")) {
+                    Intent intent = new Intent(activity, viewMessage.class);
+                    intent.putExtra("message_id", inboxPojo.getId());
+                    intent.putExtra("isRead", inboxPojo.getIsread());
+                    intent.putExtra("to", inboxPojo.getFrom());
+                    intent.putExtra("project", inboxPojo.getP_id());
+                    intent.putExtra("card", inboxPojo.getCardif());
+                    intent.putExtra("board", inboxPojo.getB_id());
+                    intent.putExtra("subject", inboxPojo.getSubject());
+                    intent.putExtra("message", inboxPojo.getMessage());
+                    intent.putExtra("messageType", messageType);
+                    intent.putExtra("p_id", inboxPojo.getProjectId());
+                    intent.putExtra("b_id", inboxPojo.getBoardId());
+                    intent.putExtra("c_id", inboxPojo.getCardId());
+                    intent.putExtra("date", inboxPojo.getDate());
 
-                activity.startActivity(intent);
+                    activity.startActivity(intent);
+                }
 
             }
         });

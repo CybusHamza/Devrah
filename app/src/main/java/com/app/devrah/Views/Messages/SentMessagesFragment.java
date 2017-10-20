@@ -173,6 +173,24 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                         listPojo = new ArrayList<>();
                         try {
                             JSONArray array = new JSONArray(response);
+                            if(array.length()<1){
+                                projectPojoData = new InboxPojo();
+
+                                projectPojoData.setId("");
+                                projectPojoData.setB_id("");
+                                projectPojoData.setCardif("");
+                                projectPojoData.setDate("");
+                                projectPojoData.setFrom("");
+                                projectPojoData.setIsread("");
+                                projectPojoData.setMessage("");
+                                projectPojoData.setP_id("");
+                                projectPojoData.setSubject("No Messages found");
+                                projectPojoData.setProjectId("");
+                                projectPojoData.setBoardId("");
+                                projectPojoData.setCardId("");
+
+                                listPojo.add(projectPojoData);
+                            }
                            // JSONArray array1=new JSONArray(response);
                            // String test="";//new String[array.length()];
                             for (int i = 0; i < array.length(); i++) {

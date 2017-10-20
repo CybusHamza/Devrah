@@ -278,6 +278,13 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                 String data =  object.getString("group_name");
 
                                 JSONArray jsonArray = new JSONArray(data);
+                                if(jsonArray.length()<1){
+                                  TextView tv= (TextView) view.findViewById(R.id.hiddenText);
+                                    tv.setVisibility(View.VISIBLE);
+                                }else {
+                                    TextView tv= (TextView) view.findViewById(R.id.hiddenText);
+                                    tv.setVisibility(View.INVISIBLE);
+                                }
 
 
                                 for (int i = 0; i < jsonArray.length(); i++) {

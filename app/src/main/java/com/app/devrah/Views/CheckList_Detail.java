@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -78,8 +77,8 @@ public class CheckList_Detail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list__detail);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+       // drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+       // mDrawerList = (ListView) findViewById(R.id.left_drawer);
         header = (ListView) findViewById(R.id.check_id);
         Intent intent = getIntent();
         checkListiItemIds = intent.getStringArrayListExtra("checkListiItemIds");
@@ -114,7 +113,7 @@ public class CheckList_Detail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        toolbar.inflateMenu(R.menu.my_menu);
+        toolbar.inflateMenu(R.menu.edit);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -122,10 +121,11 @@ public class CheckList_Detail extends AppCompatActivity {
 
                 switch (id) {
 
-                    case R.id.menu:
-                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    case R.id.action_edit:
+                        updateCheckListNameDialog();
+                       /* drawerLayout.openDrawer(Gravity.RIGHT);
 
-                        openDrawer();
+                        openDrawer();*/
 
                         //  Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                         return true;
@@ -154,7 +154,7 @@ public class CheckList_Detail extends AppCompatActivity {
         });
         toolbar.setTitle(name);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        openDrawer();
+      //  openDrawer();
 
         Checklist_detailed_Addapter checklist_detailed_addapter = new Checklist_detailed_Addapter(CheckList_Detail.this,R.layout.checklist_item_row,checkListiItemName,checkListiItemIds,checkedItem,name,checklistid);
 
@@ -162,7 +162,7 @@ public class CheckList_Detail extends AppCompatActivity {
 
     }
 
-    public void openDrawer() {
+  /*  public void openDrawer() {
         adapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,7 +170,7 @@ public class CheckList_Detail extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
 
-                    case 0:
+                    case 0:s
                         updateCheckListNameDialog();
                         //    Toast.makeText(getApplicationContext(), "heyy", Toast.LENGTH_SHORT).show();
 
@@ -182,7 +182,7 @@ public class CheckList_Detail extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
     public void  showDialog(){
 
         LayoutInflater inflater = LayoutInflater.from(CheckList_Detail.this);
@@ -192,6 +192,8 @@ public class CheckList_Detail extends AppCompatActivity {
         alertDialog.setCancelable(false);
         final EditText edt = (EditText)customView.findViewById(R.id.input_watever);
         final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        final TextView headingtv = (TextView)customView.findViewById(R.id.headingTitle);
+        headingtv.setText("Add Checkbox");
         addCard.setText("Add Checkbox");
         final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {

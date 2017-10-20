@@ -76,32 +76,37 @@ public class MyCardsAdapter extends BaseAdapter implements View.OnTouchListener 
         }
         holder.cardName = (TextView) convertView.findViewById(R.id.tvFavouritesData);
         holder.cardName.setText(projectsList.get(position).getCard_name());
+        if(projectsList.get(position).getCard_name().equals("No Cards found") && projectsList.get(position).getCardId().equals("")) {
+            holder.data.setText("");
+            holder.boardData.setText("");
+        }
 
-
-        convertView.setOnClickListener(new View.OnClickListener() {
+            convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(activity,BoardsActivity.class);
 //                activity.startActivity(intent);
-                Intent intent = new Intent(activity,CardActivity.class);
-                intent.putExtra("CardHeaderData", projectsList.get(position).getCard_name());
-                intent.putExtra("card_id",projectsList.get(position).getCardId());
-                intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
-                intent.putExtra("cardduetime",projectsList.get(position).getDueTime());
-                intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
-                intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
-                intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
-                intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
-                intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
-                intent.putExtra("isSubscribed",projectsList.get(position).getIsCardSubscribed());
-                intent.putExtra("list_id",projectsList.get(position).getListid());
-                intent.putExtra("board_id",projectsList.get(position).getBoradid());
-                intent.putExtra("project_id",projectsList.get(position).getProjecct_id());
-                intent.putExtra("board_name",projectsList.get(position).getBoardname());
-                intent.putExtra("project_title",projectsList.get(position).getProjectname());
-                intent.putExtra("fromMyCards","true");
-                activity.finish();
-                activity.startActivity(intent);
+                if(!projectsList.get(position).getCard_name().equals("No Cards found") && !projectsList.get(position).getCardId().equals("")) {
+                    Intent intent = new Intent(activity, CardActivity.class);
+                    intent.putExtra("CardHeaderData", projectsList.get(position).getCard_name());
+                    intent.putExtra("card_id", projectsList.get(position).getCardId());
+                    intent.putExtra("cardduedate", projectsList.get(position).getDueDate());
+                    intent.putExtra("cardduetime", projectsList.get(position).getDueTime());
+                    intent.putExtra("cardstartdate", projectsList.get(position).getStartDate());
+                    intent.putExtra("cardstarttime", projectsList.get(position).getStartTime());
+                    intent.putExtra("cardDescription", projectsList.get(position).getCardDescription());
+                    intent.putExtra("isComplete", projectsList.get(position).getIsCardComplete());
+                    intent.putExtra("isLocked", projectsList.get(position).getIsCardLocked());
+                    intent.putExtra("isSubscribed", projectsList.get(position).getIsCardSubscribed());
+                    intent.putExtra("list_id", projectsList.get(position).getListid());
+                    intent.putExtra("board_id", projectsList.get(position).getBoradid());
+                    intent.putExtra("project_id", projectsList.get(position).getProjecct_id());
+                    intent.putExtra("board_name", projectsList.get(position).getBoardname());
+                    intent.putExtra("project_title", projectsList.get(position).getProjectname());
+                    intent.putExtra("fromMyCards", "true");
+                    activity.finish();
+                    activity.startActivity(intent);
+                }
 
             }
         });

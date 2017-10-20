@@ -470,17 +470,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="10dp"
+
                 android:layout_below="@+id/textEditorLayout">
                 <ImageView
                     android:src="@drawable/cancel_message"
                     android:layout_width="30dp"
-                    android:layout_height="30dp" />
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancel"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/colorWhite"/>
+                   android:textColor="@color/colorWhite"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/send_button"
@@ -493,13 +494,14 @@
                 <ImageView
                     android:src="@drawable/send"
                     android:layout_width="30dp"
-                    android:layout_height="30dp" />
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Send"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/colorWhite"/>
+                   android:textColor="@color/colorWhite"/>
             </LinearLayout>
            <!-- <Button
                 android:id="@+id/cancel_button"

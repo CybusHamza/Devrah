@@ -183,6 +183,17 @@ public class MenuActivity extends AppCompatActivity {
 
                             ringProgressDialog.dismiss();
                             teamList = new ArrayList<>();
+                        if(response.equals("false")){
+                            All_Teams all_teams = new All_Teams();
+                            all_teams.setId("");
+                            all_teams.setName("No Team found");
+                            all_teams.setDescription("");
+
+                            teamList.add(all_teams);
+
+                        TeamAdapterMenu teamAdapterMenu = new TeamAdapterMenu(MenuActivity.this,teamList);
+                        lvTeamData.setAdapter(teamAdapterMenu);
+                        }
 
                         try {
                             JSONArray jsonArray = new JSONArray(response);

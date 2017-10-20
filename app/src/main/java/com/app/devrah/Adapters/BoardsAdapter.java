@@ -74,7 +74,7 @@ public class BoardsAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = new ViewHolder();
+        final ViewHolder holder = new ViewHolder();
         if (inflater== null)
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -114,31 +114,40 @@ public class BoardsAdapter extends BaseAdapter {
         holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(projectsList.get(position).getIsFavouriteFromMembers().equals("1")){
-                    mardkBoardStar("2",projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position);
-                }else if (projectsList.get(position).getIsFavouriteFromMembers().equals("2")){
-                    mardkBoardStar("3",projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position);
+                if(projectsList.get(position).getData().equals("No Board found") && projectsList.get(position).getBoardID().equals("")){
+                    holder.favouriteIcon.setClickable(false);
                 }else {
-                    mardkBoardStar("1",projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position);
+                    if (projectsList.get(position).getIsFavouriteFromMembers().equals("1")) {
+                        mardkBoardStar("2", projectsList.get(position).getBoardID(), projectsList.get(position).getId(), position);
+                    } else if (projectsList.get(position).getIsFavouriteFromMembers().equals("2")) {
+                        mardkBoardStar("3", projectsList.get(position).getBoardID(), projectsList.get(position).getId(), position);
+                    } else {
+                        mardkBoardStar("1", projectsList.get(position).getBoardID(), projectsList.get(position).getId(), position);
+                    }
                 }
             }
         });
 
+        final View finalConvertView = convertView;
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
+                if(projectsList.get(position).getData().equals("No Board found") && projectsList.get(position).getBoardID().equals("")){
+                 finalConvertView.setClickable(false);
+                }else {
 
-                Intent intent = new Intent(activity,BoardExtended.class);
+                    Intent intent = new Intent(activity, BoardExtended.class);
 
-                intent.putExtra("TitleData",projectsList.get(position).getData());
-                intent.putExtra("p_id",projectsList.get(position).getId());
-                intent.putExtra("b_id",projectsList.get(position).getBoardID());
-                intent.putExtra("ptitle", BoardsActivity.ptitle);
-              //  intent.putExtra("list_id",projectsList.get(position).getListId());
-                //intent.putExtra("ptitle",);
+                    intent.putExtra("TitleData", projectsList.get(position).getData());
+                    intent.putExtra("p_id", projectsList.get(position).getId());
+                    intent.putExtra("b_id", projectsList.get(position).getBoardID());
+                    intent.putExtra("ptitle", BoardsActivity.ptitle);
+                    //  intent.putExtra("list_id",projectsList.get(position).getListId());
+                    //intent.putExtra("ptitle",);
 
-                activity.startActivity(intent);
+                    activity.startActivity(intent);
+                }
 
             }
         });

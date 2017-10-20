@@ -63,23 +63,31 @@ public class FavouritesAdapter extends BaseAdapter {
 
         holder.data = (TextView) convertView.findViewById(R.id.tvFavouritesData);
         holder.p_name = (TextView) convertView.findViewById(R.id.projectName);
+        holder.favouriteIcon = (ImageView) convertView.findViewById(R.id.btnFavourite);
         holder.data.setText('"'+projectsList.get(position).getData()+'"');
         holder.p_name.setText("Project: "+projectsList.get(position).getP_name());
 
+        if(projectsList.get(position).getData().equals("No data found") && projectsList.get(position).getBrdid().equals("")) {
+            holder.favouriteIcon.setVisibility(View.INVISIBLE);
+            holder.p_name.setText("");
+        }
 
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,BoardExtended.class);
-                intent.putExtra("TitleData",projectsList.get(position).getData());
-                intent.putExtra("ptitle",projectsList.get(position).getP_name());
-                intent.putExtra("p_id",projectsList.get(position).getP_status());
-                intent.putExtra("b_id",projectsList.get(position).getBrdid());
-                intent.putExtra("activity","favourites");
-                activity.finish();
+                if(!projectsList.get(position).getData().equals("No data found") && !projectsList.get(position).getBrdid().equals("")) {
 
-                activity.startActivity(intent);
+                    Intent intent = new Intent(activity, BoardExtended.class);
+                    intent.putExtra("TitleData", projectsList.get(position).getData());
+                    intent.putExtra("ptitle", projectsList.get(position).getP_name());
+                    intent.putExtra("p_id", projectsList.get(position).getP_status());
+                    intent.putExtra("b_id", projectsList.get(position).getBrdid());
+                    intent.putExtra("activity", "favourites");
+                    activity.finish();
+
+                    activity.startActivity(intent);
+                }
 
             }
         });

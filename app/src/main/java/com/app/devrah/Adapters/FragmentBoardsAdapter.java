@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -390,6 +391,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
         holder.subscribe = (ImageView) convertView.findViewById(R.id.subscribedIcon);
+        holder.descriptionIcon = (ImageView) convertView.findViewById(R.id.descriptionIcon);
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
         holder.nOfAttachments.setVisibility(View.GONE);
         holder.attachmentIcon.setVisibility(View.GONE);
@@ -406,6 +408,12 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.dueDate.setText("");
 
         }
+        if(projectsList.get(position).getCardDescription().equals("") || projectsList.get(position).getCardDescription().equals("null")){
+            holder.descriptionIcon.setVisibility(View.GONE);
+        }else {
+            holder.descriptionIcon.setVisibility(View.VISIBLE);
+        }
+
         if(!projectsList.get(position).getnOfAttachments().equals("0")){
             holder.dueDate.setVisibility(View.VISIBLE);
             holder.nOfAttachments.setVisibility(View.VISIBLE);
@@ -465,11 +473,18 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         });
         String[] labels=labelList.get(position).getLabels();
         String[] labelNames=labelList.get(position).getLabelText();
+        if(labels.length<1){
+            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.labelScroller);
+            scrollView.setVisibility(View.GONE);
+        }else {
+            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.labelScroller);
+            scrollView.setVisibility(View.VISIBLE);
+        }
         holder.labelsView.removeAllViews();
 
         for (int i = 0; i < labels.length; i++) {
             TextView image = new TextView(activity);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(120,80);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(90,50);
             layoutParams.setMargins(10,0,0,0);
             //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
             image.setLayoutParams(layoutParams);
@@ -526,6 +541,13 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         String imageUrl[]=memberList.get(position).getMembers();
         String initials[]=memberList.get(position).getInitials();
         String gp_picture[]=memberList.get(position).getGp_pictures();
+        if(imageUrl.length<1){
+            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.memberScroller);
+            scrollView.setVisibility(View.GONE);
+        }else {
+            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.memberScroller);
+            scrollView.setVisibility(View.VISIBLE);
+        }
         holder.membersView.removeAllViews();
        // if(membercount==0) {
             for (int i = 0; i < imageUrl.length; i++) {
@@ -591,7 +613,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         LinearLayout labelsView;
         TextView data,dueDate,nOfAttachments;
         ImageView favouriteIcon,attachmentIcon;
-        ImageView attachment,subscribe;
+        ImageView attachment,subscribe,descriptionIcon;
         RecyclerView recyclerView;
         LinearLayout labelsLinearLayout,labelsLinearLayout1,labelsLinearLayout2,labelsLinearLayout3,labelsLinearLayout4;
         LinearLayout label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11,label12,label13,label14,label15;

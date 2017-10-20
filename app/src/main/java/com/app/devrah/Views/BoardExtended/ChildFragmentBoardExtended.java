@@ -553,6 +553,8 @@ public class ChildFragmentBoardExtended extends Fragment {
         alertDialog.setCancelable(false);
         edt = (EditText)customView.findViewById(R.id.input_watever);
         TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        TextView headingTitle = (TextView)customView.findViewById(R.id.headingTitle);
+        headingTitle.setText("Add Card");
         addCard.setText("Add Card");
         final TextView cancelbtn = (TextView) customView.findViewById(R.id.btn_cancel);
         cancelbtn.setOnClickListener(new View.OnClickListener() {
@@ -776,10 +778,10 @@ public class ChildFragmentBoardExtended extends Fragment {
                             })
                             .show();
                 } else if (error instanceof TimeoutError) {
-
+                    //getActivity().finish();
                     //    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
                    // ChildFragmentBoardExtended fragment = new ChildFragmentBoardExtended();
-                    if(fragment.isVisible()) {
+                   /* if(fragment.isVisible()) {
                         new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Error!")
                                 .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
@@ -791,7 +793,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     }
                                 })
                                 .show();
-                    }
+                    }*/
                 }
             }
         }) {

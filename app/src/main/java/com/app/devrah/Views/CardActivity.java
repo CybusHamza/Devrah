@@ -704,7 +704,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onClick(View v) {
                 fabm.close(true);
-                addnewChecklist();
+                addNewCheckListDialogue("Checklist");
+
                 /*onFocus = true;
                 menuChanger(menu, onFocus);
                 LACheckList.setVisibility(View.VISIBLE);
@@ -835,6 +836,56 @@ public class CardActivity extends AppCompatActivity  implements callBack {
       //  getChecklistData();
 
     }
+
+    private void addNewCheckListDialogue(final String Checklist) {
+        LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
+        View customView = inflater.inflate(R.layout.custom_alert_dialogbox,null);
+        final AlertDialog alertDialog = new  AlertDialog.Builder(CardActivity.this).create();
+
+        alertDialog.setCancelable(false);
+        final EditText edt = (EditText)customView.findViewById(R.id.input_watever);
+        final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        final TextView headingtv = (TextView)customView.findViewById(R.id.headingTitle);
+        headingtv.setText("Add CheckList");
+        addCard.setText("Add CheckList");
+        edt.setText(Checklist);
+        final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        addCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String checkListName = edt.getText().toString();
+                if (!(checkListName.isEmpty())) {
+
+                   addnewChecklist(checkListName);
+                    alertDialog.dismiss();
+
+                }
+                else {
+                    Toast.makeText(CardActivity.this,"Name is must",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
+
+
+            }
+        });
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -1127,11 +1178,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     }
 
     public void getChecklistData() {
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
 
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_CHECKLIST_DATA, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
+                ringProgressDialog.dismiss();
                 LinearLayout linearLayout= (LinearLayout) findViewById(R.id.checkListLayout);
                 if(!response.equals("false")) {
 
@@ -1248,7 +1303,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                ringProgressDialog.dismiss();
                 String message = null;
                 if (error instanceof NoConnectionError) {
 
@@ -2912,8 +2967,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (error instanceof NoConnectionError) {
 
 
-                    Toast.makeText(CardActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
-                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
+                   /* new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -2922,12 +2977,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 } else if (error instanceof TimeoutError) {
 
 
-                    Toast.makeText(CardActivity.this, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
-                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                   /* new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -2937,7 +2992,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                                 }
                             })
-                            .show();
+                            .show();*/
                 }
             }
         }) {
@@ -4880,7 +4935,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }
     }
 
-    private void addnewChecklist() {
+    private void addnewChecklist(final String Checklist) {
         ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
@@ -4938,7 +4993,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("checkName","Checklist");
+                params.put("checkName",Checklist);
                 params.put("order", "1");
                 params.put("card_id",cardId);
                 final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);

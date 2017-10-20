@@ -73,10 +73,12 @@ public class TeamAdapterMenu extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
+                if(!projectsList.get(position).getId().equals("") && !projectsList.get(position).getName().equals("No Team found")) {
 
-                Intent intent = new Intent(activity,CreateNewTeamActivity.class);
-                intent.putExtra("teamMemberId",projectsList.get(position).getId());
-                activity.startActivity(intent);
+                    Intent intent = new Intent(activity, CreateNewTeamActivity.class);
+                    intent.putExtra("teamMemberId", projectsList.get(position).getId());
+                    activity.startActivity(intent);
+                }
 
             }
         });

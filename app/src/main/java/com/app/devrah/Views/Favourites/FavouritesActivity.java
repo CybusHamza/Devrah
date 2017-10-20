@@ -87,30 +87,46 @@ public class FavouritesActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            ringProgressDialog.dismiss();
-                            favouritesPojoData = new FavouritesPojo();
+                        ringProgressDialog.dismiss();
+                        if(response.equals("false")){
 
-                            JSONArray jsonArray = new JSONArray(response);
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                FavouritesPojo myCardsPojo = new FavouritesPojo();
-                                myCardsPojo.setId(jsonObject.getString("id"));
-                                myCardsPojo.setData(jsonObject.getString("board_name"));
-                                myCardsPojo.setP_name(jsonObject.getString("project_name"));
-                                myCardsPojo.setP_status(jsonObject.getString("project_id"));
-                                myCardsPojo.setBrdid(jsonObject.getString("brdId"));
-                                listPojo.add(myCardsPojo);
-                            }
-
+                            FavouritesPojo myCardsPojo = new FavouritesPojo();
+                            myCardsPojo.setId("");
+                            myCardsPojo.setData("No data found");
+                            myCardsPojo.setP_name("");
+                            myCardsPojo.setP_status("");
+                            myCardsPojo.setBrdid("");
+                            listPojo.add(myCardsPojo);
                             adapter = new FavouritesAdapter(FavouritesActivity.this, listPojo);
-
                             lv.setAdapter(adapter);
+                        }else {
+                            try {
+
+                                favouritesPojoData = new FavouritesPojo();
+
+                                JSONArray jsonArray = new JSONArray(response);
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    FavouritesPojo myCardsPojo = new FavouritesPojo();
+                                    myCardsPojo.setId(jsonObject.getString("id"));
+                                    myCardsPojo.setData(jsonObject.getString("board_name"));
+                                    myCardsPojo.setP_name(jsonObject.getString("project_name"));
+                                    myCardsPojo.setP_status(jsonObject.getString("project_id"));
+                                    myCardsPojo.setBrdid(jsonObject.getString("brdId"));
+                                    listPojo.add(myCardsPojo);
+                                }
+
+
+                                adapter = new FavouritesAdapter(FavouritesActivity.this, listPojo);
+
+                                lv.setAdapter(adapter);
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
 
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:background="@drawable/background_card_layout_cards"
     android:id="@+id/layoutTestRecycleView"
-
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:layout_height="wrap_content">
     <ImageView
         android:layout_margin="4dp"
@@ -410,7 +411,7 @@
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:padding="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:text="sdfghj"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
@@ -429,9 +430,20 @@
         android:visibility="invisible"
         app:srcCompat="@drawable/star_default" />
     <ImageView
+        android:id="@+id/descriptionIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:background="@drawable/description_icon"
+        android:layout_toEndOf="@+id/subscribedIcon"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+
+        />
+    <ImageView
         android:id="@+id/subscribedIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/subscribe_eye"
         android:layout_toEndOf="@+id/nOfAttachments"
@@ -482,6 +494,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:id="@+id/memberScroller"
         >
     <LinearLayout
         android:id="@+id/membersListView"

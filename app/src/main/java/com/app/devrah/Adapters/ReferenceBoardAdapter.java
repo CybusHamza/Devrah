@@ -72,7 +72,7 @@ public class ReferenceBoardAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        BoardsAdapter.ViewHolder holder = new BoardsAdapter.ViewHolder();
+        final BoardsAdapter.ViewHolder holder = new BoardsAdapter.ViewHolder();
         if (inflater== null)
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -97,27 +97,37 @@ public class ReferenceBoardAdapter extends BaseAdapter {
         holder.favouriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(projectsList.get(position).getReferenceBoardStar().equals("1")){
-                    mardkBoardStar("2",projectsList.get(position).getBoardID(),position);
-                }else if (projectsList.get(position).getReferenceBoardStar().equals("2")){
-                    mardkBoardStar("3",projectsList.get(position).getBoardID(),position);
+                if(projectsList.get(position).getData().equals("No Board found") && projectsList.get(position).getBoardID().equals("")){
+                    holder.favouriteIcon.setClickable(false);
                 }else {
-                    mardkBoardStar("1",projectsList.get(position).getBoardID(),position);
+                    if (projectsList.get(position).getReferenceBoardStar().equals("1")) {
+                        mardkBoardStar("2", projectsList.get(position).getBoardID(), position);
+                    } else if (projectsList.get(position).getReferenceBoardStar().equals("2")) {
+                        mardkBoardStar("3", projectsList.get(position).getBoardID(), position);
+                    } else {
+                        mardkBoardStar("1", projectsList.get(position).getBoardID(), position);
+                    }
                 }
             }
         });
 
+        final View finalConvertView = convertView;
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
-                Intent intent = new Intent(activity,BoardExtended.class);
-                intent.putExtra("TitleData",projectsList.get(position).getData());
-                intent.putExtra("p_id",projectsList.get(position).getId());
-                intent.putExtra("b_id",projectsList.get(position).getBoardID());
-                intent.putExtra("ptitle",activity.getIntent().getStringExtra("ptitle"));
+                if(projectsList.get(position).getData().equals("No Board found") && projectsList.get(position).getBoardID().equals("")){
+                    finalConvertView.setClickable(false);
+                }else {
 
-                activity.startActivity(intent);
+                    //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
+                    Intent intent = new Intent(activity, BoardExtended.class);
+                    intent.putExtra("TitleData", projectsList.get(position).getData());
+                    intent.putExtra("p_id", projectsList.get(position).getId());
+                    intent.putExtra("b_id", projectsList.get(position).getBoardID());
+                    intent.putExtra("ptitle", activity.getIntent().getStringExtra("ptitle"));
+
+                    activity.startActivity(intent);
+                }
 
             }
         });

@@ -158,12 +158,13 @@ public void getNotifications() {
 
                              try {
                                  JSONObject mainObject = new JSONObject(response);
+                                 if(!mainObject.getString("project_notifications").equals("false")) {
                                  JSONArray jsonArrayProjectNotifications = mainObject.getJSONArray("project_notifications");
                                  for (int i = 0; i < jsonArrayProjectNotifications.length(); i++) {
                                      JSONObject jsonObject = jsonArrayProjectNotifications.getJSONObject(i);
 
                                      NotificationsPojo notificationsPojo = new NotificationsPojo();
-                                     notificationsPojo.setUserName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
+                                     notificationsPojo.setUserName(jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"));
                                      notificationsPojo.setData(jsonObject.getString("project_name"));
                                      notificationsPojo.setDate(jsonObject.getString("project_assigned_on"));
                                      notificationsPojo.setProjectId(jsonObject.getString("project_id"));
@@ -187,12 +188,14 @@ public void getNotifications() {
                                      // getLabelsList(jsonObject.getString("id"));
 
                                  }
+                             }
+                                 if(!mainObject.getString("boards_notifications").equals("false")) {
                                  JSONArray jsonArrayBoardNotifications = mainObject.getJSONArray("boards_notifications");
                                  for (int i = 0; i < jsonArrayBoardNotifications.length(); i++) {
                                      JSONObject jsonObject = jsonArrayBoardNotifications.getJSONObject(i);
 
                                      NotificationsPojo boardnotificationsPojo = new NotificationsPojo();
-                                     boardnotificationsPojo.setUserName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
+                                     boardnotificationsPojo.setUserName(jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"));
                                      boardnotificationsPojo.setData(jsonObject.getString("board_name"));
                                      boardnotificationsPojo.setProjectId(jsonObject.getString("project_id"));
                                      boardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
@@ -215,33 +218,36 @@ public void getNotifications() {
                                      // getLabelsList(jsonObject.getString("id"));
 
                                  }
-                                 JSONArray jsonArrayCardNotifications = mainObject.getJSONArray("card_notifications");
-                                 for (int i = 0; i < jsonArrayCardNotifications.length(); i++) {
-                                     JSONObject jsonObject = jsonArrayCardNotifications.getJSONObject(i);
+                             }
+                                 if(!mainObject.getString("card_notifications").equals("false")) {
+                                     JSONArray jsonArrayCardNotifications = mainObject.getJSONArray("card_notifications");
+                                     for (int i = 0; i < jsonArrayCardNotifications.length(); i++) {
+                                         JSONObject jsonObject = jsonArrayCardNotifications.getJSONObject(i);
 
-                                     NotificationsPojo cardnotificationsPojo = new NotificationsPojo();
-                                     cardnotificationsPojo.setUserName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
-                                     cardnotificationsPojo.setData(jsonObject.getString("card_name"));
-                                     cardnotificationsPojo.setCardId(jsonObject.getString("card_id"));
-                                     cardnotificationsPojo.setCardDueDate(jsonObject.getString("card_end_date"));
-                                     cardnotificationsPojo.setCardStartDate(jsonObject.getString("card_start_date"));
-                                     cardnotificationsPojo.setCardDueTime(jsonObject.getString("card_due_time"));
-                                     cardnotificationsPojo.setCardStartTime(jsonObject.getString("card_start_time"));
-                                     cardnotificationsPojo.setCardDescription(jsonObject.getString("card_description"));
-                                     cardnotificationsPojo.setIsComplete(jsonObject.getString("card_is_complete"));
-                                     cardnotificationsPojo.setIsSubscribed(jsonObject.getString("subscribed"));
-                                     cardnotificationsPojo.setIsLocked(jsonObject.getString("is_locked"));
-                                     cardnotificationsPojo.setDate(jsonObject.getString("card_assigned_on"));
-                                     cardnotificationsPojo.setProjectId(jsonObject.getString("project_id"));
-                                     cardnotificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
-                                     cardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
-                                     cardnotificationsPojo.setListId(jsonObject.getString("list_id"));
-                                     cardnotificationsPojo.setBoard_name(jsonObject.getString("board_name"));
-                                     cardnotificationsPojo.setLabel(" added you to the card ");
+                                         NotificationsPojo cardnotificationsPojo = new NotificationsPojo();
+                                         cardnotificationsPojo.setUserName(jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"));
+                                         cardnotificationsPojo.setData(jsonObject.getString("card_name"));
+                                         cardnotificationsPojo.setCardId(jsonObject.getString("card_id"));
+                                         cardnotificationsPojo.setCardDueDate(jsonObject.getString("card_end_date"));
+                                         cardnotificationsPojo.setCardStartDate(jsonObject.getString("card_start_date"));
+                                         cardnotificationsPojo.setCardDueTime(jsonObject.getString("card_due_time"));
+                                         cardnotificationsPojo.setCardStartTime(jsonObject.getString("card_start_time"));
+                                         cardnotificationsPojo.setCardDescription(jsonObject.getString("card_description"));
+                                         cardnotificationsPojo.setIsComplete(jsonObject.getString("card_is_complete"));
+                                         cardnotificationsPojo.setIsSubscribed(jsonObject.getString("subscribed"));
+                                         cardnotificationsPojo.setIsLocked(jsonObject.getString("is_locked"));
+                                         cardnotificationsPojo.setDate(jsonObject.getString("card_assigned_on"));
+                                         cardnotificationsPojo.setProjectId(jsonObject.getString("project_id"));
+                                         cardnotificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
+                                         cardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
+                                         cardnotificationsPojo.setListId(jsonObject.getString("list_id"));
+                                         cardnotificationsPojo.setBoard_name(jsonObject.getString("board_name"));
+                                         cardnotificationsPojo.setLabel(" added you to the card ");
 
-                                     listPojo.add(cardnotificationsPojo);
-                                     // getLabelsList(jsonObject.getString("id"));
+                                         listPojo.add(cardnotificationsPojo);
+                                         // getLabelsList(jsonObject.getString("id"));
 
+                                     }
                                  }
                                  adapter=new NotificationAdapter(getActivity(),listPojo,boardlistPojo,cardlistPojo);
                                  lv.setAdapter(adapter);

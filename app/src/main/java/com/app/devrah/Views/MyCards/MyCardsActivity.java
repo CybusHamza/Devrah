@@ -628,6 +628,27 @@ public class MyCardsActivity extends AppCompatActivity {
             int position = 0;
 
             JSONArray jsonArray = new JSONArray(responce);
+            if(jsonArray.length()<1){
+                MyCardsPojo myCardsPojo = new MyCardsPojo();
+                    myCardsPojo.setBoardname("");
+                    myCardsPojo.setBoradid("");
+                    myCardsPojo.setCard_name("No Cards found");
+                    myCardsPojo.setCardId("");
+                    myCardsPojo.setListid("");
+                    myCardsPojo.setProjecct_id("");
+                    myCardsPojo.setProjectname("");
+                    myCardsPojo.setListname("");
+                    myCardsPojo.setDueDate("");
+                    myCardsPojo.setStartDate("");
+                    myCardsPojo.setDueTime("");
+                    myCardsPojo.setStartTime("");
+                    myCardsPojo.setIsCardComplete("");
+                    myCardsPojo.setIsCardLocked("");
+                    myCardsPojo.setIsCardSubscribed("");
+                    myCardsPojo.setCardDescription("");
+
+                    listPojo.add(myCardsPojo);
+            }
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
