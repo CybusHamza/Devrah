@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +119,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
 
 
-        etSearch.addTextChangedListener(new TextWatcher() {
+       /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -151,7 +149,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
 
             }
-        });
+        });*/
 
 
 
@@ -409,20 +407,21 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                                     projectsPojo.setIsFavouriteFromMembers("");
 
                                     myList.add(projectsPojo);
-                                }
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                }else {
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                    ProjectsPojo projectsPojo = new ProjectsPojo();
+                                        ProjectsPojo projectsPojo = new ProjectsPojo();
 
-                                    projectsPojo.setBoardID(jsonObject.getString("id"));
-                                    projectsPojo.setData(jsonObject.getString("board_name"));
-                                    projectsPojo.setId(jsonObject.getString("project_id"));
-                                    projectsPojo.setBoardStar(jsonObject.getString("board_star"));
-                                    projectsPojo.setIsFavouriteFromMembers(jsonObject.getString("is_favourite"));
+                                        projectsPojo.setBoardID(jsonObject.getString("id"));
+                                        projectsPojo.setData(jsonObject.getString("board_name"));
+                                        projectsPojo.setId(jsonObject.getString("project_id"));
+                                        projectsPojo.setBoardStar(jsonObject.getString("board_star"));
+                                        projectsPojo.setIsFavouriteFromMembers(jsonObject.getString("is_favourite"));
 
-                                    myList.add(projectsPojo);
+                                        myList.add(projectsPojo);
 
+                                    }
                                 }
 
                                 adapter = new BoardsAdapter(getActivity(), myList);

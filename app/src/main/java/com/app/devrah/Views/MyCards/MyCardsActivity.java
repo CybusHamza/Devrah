@@ -707,7 +707,6 @@ public class MyCardsActivity extends AppCompatActivity {
 
             if(tag.equals("reload"))
             {
-
                /* adapter = new MyCardsAdapter(MyCardsActivity.this, listPojo);
                 lv.setAdapter(adapter);*/
                 /*adapter = new MyCardsAdapter(MyCardsActivity.this, listPojo);

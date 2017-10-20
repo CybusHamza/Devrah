@@ -627,7 +627,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             alertDialog.dismiss();
 
                             Intent intent = new Intent();
-                            intent.setType("*/*");
+                            intent.setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
+                            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                          //   intent.setSelector(Intent.getIntent().removeCategory(););
 
@@ -853,7 +854,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(edt.getWindowToken(), 0);
                 alertDialog.dismiss();
+
             }
         });
         addCard.setOnClickListener(new View.OnClickListener() {
@@ -862,8 +867,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
                 String checkListName = edt.getText().toString();
-                if (!(checkListName.isEmpty())) {
-
+                if (!(checkListName.isEmpty())  && checkListName.trim().length()>0) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
                    addnewChecklist(checkListName);
                     alertDialog.dismiss();
 
@@ -871,13 +877,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 else {
                     Toast.makeText(CardActivity.this,"Name is must",Toast.LENGTH_SHORT).show();
                 }
-
-
-
-
-
-
-
             }
         });
 
@@ -1892,10 +1891,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             public void onResponse(String response) {
                 // loading.dismiss();
                 ringProgressDialog.dismiss();
+                getCardList();
                 Toast.makeText(CardActivity.this,"User successfully Unsubscribed!",Toast.LENGTH_LONG).show();
                 isCardSubscribed="0";
                 dataList.set(3,new DrawerPojo("Subscribed"));
                 DrawerAdapter.notifyDataSetChanged();
+                drawerLayout.closeDrawer(Gravity.END);
 
             }
 
@@ -1965,8 +1966,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 isCardSubscribed="1";
                 dataList.set(3,new DrawerPojo("Un-subscribed"));
                 DrawerAdapter.notifyDataSetChanged();
+                getCardList();
                 Toast.makeText(CardActivity.this,"User successfully subscribed!",Toast.LENGTH_LONG).show();
-
+                drawerLayout.closeDrawer(Gravity.END);
             }
 
         }

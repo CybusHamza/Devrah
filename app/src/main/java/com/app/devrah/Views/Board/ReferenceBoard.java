@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,7 +150,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         Refrence();
 
 
-        etSearch.addTextChangedListener(new TextWatcher() {
+       /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -171,9 +169,9 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
 
                 }
-                /*leaveDatas.clear();
+                *//*leaveDatas.clear();
                 leaveDatas.addAll(filteredLeaves);
-                leaves_adapter.notifyDataSetChanged();*/
+                leaves_adapter.notifyDataSetChanged();*//*
                 adapter = new ReferenceBoardAdapter(getActivity(),filteredLeaves);
                 lv.setAdapter(adapter);
 
@@ -184,7 +182,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
 
             }
-        });
+        });*/
 
 
 
@@ -262,8 +260,6 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
                 }
 
-
-
             }
         });
         alertDialog.setView(customView);
@@ -303,19 +299,19 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
                                 myList.add(projectsPojo);
                                 //hidentxt.setVisibility(View.VISIBLE);
-                            }
-                            for(int i = 0 ; i < jsonArray.length();i++)
-                            {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            }else {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                ProjectsPojo projectsPojo = new ProjectsPojo();
+                                    ProjectsPojo projectsPojo = new ProjectsPojo();
 
-                                projectsPojo.setBoardID(jsonObject.getString("id"));
-                                projectsPojo.setData(jsonObject.getString("board_name"));
-                                projectsPojo.setId(jsonObject.getString("project_id"));
-                                projectsPojo.setReferenceBoardStar(jsonObject.getString("is_favourite"));
-                                myList.add(projectsPojo);
+                                    projectsPojo.setBoardID(jsonObject.getString("id"));
+                                    projectsPojo.setData(jsonObject.getString("board_name"));
+                                    projectsPojo.setId(jsonObject.getString("project_id"));
+                                    projectsPojo.setReferenceBoardStar(jsonObject.getString("is_favourite"));
+                                    myList.add(projectsPojo);
 
+                                }
                             }
 
                             adapter = new ReferenceBoardAdapter(getActivity(), myList);

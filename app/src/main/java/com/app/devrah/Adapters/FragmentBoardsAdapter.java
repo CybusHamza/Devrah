@@ -408,11 +408,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.dueDate.setText("");
 
         }
-        if(projectsList.get(position).getCardDescription().equals("") || projectsList.get(position).getCardDescription().equals("null")){
-            holder.descriptionIcon.setVisibility(View.GONE);
-        }else {
-            holder.descriptionIcon.setVisibility(View.VISIBLE);
-        }
+
 
         if(!projectsList.get(position).getnOfAttachments().equals("0")){
             holder.dueDate.setVisibility(View.VISIBLE);
@@ -434,6 +430,12 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             holder.subscribe.setVisibility(View.VISIBLE);
         }else {
             holder.subscribe.setVisibility(View.GONE);
+        }
+        if(projectsList.get(position).getCardDescription().equals("") || projectsList.get(position).getCardDescription().equals("null")){
+            holder.descriptionIcon.setVisibility(View.GONE);
+        }else {
+            holder.dueDate.setVisibility(View.VISIBLE);
+            holder.descriptionIcon.setVisibility(View.VISIBLE);
         }
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());

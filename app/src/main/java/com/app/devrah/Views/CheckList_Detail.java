@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -208,7 +207,7 @@ public class CheckList_Detail extends AppCompatActivity {
 
 
                 String checkListName = edt.getText().toString();
-                if (!(checkListName.isEmpty())) {
+                if (!(checkListName.isEmpty())&& checkListName.trim().length()>0) {
 
                     add_checkbox(edt.getText().toString());
                     alertDialog.dismiss();
@@ -413,7 +412,7 @@ public class CheckList_Detail extends AppCompatActivity {
                 if (!(response.equals(""))) {
                     toolbar.setTitle(s);
                     name=s;
-                    drawerLayout.closeDrawer(Gravity.END);
+//                    drawerLayout.closeDrawer(Gravity.END);
                     Intent  intent = new Intent(CheckList_Detail.this, CheckList_Detail.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     overridePendingTransition(0, 0);
