@@ -570,7 +570,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 String projectData = edt.getText().toString();
                 String  boardsFragmentData = edt.getText().toString();
 
-                if (!(boardsFragmentData.equals(""))) {
+                if (!(boardsFragmentData.equals("")) && boardsFragmentData.trim().length()>0) {
                    /* boardsFragmentPojoData = new ProjectsPojo();
                     boardsFragmentPojoData.setData(boardsFragmentData);
                     listPojo.add(boardsFragmentPojoData);

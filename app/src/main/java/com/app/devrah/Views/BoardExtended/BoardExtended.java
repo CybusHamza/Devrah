@@ -716,7 +716,7 @@ private void getDueDates(){
         });
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
          String cardsByDate=dateFormat.format(dat);
-        // getCards(cardsByDate);
+         getCards(cardsByDate);
         getDueDates();
 
 
