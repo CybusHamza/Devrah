@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -23,6 +24,12 @@ import com.app.devrah.Views.MyCards.MyCardsActivity;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Project.ProjectsActivity;
 import com.app.devrah.Views.Teams.MenuActivity;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -30,7 +37,7 @@ import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnConnectionFailedListener{
 
     TextView tvTime, tvQuote,tvAlias,tvAuthor;
     String[] quotes,authorName;
@@ -43,11 +50,26 @@ public class Dashboard extends AppCompatActivity {
     Activity mActivity;
     String gLogin;
     String[] ProfileArray = {"Edit Profile", "Logoff", "Change Password"};
+    private GoogleSignInOptions gso;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        //Initializing signinbutton
+        //  signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        //signInButton.setSize(SignInButton.SIZE_WIDE);
+        //signInButton.setScopes(gso.getScopeArray());
+
+        //Initializing google api client
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
         tvTime = (TextView) findViewById(R.id.tvTime);
         tvQuote = (TextView) findViewById(R.id.tvQuote);
@@ -152,6 +174,7 @@ public class Dashboard extends AppCompatActivity {
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mGoogleApiClient.connect();
                 if(gLogin.equals("true")){
                     ProfileArray= new String[]{"Logoff"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
@@ -163,13 +186,25 @@ public class Dashboard extends AppCompatActivity {
                                     switch (which) {
                                         case 0:
 
-                                            SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = pref.edit();
-                                            editor.clear();
-                                            editor.apply();
-                                            Intent logOutIntent = new Intent(Dashboard.this, Login.class);
-                                            finish();
-                                            startActivity(logOutIntent);
+                                            if (mGoogleApiClient.isConnected()) {
+                                                mGoogleApiClient.clearDefaultAccountAndReconnect().setResultCallback(new ResultCallback<Status>() {
+
+                                                    @Override
+                                                    public void onResult(Status status) {
+
+                                                        mGoogleApiClient.disconnect();
+                                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = pref.edit();
+                                                        editor.clear();
+                                                        editor.apply();
+                                                        Intent logOutIntent = new Intent(Dashboard.this, Login.class);
+                                                        finish();
+                                                        startActivity(logOutIntent);
+                                                    }
+                                                });
+
+                                            }
+
 
 
                                             break;
@@ -393,4 +428,8 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }

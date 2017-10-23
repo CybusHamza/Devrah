@@ -49,6 +49,8 @@ import com.app.devrah.Views.Favourites.FavouritesActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.CalendarPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
 import com.app.devrah.pojo.DrawerPojo;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -83,7 +85,7 @@ public class BoardExtended extends AppCompatActivity {
     Spinner Projects,Postions;
     Toolbar toolbar;
     String title;
-    CustomViewPagerAdapter adapter;
+    CalendarAdapter adapter;
     View logo;
     List<DrawerPojo> dataList;
     String b_id, p_id,projectTitle,list_id;
@@ -111,6 +113,8 @@ public class BoardExtended extends AppCompatActivity {
     public static Menu menu;
     Boolean Cancelbtn=false;
     CompactCalendarView compactCalendarView;
+    List<CardAssociatedCalendarLabelsPojo> cardLabelsPojoList;
+    List<CardAssociatedCalendarMembersPojo> cardMembersPojoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -587,8 +591,9 @@ private void getDueDates(){
 
 
                             }
+                          //  if(compactCalendarView.getEvents())
                         }
-
+                        //getCards("");
 
 
                     } catch (JSONException e) {
@@ -709,12 +714,15 @@ private void getDueDates(){
                 //   Log.d("month", "Month was scrolled to: " + firstDayOfNewMonth);
             }
         });
-
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+         String cardsByDate=dateFormat.format(dat);
+        // getCards(cardsByDate);
         getDueDates();
 
 
     }
     private void getCards(final  String dueDate){
+        final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
@@ -724,41 +732,124 @@ private void getDueDates(){
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        listPojo = new ArrayList<>();
-                        try {
-                        JSONArray jsonArray = new JSONArray(response);
+                        if (!(response.equals("false"))) {
+                            listPojo = new ArrayList<>();
+                            cardLabelsPojoList = new ArrayList<>();
+                            cardMembersPojoList = new ArrayList<>();
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            CalendarPojo myCardsPojo = new CalendarPojo();
+                            try {
+                                CalendarPojo projectsPojo = null;
+                                JSONObject mainObject=new JSONObject(response);
+                                JSONArray jsonArrayCards = mainObject.getJSONArray("cards");
+                                JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
+                                JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
+                                JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
+                             //   JSONArray jsonArrayAttachmentsCover = mainObject.getJSONArray("attachment_cover");
+                                //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
-                            myCardsPojo.setBoardname(jsonObject.getString("board_name"));
-                            myCardsPojo.setBoradid(jsonObject.getString("board_id"));
-                            myCardsPojo.setCard_name(jsonObject.getString("card_name"));
-                            myCardsPojo.setCardId(jsonObject.getString("card_id"));
+                              //  row=jsonArrayCards.length();
+                                for (int i = 0; i < jsonArrayCards.length(); i++) {
+                                    JSONObject jsonObject = jsonArrayCards.getJSONObject(i);
+                                    JSONArray jsonArray=jsonArrayAttachments.getJSONArray(i);
 
-                            myCardsPojo.setListid(jsonObject.getString("list_id"));
-                            myCardsPojo.setProjecct_id(jsonObject.getString("project_id"));
-                            myCardsPojo.setProjectname(jsonObject.getString("project_name"));
-                            myCardsPojo.setListname(jsonObject.getString("list_name"));
-                            myCardsPojo.setDueDate(jsonObject.getString("card_end_date"));
-                            myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
-                            myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
-                            myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
-                            myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
-                            myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
-                            myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
-                            myCardsPojo.setCardDescription(jsonObject.getString("card_description"));
+                                    //JSONObject jsonObject1 = jsonArrayAttachments.getJSONObject(i);
 
-                            listPojo.add(myCardsPojo);
-                            adapter1 = new CalendarAdapter(BoardExtended.this, listPojo);
-                            lv.setAdapter(adapter1);
+                                    projectsPojo = new CalendarPojo();
+                                    // CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
+                                    projectsPojo.setId(jsonObject.getString("id"));
+                                    projectsPojo.setData(jsonObject.getString("card_name"));
+                                    projectsPojo.setAttachment(jsonObject.getString("file_name"));
+                                    projectsPojo.setDueDate(jsonObject.getString("card_end_date"));
+                                    projectsPojo.setDuetTime(jsonObject.getString("card_due_time"));
+                                    projectsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                                    projectsPojo.setCardDescription(jsonObject.getString("card_description"));
+                                    projectsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
+                                    projectsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                                    projectsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
+                                    projectsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
+                                    // projectsPojo.setCardAssignedMemberId(jsonObject.getString("crd_assigned_membr_id"));
+                                    projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
+                                    projectsPojo.setAssignedTo(jsonObject.getString("assigned_to"));
+                                    projectsPojo.setListId(jsonObject.getString("list_id"));
+
+                                    // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
+                                    //projectsPojo.setLabels(jsonObject.getString("label_color"));
+
+//                                    cardLabelsPojoList.add(labelsPojo);
+
+                                    listPojo.add(projectsPojo);
+                                    // getLabelsList(jsonObject.getString("id"));
+
+                                }
+                                for(int j=0;j<jsonArrayLabels.length();j++){
+                                    CardAssociatedCalendarLabelsPojo labelsPojo = new CardAssociatedCalendarLabelsPojo();
+                                    JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
+                                    String[] labels = new String[jsonArray.length()];
+                                    String[] labelText = new String[jsonArray.length()];
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        labels[k]=jsonObject.getString("label_color");
+                                        if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }
+                                    }
+                                    labelsPojo.setLabels(labels);
+                                    labelsPojo.setLabelText(labelText);
+                                    cardLabelsPojoList.add(labelsPojo);
+                                }
+
+                                for(int j=0;j<jsonArrayMembers.length();j++){
+                                    CardAssociatedCalendarMembersPojo membersPojo = new CardAssociatedCalendarMembersPojo();
+                                    JSONArray jsonArray=jsonArrayMembers.getJSONArray(j);
+                                    String[] members = new String[jsonArray.length()];
+                                    String[] labelText = new String[jsonArray.length()];
+                                    String[] gp_picture = new String[jsonArray.length()];
+                                    String subsribed = "";
+                                    // SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        members[k]=jsonObject.getString("profile_pic");
+                                        labelText[k]=jsonObject.getString("initials");
+                                        gp_picture[k]=jsonObject.getString("gp_picture");
+                                        if(jsonObject.getString("uid").equals(pref.getString("user_id",""))) {
+                                            subsribed = jsonObject.getString("subscribed");
+                                        }
+                                       /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }*/
+                                    }
+                                    membersPojo.setMembers(members);
+                                    membersPojo.setInitials(labelText);
+                                    membersPojo.setGp_pictures(gp_picture);
+                                    membersPojo.setMemberSubscribed(subsribed);
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardMembersPojoList.add(membersPojo);
+                                }
+
+
+                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,0);
+                                lv.setAdapter(adapter);
+
+                                /*try {
+                                    cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);
+                                    cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                                    cardAssociatedLabelRecycler.setAdapter(cardAssociatedLabelsAdapter);
+                                }catch (Exception e){
+                                    String s=e.toString();
+                                }*/
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+
+
+                            }
 
                         }
-
-                        } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
                     }
                 }, new Response.ErrorListener() {
             @Override

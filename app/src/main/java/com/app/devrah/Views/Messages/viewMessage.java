@@ -89,8 +89,8 @@ public class viewMessage extends AppCompatActivity {
             }
         });
 
-
-        from.setText(strfrom);
+        String finalString = strfrom.substring(1);
+        from.setText(finalString);
         if(strboard.equals("null")){
             board.setText("NA");
         }else {

@@ -1,13 +1,19 @@
 package com.app.devrah.Views;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +40,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,10 +52,13 @@ import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class Login extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
+public class Login extends AppCompatActivity implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener{
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
-
+    private static final int REQUEST_PERMISSIONS = 20;
 
     EditText etEmail, etPsw;
     TextView tvForgotPass;
@@ -59,6 +70,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     ImageView googleSignIn;
     private GoogleSignInOptions gso;
     private int RC_SIGN_IN = 100;
+    private boolean mIsResolving = false;
+    private boolean mShouldResolve = false;
 
     //google api client
     private GoogleApiClient mGoogleApiClient;
@@ -79,6 +92,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnSignUp = (TextView) findViewById(R.id.btn_signup);
+
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String cbValue= pref.getString("Checkbox_value","");
         if (cbValue.equals("true")){
@@ -98,32 +112,29 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
         //Initializing google api client
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+      //  mGoogleApiClient.connect();
         googleSignIn = (ImageView) findViewById(R.id.imgViewGSignIn);
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(Login.this,  android.Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
 
 
-                //Setting onclick listener to signing button
-                //signInButton.setOnClickListener(this);
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                if (mGoogleApiClient.isConnected()) {
+                    ActivityCompat.requestPermissions(Login.this,
+                            new String[]{Manifest.permission
+                                    .GET_ACCOUNTS},
+                            REQUEST_PERMISSIONS);
 
-                    // clearCookies();
-                    mGoogleApiClient.clearDefaultAccountAndReconnect();
-                    /*Plus.AccountApi
-                            .clearDefaultAccount(mGoogleApiClient);
-
-                    mGoogleApiClient.disconnect();
-
-                    mGoogleApiClient.connect();*/
                 }
 
-                //Starting intent for result
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                else
+                {
+                    onSignInClicked();
+
+                }
+
             }
         });
 
@@ -147,6 +158,45 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             }
         });
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //The External Storage Write Permission is granted to you... Continue your left job...
+                onSignInClicked();
+            } else {
+
+
+                Toast.makeText(Login.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+    }
+
+    private void onSignInClicked() {
+        //Setting onclick listener to signing button
+        //signInButton.setOnClickListener(this);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        if (mGoogleApiClient.isConnected()) {
+
+            // clearCookies();
+            mGoogleApiClient.clearDefaultAccountAndReconnect();
+                    /*Plus.AccountApi
+                            .clearDefaultAccount(mGoogleApiClient);
+
+                    mGoogleApiClient.disconnect();
+
+                    mGoogleApiClient.connect();*/
+        }
+
+        //Starting intent for result
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
     public void forgotPasswordDialog() {
         // canvas.setMode(CanvasView.Mode.TEXT);
         AlertDialog.Builder alert = new AlertDialog.Builder(Login.this);
@@ -333,10 +383,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -368,7 +415,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             }else {
                 url="";
             }
-            Signup(acct.getDisplayName().toString(),acct.getEmail().toString(),url);
+            if(acct.getDisplayName()!=null) {
+                Signup(acct.getDisplayName().toString(), acct.getEmail().toString(), url);
+            }
 
            /* intent.putExtra("Gprofile",url.toString());
             startActivity(intent);
@@ -391,7 +440,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
         } else {
             //If login fails
-            Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
         }
     }
     public void Signup(final String name, final String email, final String profileurl) {
@@ -403,10 +452,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         if (rnum < 0) {
             rnum = rnum * -1;
         }
+        final String strInitials;
+        final String firstName;
+        final String lastName;
         String[] fullName=name.split(" ");
-        final String firstName=fullName[0];
-        final String lastName=fullName[1];
-        final String strInitials=firstName.charAt(0)+""+lastName.charAt(0);
+        if(fullName.length==2) {
+            firstName = fullName[0];
+            lastName = fullName[1];
+             strInitials = firstName.charAt(0) + "" + lastName.charAt(0);
+        }else{
+
+           strInitials = String.valueOf(name.charAt(0));
+            firstName=name;
+            lastName="";
+        }
 
         final int finalRnum = rnum;
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.SIGN_UP_GOOGLE,
@@ -619,5 +678,85 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mGoogleApiClient.connect();
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        } else {
+            // If the user has not previously signed in on this device or the sign-in has expired,
+            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+            // single sign-on will occur in this branch.
+
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                    if(googleSignInResult.isSuccess())
+                    handleSignInResult(googleSignInResult);
+
+                }
+            });
+        }
+
+
+    }
+
+
+
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.disconnect();
+    }
+
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        // Could not connect to Google Play Services.  The user needs to select an account,
+        // grant permissions or resolve an error in order to sign in. Refer to the javadoc for
+        // ConnectionResult to see possible error codes.
+        Log.d("", "onConnectionFailed:" + connectionResult);
+
+        if (!mIsResolving && mShouldResolve) {
+            if (connectionResult.hasResolution()) {
+                try {
+                    connectionResult.startResolutionForResult(this, RC_SIGN_IN);
+                    mIsResolving = true;
+                } catch (IntentSender.SendIntentException e) {
+                    Log.e("", "Could not resolve ConnectionResult.", e);
+                    mIsResolving = false;
+                    mGoogleApiClient.connect();
+                }
+            } else {
+                // Could not resolve the connection result, show the user an
+                // error dialog.
+                Toast.makeText(Login.this,"Check your internet connection and try again",Toast.LENGTH_LONG).show();
+            }
+        } else {
+            // Show the signed-out UI
+            //    showSignedOutUI();
+        }
+    }
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mShouldResolve = false;
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
     }
 }

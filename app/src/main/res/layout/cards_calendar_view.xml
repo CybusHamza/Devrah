@@ -88,7 +88,6 @@
         android:layout_marginLeft="5dp"
         android:id="@+id/dateLabel"
         android:textColor="#fff"
-        android:visibility="gone"
 
         />
     <ImageView

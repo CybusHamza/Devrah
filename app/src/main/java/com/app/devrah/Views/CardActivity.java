@@ -3961,6 +3961,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("boardId",BoardExtended.boardId);
                 params.put("projectId", projectId);
                 params.put("cardId",cardId);
+                params.put("listId",list_id);
                 params.put("original_name",originalName);
                 params.put("name",attachmentName);
                 params.put("type_file",fileType);

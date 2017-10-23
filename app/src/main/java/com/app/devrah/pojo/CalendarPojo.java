@@ -4,76 +4,243 @@ package com.app.devrah.pojo;
  * Created by Hamza Android on 10/16/2017.
  */
 public class CalendarPojo {
-    String cardId,card_name,projecct_id,boradid,listid,projectname,boardname,listname;
+    public String data;
+    public String boardID;
 
-    public String getCardId() {
-        return cardId;
+    public String getCardAssignedMemberId() {
+        return cardAssignedMemberId;
     }
 
-    public void setCardId(String cardId) {
-        this.cardId = cardId;
+    public void setCardAssignedMemberId(String cardAssignedMemberId) {
+        this.cardAssignedMemberId = cardAssignedMemberId;
     }
 
-    public String getCard_name() {
-        return card_name;
+    public String cardAssignedMemberId;
+
+    public String getAssignedTo() {
+        return assignedTo;
     }
 
-    public void setCard_name(String card_name) {
-        this.card_name = card_name;
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
-    public String getProjecct_id() {
-        return projecct_id;
+    public String assignedTo;
+
+    public String getReferenceBoardStar() {
+        return referenceBoardStar;
     }
 
-    public void setProjecct_id(String projecct_id) {
-        this.projecct_id = projecct_id;
+    public void setReferenceBoardStar(String referenceBoardStar) {
+        this.referenceBoardStar = referenceBoardStar;
     }
 
-    public String getBoradid() {
-        return boradid;
+    public String referenceBoardStar;
+
+    public String getBoardStar() {
+        return boardStar;
     }
 
-    public void setBoradid(String boradid) {
-        this.boradid = boradid;
+    public void setBoardStar(String boardStar) {
+        this.boardStar = boardStar;
     }
 
-    public String getListid() {
-        return listid;
+    public String boardStar;
+    public String projectStatus;
+
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setListid(String listid) {
-        this.listid = listid;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getProjectname() {
-        return projectname;
+    public String startDate;
+
+    public String getnOfAttachments() {
+        return nOfAttachments;
     }
 
-    public void setProjectname(String projectname) {
-        this.projectname = projectname;
+    public void setnOfAttachments(String nOfAttachments) {
+        this.nOfAttachments = nOfAttachments;
     }
 
-    public String getBoardname() {
-        return boardname;
+    public String nOfAttachments;
+
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setBoardname(String boardname) {
-        this.boardname = boardname;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public String getListname() {
-        return listname;
+    public String dueDate;
+
+    public String getBoardAssociatedLabelsId() {
+        return boardAssociatedLabelsId;
     }
 
-    public void setListname(String listname) {
-        this.listname = listname;
+    public void setBoardAssociatedLabelsId(String boardAssociatedLabelsId) {
+        this.boardAssociatedLabelsId = boardAssociatedLabelsId;
     }
-    String dueDate;
-    String startDate;
-    String dueTime;
+
+    public String boardAssociatedLabelsId;
+
+    public String[] getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String[] labels) {
+        this.labels = labels;
+    }
+
+    public String[] labels;
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
+    public String attachment;
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
+    public String listId;
+
+    public String getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(String projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+
+
+    public String getBoardID() {
+        return boardID;
+    }
+
+    public void setBoardID(String boardID) {
+        this.boardID = boardID;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String description;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String id;
+
+    CalendarPojo(String Data){
+        this.data=Data;
+
+    }
+    public CalendarPojo(){
+
+    }
+
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getListColor() {
+        return listColor;
+    }
+
+    public void setListColor(String listColor) {
+        this.listColor = listColor;
+    }
+
+    String listColor;
+
+    public String getIsCover() {
+        return isCover;
+    }
+
+    public void setIsCover(String isCover) {
+        this.isCover = isCover;
+    }
+
+    String isCover;
+    String duetTime;
+
+    public String getDuetTime() {
+        return duetTime;
+    }
+
+    public void setDuetTime(String duetTime) {
+        this.duetTime = duetTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
     String startTime;
+
+    public String getCardDescription() {
+        return cardDescription;
+    }
+
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
+
+    String cardDescription;
+
+    public String getIsCardComplete() {
+        return isCardComplete;
+    }
+
+    public void setIsCardComplete(String isCardComplete) {
+        this.isCardComplete = isCardComplete;
+    }
+
     String isCardComplete;
+
+    public String getIsCardLocked() {
+        return isCardLocked;
+    }
+
+    public void setIsCardLocked(String isCardLocked) {
+        this.isCardLocked = isCardLocked;
+    }
+
+    String isCardLocked;
 
     public String getIsCardSubscribed() {
         return isCardSubscribed;
@@ -85,62 +252,23 @@ public class CalendarPojo {
 
     String isCardSubscribed;
 
-    public String getDueDate() {
-        return dueDate;
+    public String getProjectCreatedBy() {
+        return projectCreatedBy;
     }
 
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
+    public void setProjectCreatedBy(String projectCreatedBy) {
+        this.projectCreatedBy = projectCreatedBy;
     }
 
-    public String getStartDate() {
-        return startDate;
+    String projectCreatedBy;
+
+    public String getIsFavouriteFromMembers() {
+        return isFavouriteFromMembers;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setIsFavouriteFromMembers(String isFavouriteFromMembers) {
+        this.isFavouriteFromMembers = isFavouriteFromMembers;
     }
 
-    public String getDueTime() {
-        return dueTime;
-    }
-
-    public void setDueTime(String dueTime) {
-        this.dueTime = dueTime;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getIsCardComplete() {
-        return isCardComplete;
-    }
-
-    public void setIsCardComplete(String isCardComplete) {
-        this.isCardComplete = isCardComplete;
-    }
-
-    public String getIsCardLocked() {
-        return isCardLocked;
-    }
-
-    public void setIsCardLocked(String isCardLocked) {
-        this.isCardLocked = isCardLocked;
-    }
-
-    public String getCardDescription() {
-        return cardDescription;
-    }
-
-    public void setCardDescription(String cardDescription) {
-        this.cardDescription = cardDescription;
-    }
-
-    String isCardLocked;
-    String cardDescription;
+    String isFavouriteFromMembers;
 }
