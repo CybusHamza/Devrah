@@ -1306,7 +1306,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 String message = null;
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("No Internet Connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {

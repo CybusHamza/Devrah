@@ -117,6 +117,9 @@ public class End_Points {
     public static final String GET_POSITION_LIST= BASE_URL + "getPostionofList";
     public static final String GET_DUE_DATE= BASE_URL + "getDueDate";
     public static final String GETMYCARDSBYDUEDATE= BASE_URL + "getCardsByDueDateCalendarView";
+    public static final String GETCHECKLISTCOMMENTS= BASE_URL + "getCheckListComments";
+    public static final String DELETECOMMENT= BASE_URL + "deleteComment";
+    public static final String ADDCOMMENTS= BASE_URL + "addNewComments";
 
 
 }

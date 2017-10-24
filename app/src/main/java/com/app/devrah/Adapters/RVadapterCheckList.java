@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Holders.Cheklist;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.CheckList_Comments;
 import com.app.devrah.Views.CheckList_Detail;
 import com.app.devrah.pojo.check_model;
 
@@ -98,6 +99,15 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
                             }
                         })
                         .show();
+            }
+        });
+        holder.comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent  intent = new Intent(activity, CheckList_Comments.class);
+                intent.putExtra("checklid",CheckListItems.get(position).getId());
+
+                activity.startActivity(intent);
             }
         });
         /*holder.checklistName.setOnEditorActionListener(new TextView.OnEditorActionListener() {

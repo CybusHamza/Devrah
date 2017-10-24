@@ -19,7 +19,7 @@ public class Cheklist extends RecyclerView.ViewHolder {
     public TextView tvProgress;
     public ProgressBar progressBar;
     public LinearLayout ll;
-    public ImageView deleteCheckList;
+    public ImageView deleteCheckList,comments;
 
     public Cheklist(View itemView) {
         super(itemView);
@@ -28,6 +28,7 @@ public class Cheklist extends RecyclerView.ViewHolder {
         progressBar  = (ProgressBar)itemView.findViewById(R.id.simpleProgressBar);
         ll  = (LinearLayout)itemView.findViewById(R.id.LinearLayoutheader);
         deleteCheckList  = (ImageView) itemView.findViewById(R.id.deleteCheckList);
+        comments  = (ImageView) itemView.findViewById(R.id.commentsCheckList);
 
 
 

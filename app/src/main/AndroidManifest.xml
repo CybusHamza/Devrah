@@ -27,17 +27,14 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:label">
         <activity android:name=".Views.SignUpActivity" />
-        <activity android:name=".Views.Login"
-            >
+        <activity android:name=".Views.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.MainActivity">
-
-        </activity>
+        <activity android:name=".Views.MainActivity" />
         <activity android:name=".Views.Dashboard" />
         <activity android:name=".Views.Project.ProjectsActivity" />
         <activity android:name=".Views.Board.BoardsActivity" />
@@ -84,12 +81,18 @@
             android:name=".Views.ManageMembers.Manage_Board_Members"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Views.CheckList_Detail" android:windowSoftInputMode="adjustNothing"/>
+            android:name=".Views.CheckList_Detail"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".Views.Messages.Reply"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Views.Manage_Card_Members"
-            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".Views.Manage_Card_Members"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Views.CheckListComments"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Views.CheckList_Comments"></activity>
     </application>
 
 </manifest>
