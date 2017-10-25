@@ -7,6 +7,11 @@
     android:background="@null"
     android:layout_margin="5dp"
     >
+    <LinearLayout
+        android:id="@+id/commentsCheckListLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/commentsCheckList"
@@ -16,8 +21,15 @@
         android:layout_marginBottom="0dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:background="@drawable/comments_icon"/>
+        <TextView
+            android:id="@+id/noOfComments"
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"/>
+    </LinearLayout>
     <ProgressBar
         android:id="@+id/simpleProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"

@@ -1159,16 +1159,20 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 path  = getPath(CardActivity.this, selectedImageUri);
             }
-            fileName = path.split("/");
-            file = fileName[fileName.length-1];
+            if(path!=null && !path.equals("")) {
+                fileName = path.split("/");
+                file = fileName[fileName.length - 1];
 
-            UploadFile uploadFile = new UploadFile();
-            uploadFile.delegate =CardActivity.this;
-            uploadFile.execute(path);
+                UploadFile uploadFile = new UploadFile();
+                uploadFile.delegate = CardActivity.this;
+                uploadFile.execute(path);
 
-            ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading File ...", true);
-            ringProgressDialog.setCancelable(false);
-            ringProgressDialog.show();
+                ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading File ...", true);
+                ringProgressDialog.setCancelable(false);
+                ringProgressDialog.show();
+            }else {
+                Toast.makeText(this,"file not found",Toast.LENGTH_LONG).show();
+            }
 
 
         }

@@ -42,10 +42,11 @@
     <android.support.v7.widget.RecyclerView
         android:padding="10dp"
         android:layout_below="@id/header"
+
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="55dp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
@@ -76,10 +77,17 @@
             android:inputType="textMultiLine"
             android:hint="Add a comment"
             />
-
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/attachmentIcon"
+            android:src="@drawable/comments_attachment"
+            android:layout_weight="0" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/send"
             android:src="@drawable/send"
             android:layout_weight="0" />

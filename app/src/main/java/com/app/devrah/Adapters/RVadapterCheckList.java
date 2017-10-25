@@ -101,7 +101,7 @@ public class RVadapterCheckList extends RecyclerView.Adapter<Cheklist> {
                         .show();
             }
         });
-        holder.comments.setOnClickListener(new View.OnClickListener() {
+        holder.commentsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent  intent = new Intent(activity, CheckList_Comments.class);

@@ -120,6 +120,9 @@ public class End_Points {
     public static final String GETCHECKLISTCOMMENTS= BASE_URL + "getCheckListComments";
     public static final String DELETECOMMENT= BASE_URL + "deleteComment";
     public static final String ADDCOMMENTS= BASE_URL + "addNewComments";
+    public static final String EDITCOMMENTS= BASE_URL + "editComment";
+    public static final String REPLYCOMMENT= BASE_URL + "replyComment";
+    public static final String ADDIMAGECOMMENTS= BASE_URL + "addImageComment";
 
 
 }

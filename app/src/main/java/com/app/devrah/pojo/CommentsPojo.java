@@ -14,6 +14,36 @@ public class CommentsPojo {
 
     int level;
     String id;
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    String parentId;
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    String fileType;
+
+    public String getIsFile() {
+        return isFile;
+    }
+
+    public void setIsFile(String isFile) {
+        this.isFile = isFile;
+    }
+
+    String isFile;
     String cardId;
 
     public String getChecklistId() {
