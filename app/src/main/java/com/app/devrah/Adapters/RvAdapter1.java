@@ -72,7 +72,28 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
         // DataModal dataModal = projectsList.get(position);
         holder.tv.setText(projectsList.get(position).getComments());
         holder.userName.setText(projectsList.get(position).getFullName());
+        holder.date.setTextColor(activity.getResources().getColor(R.color.black));
+        holder.date.setText(projectsList.get(position).getDate());
         holder.setLevel(projectsList.get(position).getLevel());
+        SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
+        if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2){
+            holder.userName.setTextColor(activity.getResources().getColor(R.color.userColorGreen));
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+        }else {
+            holder.userName.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+            holder.delete.setVisibility(View.INVISIBLE);
+            holder.edit.setVisibility(View.INVISIBLE);
+        }
+        /*if(projectsList.get(position).getLevel()==1){
+            holder.delete.setVisibility(View.GONE);
+            holder.edit.setVisibility(View.GONE);
+        }else {
+            holder.delete.setVisibility(View.VISIBLE);
+            holder.edit.setVisibility(View.VISIBLE);
+        }*/
+
         String fileType=projectsList.get(position).getFileType();
         if(projectsList.get(position).getIsFile().equals("1") && (fileType.equals("image/jpeg") || fileType.equals("image/png") || fileType.equals("image/jpg")|| fileType.equals("image/gif")) ){
             holder.attachment.setVisibility(View.VISIBLE);
@@ -87,12 +108,16 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
             holder.tv.setVisibility(View.VISIBLE);
             holder.tv.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
             holder.attachment.setVisibility(View.GONE);
+            if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2)
             holder.edit.setVisibility(View.VISIBLE);
         }else {
+            holder.tv.setPaintFlags(0);
             holder.tv.setTextColor(activity.getResources().getColor(R.color.black));
             holder.tv.setVisibility(View.VISIBLE);
             holder.attachment.setVisibility(View.GONE);
+            if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2)
             holder.edit.setVisibility(View.VISIBLE);
+
         }
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,11 +147,17 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, Child_Inner_Comments.class);
-                intent.putExtra("checklid",projectsList.get(position).getChecklistId());
-                intent.putExtra("cardId",projectsList.get(position).getCardId());
-                intent.putExtra("id",projectsList.get(position).getId());
-                activity.startActivity(intent);
+                if(projectsList.get(position).getLevel()==1){
+
+                }else {
+                    Intent intent = new Intent(activity, Child_Inner_Comments.class);
+                    intent.putExtra("checklid", projectsList.get(position).getChecklistId());
+                    intent.putExtra("cardId", projectsList.get(position).getCardId());
+                    intent.putExtra("id", projectsList.get(position).getId());
+                    intent.putExtra("parentComment",projectsList.get(position).getFullName());
+                    intent.putExtra("parentCommentData",projectsList.get(position).getComments());
+                    activity.startActivity(intent);
+                }
                 /*if(projectsList.get(position).getLevel()==2){
                     replyToComment(projectsList.get(position).getParentId(),projectsList.get(position).getCardId(),projectsList.get(position).getChecklistId(),position);
 
@@ -137,11 +168,17 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, Child_Inner_Comments.class);
-                intent.putExtra("checklid",projectsList.get(position).getChecklistId());
-                intent.putExtra("cardId",projectsList.get(position).getCardId());
-                intent.putExtra("id",projectsList.get(position).getId());
-                activity.startActivity(intent);
+                if(projectsList.get(position).getLevel()==1){
+
+                }else {
+                    Intent intent = new Intent(activity, Child_Inner_Comments.class);
+                    intent.putExtra("checklid", projectsList.get(position).getChecklistId());
+                    intent.putExtra("cardId", projectsList.get(position).getCardId());
+                    intent.putExtra("id", projectsList.get(position).getId());
+                    intent.putExtra("parentComment",projectsList.get(position).getFullName());
+                    intent.putExtra("parentCommentData",projectsList.get(position).getComments());
+                    activity.startActivity(intent);
+                }
             }
         });
 
@@ -182,7 +219,7 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
     }
 
     class RvViewHolder extends RecyclerView.ViewHolder {
-        TextView tv,edit,reply,userName;
+        TextView tv,edit,reply,userName,date;
         View itemView;
         View marker;
         ImageView delete,attachment;
@@ -193,6 +230,7 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
             this.itemView = itemView;
             cardView= (CardView) itemView.findViewById(R.id.rv_item_card);
             tv = (TextView) itemView.findViewById(R.id.rv_item_tv);
+            date = (TextView) itemView.findViewById(R.id.date);
             userName = (TextView) itemView.findViewById(R.id.userName);
             edit = (TextView) itemView.findViewById(R.id.edit);
             reply = (TextView) itemView.findViewById(R.id.reply);

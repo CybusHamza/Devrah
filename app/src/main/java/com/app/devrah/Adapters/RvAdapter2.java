@@ -73,8 +73,31 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
         // DataModal dataModal = projectsList.get(position);
         holder.tv.setText(projectsList.get(position).getComments());
         holder.userName.setText(projectsList.get(position).getFullName());
+        holder.date.setTextColor(activity.getResources().getColor(R.color.black));
+        holder.date.setText(projectsList.get(position).getDate());
         holder.setLevel(projectsList.get(position).getLevel());
         String fileType=projectsList.get(position).getFileType();
+        SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
+        if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2){
+            holder.userName.setTextColor(activity.getResources().getColor(R.color.userColorGreen));
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+        }else {
+            holder.userName.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+            holder.delete.setVisibility(View.INVISIBLE);
+            holder.edit.setVisibility(View.INVISIBLE);
+        }
+
+        /*if(projectsList.get(position).getLevel()==1){
+            holder.delete.setVisibility(View.GONE);
+            holder.edit.setVisibility(View.GONE);
+        }else {
+            holder.delete.setVisibility(View.VISIBLE);
+            holder.edit.setVisibility(View.VISIBLE);
+        }*/
+
+
         if(projectsList.get(position).getIsFile().equals("1") && (fileType.equals("image/jpeg") || fileType.equals("image/png") || fileType.equals("image/jpg")|| fileType.equals("image/gif")) ){
             holder.attachment.setVisibility(View.VISIBLE);
             holder.tv.setVisibility(View.GONE);
@@ -88,12 +111,17 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             holder.tv.setVisibility(View.VISIBLE);
             holder.tv.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
             holder.attachment.setVisibility(View.GONE);
+            if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2)
             holder.edit.setVisibility(View.VISIBLE);
+
         }else {
+            holder.tv.setPaintFlags(0);
             holder.tv.setTextColor(activity.getResources().getColor(R.color.black));
             holder.tv.setVisibility(View.VISIBLE);
             holder.attachment.setVisibility(View.GONE);
+            if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2)
             holder.edit.setVisibility(View.VISIBLE);
+
         }
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +207,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
     }
 
     class RvViewHolder extends RecyclerView.ViewHolder {
-        TextView tv,edit,reply,userName;
+        TextView tv,edit,reply,userName,date;
         View itemView;
         View marker;
         ImageView delete,attachment;
@@ -190,6 +218,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             this.itemView = itemView;
             cardView= (CardView) itemView.findViewById(R.id.rv_item_card);
             tv = (TextView) itemView.findViewById(R.id.rv_item_tv);
+            date = (TextView) itemView.findViewById(R.id.date);
             userName = (TextView) itemView.findViewById(R.id.userName);
             edit = (TextView) itemView.findViewById(R.id.edit);
             reply = (TextView) itemView.findViewById(R.id.reply);

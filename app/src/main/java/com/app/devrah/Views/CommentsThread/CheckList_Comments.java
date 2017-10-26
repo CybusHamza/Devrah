@@ -540,6 +540,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setIsFile(obj.getString("is_Upload"));
                                     commentsPojo.setFileType(obj.getString("file_type"));
                                     commentsPojo.setParentId(obj.getString("id"));
+                                    commentsPojo.setDate(obj.getString("created_on"));
                                     commentsPojo.setLevel(Level.LEVEL_ONE);
                                     listPojo.add(commentsPojo);
                                    /* JSONArray array=jsonArray1.getJSONArray(i);

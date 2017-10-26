@@ -89,4 +89,14 @@ public class CommentsPojo {
     String checklistId;
     String comments;
     String fullName;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    String date;
 }

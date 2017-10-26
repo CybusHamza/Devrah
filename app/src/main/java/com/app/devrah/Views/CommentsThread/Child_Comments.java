@@ -96,7 +96,7 @@ public class Child_Comments extends AppCompatActivity implements callBack{
     ImageView sendComments,sendAttachment;
     String b64,formattedDate;
     ProgressDialog ringProgressDialog;
-    String filepath,cardId,parentId;
+    String filepath,cardId,parentId,fullName,parentCommentsData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +119,8 @@ public class Child_Comments extends AppCompatActivity implements callBack{
         checkListId=intent.getStringExtra("checklid");
         cardId=intent.getStringExtra("cardId");
         parentId=intent.getStringExtra("id");
+        fullName=intent.getStringExtra("parentComment");
+        parentCommentsData=intent.getStringExtra("parentCommentData");
         getComments();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etComments.getWindowToken(), 0);
@@ -520,6 +522,19 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
+                        listPojo = new ArrayList<>();
+                        CommentsPojo commentsPojo1=new CommentsPojo();
+                        commentsPojo1.setId("");
+                        commentsPojo1.setCardId("");
+                        commentsPojo1.setChecklistId("");
+                        commentsPojo1.setComments(parentCommentsData);
+                        commentsPojo1.setFullName(fullName);
+                        commentsPojo1.setIsFile("");
+                        commentsPojo1.setFileType("");
+                        commentsPojo1.setParentId("");
+                        commentsPojo1.setDate("");
+                        commentsPojo1.setLevel(Level.LEVEL_ONE);
+                        listPojo.add(commentsPojo1);
                         if(response.equals("false")){
 
 
@@ -530,7 +545,7 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                                 //  String childData=object.getString("child_comments");
                                 JSONArray jsonArray = new JSONArray(data);
                                 // JSONArray jsonArray1=new JSONArray(childData);
-                                listPojo = new ArrayList<>();
+
                                 for (int i=0;i<jsonArray.length();i++){
                                     CommentsPojo commentsPojo=new CommentsPojo();
                                     JSONObject obj = new JSONObject(jsonArray.getString(i));
@@ -542,7 +557,8 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setIsFile(obj.getString("is_Upload"));
                                     commentsPojo.setFileType(obj.getString("file_type"));
                                     commentsPojo.setParentId(obj.getString("id"));
-                                    commentsPojo.setLevel(Level.LEVEL_ONE);
+                                    commentsPojo.setDate(obj.getString("created_on"));
+                                    commentsPojo.setLevel(Level.LEVEL_TWO);
                                     listPojo.add(commentsPojo);
                                    /* JSONArray array=jsonArray1.getJSONArray(i);
                                     if(array.length()>0){
