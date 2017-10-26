@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.CommentsThread;
 
 import android.Manifest;
 import android.app.Activity;
@@ -45,11 +45,12 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.RvAdapter;
+import com.app.devrah.Adapters.RvAdapter2;
 import com.app.devrah.Holders.ViewUtils;
 import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.CommentsPojo;
 import com.app.devrah.pojo.Level;
 
@@ -79,7 +80,7 @@ import static com.app.devrah.Views.FilePath.isExternalStorageDocument;
 import static com.app.devrah.Views.FilePath.isMediaDocument;
 
 
-public class CheckList_Comments extends AppCompatActivity implements callBack{
+public class Child_Inner_Comments extends AppCompatActivity implements callBack{
     String[] fileName;
     String file;
     private String upLoadServerUri = null;
@@ -89,13 +90,13 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
     RecyclerView rv;
     String checkListId;
     List<CommentsPojo> listPojo;
-    RvAdapter adapter;
+    RvAdapter2 adapter;
     Toolbar toolbar;
     EditText etComments;
     ImageView sendComments,sendAttachment;
     String b64,formattedDate;
     ProgressDialog ringProgressDialog;
-    String filepath;
+    String filepath,cardId,parentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +108,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         sendAttachment= (ImageView) findViewById(R.id.attachmentIcon);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
         toolbar.inflateMenu(R.menu.my_menu);
-        toolbar.setTitle("Comments");
+        toolbar.setTitle("Replies");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);
@@ -116,9 +117,14 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         ViewUtils.handleVerticalLines(findViewById(R.id.view_line_2));
         Intent intent=  getIntent();
         checkListId=intent.getStringExtra("checklid");
+        cardId=intent.getStringExtra("cardId");
+        parentId=intent.getStringExtra("id");
         getComments();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etComments.getWindowToken(), 0);
+        /*etComments.setCursorVisible(true);
+        etComments.setFocusable(true);
+        etComments.setFocusableInTouchMode(true);*/
         etComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,11 +148,11 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         sendAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LayoutInflater inflater = LayoutInflater.from(CheckList_Comments.this);
+                final LayoutInflater inflater = LayoutInflater.from(Child_Inner_Comments.this);
                 View view = inflater.inflate(R.layout.custom_attachments_layout_dialog, null);
 
 
-                final AlertDialog alertDialog = new AlertDialog.Builder(CheckList_Comments.this).create();
+                final AlertDialog alertDialog = new AlertDialog.Builder(Child_Inner_Comments.this).create();
 
                 LinearLayout linearLayoutCamera = (LinearLayout) view.findViewById(R.id.linearLayoutCamera);
                 LinearLayout otherFiles = (LinearLayout) view.findViewById(R.id.otherFiles);
@@ -155,7 +161,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                     @Override
                     public void onClick(View v) {
 
-                        if(ActivityCompat.checkSelfPermission(CheckList_Comments.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                        if(ActivityCompat.checkSelfPermission(Child_Inner_Comments.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
                             if (Build.VERSION.SDK_INT > 22) {
 
@@ -166,7 +172,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                 alertDialog.dismiss();
                             }
 
-                        }else if(ActivityCompat.checkSelfPermission(CheckList_Comments.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                        }else if(ActivityCompat.checkSelfPermission(Child_Inner_Comments.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
 
                             if (Build.VERSION.SDK_INT > 22) {
 
@@ -192,7 +198,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 otherFiles.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(ActivityCompat.checkSelfPermission(CheckList_Comments.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                        if(ActivityCompat.checkSelfPermission(Child_Inner_Comments.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
                             if (Build.VERSION.SDK_INT > 22) {
 
@@ -207,8 +213,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                             alertDialog.dismiss();
 
                             Intent intent = new Intent();
-                            intent.setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
-                            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                            intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             //   intent.setSelector(Intent.getIntent().removeCategory(););
 
@@ -332,17 +337,17 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
 
             String path = "";
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                path  = getPath(CheckList_Comments.this, selectedImageUri);
+                path  = getPath(Child_Inner_Comments.this, selectedImageUri);
             }
             if(path!=null && !path.equals("")) {
                 fileName = path.split("/");
                 file = fileName[fileName.length - 1];
 
                 UploadFile uploadFile = new UploadFile();
-                uploadFile.delegate = CheckList_Comments.this;
+                uploadFile.delegate = Child_Inner_Comments.this;
                 uploadFile.execute(path);
 
-                ringProgressDialog = ProgressDialog.show(CheckList_Comments.this, "Please wait ...", "Uploading File ...", true);
+                ringProgressDialog = ProgressDialog.show(Child_Inner_Comments.this, "Please wait ...", "Uploading File ...", true);
                 ringProgressDialog.setCancelable(false);
                 ringProgressDialog.show();
             }else {
@@ -433,7 +438,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         return null;
     }
     private void uploadImage(final String formattedDate, final String b64, final String originalName) {
-        ringProgressDialog = ProgressDialog.show(CheckList_Comments.this, "Please wait ...", "Uploading image ...", true);
+        ringProgressDialog = ProgressDialog.show(Child_Inner_Comments.this, "Please wait ...", "Uploading image ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_comment.php", new Response.Listener<String>() {
@@ -445,11 +450,11 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 if (!(response.equals(""))) {
                     String imageName=response.trim().toString();
                     // getCardList();
-                    addImageComments(imageName);
+                    addImageComments(imageName,"image/jpeg");
 
                 } else {
                     ringProgressDialog.dismiss();
-                    Toast.makeText(CheckList_Comments.this, "Picture not uploaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Child_Inner_Comments.this, "Picture not uploaded", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -464,7 +469,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 String message = null;
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -476,7 +481,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -501,11 +506,20 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(CheckList_Comments.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(Child_Inner_Comments.this);
         requestQueue.add(request);
     }
     public void updateData(){
-       getComments();
+        getComments();
+    }
+    public void focusEditor(){
+        etComments.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(etComments, InputMethodManager.SHOW_IMPLICIT);
+        etComments.setCursorVisible(true);
+        etComments.setFocusable(true);
+        etComments.setFocusableInTouchMode(true);
+
     }
     public void getComments() {
 
@@ -513,7 +527,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GETCHECKLISTCOMMENTS,
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GETCHILDCOMMENTS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -524,10 +538,10 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                         }else {
                             try {
                                 JSONObject object = new JSONObject(response);
-                                String data = object.getString("checklist_comments");
-                                String childData=object.getString("child_comments");
+                                String data = object.getString("child_comments");
+                                //  String childData=object.getString("child_comments");
                                 JSONArray jsonArray = new JSONArray(data);
-                                JSONArray jsonArray1=new JSONArray(childData);
+                                // JSONArray jsonArray1=new JSONArray(childData);
                                 listPojo = new ArrayList<>();
                                 for (int i=0;i<jsonArray.length();i++){
                                     CommentsPojo commentsPojo=new CommentsPojo();
@@ -542,7 +556,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setParentId(obj.getString("id"));
                                     commentsPojo.setLevel(Level.LEVEL_ONE);
                                     listPojo.add(commentsPojo);
-                                    JSONArray array=jsonArray1.getJSONArray(i);
+                                   /* JSONArray array=jsonArray1.getJSONArray(i);
                                     if(array.length()>0){
                                         for (int j=0;j<array.length();j++) {
 
@@ -559,11 +573,11 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                             commentsPojo1.setLevel(Level.LEVEL_TWO);
                                             listPojo.add(commentsPojo1);
                                         }
-                                    }
+                                    }*/
 
                                 }
 
-                                adapter = new RvAdapter(CheckList_Comments.this, listPojo);
+                                adapter = new RvAdapter2(Child_Inner_Comments.this, listPojo);
 
                                 rv.setAdapter(adapter);
 
@@ -582,7 +596,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -594,7 +608,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -611,8 +625,9 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("card_id",CardActivity.cardId);
+                params.put("card_id", cardId);
                 params.put("check_id",checkListId);
+                params.put("id",parentId);
                 // SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 // String userID = pref.getString("user_id", "");
                 //params.put("userId", userID);
@@ -634,7 +649,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADDCOMMENTS,
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.REPLYCOMMENT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -654,7 +669,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -666,7 +681,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -691,6 +706,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
                 params.put("userId", userID);
                 params.put("fullname", fullName);
+                params.put("parentId", parentId);
                 return params;
             }
         };
@@ -703,13 +719,13 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         requestQueue.add(request);
 
     }
-    public void addImageComments(final String comments) {
+    public void addImageComments(final String comments,final String fileType) {
 
         final ProgressDialog ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADDIMAGECOMMENTS,
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADDCHILDIMAGECOMMENTS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -729,7 +745,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -741,7 +757,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                             .show();
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(CheckList_Comments.this, SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(Child_Inner_Comments.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -767,7 +783,8 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                 params.put("userId", userID);
                 params.put("fullname", fullName);
                 params.put("is_Upload", "1");
-                params.put("file_type", "image/jpeg");
+                params.put("file_type", fileType);
+                params.put("id", parentId);
                 return params;
             }
         };
@@ -788,11 +805,15 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
             String fileType;
             // Toast.makeText(mcontext, "uploaded Succesfully"+ fileName, Toast.LENGTH_SHORT).show();
             if(file.contains(".jpg") || file.contains(".jpeg") || file.contains(".png") || file.contains(".gif")){
+                ringProgressDialog.dismiss();
+                addImageComments(file,"image/jpeg");
                 fileType="image";
             }else {
+                ringProgressDialog.dismiss();
+                addImageComments(file,"file");
                 fileType="file";
             }
-           // saveFile(file,file,fileType);
+            // saveFile(file,file,fileType);
 
         }
         else
@@ -845,7 +866,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
 
                     // open a URL connection to the Servlet
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                    URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_card.php");
+                    URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_comments.php");
 
                     // Open a HTTP  connection to  the URL
                     conn = (HttpURLConnection) url.openConnection();

@@ -200,7 +200,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<AttachmentsPojo> attachmentsList;
     List<AttachmentsImageFilePojo> attachmentsList1;
     private ListView mDrawerList;
-    static String cardId;
+    public static String cardId;
 
     List<ProjectsPojo> listPojo1,labelsPojoList;
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
@@ -627,8 +627,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             alertDialog.dismiss();
 
                             Intent intent = new Intent();
-                            intent.setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
-                            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                            intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                          //   intent.setSelector(Intent.getIntent().removeCategory(););
 

@@ -232,7 +232,7 @@ public class ManageCardMembers extends Fragment {
     }
     public void getmembers() {
 
-
+        final ProgressDialog ringProgressDialog;
         ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();

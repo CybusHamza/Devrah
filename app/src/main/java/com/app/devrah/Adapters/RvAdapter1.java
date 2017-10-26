@@ -37,7 +37,7 @@ import com.app.devrah.Holders.ViewUtils;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.CommentsThread.CheckList_Comments;
-import com.app.devrah.Views.CommentsThread.Child_Comments;
+import com.app.devrah.Views.CommentsThread.Child_Inner_Comments;
 import com.app.devrah.pojo.CommentsPojo;
 import com.app.devrah.pojo.Level;
 import com.squareup.picasso.Picasso;
@@ -51,12 +51,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * Created by ishratkhan on 24/02/16.
  */
-public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
+public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
 
     List<CommentsPojo> projectsList;
     Context activity;
     ProgressDialog ringProgressDialog;
-    public RvAdapter(Context con, List<CommentsPojo> projectsList) {
+    public RvAdapter1(Context con, List<CommentsPojo> projectsList) {
         activity = con;
         this.projectsList = projectsList;
     }
@@ -69,7 +69,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
 
     @Override
     public void onBindViewHolder(final RvViewHolder holder, final int position) {
-       // DataModal dataModal = projectsList.get(position);
+        // DataModal dataModal = projectsList.get(position);
         holder.tv.setText(projectsList.get(position).getComments());
         holder.userName.setText(projectsList.get(position).getFullName());
         holder.setLevel(projectsList.get(position).getLevel());
@@ -122,29 +122,28 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, Child_Comments.class);
+                Intent intent=new Intent(activity, Child_Inner_Comments.class);
                 intent.putExtra("checklid",projectsList.get(position).getChecklistId());
                 intent.putExtra("cardId",projectsList.get(position).getCardId());
                 intent.putExtra("id",projectsList.get(position).getId());
                 activity.startActivity(intent);
-               /* if(projectsList.get(position).getLevel()==2){
+                /*if(projectsList.get(position).getLevel()==2){
                     replyToComment(projectsList.get(position).getParentId(),projectsList.get(position).getCardId(),projectsList.get(position).getChecklistId(),position);
 
                 }else
-                replyToComment(projectsList.get(position).getId(),projectsList.get(position).getCardId(),projectsList.get(position).getChecklistId(),position);
-     */       }
+                    replyToComment(projectsList.get(position).getId(),projectsList.get(position).getCardId(),projectsList.get(position).getChecklistId(),position);
+      */      }
         });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, Child_Comments.class);
+                Intent intent=new Intent(activity, Child_Inner_Comments.class);
                 intent.putExtra("checklid",projectsList.get(position).getChecklistId());
                 intent.putExtra("cardId",projectsList.get(position).getCardId());
                 intent.putExtra("id",projectsList.get(position).getId());
                 activity.startActivity(intent);
-                    }
+            }
         });
-
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -391,7 +390,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                 if (!(response.equals("0"))) {
                     projectsList.get(i).setComments(comment);
 
-                   // projectsList.remove(i);
+                    // projectsList.remove(i);
                     notifyDataSetChanged();
                 }
             }

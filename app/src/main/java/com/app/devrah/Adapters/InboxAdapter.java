@@ -87,7 +87,7 @@ public class InboxAdapter extends BaseAdapter {
         holder.data.setText("Subject : "+inboxPojo.getSubject());
         if(messageType.equals("inbox")) {
             if (!inboxPojo.getFrom().equals("null"))
-                holder.to.setText("From : " + inboxPojo.getFrom());
+                holder.to.setText("From : " + inboxPojo.getFrom().substring(1));
             else
                 holder.to.setText("From : ");
         }else {

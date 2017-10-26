@@ -92,7 +92,9 @@
         <activity
             android:name=".Views.CheckListComments"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Views.CheckList_Comments"></activity>
+        <activity android:name=".Views.CommentsThread.CheckList_Comments"></activity>
+        <activity android:name=".Views.CommentsThread.Child_Comments"></activity>
+        <activity android:name=".Views.CommentsThread.Child_Inner_Comments"></activity>
     </application>
 
 </manifest>

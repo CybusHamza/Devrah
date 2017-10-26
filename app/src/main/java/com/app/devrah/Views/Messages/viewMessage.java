@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -29,6 +30,7 @@ import java.util.Map;
 public class viewMessage extends AppCompatActivity {
 
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    TextView tvTo;
     EditText  from ,message ,board,card,project,subject;
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
     LinearLayout cancel_button,reply_btn;
@@ -41,6 +43,7 @@ public class viewMessage extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Read Message");
         from = (EditText) findViewById(R.id.etEmails);
+        tvTo = (TextView) findViewById(R.id.to);
         board = (EditText) findViewById(R.id.boardSpinner);
         card = (EditText) findViewById(R.id.cardSpinner);
         project = (EditText) findViewById(R.id.projectSpinner);
@@ -69,12 +72,15 @@ public class viewMessage extends AppCompatActivity {
         }
         if(messageType.equals("sent")){
             reply_btn.setVisibility(View.INVISIBLE);
+            tvTo.setText("To :");
+        }else {
+            tvTo.setText("From :");
         }
         reply_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(viewMessage.this,Reply.class);
-                intent.putExtra("to",strfrom);
+                intent.putExtra("to",strfrom.substring(1));
                 intent.putExtra("project",strproject);
                 intent.putExtra("card",strcard);
                 intent.putExtra("board",strboard);

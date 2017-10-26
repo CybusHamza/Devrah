@@ -123,6 +123,8 @@ public class End_Points {
     public static final String EDITCOMMENTS= BASE_URL + "editComment";
     public static final String REPLYCOMMENT= BASE_URL + "replyComment";
     public static final String ADDIMAGECOMMENTS= BASE_URL + "addImageComment";
+    public static final String GETCHILDCOMMENTS= BASE_URL + "getCheckListChildComments";
+    public static final String ADDCHILDIMAGECOMMENTS= BASE_URL + "addChildImageComment";
 
 
 }
