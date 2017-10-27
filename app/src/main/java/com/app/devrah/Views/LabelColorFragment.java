@@ -599,12 +599,14 @@ public class LabelColorFragment extends Fragment {
                     addLable(colorselected,s);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
+                    tvDone.setClickable(false);
                 }
                 else
                 {
                     updateLAble(colorselected,s);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
+                    tvDone.setClickable(false);
 
                 }
 

@@ -107,6 +107,12 @@ public class Child_Comments extends AppCompatActivity implements callBack{
         sendComments= (ImageView) findViewById(R.id.send);
         sendAttachment= (ImageView) findViewById(R.id.attachmentIcon);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         toolbar.inflateMenu(R.menu.my_menu);
         toolbar.setTitle("Replies");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -533,6 +539,7 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                         commentsPojo1.setFileType("");
                         commentsPojo1.setParentId("");
                         commentsPojo1.setDate("");
+                        commentsPojo1.setCreatedBy("");
                         commentsPojo1.setLevel(Level.LEVEL_ONE);
                         listPojo.add(commentsPojo1);
                         if(response.equals("false")){
@@ -558,6 +565,7 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setFileType(obj.getString("file_type"));
                                     commentsPojo.setParentId(obj.getString("id"));
                                     commentsPojo.setDate(obj.getString("created_on"));
+                                    commentsPojo.setCreatedBy(obj.getString("created_by"));
                                     commentsPojo.setLevel(Level.LEVEL_TWO);
                                     listPojo.add(commentsPojo);
                                    /* JSONArray array=jsonArray1.getJSONArray(i);

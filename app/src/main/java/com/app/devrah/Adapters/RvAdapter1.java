@@ -77,7 +77,8 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
         holder.setLevel(projectsList.get(position).getLevel());
         SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
-        if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2){
+        String userId=pref.getString("user_id","");
+        if(userId.equals(projectsList.get(position).getCreatedBy()) && projectsList.get(position).getLevel()==2){
             holder.userName.setTextColor(activity.getResources().getColor(R.color.userColorGreen));
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
@@ -108,14 +109,15 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
             holder.tv.setVisibility(View.VISIBLE);
             holder.tv.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
             holder.attachment.setVisibility(View.GONE);
-            if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2)
-            holder.edit.setVisibility(View.VISIBLE);
+            holder.edit.setVisibility(View.GONE);
+           // if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2)
+           // holder.edit.setVisibility(View.VISIBLE);
         }else {
             holder.tv.setPaintFlags(0);
             holder.tv.setTextColor(activity.getResources().getColor(R.color.black));
             holder.tv.setVisibility(View.VISIBLE);
             holder.attachment.setVisibility(View.GONE);
-            if(fullName.equals(projectsList.get(position).getFullName()) && projectsList.get(position).getLevel()==2)
+            if(userId.equals(projectsList.get(position).getCreatedBy()) && projectsList.get(position).getLevel()==2)
             holder.edit.setVisibility(View.VISIBLE);
 
         }

@@ -16,6 +16,21 @@
             <!--<item name="android:background">#fac903</item>-->
         <!--</style>-->
     </style>
+    <style name="cbTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/darkgreen</item>
+        <item name="colorAccent">@color/lightGreen</item>
+
+
+
+
+
+        //////////////////////////////////
+        <!--<style name="popUbBg" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">-->
+        <!--<item name="android:background">#fac903</item>-->
+        <!--</style>-->
+    </style>
     <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <!-- Support library compatibility -->
@@ -47,9 +62,11 @@
     </style>
     <style name="full_screen_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowMinWidthMajor">66%</item>
-        <item name="android:windowMinWidthMinor">66%</item>
-        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowMinWidthMajor">76%</item>
+        <item name="android:windowMinWidthMinor">76%</item>
+        <item name="android:layout_marginLeft">9dp</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>

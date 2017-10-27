@@ -222,6 +222,14 @@ public class ParentBoardExtendedFragment extends Fragment {
 
         //setupTabLayout();
     }
+    public void updateChildFragmentData(String id,String isCardComplete){
+        for(int i=0;i<ChildFragmentBoardExtended.fragment.listPojo.size();i++){
+            if(ChildFragmentBoardExtended.fragment.listPojo.get(i).getId().equals(id)){
+                ChildFragmentBoardExtended.fragment.listPojo.get(i).setIsCardComplete(isCardComplete);
+                ChildFragmentBoardExtended.fragment.adapter.notifyDataSetChanged();
+            }
+        }
+    }
 
 
 

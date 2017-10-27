@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,11 +102,11 @@ public class ReferenceBoardAdapter extends BaseAdapter {
                     holder.favouriteIcon.setClickable(false);
                 }else {
                     if (projectsList.get(position).getReferenceBoardStar().equals("1")) {
-                        mardkBoardStar("2", projectsList.get(position).getBoardID(), position);
+                        mardkBoardStar("2", projectsList.get(position).getBoardID(),projectsList.get(position).getId(), position);
                     } else if (projectsList.get(position).getReferenceBoardStar().equals("2")) {
-                        mardkBoardStar("3", projectsList.get(position).getBoardID(), position);
+                        mardkBoardStar("3", projectsList.get(position).getBoardID(),projectsList.get(position).getId(), position);
                     } else {
-                        mardkBoardStar("1", projectsList.get(position).getBoardID(), position);
+                        mardkBoardStar("1", projectsList.get(position).getBoardID(),projectsList.get(position).getId(), position);
                     }
                 }
             }
@@ -134,7 +135,7 @@ public class ReferenceBoardAdapter extends BaseAdapter {
 
         return convertView;
     }
-    private void mardkBoardStar(final String starType, final String boardId, final int position) {
+    private void mardkBoardStar(final String starType, final String boardId,final String projectId, final int position) {
 
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.MARDK_FAVOURITE,
                 new Response.Listener<String>() {
@@ -202,8 +203,12 @@ public class ReferenceBoardAdapter extends BaseAdapter {
 
 
                 Map<String, String> params = new HashMap<>();
+                SharedPreferences pref =activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+                params.put("userId",userId);
                 params.put("board_star", starType);
                 params.put("board_id", boardId);
+                params.put("project_id",projectId );
 
                 return params;
             }

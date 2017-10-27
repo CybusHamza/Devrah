@@ -159,7 +159,6 @@ public class ManageCardMembers extends Fragment {
         });
 
 
-
         currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
@@ -233,7 +232,7 @@ public class ManageCardMembers extends Fragment {
     public void getmembers() {
 
         final ProgressDialog ringProgressDialog;
-        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -254,7 +253,7 @@ public class ManageCardMembers extends Fragment {
                                 JSONArray jsonArray = new JSONArray(response);
 
 
-                                for (int i = 0; i <= jsonArray.length(); i++) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                                     MembersPojo membersPojo = new MembersPojo();
@@ -701,5 +700,6 @@ public class ManageCardMembers extends Fragment {
         }
 
     }
+
 
 }

@@ -15,6 +15,16 @@ public class CommentsPojo {
     int level;
     String id;
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    String createdBy;
+
     public String getParentId() {
         return parentId;
     }

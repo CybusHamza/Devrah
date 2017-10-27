@@ -169,7 +169,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                             JSONArray jsonArray = new JSONArray(response);
 
 
-                            for (int i = 0; i <= jsonArray.length(); i++) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                                 MembersPojo membersPojo = new MembersPojo();

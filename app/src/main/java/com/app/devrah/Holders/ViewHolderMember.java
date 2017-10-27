@@ -18,6 +18,8 @@ public class ViewHolderMember  extends RecyclerView.ViewHolder{
         super(itemView);
 
         member = (CircleImageView) itemView.findViewById(R.id.memberPic);
+        member.setMaxHeight(50);
+        member.setMaxWidth(50);
         initials = (TextView) itemView.findViewById(R.id.initials);
     }
 }

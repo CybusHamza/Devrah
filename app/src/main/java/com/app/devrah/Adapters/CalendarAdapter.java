@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -69,7 +70,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder vh;
-        ViewHolder holder = new ViewHolder();
+        final ViewHolder holder = new ViewHolder();
         if (inflater== null)
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -83,12 +84,27 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
 
 
         holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
+        holder.checkBox= (CheckBox) convertView.findViewById(R.id.cbComplete);
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
 
         holder.membersView = (LinearLayout)convertView.findViewById(R.id.membersListView);
         holder.labelsView = (LinearLayout)convertView.findViewById(R.id.labelsLayout);
 
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.checkBox.isChecked()){
+                    projectsList.get(position).setIsCardComplete("1");
+                   // ((BoardExtended)activity).updateChildFragmentsCardData(projectsList.get(position).getId(),"1");
 
+                }else {
+                    projectsList.get(position).setIsCardComplete("0");
+                  //  ((BoardExtended)activity).updateChildFragmentsCardData(projectsList.get(position).getId(),"0");
+
+                }
+                notifyDataSetChanged();
+            }
+        });
         /*if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
             if(projectsList.get(position).getIsCover().equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
@@ -113,7 +129,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         holder.dueDate.setVisibility(View.GONE);
         if(!projectsList.get(position).getDueDate().equals("null")) {
             holder.dueDate.setVisibility(View.VISIBLE);
-            holder.dueDate.setText(projectsList.get(position).getDueDate() + " " + projectsList.get(position).getDuetTime());
+            holder.dueDate.setText(projectsList.get(position).getDueDate());
         }
         else {
             holder.dueDate.setText("");
@@ -148,6 +164,12 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             holder.dueDate.setVisibility(View.VISIBLE);
             holder.descriptionIcon.setVisibility(View.VISIBLE);
         }
+        if(projectsList.get(position).getIsCardComplete().equals("1")){
+            holder.checkBox.setChecked(true);
+        }else {
+            holder.checkBox.setChecked(false);
+        }
+
         // if(projectsList.get(position).getnOfAttachments().length()>0){
         // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());
         //}
@@ -327,9 +349,11 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         TextView data,dueDate,nOfAttachments;
         ImageView favouriteIcon,attachmentIcon;
         ImageView attachment,subscribe,descriptionIcon;
+        CheckBox checkBox;
 
         public float lastTouchedX;
         public float lastTouchedY;
+
 
     }
 

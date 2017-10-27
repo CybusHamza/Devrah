@@ -560,7 +560,7 @@ public class BoardExtended extends AppCompatActivity {
         });
 
     }
-private void getDueDates(){
+private void getDueDates(final String currentDate){
     StringRequest request = new StringRequest(Request.Method.POST,End_Points.GET_DUE_DATE,
             new Response.Listener<String>() {
                 @Override
@@ -647,7 +647,9 @@ private void getDueDates(){
 
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardExtended.this,R.style.full_screen_dialog).create();
         WindowManager.LayoutParams wmlp = alertDialog.getWindow().getAttributes();
-        alertDialog.getWindow().setLayout(300, DrawerLayout.LayoutParams.MATCH_PARENT);
+        alertDialog.getWindow().setLayout(320, DrawerLayout.LayoutParams.MATCH_PARENT);
+
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
         wmlp.gravity = Gravity.END;
         alertDialog.setView(customView);
@@ -659,6 +661,7 @@ private void getDueDates(){
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         Date dat=new Date();
         heading.setText(dateFormatForMonth.format(dat));
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -695,7 +698,12 @@ private void getDueDates(){
                 }else {
                     final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String cardsByDate=dateFormat.format(dateClicked);
-                    getCards(cardsByDate);
+                    //getCards(cardsByDate);
+                    for(int i=0;i<listPojo.size();i++){
+                        if(listPojo.get(i).getDueDate().equals(cardsByDate)){
+                            lv.setSelection(i);
+                        }
+                    }
 
                 }
 
@@ -716,11 +724,14 @@ private void getDueDates(){
         });
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
          String cardsByDate=dateFormat.format(dat);
-         getCards(cardsByDate);
-        getDueDates();
+         getCards("");
+        getDueDates(cardsByDate);
 
 
     }
+   /* public void updateChildFragmentsCardData(String id,String isCardComplete){
+        fragment.updateChildFragmentData(id,isCardComplete);
+    }*/
     private void getCards(final  String dueDate){
         final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);

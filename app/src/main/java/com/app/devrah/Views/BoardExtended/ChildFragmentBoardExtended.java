@@ -112,6 +112,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     static ChildFragmentBoardExtended fragment;
+    String check1="";
 
     public ChildFragmentBoardExtended() {
 
@@ -151,14 +152,15 @@ public class ChildFragmentBoardExtended extends Fragment {
         b_id = bundle.getString("b_id");
         list_id = bundle.getString("list_id");
         list_color=bundle.getString("list_color");
-        String check=bundle.getString("listName");
+
+         check1=bundle.getString("listName");
         row=0;
 
         tvName.setText(childname);
 
 
         getCardList(list_id);
-        if(check.equals("")) {
+        if(check1.equals("")) {
             if (list_color.equals("") || list_color == null) {
                 tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.float_transparent));
             } else if (list_color.equals("00A2E8")) {
@@ -212,6 +214,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         });
         //relativeLayout=(RelativeLayout)findViewById(R.id.layoutTestRecycleView);
 //        cardAssociatedLabelRecycler=(RecyclerView)view.findViewById(R.id.labelsListView);
+
 
         boardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,6 +304,14 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         return view;
     }
+   /* public void upDateData(String id,String isCardComplete){
+        for(int i=0;i<listPojo.size();i++){
+            if(listPojo.get(i).getId().equals(id)){
+                listPojo.get(i).setIsCardComplete(isCardComplete);
+            }
+           adapter.notifyDataSetChanged();
+        }
+    }*/
 
     private void customDialogueUpdateListName(String listName, final String list_color) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());

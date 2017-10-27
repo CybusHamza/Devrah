@@ -46,22 +46,65 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
     @Override
     public void onBindViewHolder(final ViewHolderMember holder, int position) {
 
-        if((memberList.get(position).getProfile_pic().equals("null") || memberList.get(position).getProfile_pic().equals("")) && (memberList.get(position).getGp_pic().equals("null") || memberList.get(position).getGp_pic().equals(""))){
-            holder.initials.setVisibility(View.VISIBLE);
-            holder.initials.setText(memberList.get(position).getInetial());
-        }else if(!memberList.get(position).getProfile_pic().equals("null") && !memberList.get(position).getProfile_pic().equals("")){
-            holder.initials.setVisibility(View.GONE);
-            Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
-                    .placeholder(R.drawable.bg_circle)
-                    .into(holder.member);
-        }else {
-            holder.initials.setVisibility(View.GONE);
-            Picasso.with(activity)
-                    .load(memberList.get(position).getGp_pic())
-                    .placeholder(R.drawable.bg_circle)
-                    .into(holder.member);
-        }
+            if ((memberList.get(position).getProfile_pic().equals("null") || memberList.get(position).getProfile_pic().equals("")) && (memberList.get(position).getGp_pic().equals("null") || memberList.get(position).getGp_pic().equals(""))) {
+                holder.initials.setVisibility(View.VISIBLE);
+                holder.initials.setText(memberList.get(position).getInetial());
+            } else if (!memberList.get(position).getProfile_pic().equals("null") && !memberList.get(position).getProfile_pic().equals("")) {
+                holder.initials.setVisibility(View.GONE);
+                try {
+                   /* Picasso.with(activity)
+                            .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
+                            .networkPolicy(NetworkPolicy.OFFLINE)
+                            .into(holder.member, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+
+                            });*/
+                    Picasso.with(activity)
+                            .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
+                            .placeholder(R.drawable.bg_circle)
+                            .resize(50, 50)
+                            .into(holder.member);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            } else {
+                holder.initials.setVisibility(View.GONE);
+                try {
+                  /*  Picasso.with(activity)
+                            .load(memberList.get(position).getGp_pic())
+                            .networkPolicy(NetworkPolicy.OFFLINE)
+                            .into(holder.member, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+
+                            });*/
+                    Picasso.with(activity)
+                            .load(memberList.get(position).getGp_pic())
+                            .placeholder(R.drawable.bg_circle)
+                            .resize(50, 50)
+                            .into(holder.member);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
         holder.member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
