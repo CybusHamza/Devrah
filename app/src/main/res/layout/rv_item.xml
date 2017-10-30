@@ -74,14 +74,14 @@
         android:layout_centerInParent="true"
         android:layout_below="@id/rv_item_card"
         android:visibility="gone"/>
-    <ImageView
+    <!--<ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="30dp"
         android:id="@+id/delete"
         android:background="@android:drawable/ic_menu_delete"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"/>-->
     <TextView
         android:layout_below="@id/attachment"
         android:id="@+id/reply"
@@ -99,5 +99,25 @@
         android:layout_toEndOf="@id/reply"
         android:textColor="#fff"
         android:layout_marginStart="25dp"/>
+    <TextView
+        android:layout_below="@id/attachment"
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_toEndOf="@id/edit"
+        android:textColor="#fff"
+        android:layout_marginStart="25dp"/>
+    <TextView
+        android:layout_alignParentEnd="true"
+        android:gravity="end"
+        android:layout_marginEnd="30dp"
+        android:id="@+id/showMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_more"
+        android:textColor="#fff"
+        android:visibility="gone"
+        android:layout_below="@id/reply"/>
 
 </RelativeLayout>

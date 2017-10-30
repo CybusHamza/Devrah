@@ -221,10 +221,10 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
     }
 
     class RvViewHolder extends RecyclerView.ViewHolder {
-        TextView tv,edit,reply,userName,date;
+        TextView tv,edit,delete,reply,userName,date;
         View itemView;
         View marker;
-        ImageView delete,attachment;
+        ImageView attachment;
         CardView cardView;
 
         public RvViewHolder(View itemView) {
@@ -236,7 +236,7 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
             userName = (TextView) itemView.findViewById(R.id.userName);
             edit = (TextView) itemView.findViewById(R.id.edit);
             reply = (TextView) itemView.findViewById(R.id.reply);
-            delete = (ImageView) itemView.findViewById(R.id.delete);
+            delete = (TextView) itemView.findViewById(R.id.delete);
             attachment = (ImageView) itemView.findViewById(R.id.attachment);
             marker =itemView.findViewById(R.id.marker);
         }

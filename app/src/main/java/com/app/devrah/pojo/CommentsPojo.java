@@ -15,6 +15,54 @@ public class CommentsPojo {
     int level;
     String id;
 
+    public String getParentChecklistId() {
+        return parentChecklistId;
+    }
+
+    public void setParentChecklistId(String parentChecklistId) {
+        this.parentChecklistId = parentChecklistId;
+    }
+
+    public String getParentfullName() {
+        return parentfullName;
+    }
+
+    public void setParentfullName(String parentfullName) {
+        this.parentfullName = parentfullName;
+    }
+
+    public String getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(String parentComment) {
+        this.parentComment = parentComment;
+    }
+
+    String parentChecklistId;
+    String parentfullName;
+    String parentComment;
+
+    public String getParentCardId() {
+        return parentCardId;
+    }
+
+    public void setParentCardId(String parentCardId) {
+        this.parentCardId = parentCardId;
+    }
+
+    String parentCardId;
+
+    public String getShowMore() {
+        return showMore;
+    }
+
+    public void setShowMore(String showMore) {
+        this.showMore = showMore;
+    }
+
+    String showMore;
+
     public String getCreatedBy() {
         return createdBy;
     }

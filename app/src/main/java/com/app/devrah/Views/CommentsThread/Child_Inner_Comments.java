@@ -367,6 +367,75 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
 
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if(requestCode==REQUEST_PERMISSIONS) {
+            if (requestCode == REQUEST_PERMISSIONS && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (requestCode == REQUEST_PERMISSIONS) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 1);
+
+                    }
+                }
+
+            }else {
+                Toast.makeText(Child_Inner_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==100) {
+            if (requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent();
+                //sets the select file to all types of files
+                intent.setType("*/*");
+                //allows to select data and return it
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // starts new activity to select file and return data
+                startActivityForResult(Intent.createChooser(intent, "Choose File to Upload.."), READ_REQUEST_CODE);
+            }else {
+                Toast.makeText(Child_Inner_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==4) {
+            if (requestCode == 4 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (ActivityCompat.checkSelfPermission(Child_Inner_Comments.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                    if (Build.VERSION.SDK_INT > 22) {
+
+                        requestPermissions(new String[]{Manifest.permission
+                                        .CAMERA},
+                                REQUEST_PERMISSIONS);
+
+                    }
+
+                }
+
+            }else {
+                Toast.makeText(Child_Inner_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==5) {
+            if (requestCode == 5 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+            } else {
+
+                Toast.makeText(Child_Inner_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==10) {
+            if (requestCode == 10 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent();
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+            } else {
+
+                Toast.makeText(Child_Inner_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);

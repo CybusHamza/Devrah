@@ -1,7 +1,10 @@
 package com.app.devrah.Views.BoardExtended;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -138,7 +141,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         view =inflater.inflate(R.layout.fragment_child_fragment_board_extended, container, false);
         View emV = inflater.inflate(R.layout.empty_list_bg,null);
-
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("updateComplete"));
 //        cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
 
 
@@ -181,6 +184,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                 tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
             }
         }
+
         lv = (ListView) view.findViewById(R.id.boardFragmentListView);
         edtSeach = (EditText) getActivity().findViewById(R.id.edtSearch);
         edtSeach.addTextChangedListener(new TextWatcher() {
@@ -212,6 +216,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
             }
         });
+
         //relativeLayout=(RelativeLayout)findViewById(R.id.layoutTestRecycleView);
 //        cardAssociatedLabelRecycler=(RecyclerView)view.findViewById(R.id.labelsListView);
 
@@ -304,6 +309,25 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         return view;
     }
+    BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Bundle b = intent.getExtras();
+
+            String cardId = b.getString("cardId");
+            String isCompleted = b.getString("isComplete");
+            if(cardId!=""){
+                for (int i=0;i<listPojo.size();i++){
+                    if(listPojo.get(i).getId().equals(cardId)){
+                        listPojo.get(i).setIsCardComplete(isCompleted);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+        }
+    };
    /* public void upDateData(String id,String isCardComplete){
         for(int i=0;i<listPojo.size();i++){
             if(listPojo.get(i).getId().equals(id)){
@@ -547,6 +571,12 @@ public class ChildFragmentBoardExtended extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+    public void passDataToFragment(String someValue){
+
+    }
+
     public interface OnFragmentInteractionListener {
 
         void onFragmentInteraction(Uri uri);

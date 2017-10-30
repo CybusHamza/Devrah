@@ -76,7 +76,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         holder.date.setText(projectsList.get(position).getDate());
         holder.setLevel(projectsList.get(position).getLevel());
         String fileType=projectsList.get(position).getFileType();
-        SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
         String userId=pref.getString("user_id","");
         if(userId.equals(projectsList.get(position).getCreatedBy())){
@@ -111,6 +111,11 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
             if(userId.equals(projectsList.get(position).getCreatedBy()))
             holder.edit.setVisibility(View.VISIBLE);
         }
+        if(projectsList.get(position).getShowMore().equals("1")){
+            holder.showMore.setVisibility(View.VISIBLE);
+        }else {
+            holder.showMore.setVisibility(View.GONE);
+        }
 
 
         holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -141,13 +146,23 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, Child_Comments.class);
-                intent.putExtra("checklid",projectsList.get(position).getChecklistId());
-                intent.putExtra("cardId",projectsList.get(position).getCardId());
-                intent.putExtra("id",projectsList.get(position).getId());
-                intent.putExtra("parentComment",projectsList.get(position).getFullName());
-                intent.putExtra("parentCommentData",projectsList.get(position).getComments());
-                activity.startActivity(intent);
+                if(projectsList.get(position).getLevel()==2){
+                    Intent intent=new Intent(activity, Child_Comments.class);
+                    intent.putExtra("checklid",projectsList.get(position).getParentChecklistId());
+                    intent.putExtra("cardId",projectsList.get(position).getParentCardId());
+                    intent.putExtra("id",projectsList.get(position).getParentId());
+                    intent.putExtra("parentComment",projectsList.get(position).getParentfullName());
+                    intent.putExtra("parentCommentData",projectsList.get(position).getParentComment());
+                    activity.startActivity(intent);
+                }else {
+                    Intent intent = new Intent(activity, Child_Comments.class);
+                    intent.putExtra("checklid", projectsList.get(position).getChecklistId());
+                    intent.putExtra("cardId", projectsList.get(position).getCardId());
+                    intent.putExtra("id", projectsList.get(position).getId());
+                    intent.putExtra("parentComment", projectsList.get(position).getFullName());
+                    intent.putExtra("parentCommentData", projectsList.get(position).getComments());
+                    activity.startActivity(intent);
+                }
                /* if(projectsList.get(position).getLevel()==2){
                     replyToComment(projectsList.get(position).getParentId(),projectsList.get(position).getCardId(),projectsList.get(position).getChecklistId(),position);
 
@@ -158,14 +173,36 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(projectsList.get(position).getLevel()==2){
+                    Intent intent=new Intent(activity, Child_Comments.class);
+                    intent.putExtra("checklid",projectsList.get(position).getParentChecklistId());
+                    intent.putExtra("cardId",projectsList.get(position).getParentCardId());
+                    intent.putExtra("id",projectsList.get(position).getParentId());
+                    intent.putExtra("parentComment",projectsList.get(position).getParentfullName());
+                    intent.putExtra("parentCommentData",projectsList.get(position).getParentComment());
+                    activity.startActivity(intent);
+                }else {
+                    Intent intent = new Intent(activity, Child_Comments.class);
+                    intent.putExtra("checklid", projectsList.get(position).getChecklistId());
+                    intent.putExtra("cardId", projectsList.get(position).getCardId());
+                    intent.putExtra("id", projectsList.get(position).getId());
+                    intent.putExtra("parentComment", projectsList.get(position).getFullName());
+                    intent.putExtra("parentCommentData", projectsList.get(position).getComments());
+                    activity.startActivity(intent);
+                }
+            }
+        });
+        holder.showMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent=new Intent(activity, Child_Comments.class);
-                intent.putExtra("checklid",projectsList.get(position).getChecklistId());
-                intent.putExtra("cardId",projectsList.get(position).getCardId());
-                intent.putExtra("id",projectsList.get(position).getId());
-                intent.putExtra("parentComment",projectsList.get(position).getFullName());
-                intent.putExtra("parentCommentData",projectsList.get(position).getComments());
+                intent.putExtra("checklid",projectsList.get(position).getParentChecklistId());
+                intent.putExtra("cardId",projectsList.get(position).getParentCardId());
+                intent.putExtra("id",projectsList.get(position).getParentId());
+                intent.putExtra("parentComment",projectsList.get(position).getParentfullName());
+                intent.putExtra("parentCommentData",projectsList.get(position).getParentComment());
                 activity.startActivity(intent);
-                    }
+            }
         });
 
 
@@ -206,10 +243,10 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
     }
 
     class RvViewHolder extends RecyclerView.ViewHolder {
-        TextView tv,edit,reply,userName,date;
+        TextView tv,edit,delete,reply,userName,date,showMore;
         View itemView;
         View marker;
-        ImageView delete,attachment;
+        ImageView attachment;
         CardView cardView;
 
         public RvViewHolder(View itemView) {
@@ -217,11 +254,12 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
             this.itemView = itemView;
             cardView= (CardView) itemView.findViewById(R.id.rv_item_card);
             tv = (TextView) itemView.findViewById(R.id.rv_item_tv);
+            showMore = (TextView) itemView.findViewById(R.id.showMore);
             date = (TextView) itemView.findViewById(R.id.date);
             userName = (TextView) itemView.findViewById(R.id.userName);
             edit = (TextView) itemView.findViewById(R.id.edit);
             reply = (TextView) itemView.findViewById(R.id.reply);
-            delete = (ImageView) itemView.findViewById(R.id.delete);
+            delete = (TextView) itemView.findViewById(R.id.delete);
             attachment = (ImageView) itemView.findViewById(R.id.attachment);
             marker =itemView.findViewById(R.id.marker);
         }

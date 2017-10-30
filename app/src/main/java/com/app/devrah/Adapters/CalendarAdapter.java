@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,7 +15,19 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.CardActivity;
@@ -23,8 +36,11 @@ import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -94,15 +110,18 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             @Override
             public void onClick(View view) {
                 if(holder.checkBox.isChecked()){
-                    projectsList.get(position).setIsCardComplete("1");
+                  //  projectsList.get(position).setIsCardComplete("1");
+                    updateCardCompleted(projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position,"1",projectsList.get(position).getDueDate(),projectsList.get(position).getStartDate());
                    // ((BoardExtended)activity).updateChildFragmentsCardData(projectsList.get(position).getId(),"1");
-
+                    //holder.checkBox.setChecked(false);
                 }else {
-                    projectsList.get(position).setIsCardComplete("0");
-                  //  ((BoardExtended)activity).updateChildFragmentsCardData(projectsList.get(position).getId(),"0");
+                   // projectsList.get(position).setIsCardComplete("0");
+                    updateCardCompleted(projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position,"0",projectsList.get(position).getDueDate(),projectsList.get(position).getStartDate());
+                   // holder.checkBox.setChecked(true);
+                    //  ((BoardExtended)activity).updateChildFragmentsCardData(projectsList.get(position).getId(),"0");
 
                 }
-                notifyDataSetChanged();
+               // notifyDataSetChanged();
             }
         });
         /*if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
@@ -370,6 +389,90 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         vh.lastTouchedY = motionEvent.getY();
 
         return false;
+    }
+    public  void updateCardCompleted(final String boardId,final String cardId,final int position,final String isCompleted,final String dueDate,final String startDate) {
+      //  final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_CARD_COMPLETED,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(isCompleted.equals("1")){
+                            projectsList.get(position).setIsCardComplete("1");
+                            }else if(isCompleted.equals("0")){
+                            projectsList.get(position).setIsCardComplete("0");
+                            }
+                        Intent i = new Intent("updateComplete");
+                        // Data you need to pass to activity
+                        i.putExtra("cardId",projectsList.get(position).getId());
+                        i.putExtra("isComplete",isCompleted);
+
+                        activity.sendBroadcast(i);
+
+                        notifyDataSetChanged();
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "No internet", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId",BoardExtended.boardId);
+                params.put("projectid",BoardExtended.projectId);
+                params.put("strt_dt",startDate);
+                params.put("end_dt",dueDate);
+                params.put("card_id",cardId);
+                params.put("isComp",isCompleted);
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+
     }
 
 

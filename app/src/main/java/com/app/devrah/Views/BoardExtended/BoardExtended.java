@@ -1431,6 +1431,7 @@ private void getDueDates(final String currentDate){
         requestQueue.add(request);
 
     }
+
     public class CustomOnItemSelectedListener_boards implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,

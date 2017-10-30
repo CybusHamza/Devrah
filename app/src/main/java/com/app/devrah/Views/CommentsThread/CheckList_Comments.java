@@ -510,6 +510,75 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         RequestQueue requestQueue = Volley.newRequestQueue(CheckList_Comments.this);
         requestQueue.add(request);
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if(requestCode==REQUEST_PERMISSIONS) {
+            if (requestCode == REQUEST_PERMISSIONS && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (requestCode == REQUEST_PERMISSIONS) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 1);
+
+                    }
+                }
+
+            }else {
+                Toast.makeText(CheckList_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==100) {
+            if (requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent();
+                //sets the select file to all types of files
+                intent.setType("*/*");
+                //allows to select data and return it
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // starts new activity to select file and return data
+                startActivityForResult(Intent.createChooser(intent, "Choose File to Upload.."), READ_REQUEST_CODE);
+            }else {
+                Toast.makeText(CheckList_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==4) {
+            if (requestCode == 4 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (ActivityCompat.checkSelfPermission(CheckList_Comments.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                    if (Build.VERSION.SDK_INT > 22) {
+
+                        requestPermissions(new String[]{Manifest.permission
+                                        .CAMERA},
+                                REQUEST_PERMISSIONS);
+
+                    }
+
+                }
+
+            }else {
+                Toast.makeText(CheckList_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==5) {
+            if (requestCode == 5 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+            } else {
+
+                Toast.makeText(CheckList_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==10) {
+            if (requestCode == 10 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent();
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+            } else {
+
+                Toast.makeText(CheckList_Comments.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
     public void updateData(){
        getComments();
     }
@@ -526,14 +595,14 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                         ringProgressDialog.dismiss();
                         if(response.equals("false")){
 
-
+                        Toast.makeText(CheckList_Comments.this,"No comments found",Toast.LENGTH_LONG).show();
                         }else {
                             try {
                                 JSONObject object = new JSONObject(response);
                                 String data = object.getString("checklist_comments");
-                              //  String childData=object.getString("child_comments");
+                                String childData=object.getString("child_comments");
                                 JSONArray jsonArray = new JSONArray(data);
-                               // JSONArray jsonArray1=new JSONArray(childData);
+                                JSONArray jsonArray1=new JSONArray(childData);
                                 listPojo = new ArrayList<>();
                                 for (int i=0;i<jsonArray.length();i++){
                                     CommentsPojo commentsPojo=new CommentsPojo();
@@ -546,13 +615,18 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setIsFile(obj.getString("is_Upload"));
                                     commentsPojo.setFileType(obj.getString("file_type"));
                                     commentsPojo.setParentId(obj.getString("id"));
+                                    commentsPojo.setParentCardId(obj.getString("card_id"));
+                                    commentsPojo.setParentChecklistId(obj.getString("checklist_id"));
+                                    commentsPojo.setParentfullName(obj.getString("fullname"));
+                                    commentsPojo.setParentComment(obj.getString("comments"));
                                     commentsPojo.setDate(obj.getString("created_on"));
                                     commentsPojo.setCreatedBy(obj.getString("created_by"));
+                                    commentsPojo.setShowMore("0");
                                     commentsPojo.setLevel(Level.LEVEL_ONE);
                                     listPojo.add(commentsPojo);
-                                   /* JSONArray array=jsonArray1.getJSONArray(i);
+                                    JSONArray array=jsonArray1.getJSONArray(i);
                                     if(array.length()>0){
-                                        for (int j=0;j<array.length();j++) {
+                                        for (int j=0;j<array.length() && j<2 ;j++) {
 
                                             CommentsPojo commentsPojo1 = new CommentsPojo();
                                             JSONObject obj1 = new JSONObject(array.getString(j));
@@ -564,10 +638,21 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                             commentsPojo1.setIsFile(obj1.getString("is_Upload"));
                                             commentsPojo1.setIsFile(obj1.getString("file_type"));
                                             commentsPojo1.setParentId(obj.getString("id"));
+                                            commentsPojo1.setParentCardId(obj.getString("card_id"));
+                                            commentsPojo1.setParentChecklistId(obj.getString("checklist_id"));
+                                            commentsPojo1.setParentfullName(obj.getString("fullname"));
+                                            commentsPojo1.setParentComment(obj.getString("comments"));
+                                            commentsPojo1.setDate(obj1.getString("created_on"));
+                                            commentsPojo1.setCreatedBy(obj1.getString("created_by"));
                                             commentsPojo1.setLevel(Level.LEVEL_TWO);
+                                            if(array.length()>2 && j==1){
+                                                commentsPojo1.setShowMore("1");
+                                            }else {
+                                                commentsPojo1.setShowMore("0");
+                                            }
                                             listPojo.add(commentsPojo1);
                                         }
-                                    }*/
+                                    }
 
                                 }
 
@@ -635,6 +720,10 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
 
+    }
+    public void onResume(){
+        super.onResume();
+        getComments();
     }
     public void addComments(final String comments) {
 
@@ -827,6 +916,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
 
             super.onPreExecute();
         }
+
 
         @Override
         protected String doInBackground(String... strings) {
