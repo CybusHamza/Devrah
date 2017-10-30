@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -54,13 +55,15 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
     List<CardAssociatedCalendarMembersPojo> memberList;
     int membercount;
     String BoardsListData;
+    AlertDialog alertDialog;
 
-    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, int membercount) {
+    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, int membercount, AlertDialog alertDialog) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
         this.memberList = memberList;
         this.membercount=membercount;
+        this.alertDialog=alertDialog;
      //   this.list_id=list_id;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
@@ -198,10 +201,60 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
            projectsList.remove(projectsList.get(position));
         //    notifyDataSetChanged();
        }*/
-
+        holder.membersView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(activity,CardActivity.class);
+                intent.putExtra("CardHeaderData", projectsList.get(position).getData());
+                intent.putExtra("card_id",projectsList.get(position).getId());
+                intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
+                intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
+                intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
+                intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
+                intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
+                intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
+                intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
+                intent.putExtra("list_id",projectsList.get(position).getListId());
+                intent.putExtra("project_id", BoardExtended.projectId);
+                intent.putExtra("board_id", BoardExtended.boardId);
+                intent.putExtra("board_name", BoardExtended.bTitle);
+                intent.putExtra("project_title", BoardExtended.pTitle);
+                intent.putExtra("fromMyCards","false");
+                activity.finish();
+                activity.startActivity(intent);
+            }
+        });
+        holder.labelsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(activity,CardActivity.class);
+                intent.putExtra("CardHeaderData", projectsList.get(position).getData());
+                intent.putExtra("card_id",projectsList.get(position).getId());
+                intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
+                intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
+                intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
+                intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
+                intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
+                intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
+                intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
+                intent.putExtra("list_id",projectsList.get(position).getListId());
+                intent.putExtra("project_id", BoardExtended.projectId);
+                intent.putExtra("board_id", BoardExtended.boardId);
+                intent.putExtra("board_name", BoardExtended.bTitle);
+                intent.putExtra("project_title", BoardExtended.pTitle);
+                intent.putExtra("fromMyCards","false");
+                activity.finish();
+                activity.startActivity(intent);
+            }
+        });
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity,CardActivity.class);
                 intent.putExtra("CardHeaderData", projectsList.get(position).getData());
@@ -225,6 +278,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
 
             }
         });
+
         String[] labels=labelList.get(position).getLabels();
         String[] labelNames=labelList.get(position).getLabelText();
         if(labels.length<1){

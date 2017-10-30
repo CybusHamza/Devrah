@@ -724,15 +724,13 @@ private void getDueDates(final String currentDate){
         });
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
          String cardsByDate=dateFormat.format(dat);
-         getCards("");
+         getCards("",alertDialog);
         getDueDates(cardsByDate);
-
-
     }
    /* public void updateChildFragmentsCardData(String id,String isCardComplete){
         fragment.updateChildFragmentData(id,isCardComplete);
     }*/
-    private void getCards(final  String dueDate){
+    private void getCards(final  String dueDate,final AlertDialog alertDialog){
         final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
@@ -844,7 +842,7 @@ private void getDueDates(final String currentDate){
                                 }
 
 
-                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,0);
+                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,0,alertDialog);
                                 lv.setAdapter(adapter);
 
                                 /*try {

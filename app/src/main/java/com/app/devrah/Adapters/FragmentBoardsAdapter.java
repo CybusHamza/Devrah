@@ -89,6 +89,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
         holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
+//        holder.memberScrollView = (HorizontalScrollView) convertView.findViewById(R.id.memberScroller);
+//        holder.labelScrollView = (HorizontalScrollView) convertView.findViewById(R.id.labelScroller);
 
         holder.membersView = (LinearLayout)convertView.findViewById(R.id.membersListView);
         holder.labelsView = (LinearLayout)convertView.findViewById(R.id.labelsLayout);
@@ -176,6 +178,54 @@ public class FragmentBoardsAdapter extends BaseAdapter{
            projectsList.remove(projectsList.get(position));
         //    notifyDataSetChanged();
        }*/
+        holder.membersView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity,CardActivity.class);
+                intent.putExtra("CardHeaderData", projectsList.get(position).getData());
+                intent.putExtra("card_id",projectsList.get(position).getId());
+                intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
+                intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
+                intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
+                intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
+                intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
+                intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
+                intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
+                intent.putExtra("list_id",list_id);
+                intent.putExtra("project_id", BoardExtended.projectId);
+                intent.putExtra("board_id", BoardExtended.boardId);
+                intent.putExtra("board_name", BoardExtended.bTitle);
+                intent.putExtra("project_title", BoardExtended.pTitle);
+                intent.putExtra("fromMyCards","false");
+                activity.finish();
+                activity.startActivity(intent);
+            }
+        });
+        holder.labelsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity,CardActivity.class);
+                intent.putExtra("CardHeaderData", projectsList.get(position).getData());
+                intent.putExtra("card_id",projectsList.get(position).getId());
+                intent.putExtra("cardduedate",projectsList.get(position).getDueDate());
+                intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
+                intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
+                intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
+                intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
+                intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
+                intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
+                intent.putExtra("list_id",list_id);
+                intent.putExtra("project_id", BoardExtended.projectId);
+                intent.putExtra("board_id", BoardExtended.boardId);
+                intent.putExtra("board_name", BoardExtended.bTitle);
+                intent.putExtra("project_title", BoardExtended.pTitle);
+                intent.putExtra("fromMyCards","false");
+                activity.finish();
+                activity.startActivity(intent);
+            }
+        });
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

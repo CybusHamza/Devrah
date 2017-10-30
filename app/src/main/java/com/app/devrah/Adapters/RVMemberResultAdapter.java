@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Hamza Android on 10/3/2017.
  */
@@ -43,6 +45,7 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
         return holder;
     }
 
+
     @Override
     public void onBindViewHolder(final ViewHolderMember holder, int position) {
 
@@ -52,13 +55,13 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
             } else if (!memberList.get(position).getProfile_pic().equals("null") && !memberList.get(position).getProfile_pic().equals("")) {
                 holder.initials.setVisibility(View.GONE);
                 try {
-                   /* Picasso.with(activity)
+                    /*Picasso.with(activity)
                             .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
                             .networkPolicy(NetworkPolicy.OFFLINE)
-                            .into(holder.member, new Callback() {
+                            .fetch( new Callback() {
                                 @Override
                                 public void onSuccess() {
-
+                                    h
                                 }
 
                                 @Override
@@ -67,11 +70,14 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
                                 }
 
                             });*/
-                    Picasso.with(activity)
-                            .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
-                            .placeholder(R.drawable.bg_circle)
-                            .resize(50, 50)
-                            .into(holder.member);
+                    holder.member= (CircleImageView) holder.itemView.findViewById(R.id.memberPic);
+                    holder.member.setMaxWidth(50);
+                    holder.member.setMaxHeight(50);
+                      Picasso.with(activity)
+                              .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
+                              .resize(50, 50)
+                              .centerInside()
+                              .into(holder.member);
 
                 }catch (Exception e){
                     e.printStackTrace();
@@ -80,31 +86,21 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
             } else {
                 holder.initials.setVisibility(View.GONE);
                 try {
-                  /*  Picasso.with(activity)
-                            .load(memberList.get(position).getGp_pic())
-                            .networkPolicy(NetworkPolicy.OFFLINE)
-                            .into(holder.member, new Callback() {
-                                @Override
-                                public void onSuccess() {
-
-                                }
-
-                                @Override
-                                public void onError() {
-
-                                }
-
-                            });*/
+                    holder.member= (CircleImageView) holder.itemView.findViewById(R.id.memberPic);
+                    holder.member.setMaxWidth(50);
+                    holder.member.setMaxHeight(50);
                     Picasso.with(activity)
                             .load(memberList.get(position).getGp_pic())
-                            .placeholder(R.drawable.bg_circle)
                             .resize(50, 50)
+                            .centerInside()
                             .into(holder.member);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
+
+
+
         holder.member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,6 +140,7 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

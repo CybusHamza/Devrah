@@ -636,7 +636,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                             commentsPojo1.setComments(obj1.getString("comments"));
                                             commentsPojo1.setFullName(obj1.getString("fullname"));
                                             commentsPojo1.setIsFile(obj1.getString("is_Upload"));
-                                            commentsPojo1.setIsFile(obj1.getString("file_type"));
+                                            commentsPojo1.setFileType(obj1.getString("file_type"));
                                             commentsPojo1.setParentId(obj.getString("id"));
                                             commentsPojo1.setParentCardId(obj.getString("card_id"));
                                             commentsPojo1.setParentChecklistId(obj.getString("checklist_id"));
