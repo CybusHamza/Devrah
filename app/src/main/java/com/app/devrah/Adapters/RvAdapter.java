@@ -1,8 +1,5 @@
 package com.app.devrah.Adapters;
 
-/**
- * Created by Hamza Android on 10/24/2017.
- */
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +47,9 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
- * Created by ishratkhan on 24/02/16.
+ * Created by Hamza Android on 10/24/2017.
  */
+
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
 
     List<CommentsPojo> projectsList;
@@ -72,7 +71,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
        // DataModal dataModal = projectsList.get(position);
         holder.tv.setText(projectsList.get(position).getComments());
         holder.userName.setText(projectsList.get(position).getFullName());
-        holder.date.setTextColor(activity.getResources().getColor(R.color.black));
+        holder.date.setTextColor(activity.getResources().getColor(R.color.colorWhite));
         holder.date.setText(projectsList.get(position).getDate());
         holder.setLevel(projectsList.get(position).getLevel());
         String fileType=projectsList.get(position).getFileType();
@@ -80,7 +79,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
         String userId=pref.getString("user_id","");
         if(userId.equals(projectsList.get(position).getCreatedBy())){
-            holder.userName.setTextColor(activity.getResources().getColor(R.color.userColorGreen));
+            holder.userName.setTextColor(activity.getResources().getColor(R.color.colorWhite));
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
         }else {
@@ -115,6 +114,25 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
             holder.showMore.setVisibility(View.VISIBLE);
         }else {
             holder.showMore.setVisibility(View.GONE);
+        }
+        if(!projectsList.get(position).getProfilePic().equals("") && !projectsList.get(position).getProfilePic().equals("null")){
+            holder.profilePic.setVisibility(View.VISIBLE);
+            holder.marker.setVisibility(View.GONE);
+                Picasso.with(activity)
+                        .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + projectsList.get(position).getProfilePic())
+                        .into(holder.profilePic);
+        }
+        else
+        {
+            holder.marker.setVisibility(View.VISIBLE);
+            holder.marker.setText(projectsList.get(position).getInitials());
+        }
+        if(projectsList.get(position).getShowLine().equals("1")){
+           holder.borderLine.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.borderLine.setVisibility(View.GONE);
         }
 
 
@@ -154,6 +172,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                     intent.putExtra("id",projectsList.get(position).getParentId());
                     intent.putExtra("parentComment",projectsList.get(position).getParentfullName());
                     intent.putExtra("parentCommentData",projectsList.get(position).getParentComment());
+                    intent.putExtra("parentProfilePic",projectsList.get(position).getParentProfilePic());
+                    intent.putExtra("parentInitials",projectsList.get(position).getParentInitials());
                     activity.startActivity(intent);
                 }else {
                     Intent intent = new Intent(activity, Child_Comments.class);
@@ -162,6 +182,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                     intent.putExtra("id", projectsList.get(position).getId());
                     intent.putExtra("parentComment", projectsList.get(position).getFullName());
                     intent.putExtra("parentCommentData", projectsList.get(position).getComments());
+                    intent.putExtra("parentProfilePic",projectsList.get(position).getParentProfilePic());
+                    intent.putExtra("parentInitials",projectsList.get(position).getParentInitials());
                     activity.startActivity(intent);
                 }
                /* if(projectsList.get(position).getLevel()==2){
@@ -181,6 +203,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                     intent.putExtra("id",projectsList.get(position).getParentId());
                     intent.putExtra("parentComment",projectsList.get(position).getParentfullName());
                     intent.putExtra("parentCommentData",projectsList.get(position).getParentComment());
+                    intent.putExtra("parentProfilePic",projectsList.get(position).getParentProfilePic());
+                    intent.putExtra("parentInitials",projectsList.get(position).getParentInitials());
                     activity.startActivity(intent);
                 }else {
                     Intent intent = new Intent(activity, Child_Comments.class);
@@ -189,6 +213,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                     intent.putExtra("id", projectsList.get(position).getId());
                     intent.putExtra("parentComment", projectsList.get(position).getFullName());
                     intent.putExtra("parentCommentData", projectsList.get(position).getComments());
+                    intent.putExtra("parentProfilePic",projectsList.get(position).getParentProfilePic());
+                    intent.putExtra("parentInitials",projectsList.get(position).getParentInitials());
                     activity.startActivity(intent);
                 }
             }
@@ -202,6 +228,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                 intent.putExtra("id",projectsList.get(position).getParentId());
                 intent.putExtra("parentComment",projectsList.get(position).getParentfullName());
                 intent.putExtra("parentCommentData",projectsList.get(position).getParentComment());
+                intent.putExtra("parentProfilePic",projectsList.get(position).getParentProfilePic());
+                intent.putExtra("parentInitials",projectsList.get(position).getParentInitials());
                 activity.startActivity(intent);
             }
         });
@@ -246,9 +274,11 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
     class RvViewHolder extends RecyclerView.ViewHolder {
         TextView tv,edit,delete,reply,userName,date,showMore;
         View itemView;
-        View marker;
+        TextView marker;
         ImageView attachment;
         CardView cardView;
+        ImageView profilePic;
+        View borderLine;
 
         public RvViewHolder(View itemView) {
             super(itemView);
@@ -262,7 +292,9 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
             reply = (TextView) itemView.findViewById(R.id.reply);
             delete = (TextView) itemView.findViewById(R.id.delete);
             attachment = (ImageView) itemView.findViewById(R.id.attachment);
-            marker =itemView.findViewById(R.id.marker);
+            marker =(TextView) itemView.findViewById(R.id.marker);
+            profilePic =(ImageView) itemView.findViewById(R.id.imageProfile);
+            borderLine =(View) itemView.findViewById(R.id.divider);
         }
 
         public void setLevel(int level) {
@@ -271,12 +303,18 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                     RecyclerView.LayoutParams.WRAP_CONTENT
             );
 
+            if(level==Level.LEVEL_ONE){
+                RelativeLayout.MarginLayoutParams mlp = (RelativeLayout.MarginLayoutParams) borderLine
+                        .getLayoutParams();
+
+                mlp.setMargins(100,10, 0, 0);
+            }
             if (level == Level.LEVEL_TWO) {
                 params.setMarginStart(ViewUtils.getLevelOneMargin());
-                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.marker_c));
+                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.round_bkg));
             } else if (level == Level.LEVEL_THREE) {
                 params.setMarginStart(ViewUtils.getLevelTwoMargin());
-                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.marker_cc));
+                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.round_bkg));
             }
 
             itemView.setLayoutParams(params);

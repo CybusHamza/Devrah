@@ -14,6 +14,37 @@ public class CommentsPojo {
 
     int level;
     String id;
+    String profilePic;
+    String initials;
+
+    public String getShowLine() {
+        return showLine;
+    }
+
+    public void setShowLine(String showLine) {
+        this.showLine = showLine;
+    }
+
+    String showLine;
+
+    public String getParentInitials() {
+        return parentInitials;
+    }
+
+    public void setParentInitials(String parentInitials) {
+        this.parentInitials = parentInitials;
+    }
+
+    public String getParentProfilePic() {
+        return parentProfilePic;
+    }
+
+    public void setParentProfilePic(String parentProfilePic) {
+        this.parentProfilePic = parentProfilePic;
+    }
+
+    String parentInitials;
+    String parentProfilePic;
 
     public String getParentChecklistId() {
         return parentChecklistId;
@@ -29,6 +60,22 @@ public class CommentsPojo {
 
     public void setParentfullName(String parentfullName) {
         this.parentfullName = parentfullName;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public String getInitials() {
+        return initials;
+    }
+
+    public void setInitials(String initials) {
+        this.initials = initials;
     }
 
     public String getParentComment() {

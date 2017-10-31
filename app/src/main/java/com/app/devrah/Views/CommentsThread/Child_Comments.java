@@ -96,7 +96,7 @@ public class Child_Comments extends AppCompatActivity implements callBack{
     ImageView sendComments,sendAttachment;
     String b64,formattedDate;
     ProgressDialog ringProgressDialog;
-    String filepath,cardId,parentId,fullName,parentCommentsData;
+    String filepath,cardId,parentId,fullName,parentCommentsData,parentProfilePic,parentInitials;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +127,8 @@ public class Child_Comments extends AppCompatActivity implements callBack{
         parentId=intent.getStringExtra("id");
         fullName=intent.getStringExtra("parentComment");
         parentCommentsData=intent.getStringExtra("parentCommentData");
+        parentProfilePic=intent.getStringExtra("parentProfilePic");
+        parentInitials=intent.getStringExtra("parentInitials");
         getComments();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etComments.getWindowToken(), 0);
@@ -609,6 +611,8 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                         commentsPojo1.setParentId("");
                         commentsPojo1.setDate("");
                         commentsPojo1.setCreatedBy("");
+                        commentsPojo1.setProfilePic(parentProfilePic);
+                        commentsPojo1.setInitials(parentInitials);
                         commentsPojo1.setLevel(Level.LEVEL_ONE);
                         listPojo.add(commentsPojo1);
                         if(response.equals("false")){
@@ -635,6 +639,10 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setParentId(obj.getString("id"));
                                     commentsPojo.setDate(obj.getString("created_on"));
                                     commentsPojo.setCreatedBy(obj.getString("created_by"));
+                                    commentsPojo.setProfilePic(obj.getString("profile_pic"));
+                                    commentsPojo.setInitials(obj.getString("initials"));
+                                    commentsPojo.setParentProfilePic(obj.getString("profile_pic"));
+                                    commentsPojo.setParentInitials(obj.getString("initials"));
                                     commentsPojo.setLevel(Level.LEVEL_TWO);
                                     listPojo.add(commentsPojo);
                                    /* JSONArray array=jsonArray1.getJSONArray(i);

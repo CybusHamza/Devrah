@@ -73,7 +73,8 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
         // DataModal dataModal = projectsList.get(position);
         holder.tv.setText(projectsList.get(position).getComments());
         holder.userName.setText(projectsList.get(position).getFullName());
-        holder.date.setTextColor(activity.getResources().getColor(R.color.black));
+        holder.borderLine.setVisibility(View.GONE);
+        holder.date.setTextColor(activity.getResources().getColor(R.color.colorWhite));
         holder.date.setText(projectsList.get(position).getDate());
         holder.setLevel(projectsList.get(position).getLevel());
         String fileType=projectsList.get(position).getFileType();
@@ -81,7 +82,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
         String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
         String userId=pref.getString("user_id","");
         if(userId.equals(projectsList.get(position).getCreatedBy()) && projectsList.get(position).getLevel()==2){
-            holder.userName.setTextColor(activity.getResources().getColor(R.color.userColorGreen));
+            holder.userName.setTextColor(activity.getResources().getColor(R.color.colorWhite));
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
         }else {
@@ -124,6 +125,19 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             if(userId.equals(projectsList.get(position).getCreatedBy()) && projectsList.get(position).getLevel()==2)
             holder.edit.setVisibility(View.VISIBLE);
 
+        }
+
+        if(!projectsList.get(position).getProfilePic().equals("") && !projectsList.get(position).getProfilePic().equals("null")){
+            holder.profilePic.setVisibility(View.VISIBLE);
+            holder.marker.setVisibility(View.GONE);
+            Picasso.with(activity)
+                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + projectsList.get(position).getProfilePic())
+                    .into(holder.profilePic);
+        }
+        else
+        {
+            holder.marker.setVisibility(View.VISIBLE);
+            holder.marker.setText(projectsList.get(position).getInitials());
         }
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,10 +224,11 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
 
     class RvViewHolder extends RecyclerView.ViewHolder {
         TextView tv,edit,delete,reply,userName,date;
-        View itemView;
-        View marker;
+        View itemView,borderLine;
+        TextView marker;
         ImageView attachment;
         CardView cardView;
+        ImageView profilePic;
 
         public RvViewHolder(View itemView) {
             super(itemView);
@@ -226,7 +241,9 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             reply = (TextView) itemView.findViewById(R.id.reply);
             delete = (TextView) itemView.findViewById(R.id.delete);
             attachment = (ImageView) itemView.findViewById(R.id.attachment);
-            marker =itemView.findViewById(R.id.marker);
+            marker =(TextView) itemView.findViewById(R.id.marker);
+            profilePic =(ImageView) itemView.findViewById(R.id.imageProfile);
+            borderLine =(View) itemView.findViewById(R.id.divider);
         }
 
         public void setLevel(int level) {
@@ -237,10 +254,10 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
 
             if (level == Level.LEVEL_TWO) {
                 params.setMarginStart(ViewUtils.getLevelOneMargin());
-                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.marker_c));
+                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.round_bkg));
             } else if (level == Level.LEVEL_THREE) {
                 params.setMarginStart(ViewUtils.getLevelTwoMargin());
-                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.marker_cc));
+                marker.setBackground(ContextCompat.getDrawable(activity,R.drawable.round_bkg));
             }
 
             itemView.setLayoutParams(params);

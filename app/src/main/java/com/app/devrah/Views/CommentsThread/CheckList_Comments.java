@@ -622,9 +622,18 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setDate(obj.getString("created_on"));
                                     commentsPojo.setCreatedBy(obj.getString("created_by"));
                                     commentsPojo.setShowMore("0");
+                                    commentsPojo.setProfilePic(obj.getString("profile_pic"));
+                                    commentsPojo.setInitials(obj.getString("initials"));
+                                    commentsPojo.setParentProfilePic(obj.getString("profile_pic"));
+                                    commentsPojo.setParentInitials(obj.getString("initials"));
                                     commentsPojo.setLevel(Level.LEVEL_ONE);
-                                    listPojo.add(commentsPojo);
                                     JSONArray array=jsonArray1.getJSONArray(i);
+                                    if(array.length()==0){
+                                        commentsPojo.setShowLine("1");
+                                    }else {
+                                        commentsPojo.setShowLine("0");
+                                    }
+                                    listPojo.add(commentsPojo);
                                     if(array.length()>0){
                                         for (int j=0;j<array.length() && j<2 ;j++) {
 
@@ -644,11 +653,21 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                             commentsPojo1.setParentComment(obj.getString("comments"));
                                             commentsPojo1.setDate(obj1.getString("created_on"));
                                             commentsPojo1.setCreatedBy(obj1.getString("created_by"));
+                                            commentsPojo1.setProfilePic(obj1.getString("profile_pic"));
+                                            commentsPojo1.setInitials(obj1.getString("initials"));
+                                            commentsPojo1.setParentProfilePic(obj.getString("profile_pic"));
+                                            commentsPojo1.setParentInitials(obj.getString("initials"));
                                             commentsPojo1.setLevel(Level.LEVEL_TWO);
+
                                             if(array.length()>2 && j==1){
                                                 commentsPojo1.setShowMore("1");
                                             }else {
                                                 commentsPojo1.setShowMore("0");
+                                            }
+                                            if((array.length()==2 && j==1) || (array.length()==1 && j==0) || (array.length()>2 && j==1)){
+                                                commentsPojo1.setShowLine("1");
+                                            }else {
+                                                commentsPojo1.setShowLine("0");
                                             }
                                             listPojo.add(commentsPojo1);
                                         }
