@@ -33,7 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.team_addapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.CardActivity;
+import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.All_Teams;
 import com.app.devrah.pojo.MembersPojo;
 

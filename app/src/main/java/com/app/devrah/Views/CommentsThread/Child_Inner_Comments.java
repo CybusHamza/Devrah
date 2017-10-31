@@ -50,7 +50,7 @@ import com.app.devrah.Holders.ViewUtils;
 import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.CardActivity;
+import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CommentsPojo;
 import com.app.devrah.pojo.Level;
 

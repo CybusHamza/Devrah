@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.cards;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,10 +42,10 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.app.devrah.Views.CardActivity.cardId;
-import static com.app.devrah.Views.CardActivity.labelAdd;
-import static com.app.devrah.Views.CardActivity.rvLabel;
-import static com.app.devrah.Views.CardActivity.rvLabelResult;
+import static com.app.devrah.Views.cards.CardActivity.cardId;
+import static com.app.devrah.Views.cards.CardActivity.labelAdd;
+import static com.app.devrah.Views.cards.CardActivity.rvLabel;
+import static com.app.devrah.Views.cards.CardActivity.rvLabelResult;
 
 
 public class LabelColorFragment extends Fragment {

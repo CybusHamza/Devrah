@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/bg_projects"
     android:layout_height="match_parent"
-    tools:context="com.app.devrah.Views.Login"
+    tools:context=".Views.Main.Login"
     android:orientation="vertical">
 
 

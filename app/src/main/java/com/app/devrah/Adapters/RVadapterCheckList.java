@@ -25,7 +25,7 @@ import com.app.devrah.Holders.Cheklist;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.CommentsThread.CheckList_Comments;
-import com.app.devrah.Views.CheckList_Detail;
+import com.app.devrah.Views.cards.CheckList_Detail;
 import com.app.devrah.pojo.check_model;
 
 import java.util.ArrayList;

@@ -26,8 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:label">
-        <activity android:name=".Views.SignUpActivity" />
-        <activity android:name=".Views.Login">
+        <activity android:name=".Views.Main.SignUpActivity" />
+        <activity android:name=".Views.Main.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,12 +35,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Views.MainActivity" />
-        <activity android:name=".Views.Dashboard" />
+        <activity android:name=".Views.Main.Dashboard" />
         <activity android:name=".Views.Project.ProjectsActivity" />
         <activity android:name=".Views.Board.BoardsActivity" />
         <activity android:name=".Views.BoardExtended.BoardExtended" />
         <activity
-            android:name=".Views.CardActivity"
+            android:name=".Views.cards.CardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Views.ImageDescription" />
         <activity android:name=".Views.Favourites.FavouritesActivity" />
@@ -51,7 +51,7 @@
             android:name=".Views.Messages.SendNewMessageActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Views.Teams.CreateNewTeamActivity" />
-        <activity android:name=".Views.ProfileActivity" />
+        <activity android:name=".Views.Main.ProfileActivity" />
 
         <service
             android:name=".FireBase_Notifications.MyFirebaseMessagingService"
@@ -81,17 +81,11 @@
             android:name=".Views.ManageMembers.Manage_Board_Members"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Views.CheckList_Detail"
+            android:name=".Views.cards.CheckList_Detail"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".Views.Messages.Reply"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Views.Manage_Card_Members"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Views.CheckListComments"
-            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Views.CommentsThread.CheckList_Comments"></activity>
         <activity android:name=".Views.CommentsThread.Child_Comments"></activity>
         <activity android:name=".Views.CommentsThread.Child_Inner_Comments"></activity>

@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 
 import com.app.devrah.Holders.CardAssociatedLabelRecyclerHolder;
 import com.app.devrah.R;
-import com.app.devrah.Views.CardActivity;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
-import com.app.devrah.pojo.ProjectsPojo;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.Main;
 
 import android.Manifest;
 import android.app.AlertDialog;

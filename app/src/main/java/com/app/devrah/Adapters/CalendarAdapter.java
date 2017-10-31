@@ -31,7 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
-import com.app.devrah.Views.CardActivity;
+import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CalendarPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;

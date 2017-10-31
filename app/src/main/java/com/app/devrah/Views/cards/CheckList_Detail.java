@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Views.cards;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -42,18 +42,18 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static com.app.devrah.Views.CardActivity.CardHeading;
-import static com.app.devrah.Views.CardActivity.cardDescription;
-import static com.app.devrah.Views.CardActivity.cardId;
-import static com.app.devrah.Views.CardActivity.cardIsComplete;
-import static com.app.devrah.Views.CardActivity.dueDate;
-import static com.app.devrah.Views.CardActivity.dueTime;
-import static com.app.devrah.Views.CardActivity.isCardLocked;
-import static com.app.devrah.Views.CardActivity.isCardSubscribed;
-import static com.app.devrah.Views.CardActivity.isFromMyCardsScreen;
-import static com.app.devrah.Views.CardActivity.list_id;
-import static com.app.devrah.Views.CardActivity.startDate;
-import static com.app.devrah.Views.CardActivity.startTime;
+import static com.app.devrah.Views.cards.CardActivity.CardHeading;
+import static com.app.devrah.Views.cards.CardActivity.cardDescription;
+import static com.app.devrah.Views.cards.CardActivity.cardId;
+import static com.app.devrah.Views.cards.CardActivity.cardIsComplete;
+import static com.app.devrah.Views.cards.CardActivity.dueDate;
+import static com.app.devrah.Views.cards.CardActivity.dueTime;
+import static com.app.devrah.Views.cards.CardActivity.isCardLocked;
+import static com.app.devrah.Views.cards.CardActivity.isCardSubscribed;
+import static com.app.devrah.Views.cards.CardActivity.isFromMyCardsScreen;
+import static com.app.devrah.Views.cards.CardActivity.list_id;
+import static com.app.devrah.Views.cards.CardActivity.startDate;
+import static com.app.devrah.Views.cards.CardActivity.startTime;
 
 
 public class CheckList_Detail extends AppCompatActivity {

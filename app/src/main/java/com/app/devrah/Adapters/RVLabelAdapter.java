@@ -26,7 +26,7 @@ import com.app.devrah.Holders.View_holder_label;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
-import com.app.devrah.Views.LabelColorFragment;
+import com.app.devrah.Views.cards.LabelColorFragment;
 
 import java.util.HashMap;
 import java.util.List;

@@ -20,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.devrah.R;
+import com.app.devrah.Views.Main.Dashboard;
+import com.app.devrah.Views.Main.Login;
+import com.app.devrah.Views.Main.SignUpActivity;
 
 public class MainActivity extends AppCompatActivity {
 

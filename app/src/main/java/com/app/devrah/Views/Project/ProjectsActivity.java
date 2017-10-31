@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.R;
-import com.app.devrah.Views.Dashboard;
+import com.app.devrah.Views.Main.Dashboard;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Teams.MenuActivity;
 import com.app.devrah.pojo.DrawerPojo;

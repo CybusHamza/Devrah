@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.app.devrah.Holders.ViewHolderRVcardScreenLabelResult;
 import com.app.devrah.R;
-import com.app.devrah.Views.CardActivity;
+import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 
 import java.util.ArrayList;

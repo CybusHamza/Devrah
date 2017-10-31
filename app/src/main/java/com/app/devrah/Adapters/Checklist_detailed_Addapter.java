@@ -29,7 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
-import com.app.devrah.Views.CheckList_Detail;
+import com.app.devrah.Views.cards.CheckList_Detail;
 import com.app.devrah.pojo.check_model;
 
 import java.util.ArrayList;

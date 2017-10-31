@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.app.devrah.R;
-import com.app.devrah.Views.CardActivity;
+import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.MyCardsPojo;
 
 import java.util.List;

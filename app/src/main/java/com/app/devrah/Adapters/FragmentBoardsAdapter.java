@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
-import com.app.devrah.Views.CardActivity;
+import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
