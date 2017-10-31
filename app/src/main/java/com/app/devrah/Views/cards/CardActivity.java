@@ -121,10 +121,10 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static com.app.devrah.Network.End_Points.GET_LABELS;
 import static com.app.devrah.Views.BoardExtended.BoardExtended.boardId;
 import static com.app.devrah.Views.BoardExtended.BoardExtended.projectId;
-import static com.app.devrah.Views.FilePath.getDataColumn;
-import static com.app.devrah.Views.FilePath.isDownloadsDocument;
-import static com.app.devrah.Views.FilePath.isExternalStorageDocument;
-import static com.app.devrah.Views.FilePath.isMediaDocument;
+import static com.app.devrah.Holders.FilePath.getDataColumn;
+import static com.app.devrah.Holders.FilePath.isDownloadsDocument;
+import static com.app.devrah.Holders.FilePath.isExternalStorageDocument;
+import static com.app.devrah.Holders.FilePath.isMediaDocument;
 
 public class CardActivity extends AppCompatActivity  implements callBack {
     private static final int REQUEST_PERMISSIONS=0;

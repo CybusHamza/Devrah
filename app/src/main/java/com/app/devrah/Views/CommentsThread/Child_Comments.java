@@ -74,10 +74,10 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static com.app.devrah.Views.FilePath.getDataColumn;
-import static com.app.devrah.Views.FilePath.isDownloadsDocument;
-import static com.app.devrah.Views.FilePath.isExternalStorageDocument;
-import static com.app.devrah.Views.FilePath.isMediaDocument;
+import static com.app.devrah.Holders.FilePath.getDataColumn;
+import static com.app.devrah.Holders.FilePath.isDownloadsDocument;
+import static com.app.devrah.Holders.FilePath.isExternalStorageDocument;
+import static com.app.devrah.Holders.FilePath.isMediaDocument;
 
 
 public class Child_Comments extends AppCompatActivity implements callBack{

@@ -1,4 +1,4 @@
-package com.app.devrah.Views;
+package com.app.devrah.Holders;
 
 /**
  * Created by Rizwan Butt on 23-Aug-17.
