@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
@@ -158,10 +159,13 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
         holder.getCheckBox().setTag(position);
         if(checkedItem.get(position).equals("1"))
         {
+            holder.name.setPaintFlags(holder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
             holder.getCheckBox().setChecked(true);
 
         }
         else{
+            holder.name.setPaintFlags(0);
             holder.getCheckBox().setChecked(false);
 
         }
@@ -226,6 +230,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                 if (!(response.equals(""))) {
                     checkedItem.remove(pos);
                     checkedItem.add(pos,"1");
+                    notifyDataSetChanged();
                 }
             }
 
@@ -298,6 +303,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                 if (!(response.equals(""))) {
                     checkedItem.remove(pos);
                     checkedItem.add(pos,"0");
+                    notifyDataSetChanged();
 
 
                 }

@@ -11,6 +11,16 @@ public class ProjectsPojo {
     public String data;
     public String boardID;
 
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public String projectDescription;
+
     public String getCardAssignedMemberId() {
         return cardAssignedMemberId;
     }

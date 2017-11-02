@@ -158,6 +158,28 @@ public void getNotifications() {
 
                              try {
                                  JSONObject mainObject = new JSONObject(response);
+                                 if(mainObject.getString("project_notifications").equals("false") && mainObject.getString("boards_notifications").equals("false") && mainObject.getString("card_notifications").equals("false")){
+                                     NotificationsPojo notificationsPojo = new NotificationsPojo();
+                                     notificationsPojo.setUserName("");
+                                     notificationsPojo.setData("");
+                                     notificationsPojo.setDate("");
+                                     notificationsPojo.setProjectId("");
+                                     notificationsPojo.setProjectTitle("");
+                                     notificationsPojo.setBoardId("");
+                                     notificationsPojo.setCardId("");
+                                     notificationsPojo.setCardDueDate("");
+                                     notificationsPojo.setCardStartDate("");
+                                     notificationsPojo.setCardDueTime("");
+                                     notificationsPojo.setCardStartTime("");
+                                     notificationsPojo.setCardDescription("");
+                                     notificationsPojo.setIsComplete("");
+                                     notificationsPojo.setIsSubscribed("");
+                                     notificationsPojo.setIsLocked("");
+                                     notificationsPojo.setListId("");
+                                     notificationsPojo.setBoard_name("");
+                                     notificationsPojo.setLabel("No data found");
+                                     listPojo.add(notificationsPojo);
+                                 }
                                  if(!mainObject.getString("project_notifications").equals("false")) {
                                  JSONArray jsonArrayProjectNotifications = mainObject.getJSONArray("project_notifications");
                                  for (int i = 0; i < jsonArrayProjectNotifications.length(); i++) {
@@ -249,6 +271,7 @@ public void getNotifications() {
 
                                      }
                                  }
+
                                  adapter=new NotificationAdapter(getActivity(),listPojo,boardlistPojo,cardlistPojo);
                                  lv.setAdapter(adapter);
 

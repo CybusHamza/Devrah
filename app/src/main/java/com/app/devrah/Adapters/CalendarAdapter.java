@@ -33,6 +33,7 @@ import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CalendarPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarCoverPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
 import com.squareup.picasso.Picasso;
@@ -53,15 +54,17 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
     private LayoutInflater inflater;
     List<CardAssociatedCalendarLabelsPojo> labelList;
     List<CardAssociatedCalendarMembersPojo> memberList;
+    List<CardAssociatedCalendarCoverPojo> coverList;
     int membercount;
     String BoardsListData;
     AlertDialog alertDialog;
 
-    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, int membercount, AlertDialog alertDialog) {
+    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, List<CardAssociatedCalendarCoverPojo> coverList, int membercount, AlertDialog alertDialog) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
         this.memberList = memberList;
+        this.coverList=coverList;
         this.membercount=membercount;
         this.alertDialog=alertDialog;
      //   this.list_id=list_id;
@@ -157,7 +160,21 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             holder.dueDate.setText("");
 
         }
-
+        holder.attachment.setVisibility(View.GONE);
+        String cover[]=coverList.get(position).getIsCover();
+        String fileName[]=coverList.get(position).getFileName();
+        for(int i=0;i<cover.length;i++) {
+            if (cover[i].equals("1")) {
+                holder.attachment.setVisibility(View.VISIBLE);
+                Picasso.with(activity)
+                        .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + fileName[i])
+                        .resize(350,200)
+                        .onlyScaleDown()
+                        .into(holder.attachment);
+            } else {
+                holder.attachment.setVisibility(View.GONE);
+            }
+        }
 
         if(!projectsList.get(position).getnOfAttachments().equals("0")){
             holder.dueDate.setVisibility(View.VISIBLE);
@@ -201,6 +218,11 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
            projectsList.remove(projectsList.get(position));
         //    notifyDataSetChanged();
        }*/
+        if(projectsList.get(position).getIsCardComplete().equals("1") && !holder.dueDate.getText().equals("")){
+            holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_green_login));
+        }else {
+            holder.dueDate.setBackground(null);
+        }
         holder.membersView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

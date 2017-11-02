@@ -4,7 +4,21 @@
     android:background="#fff"
     android:layout_height="match_parent">
 
-
+    <TextView
+        android:id="@+id/headingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add List"
+        android:textColor="#525050"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_line"/>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/Title"
         android:layout_width="match_parent"
@@ -18,8 +32,8 @@
             android:id="@+id/input_watever"
             android:layout_width="match_parent"
             android:hint="Title"
-            android:textColorHint="#00FA9A"
-            android:backgroundTint="#00FA9A"
+            android:textColorHint="#636262"
+            android:backgroundTint="#636262"
             android:textColor="@color/colorAccent"
             android:layout_height="wrap_content"
             />
@@ -36,8 +50,8 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="Cancel"
-        android:textColor="#00FA9A"
-        android:textSize="20sp"
+        android:textColor="#f50b22"
+        android:textSize="15sp"
         android:id="@+id/btn_cancel"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -48,8 +62,8 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="Add List"
-        android:textColor="#00FA9A"
-        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp"
         android:id="@+id/btn_add_board"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

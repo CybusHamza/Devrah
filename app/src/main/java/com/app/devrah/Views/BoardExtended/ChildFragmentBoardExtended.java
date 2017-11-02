@@ -238,6 +238,8 @@ public class ChildFragmentBoardExtended extends Fragment {
                                 // TODO Something when menu item selected
                                 return true;
                             case R.id.updateListName:
+                                if(list_color==null)
+                                    list_color="";
                                customDialogueUpdateListName(childname,list_color);
                                 //  boardMenu.setBackgroundColor(getActivity().getResources().getColor(R.color.lightGreen));
                                 // TODO Something when menu item selected

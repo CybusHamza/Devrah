@@ -4,19 +4,21 @@
     android:layout_margin="30dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#e7e5e5">
+    android:background="#e2e1e1">
 
     <TextView
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add New Card"
+        android:padding="10dp"
         android:textSize="20dp"
-        android:padding="16dp"
-        android:background="#b4b2b2"
-        android:textColor="#000"
+        android:textColor="#525050"
         android:textStyle="bold"/>
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_line"/>
     <TextView
         android:id="@+id/pTextView"
         android:layout_width="match_parent"
@@ -32,7 +34,7 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:textColor="#000"
-        android:background="@drawable/dropdown_mainscreen" />
+        android:background="@drawable/spinner_dropdown" />
     <TextView
         android:id="@+id/bTextView"
         android:layout_width="match_parent"
@@ -48,7 +50,7 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:textColor="#000"
-        android:background="@drawable/dropdown_mainscreen" />
+        android:background="@drawable/spinner_dropdown" />
     <TextView
         android:id="@+id/lTextView"
         android:layout_width="match_parent"
@@ -65,7 +67,7 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:textColor="#000"
-        android:background="@drawable/dropdown_mainscreen" />
+        android:background="@drawable/spinner_dropdown" />
     <TextView
         android:id="@+id/cTextView"
         android:layout_width="match_parent"
@@ -83,18 +85,19 @@
         android:layout_marginRight="5dp"/>
 <LinearLayout
     android:orientation="horizontal"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="5dp"
     android:gravity="end"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#b4b2b2">
+    android:background="#e2e1e1">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Cancel"
         android:layout_margin="5dp"
-        android:background="@color/colorRed"
+        android:textColor="#f50b22"
+        android:background="@null"
         android:id="@+id/cancelBtn"/>
     <Button
         android:layout_width="wrap_content"
@@ -102,7 +105,8 @@
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:text="Save"
-        android:background="@color/lightGreen"
+        android:background="@null"
+        android:textColor="@color/colorPrimary"
         android:id="@+id/saveCardBtn"/>
 
 </LinearLayout>

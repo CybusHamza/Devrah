@@ -24,16 +24,17 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
-        android:textColorHint="#BFBFBF"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/input_title"
             android:layout_width="match_parent"
             android:hint="Name"
-            android:textColorHint="#00FA9A"
-            android:backgroundTint="#00FA9A"
-            android:textColor="@color/colorAccent"
+            android:textColorHint="#636262"
+            android:textColorHighlight="#636262"
+            android:backgroundTint="#636262"
+            android:textColor="#636262"
+            android:textSize="13sp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             />
@@ -45,7 +46,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="Project Groups:"
-        android:textColor="#000"
+        android:textColor="#636262"
         android:textSize="13sp"
         android:layout_margin="20dp"/>
 
@@ -86,9 +87,10 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         android:textColorHint="#BFBFBF"
-        android:textColor="#000"
-        android:textSize="12dp"
+        android:textColor="#636262"
+        android:textSize="13sp"
         android:layout_weight="1"
+        android:layout_marginStart="10dp"
         android:id="@+id/etCustomSpinnerData"
         android:hint="Enter project Group"/>
 
@@ -110,16 +112,17 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
-        android:textColorHint="#BFBFBF"
+        android:textColorHint="#636262"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:hint="Description"
-            android:textColorHint="#00FA9A"
-            android:backgroundTint="#00FA9A"
-            android:textColor="@color/colorAccent"
+            android:textColorHint="#BFBFBF"
+            android:backgroundTint="#636262"
+            android:textSize="15dp"
+            android:textColor="#636262"
             android:layout_height="wrap_content"
             />
 
@@ -136,7 +139,7 @@
         android:text="Cancel"
         android:id="@+id/cancel_btn"
         android:paddingLeft="20dp"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:paddingRight="20dp"
         android:paddingTop="20dp"
         android:textColor="#f50b22"/>
@@ -148,7 +151,7 @@
         android:text="Add Project"
         android:id="@+id/addProject"
         android:paddingLeft="20dp"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:paddingRight="20dp"
         android:paddingTop="20dp"
         android:paddingBottom="5dp"

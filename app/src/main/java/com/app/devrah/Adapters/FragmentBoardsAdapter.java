@@ -134,7 +134,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.dueDate.setVisibility(View.GONE);
         if(!projectsList.get(position).getDueDate().equals("null")) {
             holder.dueDate.setVisibility(View.VISIBLE);
-            holder.dueDate.setText(projectsList.get(position).getDueDate() + " " + projectsList.get(position).getDuetTime());
+            holder.dueDate.setText(projectsList.get(position).getDueDate() );
         }
         else {
             holder.dueDate.setText("");
@@ -168,6 +168,11 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         }else {
             holder.dueDate.setVisibility(View.VISIBLE);
             holder.descriptionIcon.setVisibility(View.VISIBLE);
+        }
+        if(projectsList.get(position).getIsCardComplete().equals("1") && !holder.dueDate.getText().equals("")){
+            holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_green_login));
+        }else {
+            holder.dueDate.setBackground(null);
         }
        // if(projectsList.get(position).getnOfAttachments().length()>0){
        // holder.nOfAttachments.setText(projectsList.get(position).getnOfAttachments());

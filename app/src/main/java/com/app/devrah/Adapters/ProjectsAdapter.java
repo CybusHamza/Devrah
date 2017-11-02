@@ -59,6 +59,7 @@ public class ProjectsAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.custom_layout_for_projects, null);
 
         holder.data = (TextView) convertView.findViewById(R.id.tvProjectsData);
+        holder.description = (TextView) convertView.findViewById(R.id.tvDescription);
         holder.status = (TextView) convertView.findViewById(R.id.btnActive);
         holder.isactive = (ImageView) convertView.findViewById(R.id.icon_active);
         holder.data.setText(projectsList.get(position).getData());
@@ -78,17 +79,30 @@ public class ProjectsAdapter extends BaseAdapter {
             holder.isactive.setImageResource(R.drawable.inactive_icon);
             //holder.status.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
         }
+        if(projectsList.get(position).getData().equals("No data found") && projectsList.get(position).getId().equals("")) {
+            holder.status.setVisibility(View.INVISIBLE);
+            holder.isactive.setVisibility(View.INVISIBLE);
+        }else {
+            holder.status.setVisibility(View.VISIBLE);
+            holder.isactive.setVisibility(View.VISIBLE);
+        }
+        if(!projectsList.get(position).getProjectDescription().equals("null")){
+            holder.description.setText(projectsList.get(position).getProjectDescription());
+        }else {
+            holder.description.setText("");
+        }
 
-
-        convertView.setOnClickListener(new View.OnClickListener() {
+            convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,BoardsActivity.class);
-                intent.putExtra("pid",projectsList.get(position).getId());
-                intent.putExtra("ptitle",projectsList.get(position).getData());
-                intent.putExtra("status",projectsList.get(position).getProjectStatus());
-                intent.putExtra("project_created_by",projectsList.get(position).getProjectCreatedBy());
-                activity.startActivity(intent);
+                if(!projectsList.get(position).getData().equals("No data found") && !projectsList.get(position).getId().equals("")) {
+                    Intent intent = new Intent(activity, BoardsActivity.class);
+                    intent.putExtra("pid", projectsList.get(position).getId());
+                    intent.putExtra("ptitle", projectsList.get(position).getData());
+                    intent.putExtra("status", projectsList.get(position).getProjectStatus());
+                    intent.putExtra("project_created_by", projectsList.get(position).getProjectCreatedBy());
+                    activity.startActivity(intent);
+                }
 
             }
         });
@@ -109,7 +123,7 @@ public class ProjectsAdapter extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data,status;
+        TextView data,status,description;
         ImageView isactive;
     }
 

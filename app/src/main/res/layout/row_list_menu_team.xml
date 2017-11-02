@@ -2,17 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    android:background="@drawable/border_team"
+    android:layout_margin="10dp"
+    android:background="@drawable/outer_border_message_screen"
 
     android:orientation="vertical">
 <TextView
     android:id="@+id/tvDescription"
     android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
+    android:gravity="center_vertical"
     android:text=""
     android:textColor="#fff"
     android:textSize="15sp"/>
@@ -21,11 +23,10 @@
         android:id="@+id/tvProjectsData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_alignParentBottom="true"
+        android:padding="5dp"
         android:gravity="center"
-        android:paddingBottom="15dp"
-        android:layout_marginBottom="15dp"
         android:text="sdfghj"
+        android:background="@drawable/bottom_border"
         android:layout_below="@id/tvDescription"
         android:textColor="#fff"
         android:textSize="15sp" />

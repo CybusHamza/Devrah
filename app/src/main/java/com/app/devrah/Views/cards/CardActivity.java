@@ -118,13 +118,13 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static com.app.devrah.Network.End_Points.GET_LABELS;
-import static com.app.devrah.Views.BoardExtended.BoardExtended.boardId;
-import static com.app.devrah.Views.BoardExtended.BoardExtended.projectId;
 import static com.app.devrah.Holders.FilePath.getDataColumn;
 import static com.app.devrah.Holders.FilePath.isDownloadsDocument;
 import static com.app.devrah.Holders.FilePath.isExternalStorageDocument;
 import static com.app.devrah.Holders.FilePath.isMediaDocument;
+import static com.app.devrah.Network.End_Points.GET_LABELS;
+import static com.app.devrah.Views.BoardExtended.BoardExtended.boardId;
+import static com.app.devrah.Views.BoardExtended.BoardExtended.projectId;
 
 public class CardActivity extends AppCompatActivity  implements callBack {
     private static final int REQUEST_PERMISSIONS=0;
@@ -233,6 +233,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     ArrayList<String> list_ids ;
     List<String> postions_list;
     static String isFromMyCardsScreen;
+    List<String> spinnerValues;
+    List<String> spinnerGroupIds;
+    List<String> postions_listProjects;
+    Spinner Projects;
 
 
     static String isCardLocked,isCardSubscribed;
@@ -1090,15 +1094,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 }
             }
 
+            if(filepath.contains(".mp4")){
+                Toast.makeText(activity,"File format is not supported",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Calendar c = Calendar.getInstance();
+                //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
+                AttachmentsPojo attachmentsPojo = new AttachmentsPojo();
+                attachmentsPojo.setNameOfFile(fileName);
+                attachmentsPojo.setDateUpload(c.get(Calendar.DATE) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.YEAR));
 
-            Calendar c = Calendar.getInstance();
-            //  Toast.makeText(getApplicationContext(),"Intent Result",Toast.LENGTH_SHORT).show();
-            AttachmentsPojo attachmentsPojo = new AttachmentsPojo();
-            attachmentsPojo.setNameOfFile(fileName);
-            attachmentsPojo.setDateUpload(c.get(Calendar.DATE) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.YEAR));
-
-            new UploadFile().execute(filepath);
-
+                new UploadFile().execute(filepath);
+            }
 
 
           /*  attachmentsList.add(attachmentsPojo);
@@ -1158,17 +1165,22 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 path  = getPath(CardActivity.this, selectedImageUri);
             }
+
             if(path!=null && !path.equals("")) {
-                fileName = path.split("/");
-                file = fileName[fileName.length - 1];
+                if(path.contains(".mp4")){
+                    Toast.makeText(activity,"File format is not supported",Toast.LENGTH_LONG).show();
+                }else {
+                    fileName = path.split("/");
+                    file = fileName[fileName.length - 1];
 
-                UploadFile uploadFile = new UploadFile();
-                uploadFile.delegate = CardActivity.this;
-                uploadFile.execute(path);
+                    UploadFile uploadFile = new UploadFile();
+                    uploadFile.delegate = CardActivity.this;
+                    uploadFile.execute(path);
 
-                ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading File ...", true);
-                ringProgressDialog.setCancelable(false);
-                ringProgressDialog.show();
+                    ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading File ...", true);
+                    ringProgressDialog.setCancelable(false);
+                    ringProgressDialog.show();
+                }
             }else {
                 Toast.makeText(this,"file not found",Toast.LENGTH_LONG).show();
             }
@@ -4112,6 +4124,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         listHeading= (TextView) customView.findViewById(R.id.listLabel);
         etTitleCopyCard= (EditText) customView.findViewById(R.id.etTitle);
         etTitleCopyCard.setText(CardHeading);
+        Projects=(Spinner) customView.findViewById(R.id.projectSpinner);
         boardSpinner= (Spinner) customView.findViewById(R.id.boardSpinner);
         listSpinner= (Spinner) customView.findViewById(R.id.listSpinner);
         positionSpinner= (Spinner) customView.findViewById(R.id.positionSpinner);
@@ -4125,7 +4138,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
         //getSpinnerData();
-        getBorads(BoardExtended.projectId);
+        getProjects();
+       // getBorads(BoardExtended.projectId);
 
 
         copy.setOnClickListener(new View.OnClickListener() {
@@ -4156,6 +4170,92 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });
 
     }
+    public void getProjects() {
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_ALL_PROJECS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        spinnerValues = new ArrayList<>();
+                        spinnerGroupIds = new ArrayList<>();
+                        postions_listProjects = new ArrayList<>();
+                        try {
+
+                            JSONArray array = new JSONArray(response);
+                            for (int i = 0; i < array.length(); i++) {
+
+                                JSONObject object = new JSONObject(array.getString(i));
+                                spinnerValues.add(String.valueOf(object.get("project_name")));
+                                spinnerGroupIds.add(String.valueOf(object.get("project_id")));
+
+                            }
+
+                            ArrayAdapter<String> projectADdapter;
+                            projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, spinnerValues);
+                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            Projects.setAdapter(projectADdapter);
+                            Projects.setOnItemSelectedListener(new CustomOnItemSelectedListener_boards());
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(CardActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(CardActivity.this, "Connection time out Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("userId", userId);
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+    }
+    public class CustomOnItemSelectedListener_boards implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, final int pos,
+                                   long id) {
+            if(pos!=0)
+            getBorads(spinnerGroupIds.get(pos));
+
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
     private void showDialog(final String data) {
 
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
@@ -4172,7 +4272,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         heading = (TextView) customView.findViewById(R.id.heading);
         boardHeading= (TextView) customView.findViewById(R.id.boardLabel);
         listHeading= (TextView) customView.findViewById(R.id.listLabel);
+
         boardSpinner= (Spinner) customView.findViewById(R.id.boardSpinner);
+        Projects= (Spinner) customView.findViewById(R.id.projectSpinner);
         listSpinner= (Spinner) customView.findViewById(R.id.listSpinner);
         positionSpinner= (Spinner) customView.findViewById(R.id.positionSpinner);
         copy = (Button) customView.findViewById(R.id.copy);
@@ -4180,8 +4282,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
         //getSpinnerData();
-        getBorads(BoardExtended.projectId);
-
+       // getBorads(BoardExtended.projectId);
+        getProjects();
 
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -4519,6 +4621,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
               //  params.put("userId", pref.getString("user_id",""));
                 params.put("u_id",pref.getString("user_id",""));
+                params.put("project_id",p_Id);
                 return params;
             }
         };
@@ -4572,14 +4675,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         list_ids.add(0,"0");
 
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
+                            if(!response.equals("false")) {
+                                JSONArray jsonArray = new JSONArray(response);
 
-                            for (int i = 0 ; i < jsonArray.length();i++)
-                            {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                lists_name.add(jsonObject.getString("name"));
-                                list_ids.add(jsonObject.getString("id"));
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    lists_name.add(jsonObject.getString("name"));
+                                    list_ids.add(jsonObject.getString("id"));
 
+                                }
                             }
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>

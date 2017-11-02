@@ -472,7 +472,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                         try {
                             JSONObject object=new JSONObject(response);
                             if(object.getString("message_sent").equals("0")){
-                                Toast.makeText(SendNewMessageActivity.this,"User not found",Toast.LENGTH_LONG).show();
+                                Toast.makeText(SendNewMessageActivity.this,"Please enter valid email address",Toast.LENGTH_LONG).show();
                             }else {
                                 Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
                                 startActivity(intent);
@@ -783,7 +783,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                             ArrayAdapter<String> adapter =
                                     new ArrayAdapter<String>(SendNewMessageActivity.this, android.R.layout.simple_list_item_1, name);
                             to.setAdapter(adapter);
-                            to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
+                          //  to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
                             to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
                             /*to.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -806,7 +806,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
 
-                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                  /*  new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -815,10 +815,10 @@ public class SendNewMessageActivity extends AppCompatActivity {
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 } else if (error instanceof TimeoutError) {
 
-                    new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                   /* new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -827,7 +827,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 }
             }
         }) {

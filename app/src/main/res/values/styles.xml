@@ -31,6 +31,21 @@
         <!--<item name="android:background">#fac903</item>-->
         <!--</style>-->
     </style>
+    <style name="checklistcbTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/gray</item>
+        <item name="colorAccent">@color/gray</item>
+
+
+
+
+
+        //////////////////////////////////
+        <!--<style name="popUbBg" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">-->
+        <!--<item name="android:background">#fac903</item>-->
+        <!--</style>-->
+    </style>
     <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <!-- Support library compatibility -->

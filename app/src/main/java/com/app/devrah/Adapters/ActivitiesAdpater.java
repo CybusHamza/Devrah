@@ -67,36 +67,42 @@ public class ActivitiesAdpater extends BaseAdapter {
         holder.date = (TextView) convertView.findViewById(R.id.date);
         holder.data.setText(projectsList.get(position).getUserName()+" "+projectsList.get(position).getData()+" "+projectsList.get(position).getDataArray());
         holder.date.setText(projectsList.get(position).getDate());
-
+//        if(projectsList.get(position).getDataArray().equals("No data found")  && projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+//            holder.data.setText("No data found");
+//        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                if(!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
-                    Intent intent = new Intent(activity,ProjectsActivity.class);
-                    intent.putExtra("ScreenName","activities");
-                    activity.finish();
-                    activity.startActivity(intent);
-                }else if(!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
-                    Intent intent = new Intent(activity,BoardsActivity.class);
-                    intent.putExtra("ptitle",projectsList.get(position).getDataArray());
-                    intent.putExtra("pid",projectsList.get(position).getProjectId());
-                    intent.putExtra("status","0");
-                    intent.putExtra("ScreenName","activities");
-                    activity.finish();
-                    activity.startActivity(intent);
-                }else if(!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("")&& !projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
-                    Intent intent = new Intent(activity,BoardExtended.class);
-                    intent.putExtra("ptitle","");
-                    intent.putExtra("TitleData",projectsList.get(position).getDataArray());
-                    intent.putExtra("p_id",projectsList.get(position).getProjectId());
-                    intent.putExtra("b_id",projectsList.get(position).getBoardId());
-                    intent.putExtra("ScreenName","activities");
-                    activity.finish();
-                    activity.startActivity(intent);
+                if(projectsList.get(position).getDataArray().equals("No data found")  && projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+
                 }else {
-                    Toast.makeText(activity,"Data not found",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
+                    if (!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("") && projectsList.get(position).getListId().equals("") && projectsList.get(position).getCardId().equals("")) {
+                        Intent intent = new Intent(activity, ProjectsActivity.class);
+                        intent.putExtra("ScreenName", "activities");
+                        activity.finish();
+                        activity.startActivity(intent);
+                    } else if (!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("") && projectsList.get(position).getListId().equals("") && projectsList.get(position).getCardId().equals("")) {
+                        Intent intent = new Intent(activity, BoardsActivity.class);
+                        intent.putExtra("ptitle", projectsList.get(position).getDataArray());
+                        intent.putExtra("pid", projectsList.get(position).getProjectId());
+                        intent.putExtra("status", "0");
+                        intent.putExtra("ScreenName", "activities");
+                        activity.finish();
+                        activity.startActivity(intent);
+                    } else if (!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("") && !projectsList.get(position).getListId().equals("") && projectsList.get(position).getCardId().equals("")) {
+                        Intent intent = new Intent(activity, BoardExtended.class);
+                        intent.putExtra("ptitle", "");
+                        intent.putExtra("TitleData", projectsList.get(position).getDataArray());
+                        intent.putExtra("p_id", projectsList.get(position).getProjectId());
+                        intent.putExtra("b_id", projectsList.get(position).getBoardId());
+                        intent.putExtra("ScreenName", "activities");
+                        activity.finish();
+                        activity.startActivity(intent);
+                    } else {
+                        Toast.makeText(activity, "Data not found", Toast.LENGTH_LONG).show();
+                    }
                 }
 
 

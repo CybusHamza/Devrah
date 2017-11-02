@@ -83,7 +83,7 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@drawable/bg_boards_extended_green"
+            android:background="@drawable/bg_green_login"
             android:textSize="18sp"
             android:text="Sign In"
             android:textColor="#fff"

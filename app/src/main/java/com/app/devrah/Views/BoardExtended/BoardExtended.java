@@ -49,6 +49,7 @@ import com.app.devrah.Views.Favourites.FavouritesActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.CalendarPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarCoverPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
 import com.app.devrah.pojo.DrawerPojo;
@@ -115,6 +116,7 @@ public class BoardExtended extends AppCompatActivity {
     CompactCalendarView compactCalendarView;
     List<CardAssociatedCalendarLabelsPojo> cardLabelsPojoList;
     List<CardAssociatedCalendarMembersPojo> cardMembersPojoList;
+    List<CardAssociatedCalendarCoverPojo> cardCoverPojoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -745,6 +747,7 @@ private void getDueDates(final String currentDate){
                             listPojo = new ArrayList<>();
                             cardLabelsPojoList = new ArrayList<>();
                             cardMembersPojoList = new ArrayList<>();
+                            cardCoverPojoList = new ArrayList<>();
 
                             try {
                                 CalendarPojo projectsPojo = null;
@@ -753,7 +756,7 @@ private void getDueDates(final String currentDate){
                                 JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
                                 JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
                                 JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
-                             //   JSONArray jsonArrayAttachmentsCover = mainObject.getJSONArray("attachment_cover");
+                               JSONArray jsonArrayAttachmentsCover = mainObject.getJSONArray("attachment_cover");
                                 //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
                               //  row=jsonArrayCards.length();
@@ -840,9 +843,32 @@ private void getDueDates(final String currentDate){
                                     //  labelsPojo.setLabelText(labelText);
                                     cardMembersPojoList.add(membersPojo);
                                 }
+                                for(int j=0;j<jsonArrayAttachmentsCover.length();j++){
+                                    CardAssociatedCalendarCoverPojo membersPojo = new CardAssociatedCalendarCoverPojo();
+                                    JSONArray jsonArray=jsonArrayAttachmentsCover.getJSONArray(j);
+                                    String[] attachmentName = new String[jsonArray.length()];
+                                    String[] makeCover = new String[jsonArray.length()];
+                                    // String attachmentName=null;
+                                    //String makeCover=null;
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        attachmentName[k]=jsonObject.getString("file_name");
+                                        makeCover[k]=jsonObject.getString("make_cover");
+                                       /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }*/
+                                    }
+                                    membersPojo.setFileName(attachmentName);
+                                    membersPojo.setIsCover(makeCover);
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardCoverPojoList.add(membersPojo);
+                                }
 
 
-                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,0,alertDialog);
+                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,alertDialog);
                                 lv.setAdapter(adapter);
 
                                 /*try {

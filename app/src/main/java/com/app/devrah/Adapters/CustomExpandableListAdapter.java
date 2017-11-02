@@ -151,6 +151,13 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         final String childText=text[0];
         final String childStatus=text[1];
         final String projectId=text[2];
+        String projectDescription;
+        if(text[3].equals("")){
+            projectDescription="";
+        }else {
+            projectDescription=text[3];
+        }
+
 
 
       //  final String childStatus=(String)getChild(groupPosition,childPosition);
@@ -181,6 +188,13 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(childText);
         TextView statusList = (TextView) convertView
                 .findViewById(R.id.btnActive);
+        TextView description = (TextView) convertView
+                .findViewById(R.id.tvDescription);
+        if(!description.equals("null")){
+            description.setText(projectDescription);
+        }else {
+            description.setText("");
+        }
         if (childStatus.equals("1")) {
             statusList.setText("Active");
             statusList.setTextColor(context.getResources().getColor(R.color.lightGreen));

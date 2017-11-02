@@ -213,7 +213,6 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
 
-
                 String projectData = edt.getText().toString();
                 if (!(projectData.isEmpty())) {
 

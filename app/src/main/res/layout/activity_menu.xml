@@ -45,13 +45,14 @@
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar">
+        android:layout_below="@+id/app_bar"
+        android:layout_margin="10dp">
     <ListView
         android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvTeams"
-        android:dividerHeight="4dp"
+        android:dividerHeight="7dp"
         android:layout_margin="10dp"/>
     </android.support.v4.widget.SwipeRefreshLayout>
     <Button

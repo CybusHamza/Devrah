@@ -110,7 +110,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 
        // imageView.setImageBitmap();
-        Picasso.with(getApplicationContext()).load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage).into(imageView);
+        Picasso.with(getApplicationContext()).load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+                .placeholder(R.drawable.pp_dummy).into(imageView);
 
 
 

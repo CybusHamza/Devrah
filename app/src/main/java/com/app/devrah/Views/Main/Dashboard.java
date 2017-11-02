@@ -216,7 +216,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 }else {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
-                    builder.setTitle("")
+                    builder.setTitle("Settings")
                             .setItems(ProfileArray, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // The 'which' argument contains the index position
@@ -353,7 +353,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 //   int m= c.get(Calendar.SECOND)%10 + 1;
 
 
-                tvQuote.setText(quotes[random]);
+                tvQuote.setText('"'+quotes[random]+'"');
                 tvAuthor.setText(authorName[random]);
 
 

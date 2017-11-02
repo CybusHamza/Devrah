@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/border"
-
+    android:background="@drawable/outer_border_message_screen"
+    android:layout_margin="10dp"
     android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/ll"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/tvDescription"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="5dp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text=""
+            android:layout_marginTop="3dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="right">
+        android:layout_gravity="end">
         <ImageView
             android:id="@+id/icon_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/active"
 
             />
@@ -22,13 +41,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:textColor="@color/lightGreen"
             android:id="@+id/btnActive"
             android:padding="5dp"
+            android:gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:text="Active"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="3dp"/>
+    </LinearLayout>
     </LinearLayout>
 
 
@@ -37,12 +57,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="25dp"
+        android:padding="5dp"
         android:text="sdfghj"
         android:id="@+id/tvProjectsData"
+        android:layout_below="@id/ll"
         android:gravity="center"
+        android:background="@drawable/bottom_border"
         android:textColor="#fff"
         />
 
@@ -52,4 +72,4 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>

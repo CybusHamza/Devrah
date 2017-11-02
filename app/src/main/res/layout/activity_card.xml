@@ -110,6 +110,7 @@
                         android:hint="Add Description"
                         android:textColorHint="#c1bdbd"
                         app:backgroundTint="#fff"
+                        android:textSize="15dp"
                         android:textCursorDrawable="@null"
                         android:cursorVisible="false"
                         android:layout_marginLeft="10dp"

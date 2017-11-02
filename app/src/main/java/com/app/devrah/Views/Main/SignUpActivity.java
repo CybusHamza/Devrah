@@ -66,6 +66,16 @@ public class SignUpActivity extends AppCompatActivity {
         etConfirmPsw= (EditText) findViewById(R.id.input_confirm_password);
         btnSignUp= (Button) findViewById(R.id.btn_signup);
         back_btn= (TextView) findViewById(R.id.btn_back);
+        TextView back_signIn = (TextView) findViewById(R.id.btn_signin);
+        back_signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(SignUpActivity.this,Login.class);
+                finish();
+                startActivity(intent);
+            }
+        });
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

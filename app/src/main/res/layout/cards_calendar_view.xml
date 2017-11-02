@@ -13,17 +13,22 @@
     android:layout_marginRight="30dp"
     android:layout_height="wrap_content">
     <ImageView
-        android:layout_margin="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:id="@+id/cardImage"
         android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:visibility="gone"/>
     <HorizontalScrollView
         android:layout_below="@+id/cardImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:paddingStart="5dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="5dp"
         android:id="@+id/labelScroller"
         >
         <LinearLayout
@@ -39,9 +44,8 @@
         android:layout_below="@id/labelScroller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:padding="5dp"
-        android:layout_marginTop="7dp"
+        android:textSize="13sp"
+        android:layout_marginTop="5dp"
         android:text="sdfghj"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
@@ -56,7 +60,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/tvFragmentBoardsList"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:visibility="invisible"
         app:srcCompat="@drawable/star_default" />
     <ImageView
@@ -67,7 +71,7 @@
         android:background="@drawable/description_icon"
         android:layout_toEndOf="@+id/subscribedIcon"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
 
         />
     <ImageView
@@ -85,13 +89,14 @@
         android:layout_below="@id/tvFragmentBoardsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:padding="5dp"
+        android:textSize="12sp"
+        android:padding="4dp"
         android:layout_marginTop="10dp"
         android:text="due date"
         android:layout_marginLeft="5dp"
         android:id="@+id/dateLabel"
         android:textColor="#fff"
+        android:layout_marginBottom="2dp"
 
         />
     <ImageView
@@ -99,7 +104,7 @@
         android:layout_toRightOf="@id/dateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/attachmentIcon"
         android:textColor="#fff"
         android:background="@drawable/icon_attachment"
@@ -122,7 +127,9 @@
         android:layout_below="@id/dateLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:paddingStart="5dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="5dp"
         android:id="@+id/memberScroller"
         >
         <LinearLayout
@@ -140,7 +147,7 @@
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-      app:theme="@style/cbTheme"
+        app:theme="@style/cbTheme"
         android:id="@+id/cbComplete"
         android:layout_alignParentEnd="true"
         android:checked="true"/>

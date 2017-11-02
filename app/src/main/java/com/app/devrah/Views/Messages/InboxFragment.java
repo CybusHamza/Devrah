@@ -159,6 +159,24 @@ public class InboxFragment extends Fragment implements View.OnClickListener {
                         listPojo = new ArrayList<>();
                         try {
                             JSONArray array = new JSONArray(response);
+                            if(array.length()<1){
+                                projectPojoData = new InboxPojo();
+
+                                projectPojoData.setId("");
+                                projectPojoData.setB_id("");
+                                projectPojoData.setCardif("");
+                                projectPojoData.setDate("");
+                                projectPojoData.setFrom("");
+                                projectPojoData.setIsread("");
+                                projectPojoData.setMessage("");
+                                projectPojoData.setP_id("");
+                                projectPojoData.setSubject("No Messages found");
+                                projectPojoData.setProjectId("");
+                                projectPojoData.setBoardId("");
+                                projectPojoData.setCardId("");
+
+                                listPojo.add(projectPojoData);
+                            }
                             for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject object = new JSONObject(array.getString(i));

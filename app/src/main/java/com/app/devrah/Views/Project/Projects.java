@@ -436,6 +436,15 @@ public class Projects extends Fragment implements View.OnClickListener {
                                 String firstname, email, lastName, profilePic;
 
                                 JSONArray array = new JSONArray(response);
+                                if(array.length()<1){
+                                    projectPojoData = new ProjectsPojo();
+                                    projectPojoData.setData("No data found");
+                                    projectPojoData.setId("");
+                                    projectPojoData.setProjectStatus("");
+                                    projectPojoData.setProjectCreatedBy("");
+                                    projectPojoData.setProjectDescription("");
+                                    listPojo.add(projectPojoData);
+                                }
                                 for (int i = 0; i < array.length(); i++) {
 
                                     JSONObject object = new JSONObject(array.getString(i));
@@ -446,6 +455,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                                     projectPojoData.setId(object.getString("project_id"));
                                     projectPojoData.setProjectStatus(object.getString("project_status"));
                                     projectPojoData.setProjectCreatedBy(object.getString("project_created_by"));
+                                    projectPojoData.setProjectDescription(object.getString("project_description"));
                                     listPojo.add(projectPojoData);
 
 

@@ -249,6 +249,7 @@ public class ActivitiesFragment extends Fragment implements View.OnClickListener
 
                                     listPojo.add(acitivitiesPojo);
                                 }
+
                                 adapter=new ActivitiesAdpater(getActivity(),listPojo);
                                 lv.setAdapter(adapter);
 
@@ -257,6 +258,22 @@ public class ActivitiesFragment extends Fragment implements View.OnClickListener
                             }
 
                         }
+                        if(response.equals("false")){
+                            listPojo = new ArrayList<>();
+                            AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
+                            acitivitiesPojo.setData("");
+                            acitivitiesPojo.setDate("");
+                            acitivitiesPojo.setUserName("");
+                            acitivitiesPojo.setDataArray("No data found");
+                            acitivitiesPojo.setProjectId("");
+                            acitivitiesPojo.setBoardId("");
+                            acitivitiesPojo.setListId("");
+                            acitivitiesPojo.setCardId("");
+                            listPojo.add(acitivitiesPojo);
+                            adapter=new ActivitiesAdpater(getActivity(),listPojo);
+                            lv.setAdapter(adapter);
+                        }
+
 
                     }
                 }, new Response.ErrorListener() {

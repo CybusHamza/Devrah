@@ -137,7 +137,8 @@ public class CheckList_Detail extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.send_checkbox);
         dataList = new ArrayList<>();
         dataList.add(new DrawerPojo("Update CheckList Name"));
-
+       if(intent.hasExtra("addNewCheckbox"))
+           showDialog();
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -309,6 +310,7 @@ public class CheckList_Detail extends AppCompatActivity {
                     intent.putExtra("checkListiItemName",checkListiItemName);
                     intent.putExtra("checkedItem",checkedItem);
                     intent.putExtra("checklistid",checklistid);
+                    intent.putExtra("addNewCheckbox","1");
                     intent.putExtra("name",name);
                     startActivity(intent);
                     overridePendingTransition(0, 0);
