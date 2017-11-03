@@ -597,7 +597,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                                    long id) {
 
             if (pos == 0) {
-                getTeamMembers("0");
+               // getTeamMembers("0");
             } else {
                 getTeamMembers(teamListids.get(pos));
             }

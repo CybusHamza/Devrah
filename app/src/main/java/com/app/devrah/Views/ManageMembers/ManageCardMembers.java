@@ -336,6 +336,113 @@ public class ManageCardMembers extends Fragment {
 
 
     }
+    public void getCardmembers() {
+
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_CARD_MEMBERS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        membersPojos = new ArrayList<>();
+                        if(response.equals("false")){
+                            addapter = new team_addapter(getActivity(), membersPojos);
+
+                            currentMember.setAdapter(addapter);
+
+                        }else {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    MembersPojo membersPojo = new MembersPojo();
+
+
+                                    membersPojo.setName(jsonObject.getString("first_name"));
+                                    membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
+                                    membersPojo.setUserId(jsonObject.getString("id"));
+                                    membersPojo.setInetial(jsonObject.getString("initials"));
+                                    membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
+
+
+                                    membersPojos.add(membersPojo);
+
+                                    addapter = new team_addapter(getActivity(), membersPojos);
+
+                                    currentMember.setAdapter(addapter);
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("card_id", c_id);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+
+    }
 
     public void getMyTeams() {
 
@@ -685,7 +792,7 @@ public class ManageCardMembers extends Fragment {
                                    long id) {
 
             if (pos == 0) {
-                getTeamMembers("0");
+                //getTeamMembers("0");
             } else {
                 getTeamMembers(teamListids.get(pos));
             }

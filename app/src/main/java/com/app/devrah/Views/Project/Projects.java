@@ -245,8 +245,13 @@ public class Projects extends Fragment implements View.OnClickListener {
                         Toast.makeText(getActivity(),"Please Enter Group Name",Toast.LENGTH_LONG).show();
                         return;
                     }else {
-                    ProjectGroupEt();
-                        alertDialog.dismiss();
+                        if(projectDescription.length()<=255) {
+                            ProjectGroupEt();
+                            alertDialog.dismiss();
+                        }else {
+                            Toast.makeText(getActivity(),"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                            return;
+                        }
                     }
                     // description = etDescription.getText().toString();
 
@@ -268,6 +273,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                             listPojo.add(projectPojoData);
                             adapter = new ProjectsAdapter(getActivity(), listPojo);
                             lv.setAdapter(adapter);*/
+                            if(projectDescription.length()<=255) {
                             alertDialog.dismiss();
                             ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
                             ringProgressDialog.setCancelable(false);
@@ -276,9 +282,9 @@ public class Projects extends Fragment implements View.OnClickListener {
                                 @Override
                                 public void onResponse(String response) {
                                     ringProgressDialog.dismiss();
-                                    if(response.equals("0")){
+                                    if (response.equals("0")) {
                                         Toast.makeText(getActivity().getApplicationContext(), "Project name already exists!", Toast.LENGTH_SHORT).show();
-                                    }else {
+                                    } else {
                                         getProjectsData();
                                         Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
                                     }
@@ -328,7 +334,11 @@ public class Projects extends Fragment implements View.OnClickListener {
                             RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
                             requestQueue.add(request);
 
-
+                        }else
+                            {
+                                Toast.makeText(getActivity(),"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                                return;
+                            }
                         } else {
                             Toast.makeText(getActivity(), "Enter Project Name", Toast.LENGTH_SHORT).show();
                             return;

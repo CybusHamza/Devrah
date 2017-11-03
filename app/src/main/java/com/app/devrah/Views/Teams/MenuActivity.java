@@ -138,9 +138,13 @@ public class MenuActivity extends AppCompatActivity {
                 teamName=etTeamName.getText().toString();
                // teamDescription=etTeamDescription.getText().toString();
                 if(!teamName.equals("")) {
-                    creatNewTeam(etTeamName.getText().toString(), etTeamDescription.getText().toString());
+                    if(etTeamDescription.getText().toString().length()<=255) {
+                        creatNewTeam(etTeamName.getText().toString(), etTeamDescription.getText().toString());
 
-                    alertDialog.dismiss();
+                        alertDialog.dismiss();
+                    }else {
+                        Toast.makeText(MenuActivity.this,"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                    }
                 }else {
                     Toast.makeText(MenuActivity.this,"Enter Team Name",Toast.LENGTH_LONG).show();
                 }

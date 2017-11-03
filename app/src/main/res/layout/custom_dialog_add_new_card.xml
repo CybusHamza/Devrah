@@ -98,13 +98,15 @@
         android:layout_margin="5dp"
         android:textColor="#f50b22"
         android:background="@null"
-        android:id="@+id/cancelBtn"/>
+        android:id="@+id/cancelBtn"
+        android:textAllCaps="false"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:text="Save"
+        android:textAllCaps="false"
         android:background="@null"
         android:textColor="@color/colorPrimary"
         android:id="@+id/saveCardBtn"/>

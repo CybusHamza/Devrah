@@ -2,6 +2,7 @@ package com.app.devrah.Views.Main;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,8 +16,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.app.devrah.FireBase_Notifications.RegistrationIntentService;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.Favourites.FavouritesActivity;
 import com.app.devrah.Views.Messages.MessagesActivity;
@@ -33,8 +46,11 @@ import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnConnectionFailedListener{
@@ -52,7 +68,9 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
     String[] ProfileArray = {"Edit Profile", "Logoff", "Change Password"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
-
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
+    EditText oldPassword,newPassword,confirmPassword;
+    ProgressDialog ringProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -374,19 +392,19 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
     private void changePasswordDialog() {
         LayoutInflater inflater = LayoutInflater.from(Dashboard.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_change_password, null);
-        final EditText changePassword = (EditText) subView.findViewById(R.id.etPass);
-
+        oldPassword = (EditText) subView.findViewById(R.id.oldPass);
+        newPassword = (EditText) subView.findViewById(R.id.etPass);
+        confirmPassword = (EditText) subView.findViewById(R.id.etConfirmPass);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Change Password");
-        builder.setMessage("");
         builder.setView(subView);
         AlertDialog alertDialog = builder.create();
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                    CheckPass();
             }
         });
 
@@ -407,6 +425,175 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
         super.onBackPressed();
+    }
+    public void CheckPass() {
+
+      ringProgressDialog = ProgressDialog.show(Dashboard.this, "Please wait ...", "Checking Credentials ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.CEHCK_PASS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+
+                        if(response.equals("1")) {
+                            if (newPassword.getText().toString().equals("") || confirmPassword.getText().toString().equals("")) {
+                                ringProgressDialog.dismiss();
+                                Toast.makeText(Dashboard.this, "Password Fields Cannot be Empty", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
+                                    UpdatePass();
+
+
+                                } else {
+                                    ringProgressDialog.dismiss();
+                                    Toast.makeText(Dashboard.this, "New and Confirm Password Do not match", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            ringProgressDialog.dismiss();
+                            Toast.makeText(Dashboard.this, "Your old password does not match", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(Dashboard.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(Dashboard.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userid= pref.getString("user_id","");
+
+                params.put("id",userid);
+                params.put("pass",oldPassword.getText().toString());
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+    }
+    public void UpdatePass() {
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_PASS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        if(!response.equals(""))
+                        {
+                            new SweetAlertDialog(Dashboard.this, SweetAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText("Done !")
+                                    .setConfirmText("OK").setContentText("Password Changed Successfully")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(Dashboard.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(Dashboard.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userid= pref.getString("user_id","");
+
+                params.put("id",userid);
+                params.put("pass",newPassword.getText().toString());
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
     }
     public void clearBackstack() {
 

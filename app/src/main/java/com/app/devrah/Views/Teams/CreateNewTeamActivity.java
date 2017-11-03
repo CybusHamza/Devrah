@@ -331,7 +331,6 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
 
 
         final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
-        alertDialog.setTitle("Add Members");
         alertDialog.setCancelable(false);
         alertDialog.setView(subView);
         alertDialog.show();
@@ -575,7 +574,6 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
 
 
         final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
-        alertDialog.setTitle("Add Bulk Member");
         alertDialog.setCancelable(false);
         alertDialog.setView(subView);
         alertDialog.show();

@@ -9,7 +9,10 @@
     android:layout_marginRight="10dp"
     android:layout_height="wrap_content">
     <ImageView
-        android:layout_margin="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
         android:id="@+id/cardImage"
         android:layout_width="250dp"
         android:layout_height="200dp"
@@ -19,14 +22,20 @@
         android:layout_below="@+id/cardImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="2dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:id="@+id/labelScroller"
         >
         <LinearLayout
             android:id="@+id/labelsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
             tools:ignore="Orientation">
         </LinearLayout>
     </HorizontalScrollView>
@@ -36,8 +45,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:padding="5dp"
-        android:layout_marginTop="7dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="sdfghj"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
@@ -46,35 +58,25 @@
         />
 
     <ImageView
-        android:id="@+id/favouriteIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/tvFragmentBoardsList"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="5dp"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/star_default" />
-    <ImageView
         android:id="@+id/descriptionIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/description_icon"
         android:layout_toEndOf="@+id/subscribedIcon"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
 
         />
     <ImageView
         android:id="@+id/subscribedIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/subscribe_eye"
         android:layout_toEndOf="@+id/nOfAttachments"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
        android:visibility="gone"
         />
     <TextView
@@ -83,7 +85,7 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:padding="3dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="due date"
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="3dp"
@@ -95,9 +97,9 @@
     <ImageView
         android:layout_below="@id/tvFragmentBoardsList"
         android:layout_toRightOf="@id/dateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/attachmentIcon"
         android:textColor="#fff"
         android:background="@drawable/icon_attachment"
@@ -108,9 +110,9 @@
         android:layout_toRightOf="@id/attachmentIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:padding="5dp"
-        android:layout_marginTop="10dp"
+        android:textSize="12sp"
+        android:padding="3dp"
+        android:layout_marginTop="5dp"
         android:text=""
         android:id="@+id/nOfAttachments"
         android:textColor="#fff"
@@ -120,7 +122,7 @@
         android:layout_below="@id/dateLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="5dp"
         android:id="@+id/memberScroller"
         >
     <LinearLayout

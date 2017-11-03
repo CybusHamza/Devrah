@@ -616,7 +616,7 @@ public class manage_members extends AppCompatActivity {
                                    long id) {
 
             if (pos == 0) {
-                getTeamMembers("0");
+            //    getTeamMembers("0");
             } else {
                 getTeamMembers(teamListids.get(pos));
             }

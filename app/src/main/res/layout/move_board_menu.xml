@@ -75,7 +75,8 @@
         android:layout_below="@+id/position"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="Copy" />
+        android:text="Copy"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/close"
@@ -83,6 +84,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:text="Close"
+        android:textAllCaps="false"
         android:layout_below="@+id/position"
         android:textSize="15sp"
         android:layout_marginBottom="5dp"

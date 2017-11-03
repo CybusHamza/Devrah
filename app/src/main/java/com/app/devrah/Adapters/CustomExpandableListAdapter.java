@@ -190,7 +190,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.btnActive);
         TextView description = (TextView) convertView
                 .findViewById(R.id.tvDescription);
-        if(!description.equals("null")){
+        if(!projectDescription.equals("null")){
             description.setText(projectDescription);
         }else {
             description.setText("");

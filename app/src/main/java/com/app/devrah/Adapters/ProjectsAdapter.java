@@ -86,7 +86,9 @@ public class ProjectsAdapter extends BaseAdapter {
             holder.status.setVisibility(View.VISIBLE);
             holder.isactive.setVisibility(View.VISIBLE);
         }
+
         if(!projectsList.get(position).getProjectDescription().equals("null")){
+
             holder.description.setText(projectsList.get(position).getProjectDescription());
         }else {
             holder.description.setText("");
@@ -123,7 +125,8 @@ public class ProjectsAdapter extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data,status,description;
+        TextView data,status;
+        TextView description;
         ImageView isactive;
     }
 

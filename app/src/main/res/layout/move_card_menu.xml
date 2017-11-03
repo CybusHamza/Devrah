@@ -52,6 +52,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
         android:text="Copy"
+        android:textAllCaps="false"
         android:textSize="15sp"/>
 
     <Button
@@ -62,6 +63,7 @@
         android:background="@null"
         android:layout_below="@+id/projects_group"
         android:text="Close"
+        android:textAllCaps="false"
         android:textSize="15sp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"

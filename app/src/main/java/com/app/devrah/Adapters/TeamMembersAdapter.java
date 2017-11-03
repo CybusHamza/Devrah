@@ -121,13 +121,11 @@ public class TeamMembersAdapter extends BaseAdapter {
             holder.alias_img.setVisibility(View.GONE);
             Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + membersList.get(position).getImage())
-                    .placeholder(R.drawable.bg_circle)
                     .into(holder.profilePic);
         }else {
             holder.alias_img.setVisibility(View.GONE);
             Picasso.with(activity)
                     .load(membersList.get(position).getGpimageView())
-                    .placeholder(R.drawable.bg_circle)
                     .into(holder.profilePic);
         }
 

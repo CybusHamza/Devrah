@@ -160,12 +160,14 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
         if(checkedItem.get(position).equals("1"))
         {
             holder.name.setPaintFlags(holder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.name.setTextColor(activity.getResources().getColor(R.color.gray));
 
             holder.getCheckBox().setChecked(true);
 
         }
         else{
             holder.name.setPaintFlags(0);
+            holder.name.setTextColor(activity.getResources().getColor(R.color.colorWhite));
             holder.getCheckBox().setChecked(false);
 
         }

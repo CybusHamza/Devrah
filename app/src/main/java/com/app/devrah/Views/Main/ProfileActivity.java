@@ -439,8 +439,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Please try again"+e.toString(), Toast.LENGTH_LONG)
-                    .show();
+
         }
     }
     public Uri getImageUri(Context inContext, Bitmap inImage) {
