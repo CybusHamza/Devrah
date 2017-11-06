@@ -99,6 +99,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
 
             Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                    .resize(180,180)
                     .into(holder.imgViewAttachments);
         }
         holder.imgViewAttachments.setOnClickListener(new View.OnClickListener() {
@@ -186,6 +187,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         label.setText(imageName);
         Picasso.with(activity)
                 .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + imageName)
+                .resize(345,300)
                 .into(image);
         downloadImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

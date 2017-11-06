@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -43,7 +45,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Manage_Board_Members extends AppCompatActivity {
 
-    EditText search;
+    AutoCompleteTextView search =null;
     GridView currentMember, TeamMember;
     Spinner Team_list;
     Button Close;
@@ -61,6 +63,12 @@ public class Manage_Board_Members extends AppCompatActivity {
     List<All_Teams> teamLists;
     String teamid,usertoadd;
     Button btnClose,btnSave;
+
+    ArrayList<String> ids;
+    ArrayList<String> name;
+    ArrayList<String> devTag;
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +80,7 @@ public class Manage_Board_Members extends AppCompatActivity {
         p_id = intent.getStringExtra("P_id");
         b_id = intent.getStringExtra("b_id");
 
-        search = (EditText) findViewById(R.id.search);
+        search = (AutoCompleteTextView) findViewById(R.id.search);
 
         currentMember = (GridView) findViewById(R.id.grid_view);
         TeamMember = (GridView) findViewById(R.id.grid_view_team);
@@ -94,7 +102,35 @@ public class Manage_Board_Members extends AppCompatActivity {
             }
         });
 
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchUser(search.getText().toString());
+               /* String test=to.getText().toString();
+                if(test.contains(";")){
+
+                }*/
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                usertoadd=ids.get(i);
+                addmember();
+                search.setText("");
+                // Toast.makeText(manage_members.this,ids.get(i).toString()+""+name.get(i).toString(),Toast.LENGTH_LONG).show();
+            }
+        });
 
         currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -149,10 +185,91 @@ public class Manage_Board_Members extends AppCompatActivity {
 
     }
 
+    private void searchUser(final String email) {
 
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEARCH_USER_TO_ADD_MEMBER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ids = new ArrayList<>();
+                        name = new ArrayList<>();
+                        devTag = new ArrayList<>();
+                        if(!response.equals("false")) {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    ids.add(jsonObject.getString("id"));
+                                    name.add(jsonObject.getString("email"));
+                                    devTag.add(jsonObject.getString("dev_tag"));
+                                }
+
+                                adapter = new ArrayAdapter<String>(Manage_Board_Members.this, android.R.layout.simple_dropdown_item_1line, name);
+                                search.setThreshold(1);
+                                search.setAdapter(adapter);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                  /*  new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();*/
+                } else if (error instanceof TimeoutError) {
+
+                   /* new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();*/
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("member_single_name", email);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+    }
     public void getmembers() {
-
-
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();

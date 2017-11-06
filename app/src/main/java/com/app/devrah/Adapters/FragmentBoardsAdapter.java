@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.cards.CardActivity;
+import com.app.devrah.pojo.CardAssociatedCheckBox;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
@@ -44,9 +45,9 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     String BoardsListData;
     private LayoutInflater inflater;
     String list_id;
+    List<CardAssociatedCheckBox> cardCheckboxPojoList;
 
-
-    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount,String list_id) {
+    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount, String list_id, List<CardAssociatedCheckBox> cardCheckboxPojoList) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
@@ -54,6 +55,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         this.membercount=membercount;
         this.coverList=coverList;
         this.list_id=list_id;
+        this.cardCheckboxPojoList=cardCheckboxPojoList;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -124,6 +126,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
         holder.subscribe = (ImageView) convertView.findViewById(R.id.subscribedIcon);
         holder.descriptionIcon = (ImageView) convertView.findViewById(R.id.descriptionIcon);
+        holder.checkboxIcon = (ImageView) convertView.findViewById(R.id.checkboxIcon);
+        holder.noOfCheckedCheckbox = (TextView) convertView.findViewById(R.id.noOfCheckedCheckbox);
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
         holder.nOfAttachments.setVisibility(View.GONE);
         holder.attachmentIcon.setVisibility(View.GONE);
@@ -132,7 +136,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             BoardsListData = projectsList.get(position).getData();
 
         holder.dueDate.setVisibility(View.GONE);
-        if(!projectsList.get(position).getDueDate().equals("null")) {
+        if(!projectsList.get(position).getDueDate().equals("null") && !projectsList.get(position).getDueDate().equals("0000-00-00")) {
             holder.dueDate.setVisibility(View.VISIBLE);
             holder.dueDate.setText(projectsList.get(position).getDueDate() );
         }
@@ -183,6 +187,14 @@ public class FragmentBoardsAdapter extends BaseAdapter{
            projectsList.remove(projectsList.get(position));
         //    notifyDataSetChanged();
        }*/
+        if(cardCheckboxPojoList.get(position).getTotalCheckBoxes()>0){
+            holder.checkboxIcon.setVisibility(View.VISIBLE);
+            holder.noOfCheckedCheckbox.setVisibility(View.VISIBLE);
+            holder.noOfCheckedCheckbox.setText(cardCheckboxPojoList.get(position).getCheckedCheckBox()+"/"+cardCheckboxPojoList.get(position).getTotalCheckBoxes());
+        }else {
+            holder.checkboxIcon.setVisibility(View.GONE);
+            holder.noOfCheckedCheckbox.setVisibility(View.GONE);
+        }
         holder.membersView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -398,9 +410,9 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
         LinearLayout membersView;
         LinearLayout labelsView;
-        TextView data,dueDate,nOfAttachments;
+        TextView data,dueDate,nOfAttachments,noOfCheckedCheckbox;
         ImageView favouriteIcon,attachmentIcon;
-        ImageView attachment,subscribe,descriptionIcon;
+        ImageView attachment,subscribe,descriptionIcon,checkboxIcon;
        // RecyclerView recyclerView;
         //LinearLayout labelsLinearLayout,labelsLinearLayout1,labelsLinearLayout2,labelsLinearLayout3,labelsLinearLayout4;
         //LinearLayout label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11,label12,label13,label14,label15;

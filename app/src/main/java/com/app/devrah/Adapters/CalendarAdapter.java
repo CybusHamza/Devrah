@@ -33,6 +33,7 @@ import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CalendarPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarCheckBox;
 import com.app.devrah.pojo.CardAssociatedCalendarCoverPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
@@ -58,8 +59,9 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
     int membercount;
     String BoardsListData;
     AlertDialog alertDialog;
+    List<CardAssociatedCalendarCheckBox> cardCheckboxPojoList;
 
-    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, List<CardAssociatedCalendarCoverPojo> coverList, int membercount, AlertDialog alertDialog) {
+    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, List<CardAssociatedCalendarCoverPojo> coverList, int membercount, AlertDialog alertDialog,List<CardAssociatedCalendarCheckBox> cardCheckboxPojoList) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
@@ -67,6 +69,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         this.coverList=coverList;
         this.membercount=membercount;
         this.alertDialog=alertDialog;
+        this.cardCheckboxPojoList=cardCheckboxPojoList;
      //   this.list_id=list_id;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
@@ -145,6 +148,9 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         holder.subscribe = (ImageView) convertView.findViewById(R.id.subscribedIcon);
         holder.descriptionIcon = (ImageView) convertView.findViewById(R.id.descriptionIcon);
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
+        holder.checkboxIcon = (ImageView) convertView.findViewById(R.id.checkboxIcon);
+        holder.noOfCheckedCheckbox = (TextView) convertView.findViewById(R.id.noOfCheckedCheckbox);
+        holder.headingDueDate = (TextView) convertView.findViewById(R.id.headingDate);
         holder.nOfAttachments.setVisibility(View.GONE);
         holder.attachmentIcon.setVisibility(View.GONE);
 
@@ -222,6 +228,27 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_green_login));
         }else {
             holder.dueDate.setBackground(null);
+        }
+
+
+        if(cardCheckboxPojoList.get(position).getTotalCheckBoxes()>0){
+            holder.checkboxIcon.setVisibility(View.VISIBLE);
+            holder.noOfCheckedCheckbox.setVisibility(View.VISIBLE);
+            holder.noOfCheckedCheckbox.setText(cardCheckboxPojoList.get(position).getCheckedCheckBox()+"/"+cardCheckboxPojoList.get(position).getTotalCheckBoxes());
+        }else {
+            holder.checkboxIcon.setVisibility(View.GONE);
+            holder.noOfCheckedCheckbox.setVisibility(View.GONE);
+        }
+        if (position > 0) {
+            if (projectsList.get(position).getDueDate().equalsIgnoreCase(projectsList.get(position - 1).getDueDate())) {
+                holder.headingDueDate.setVisibility(View.GONE);
+            } else {
+                holder.headingDueDate.setText("Due : "+projectsList.get(position).getDueDate());
+                holder.headingDueDate.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.headingDueDate.setText("Due "+projectsList.get(position).getDueDate());
+            holder.headingDueDate.setVisibility(View.VISIBLE);
         }
         holder.membersView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,9 +468,9 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
     public static class ViewHolder{
         LinearLayout membersView;
         LinearLayout labelsView;
-        TextView data,dueDate,nOfAttachments;
+        TextView data,dueDate,nOfAttachments,noOfCheckedCheckbox,headingDueDate;
         ImageView favouriteIcon,attachmentIcon;
-        ImageView attachment,subscribe,descriptionIcon;
+        ImageView attachment,subscribe,descriptionIcon,checkboxIcon;
         CheckBox checkBox;
 
         public float lastTouchedX;

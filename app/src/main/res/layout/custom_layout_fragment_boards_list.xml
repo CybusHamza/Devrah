@@ -69,6 +69,34 @@
 
         />
     <ImageView
+        android:id="@+id/checkboxIcon"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:background="@drawable/checklist_icon"
+        android:layout_toEndOf="@+id/descriptionIcon"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="6dp"
+        android:visibility="gone"
+
+        />
+    <TextView
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:layout_toEndOf="@id/checkboxIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:paddingStart="1dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingEnd="3dp"
+        android:layout_marginTop="5dp"
+        android:text=""
+        android:id="@+id/noOfCheckedCheckbox"
+        android:textColor="#fff"
+        android:visibility="gone"
+        />
+    <ImageView
         android:id="@+id/subscribedIcon"
         android:layout_width="20dp"
         android:layout_height="20dp"

@@ -271,4 +271,14 @@ public class CalendarPojo {
     }
 
     String isFavouriteFromMembers;
+
+    public String getShowDateHeading() {
+        return showDateHeading;
+    }
+
+    public void setShowDateHeading(String showDateHeading) {
+        this.showDateHeading = showDateHeading;
+    }
+
+    String showDateHeading;
 }

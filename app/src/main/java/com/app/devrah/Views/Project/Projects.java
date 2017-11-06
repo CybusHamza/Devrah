@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +83,7 @@ public class Projects extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     AlertDialog alertDialog;
     SwipeRefreshLayout mySwipeRefreshLayout;
-
+    EditText edtSeach;
     public Projects() {
         // Required empty public constructor
     }
@@ -123,6 +125,36 @@ public class Projects extends Fragment implements View.OnClickListener {
                     }
                 }
         );
+        edtSeach = (EditText) getActivity().findViewById(R.id.edtSearch);
+        edtSeach.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String nameToSearch = edtSeach.getText().toString();
+                ArrayList<ProjectsPojo> filteredLeaves = new ArrayList<ProjectsPojo>();
+
+                for (ProjectsPojo data : listPojo) {
+                    if (data.getData().toLowerCase().contains(nameToSearch.toLowerCase())) {
+                        filteredLeaves.add(data);
+                    }
+
+
+                }
+                adapter = new ProjectsAdapter(getActivity(), filteredLeaves);
+                lv.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         //getSpinnerData();
 

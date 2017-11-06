@@ -49,6 +49,7 @@ import com.app.devrah.Views.Favourites.FavouritesActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.pojo.CalendarPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarCheckBox;
 import com.app.devrah.pojo.CardAssociatedCalendarCoverPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
@@ -117,7 +118,7 @@ public class BoardExtended extends AppCompatActivity {
     List<CardAssociatedCalendarLabelsPojo> cardLabelsPojoList;
     List<CardAssociatedCalendarMembersPojo> cardMembersPojoList;
     List<CardAssociatedCalendarCoverPojo> cardCoverPojoList;
-
+    List<CardAssociatedCalendarCheckBox> cardCheckboxPojoList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -701,7 +702,7 @@ private void getDueDates(final String currentDate){
                     final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String cardsByDate=dateFormat.format(dateClicked);
                     //getCards(cardsByDate);
-                    for(int i=0;i<listPojo.size();i++){
+                    for(int i=listPojo.size()-1;i>=0;i--){
                         if(listPojo.get(i).getDueDate().equals(cardsByDate)){
                             lv.setSelection(i);
                         }
@@ -748,7 +749,7 @@ private void getDueDates(final String currentDate){
                             cardLabelsPojoList = new ArrayList<>();
                             cardMembersPojoList = new ArrayList<>();
                             cardCoverPojoList = new ArrayList<>();
-
+                            cardCheckboxPojoList = new ArrayList<>();
                             try {
                                 CalendarPojo projectsPojo = null;
                                 JSONObject mainObject=new JSONObject(response);
@@ -757,6 +758,8 @@ private void getDueDates(final String currentDate){
                                 JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
                                 JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
                                JSONArray jsonArrayAttachmentsCover = mainObject.getJSONArray("attachment_cover");
+                                JSONArray jsonArrayCheckbox = mainObject.getJSONArray("checkbox");
+
                                 //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
                               //  row=jsonArrayCards.length();
@@ -866,9 +869,25 @@ private void getDueDates(final String currentDate){
                                     //  labelsPojo.setLabelText(labelText);
                                     cardCoverPojoList.add(membersPojo);
                                 }
+                                for(int j=0;j<jsonArrayCheckbox.length();j++){
+                                    CardAssociatedCalendarCheckBox checkBoxPojo = new CardAssociatedCalendarCheckBox();
+                                    JSONArray jsonArray=jsonArrayCheckbox.getJSONArray(j);
+                                    checkBoxPojo.setTotalCheckBoxes(jsonArray.length());
+                                    int checked=0;
+                                    for (int k=0;k<jsonArray.length();k++){
 
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        if(jsonObject.getString("is_checked").equals("1")){
+                                            checked++;
+                                        }
+                                    }
+                                    checkBoxPojo.setCheckedCheckBox(String.valueOf(checked));
 
-                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,alertDialog);
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardCheckboxPojoList.add(checkBoxPojo);
+                                }
+
+                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,alertDialog,cardCheckboxPojoList);
                                 lv.setAdapter(adapter);
 
                                 /*try {

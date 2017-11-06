@@ -127,6 +127,7 @@ public class End_Points {
     public static final String ADDCHILDIMAGECOMMENTS= BASE_URL + "addChildImageComment";
     public static final String CEHCK_PASS = BASE_URL + "checkpas";
     public static final String UPDATE_PASS = BASE_URL + "updatePass";
+    public static final String SEARCH_USER_TO_ADD_MEMBER = BASE_URL + "searchusertoaddmember";
 
 
 }

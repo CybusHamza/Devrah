@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +85,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    EditText edtSeach;
     public ReferenceBoard() {
         // Required empty public constructor
     }
@@ -148,7 +150,36 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 }
         );
         Refrence();
+        edtSeach = (EditText) getActivity().findViewById(R.id.edtSearch);
+        edtSeach.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String nameToSearch = edtSeach.getText().toString();
+                ArrayList<ProjectsPojo> filteredLeaves = new ArrayList<ProjectsPojo>();
+
+                for (ProjectsPojo data : myList) {
+                    if (data.getData().toLowerCase().contains(nameToSearch.toLowerCase())) {
+                        filteredLeaves.add(data);
+                    }
+
+
+                }
+                adapter = new ReferenceBoardAdapter(getActivity(), filteredLeaves);
+                lv.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
        /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override

@@ -44,6 +44,7 @@ import com.app.devrah.Adapters.CustomViewPagerAdapter;
 import com.app.devrah.Adapters.FragmentBoardsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.pojo.CardAssociatedCheckBox;
 import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
@@ -93,6 +94,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
     List<CardAssociatedMembersPojo> cardMembersPojoList;
     List<CardAssociatedCoverPojo> cardCoverPojoList;
+    List<CardAssociatedCheckBox> cardCheckboxPojoList;
   //  CardAssociatedLabelsAdapter cardAssociatedLabelsAdapter;
     CustomViewPagerAdapter VPadapter;
     ProjectsPojo boardsFragmentPojoData;
@@ -206,7 +208,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
                 }
-                adapter = new FragmentBoardsAdapter(getActivity(), filteredLeaves,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id);
+                adapter = new FragmentBoardsAdapter(getActivity(), filteredLeaves,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id,cardCheckboxPojoList);
                 lv.setAdapter(adapter);
 
             }
@@ -664,6 +666,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                             cardLabelsPojoList = new ArrayList<>();
                             cardMembersPojoList = new ArrayList<>();
                             cardCoverPojoList = new ArrayList<>();
+                            cardCheckboxPojoList = new ArrayList<>();
 
                             try {
                                 ProjectsPojo projectsPojo = null;
@@ -673,6 +676,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                 JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
                                 JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
                                 JSONArray jsonArrayAttachmentsCover = mainObject.getJSONArray("attachment_cover");
+                                JSONArray jsonArrayCheckbox = mainObject.getJSONArray("checkbox");
                                 //JSONObject cardsObject = jsonArray.getJSONObject(0);
 
                                 row=jsonArrayCards.length();
@@ -781,8 +785,25 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     //  labelsPojo.setLabelText(labelText);
                                     cardCoverPojoList.add(membersPojo);
                                 }
+                                for(int j=0;j<jsonArrayCheckbox.length();j++){
+                                    CardAssociatedCheckBox checkBoxPojo = new CardAssociatedCheckBox();
+                                    JSONArray jsonArray=jsonArrayCheckbox.getJSONArray(j);
+                                    checkBoxPojo.setTotalCheckBoxes(jsonArray.length());
+                                   int checked=0;
+                                    for (int k=0;k<jsonArray.length();k++){
 
-                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id);
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                       if(jsonObject.getString("is_checked").equals("1")){
+                                           checked++;
+                                       }
+                                    }
+                                    checkBoxPojo.setCheckedCheckBox(String.valueOf(checked));
+
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardCheckboxPojoList.add(checkBoxPojo);
+                                }
+
+                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id,cardCheckboxPojoList);
                                 lv.setAdapter(adapter);
 
                                 /*try {

@@ -4,6 +4,7 @@
     android:layout_height="180dp"
     android:id="@+id/cvAttachment"
     android:layout_marginLeft="5dp"
+    android:background="@null"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 <RelativeLayout
@@ -14,8 +15,8 @@
     <ImageView
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_margin="3dp"
-        android:background="#000"
+        android:layout_margin="1dp"
+        android:background="@color/gray"
         android:id="@+id/rvImageView"/>
 
 
