@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 
 public class LastItemBoardFragment extends Fragment {
 
@@ -171,8 +169,8 @@ public class LastItemBoardFragment extends Fragment {
 //                fragment.addPageAt(CustomViewPagerAdapter.customCount());
                 String projectData = edt.getText().toString();
                 if(!projectData.equals("")) {
-                    adapter.removeFragAt(adapter.getCount()-1);
-                    adapter.notifyDataSetChanged();
+                   // adapter.removeFragAt(adapter.getCount()-1);
+                    // adapter.notifyDataSetChanged();
                     addNewList(projectData, String.valueOf(adapter.getCount() - 1));
                     //    CustomViewPagerAdapter.mFragmentList.remove(CustomViewPagerAdapter.customCount() -1);
 
@@ -203,11 +201,14 @@ public class LastItemBoardFragment extends Fragment {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        adapter = new CustomViewPagerAdapter(getFragmentManager());
-                        ParentBoardExtendedFragment.addPageAt(projectData,adapter.getCount(), BoardExtended.projectId,BoardExtended.boardId,response.trim().toString(),"new list");
-                        adapter.notifyDataSetChanged();
-                       ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
-
+                        if(!response.equals("0")) {
+                            adapter.removeFragAt(adapter.getCount()-1);
+                            adapter.notifyDataSetChanged();
+                            adapter = new CustomViewPagerAdapter(getFragmentManager());
+                            ParentBoardExtendedFragment.addPageAt(projectData, adapter.getCount(), BoardExtended.projectId, BoardExtended.boardId, response.trim().toString(), "new list");
+                            adapter.notifyDataSetChanged();
+                            ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
+                        }
                         //   ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
 
                     }
@@ -217,8 +218,9 @@ public class LastItemBoardFragment extends Fragment {
 
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
 
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                   /* new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -228,10 +230,11 @@ public class LastItemBoardFragment extends Fragment {
 
                                 }
                             })
-                            .show();
+                            .show();*/
                 } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
 
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                  /*  new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -241,7 +244,7 @@ public class LastItemBoardFragment extends Fragment {
 
                                 }
                             })
-                            .show();
+                            .show();*/
                 }
             }
         }) {

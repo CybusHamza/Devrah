@@ -738,7 +738,9 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     String[] members = new String[jsonArray.length()];
                                     String[] labelText = new String[jsonArray.length()];
                                     String[] gp_picture = new String[jsonArray.length()];
+                                    String[] membersId=new String[jsonArray.length()];
                                     String subsribed = "";
+                                    String isCurrentMemberAssigned="0";
                                    // SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                                     for (int k=0;k<jsonArray.length();k++){
 
@@ -746,8 +748,10 @@ public class ChildFragmentBoardExtended extends Fragment {
                                         members[k]=jsonObject.getString("profile_pic");
                                         labelText[k]=jsonObject.getString("initials");
                                         gp_picture[k]=jsonObject.getString("gp_picture");
+                                        membersId[k]=jsonObject.getString("uid");
                                        if(jsonObject.getString("uid").equals(pref.getString("user_id",""))) {
                                             subsribed = jsonObject.getString("subscribed");
+                                            isCurrentMemberAssigned="1";
                                         }
                                        /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
                                             labelText[k]="";
@@ -759,6 +763,8 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     membersPojo.setInitials(labelText);
                                     membersPojo.setGp_pictures(gp_picture);
                                     membersPojo.setMemberSubscribed(subsribed);
+                                    membersPojo.setMemberId(membersId);
+                                    membersPojo.setIsCurrentMemberAssigned(isCurrentMemberAssigned);
                                   //  labelsPojo.setLabelText(labelText);
                                     cardMembersPojoList.add(membersPojo);
                                 }
@@ -805,6 +811,20 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                                 adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id,cardCheckboxPojoList);
                                 lv.setAdapter(adapter);
+                               /* for(int i=0;i<listPojo.size();i++){
+                                   // && !listPojo.get(i).getAssignedTo().equals(pref.getString("user_id","")
+                                    if(listPojo.get(i).getIsCardLocked().equals("1")){
+                                        //  Collections.emptyList();
+                                        if(cardMembersPojoList.get(i).getIsCurrentMemberAssigned().equals("0")) {
+                                            listPojo.remove(i);
+                                            cardLabelsPojoList.remove(i);
+                                            cardMembersPojoList.remove(cardMembersPojoList.get(i));
+                                            cardCoverPojoList.remove(cardCoverPojoList.get(i));
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }*/
+
 
                                 /*try {
                                     cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);

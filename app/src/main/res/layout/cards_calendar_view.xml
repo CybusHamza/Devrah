@@ -103,6 +103,17 @@
         android:visibility="gone"
         />
     <ImageView
+        android:id="@+id/lockedIcon"
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:layout_below="@id/tvFragmentBoardsList"
+        android:background="@drawable/lock_icon"
+        android:layout_toEndOf="@+id/noOfCheckedCheckbox"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="7dp"
+        android:visibility="gone"
+        />
+    <ImageView
         android:id="@+id/subscribedIcon"
         android:layout_width="20dp"
         android:layout_height="20dp"

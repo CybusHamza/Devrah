@@ -124,6 +124,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
+        holder.lockIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
         holder.subscribe = (ImageView) convertView.findViewById(R.id.subscribedIcon);
         holder.descriptionIcon = (ImageView) convertView.findViewById(R.id.descriptionIcon);
         holder.checkboxIcon = (ImageView) convertView.findViewById(R.id.checkboxIcon);
@@ -188,12 +189,20 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         //    notifyDataSetChanged();
        }*/
         if(cardCheckboxPojoList.get(position).getTotalCheckBoxes()>0){
+            holder.dueDate.setVisibility(View.VISIBLE);
             holder.checkboxIcon.setVisibility(View.VISIBLE);
             holder.noOfCheckedCheckbox.setVisibility(View.VISIBLE);
             holder.noOfCheckedCheckbox.setText(cardCheckboxPojoList.get(position).getCheckedCheckBox()+"/"+cardCheckboxPojoList.get(position).getTotalCheckBoxes());
         }else {
             holder.checkboxIcon.setVisibility(View.GONE);
             holder.noOfCheckedCheckbox.setVisibility(View.GONE);
+        }
+
+        if(projectsList.get(position).getIsCardLocked().equals("1")){
+            holder.dueDate.setVisibility(View.VISIBLE);
+            holder.lockIcon.setVisibility(View.VISIBLE);
+        }else {
+            holder.lockIcon.setVisibility(View.GONE);
         }
         holder.membersView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -411,7 +420,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         LinearLayout membersView;
         LinearLayout labelsView;
         TextView data,dueDate,nOfAttachments,noOfCheckedCheckbox;
-        ImageView favouriteIcon,attachmentIcon;
+        ImageView favouriteIcon,attachmentIcon,lockIcon;
         ImageView attachment,subscribe,descriptionIcon,checkboxIcon;
        // RecyclerView recyclerView;
         //LinearLayout labelsLinearLayout,labelsLinearLayout1,labelsLinearLayout2,labelsLinearLayout3,labelsLinearLayout4;

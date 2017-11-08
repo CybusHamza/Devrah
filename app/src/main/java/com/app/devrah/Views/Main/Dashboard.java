@@ -71,6 +71,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     EditText oldPassword,newPassword,confirmPassword;
     ProgressDialog ringProgressDialog;
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -396,26 +397,40 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         newPassword = (EditText) subView.findViewById(R.id.etPass);
         confirmPassword = (EditText) subView.findViewById(R.id.etConfirmPass);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Change Password");
-        builder.setView(subView);
-        AlertDialog alertDialog = builder.create();
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog = new AlertDialog.Builder(Dashboard.this).create();
+        alertDialog.setCancelable(false);
+        TextView ok = (TextView) subView.findViewById(R.id.ok);
+        TextView cancel = (TextView) subView.findViewById(R.id.cancel_btn);
+        ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                    CheckPass();
+            public void onClick(View view) {
+                String oldpass=oldPassword.getText().toString();
+                String newpass=newPassword.getText().toString();
+                String confirmpass=confirmPassword.getText().toString();
+                if(oldpass.length()<1 && newpass.length()<1 && confirmpass.length()<1) {
+                    Toast.makeText(Dashboard.this,"Please Enter Password",Toast.LENGTH_LONG).show();
+                }else {
+                    if(newpass.equals(confirmpass)) {
+                        if(newpass.length()>7)
+                            CheckPass();
+                        else
+                            Toast.makeText(Dashboard.this,"Password length must be minimum 8 characters",Toast.LENGTH_LONG).show();
+
+                    }else {
+                        Toast.makeText(Dashboard.this,"New password and confirm password fields mismatches",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        builder.show();
+       cancel.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               alertDialog.dismiss();
+           }
+       });
+        alertDialog.setView(subView);
+        alertDialog.show();
     }
     @Override
     public void onBackPressed() {
@@ -527,6 +542,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
 
                         if(!response.equals(""))
                         {
+                            alertDialog.dismiss();
                             new SweetAlertDialog(Dashboard.this, SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText("Done !")
                                     .setConfirmText("OK").setContentText("Password Changed Successfully")

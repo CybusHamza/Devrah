@@ -146,6 +146,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
         holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
         holder.subscribe = (ImageView) convertView.findViewById(R.id.subscribedIcon);
+        holder.lockIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
         holder.descriptionIcon = (ImageView) convertView.findViewById(R.id.descriptionIcon);
         holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
         holder.checkboxIcon = (ImageView) convertView.findViewById(R.id.checkboxIcon);
@@ -249,6 +250,12 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         } else {
             holder.headingDueDate.setText("Due "+projectsList.get(position).getDueDate());
             holder.headingDueDate.setVisibility(View.VISIBLE);
+        }
+        if(projectsList.get(position).getIsCardLocked().equals("1")){
+            holder.dueDate.setVisibility(View.VISIBLE);
+            holder.lockIcon.setVisibility(View.VISIBLE);
+        }else {
+            holder.lockIcon.setVisibility(View.GONE);
         }
         holder.membersView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -469,7 +476,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         LinearLayout membersView;
         LinearLayout labelsView;
         TextView data,dueDate,nOfAttachments,noOfCheckedCheckbox,headingDueDate;
-        ImageView favouriteIcon,attachmentIcon;
+        ImageView favouriteIcon,attachmentIcon,lockIcon;
         ImageView attachment,subscribe,descriptionIcon,checkboxIcon;
         CheckBox checkBox;
 

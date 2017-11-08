@@ -144,13 +144,14 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
+                        edtSeach.setText("");
                         Refrence();
                         mySwipeRefreshLayout.setRefreshing(false);
                     }
                 }
         );
-        Refrence();
         edtSeach = (EditText) getActivity().findViewById(R.id.edtSearch);
+
         edtSeach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -167,8 +168,15 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                     if (data.getData().toLowerCase().contains(nameToSearch.toLowerCase())) {
                         filteredLeaves.add(data);
                     }
+                }
+                if(filteredLeaves.size()<1){
+                    ProjectsPojo projectsPojo = new ProjectsPojo();
 
-
+                    projectsPojo.setBoardID("");
+                    projectsPojo.setData("No Board found");
+                    projectsPojo.setId("");
+                    projectsPojo.setReferenceBoardStar("");
+                    filteredLeaves.add(projectsPojo);
                 }
                 adapter = new ReferenceBoardAdapter(getActivity(), filteredLeaves);
                 lv.setAdapter(adapter);
@@ -180,6 +188,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
             }
         });
+        Refrence();
 
        /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -308,6 +317,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                     @Override
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
+
                         myList = new ArrayList<>();
                         if(response.equals("{\"nodata\":0}"))
                         {
@@ -318,6 +328,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                             hidentxt.setVisibility(View.INVISIBLE);
 
                         try {
+//                            edtSeach.setText("");
                             JSONArray jsonArray = new JSONArray(response);
 
                             if(jsonArray.length()<1){

@@ -104,6 +104,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
+                        edtSeach.setText("");
                        getWorkBoards();
                         mySwipeRefreshLayout.setRefreshing(false);
                     }
@@ -115,10 +116,8 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         projectid = bundle.getString("pid");
 
         search.setOnClickListener(this);
-
-
-        getWorkBoards();
         edtSeach = (EditText) getActivity().findViewById(R.id.edtSearch);
+
         edtSeach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -138,6 +137,17 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
 
                 }
+                if(filteredLeaves.size()<1){
+                    ProjectsPojo projectsPojo = new ProjectsPojo();
+
+                    projectsPojo.setBoardID("");
+                    projectsPojo.setData("No Board found");
+                    projectsPojo.setId("");
+                    projectsPojo.setBoardStar("");
+                    projectsPojo.setIsFavouriteFromMembers("");
+
+                    filteredLeaves.add(projectsPojo);
+                }
                 adapter = new BoardsAdapter(getActivity(), filteredLeaves);
                 lvWBoard.setAdapter(adapter);
 
@@ -150,7 +160,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         });
 
 
-
+        getWorkBoards();
        /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -416,14 +426,13 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
                         ringProgressDialog.dismiss();
 
-
                         myList = new ArrayList<>() ;
                         if(response.equals("{\"nodata\":0}"))
                         {
                             Toast.makeText(getActivity(), "Workboard is empty", Toast.LENGTH_SHORT).show();
                         }
                         else {
-
+                            //edtSeach.setText("");
 
                             try {
                                 JSONArray jsonArray = new JSONArray(response);

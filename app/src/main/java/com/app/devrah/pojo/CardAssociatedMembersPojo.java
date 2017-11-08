@@ -44,4 +44,24 @@ public class CardAssociatedMembersPojo {
     }
 
     String[] gp_pictures;
+
+    public String[] getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String[] memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getIsCurrentMemberAssigned() {
+        return isCurrentMemberAssigned;
+    }
+
+    public void setIsCurrentMemberAssigned(String isCurrentMemberAssigned) {
+        this.isCurrentMemberAssigned = isCurrentMemberAssigned;
+    }
+
+    String isCurrentMemberAssigned;
+
+    String[] memberId;
 }

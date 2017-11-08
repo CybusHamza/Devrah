@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Views.Main.ProfileActivity"
-    android:background="#fff">
+    android:background="@drawable/bg_projects">
     <include
         android:id="@+id/header"
         layout="@layout/app_bar">
@@ -32,7 +32,7 @@
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/profile_pic"
                 app:civ_border_width="2dp"
-                app:civ_border_color="#FF000000"/>
+                app:civ_border_color="#fff"/>
             <Button
                 android:id="@+id/btnchoosePic"
                 android:layout_width="wrap_content"
@@ -59,11 +59,13 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:hint="E-mail"
-
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textCursorDrawable="@null"
+                    android:editable="false"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -88,10 +90,12 @@
                     android:layout_width="match_parent"
                     android:hint="First Name"
                     android:id="@+id/etFname"
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -113,10 +117,12 @@
                     android:layout_width="match_parent"
                     android:hint="Last Name"
                     android:id="@+id/etLName"
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -141,10 +147,13 @@
                     android:layout_width="match_parent"
                     android:hint="Phone Number"
                     android:id="@+id/etPhoneNum"
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -168,10 +177,12 @@
                     android:layout_width="match_parent"
                     android:hint="Devrah Tag"
                     android:id="@+id/etDevrahTag"
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -196,10 +207,12 @@
                     android:layout_width="match_parent"
                     android:hint="Company"
                     android:id="@+id/etCompany"
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -221,10 +234,12 @@
                     android:layout_width="match_parent"
                     android:hint="Position"
                     android:id="@+id/etPosition"
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -247,10 +262,12 @@
                     android:layout_width="match_parent"
                     android:hint="Website"
                     android:id="@+id/etWebsite"
-                    android:textColorHint="#00FA9A"
-                    android:backgroundTint="#00FA9A"
-                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -271,18 +288,19 @@
                 android:layout_below="@id/website"
                 android:layout_alignParentBottom="true"
                 android:gravity="end">
-
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    />
                 <Button
                     android:id="@+id/btnUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Update"/>
 
-                <Button
-                    android:id="@+id/btnCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel"/>
+
 
             </LinearLayout>
 

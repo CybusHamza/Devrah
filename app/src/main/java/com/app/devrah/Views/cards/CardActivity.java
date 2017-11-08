@@ -473,10 +473,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             }
         });
 
-        if(!startDate.equals("") && !startDate.equals("null")) {
+        if(!startDate.equals("") && !startDate.equals("null") && !startDate.equals("0000-00-00")) {
             cbStartDate.setText(startDate);
             cbStartDate.setVisibility(View.VISIBLE);
-        }else if(startDate.equals("null")){
+        }else if(startDate.equals("null") && startDate.equals("0000-00-00")){
             cbStartDate.setText("Start Date");
             cbStartDate.setVisibility(View.VISIBLE);
         }
@@ -488,10 +488,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             cbStartTime.setVisibility(View.VISIBLE);
         }
 
-        if(!dueDate.equals("") && !dueDate.equals("null")) {
+        if(!dueDate.equals("") && !dueDate.equals("null") && !startDate.equals("0000-00-00")) {
             cbDueDate.setText(dueDate);
             cbDueDate.setVisibility(View.VISIBLE);
-        }else if(dueDate.equals("null")){
+        }else if(dueDate.equals("null") && dueDate.equals("0000-00-00")){
             cbDueDate.setText("Due Date");
             cbDueDate.setVisibility(View.VISIBLE);
         }

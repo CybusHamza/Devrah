@@ -142,8 +142,15 @@ public class Projects extends Fragment implements View.OnClickListener {
                     if (data.getData().toLowerCase().contains(nameToSearch.toLowerCase())) {
                         filteredLeaves.add(data);
                     }
-
-
+                }
+                if(filteredLeaves.size()<1){
+                    projectPojoData = new ProjectsPojo();
+                    projectPojoData.setData("No data found");
+                    projectPojoData.setId("");
+                    projectPojoData.setProjectStatus("");
+                    projectPojoData.setProjectCreatedBy("");
+                    projectPojoData.setProjectDescription("");
+                    filteredLeaves.add(projectPojoData);
                 }
                 adapter = new ProjectsAdapter(getActivity(), filteredLeaves);
                 lv.setAdapter(adapter);
@@ -457,6 +464,7 @@ public class Projects extends Fragment implements View.OnClickListener {
 
 
                           ringProgressDialog.dismiss();
+                        edtSeach.setText("");
                         if (response.equals("false")) {
                             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Error!")
