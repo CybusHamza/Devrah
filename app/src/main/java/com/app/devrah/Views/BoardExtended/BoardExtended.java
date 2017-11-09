@@ -1506,7 +1506,7 @@ private void getDueDates(final String currentDate){
                             if(response.equals("0")){
                                 postions_list.add("1"+"");
                             }
-                            for (int i = 1; i <=Integer.valueOf(response); i++) {
+                            for (int i = 1; i <=Integer.valueOf(response)+1; i++) {
 
                                 postions_list.add(i+"");
                             }

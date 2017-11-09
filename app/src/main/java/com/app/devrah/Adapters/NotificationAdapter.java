@@ -18,6 +18,8 @@ import com.app.devrah.pojo.NotificationsPojo;
 import com.app.devrah.pojo.boardNotificationsPojo;
 import com.app.devrah.pojo.cardNotificationsPojo;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public class NotificationAdapter extends BaseAdapter {
     List<cardNotificationsPojo> cardNotificationsList;
     Activity activity;
     private LayoutInflater inflater;
+    List<Date> dateList = new ArrayList<Date>();
 
 
     public NotificationAdapter(Activity activity, List<NotificationsPojo> projectsList, List<boardNotificationsPojo> boardNotificationList, List<cardNotificationsPojo> cardNotificationsList) {

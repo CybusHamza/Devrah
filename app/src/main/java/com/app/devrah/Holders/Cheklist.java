@@ -18,7 +18,8 @@ public class Cheklist extends RecyclerView.ViewHolder {
     public TextView checklistName;
     public TextView tvProgress;
     public ProgressBar progressBar;
-    public LinearLayout ll,commentsLayout;
+    public LinearLayout ll;
+    public ImageView commentsLayout;
     public ImageView deleteCheckList,comments;
 
     public Cheklist(View itemView) {
@@ -27,9 +28,9 @@ public class Cheklist extends RecyclerView.ViewHolder {
         tvProgress  = (TextView)itemView.findViewById(R.id.tvCompletedPercentage);
         progressBar  = (ProgressBar)itemView.findViewById(R.id.simpleProgressBar);
         ll  = (LinearLayout)itemView.findViewById(R.id.LinearLayoutheader);
-        commentsLayout  = (LinearLayout)itemView.findViewById(R.id.commentsCheckListLayout);
+        commentsLayout  = (ImageView) itemView.findViewById(R.id.commentsCheckList);
         deleteCheckList  = (ImageView) itemView.findViewById(R.id.deleteCheckList);
-        comments  = (ImageView) itemView.findViewById(R.id.commentsCheckList);
+       // comments  = (ImageView) itemView.findViewById(R.id.commentsCheckList);
 
 
 

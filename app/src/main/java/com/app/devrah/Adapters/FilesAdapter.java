@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
@@ -111,7 +110,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
             holder.datePosted.setText(attachmentList.get(position).getDateUpload());
             //   holder.fileSize.setText(String.valueOf(attachmentList.get(position).getSizeOfFile()));
             holder.tvFileName.setText(attachmentList.get(position).getNameOfFile());
-        holder.tvFileName.setPaintFlags(holder.tvFileName.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+       // holder.tvFileName.setPaintFlags(holder.tvFileName.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         holder.tvFileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

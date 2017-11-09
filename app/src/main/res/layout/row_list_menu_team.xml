@@ -17,7 +17,8 @@
     android:gravity="center_vertical"
     android:text=""
     android:textColor="#fff"
-    android:textSize="15sp"/>
+    android:textSize="13sp"
+    android:fontFamily="@string/monoSapce"/>
 
     <TextView
         android:id="@+id/tvProjectsData"
@@ -29,7 +30,8 @@
         android:background="@drawable/bottom_border"
         android:layout_below="@id/tvDescription"
         android:textColor="#fff"
-        android:textSize="15sp" />
+        android:textSize="13sp"
+        android:fontFamily="@string/monoSapce"/>
 
 
 </RelativeLayout>

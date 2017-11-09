@@ -33,6 +33,7 @@
             android:hint="Email"
             android:backgroundTint="#fff"
             android:inputType="textEmailAddress"
+            android:fontFamily="@string/monoSapce"
             android:textColor="#fff"
             android:layout_height="wrap_content"
             />
@@ -96,6 +97,7 @@
             android:layout_margin="20dp"
             android:gravity="center"
             android:text="@string/signup"
+            android:fontFamily="@string/monoSapce"
             android:layout_gravity="bottom"
             android:textColor="#95AAB1"
             android:layout_marginBottom="10dp"

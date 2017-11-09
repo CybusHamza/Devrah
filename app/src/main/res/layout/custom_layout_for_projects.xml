@@ -20,7 +20,7 @@
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:paddingTop="5dp"
-            android:fontFamily="monospace"
+            android:fontFamily="@string/monoSapce"
             android:textSize="13sp"
             android:gravity="center_vertical"
             android:layout_marginStart="10dp"
@@ -50,7 +50,8 @@
             android:gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:text="Active"
-            android:layout_marginTop="3dp"/>
+            android:layout_marginTop="3dp"
+            android:fontFamily="@string/monoSapce"/>
     </LinearLayout>
     </LinearLayout>
 
@@ -59,7 +60,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="13sp"
         android:padding="5dp"
         android:text="sdfghj"
         android:id="@+id/tvProjectsData"
@@ -67,6 +68,7 @@
         android:gravity="center"
         android:background="@drawable/bottom_border"
         android:textColor="#fff"
+        android:fontFamily="@string/monoSapce"
         />
 
 

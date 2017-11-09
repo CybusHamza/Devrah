@@ -33,6 +33,7 @@ import com.app.devrah.pojo.cardNotificationsPojo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -155,7 +156,7 @@ public void getNotifications() {
                              listPojo = new ArrayList<>();
                              boardlistPojo = new ArrayList<>();
                              cardlistPojo = new ArrayList<>();
-
+                             SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
                              try {
                                  JSONObject mainObject = new JSONObject(response);
                                  if(mainObject.getString("project_notifications").equals("false") && mainObject.getString("boards_notifications").equals("false") && mainObject.getString("card_notifications").equals("false")){

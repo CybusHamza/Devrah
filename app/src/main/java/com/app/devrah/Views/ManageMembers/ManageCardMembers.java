@@ -143,8 +143,8 @@ public class ManageCardMembers extends Fragment {
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fm.popBackStack();
                 ((CardActivity)getActivity()).updateUI();
+                fm.popBackStack();
             }
         });
         btnSave.setOnClickListener(new View.OnClickListener() {

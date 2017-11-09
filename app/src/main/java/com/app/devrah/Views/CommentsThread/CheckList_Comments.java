@@ -626,6 +626,8 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setInitials(obj.getString("initials"));
                                     commentsPojo.setParentProfilePic(obj.getString("profile_pic"));
                                     commentsPojo.setParentInitials(obj.getString("initials"));
+                                    commentsPojo.setParentIsFile(obj.getString("is_Upload"));
+                                    commentsPojo.setParentfileType(obj.getString("file_type"));
                                     commentsPojo.setLevel(Level.LEVEL_ONE);
                                     JSONArray array=jsonArray1.getJSONArray(i);
                                     if(array.length()==0){
@@ -657,6 +659,8 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                                             commentsPojo1.setInitials(obj1.getString("initials"));
                                             commentsPojo1.setParentProfilePic(obj.getString("profile_pic"));
                                             commentsPojo1.setParentInitials(obj.getString("initials"));
+                                            commentsPojo1.setParentIsFile(obj.getString("is_Upload"));
+                                            commentsPojo1.setParentfileType(obj.getString("file_type"));
                                             commentsPojo1.setLevel(Level.LEVEL_TWO);
 
                                             if(array.length()>2 && j==1){

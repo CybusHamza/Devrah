@@ -62,7 +62,7 @@
             android:textSize="15sp"
             android:textColor="@color/colorAccent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:maxLength="255"
             />
 
     </android.support.design.widget.TextInputLayout>

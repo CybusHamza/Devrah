@@ -431,8 +431,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }else {
             dataList.add(new DrawerPojo("Unlock Card"));
         }
-        dataList.add(new DrawerPojo("Leave Card"));
         dataList.add(new DrawerPojo("Delete Card"));
+     //   dataList.add(new DrawerPojo("Leave Card"));
 
 
         rvLabelResult = (RecyclerView) findViewById(R.id.rv_labels_card_screen_result);
@@ -975,28 +975,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
-                                .setConfirmText("OK").setContentText("Do you really want to leave card "+CardHeading)
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        leaveCard();
-                                        //  alertRemove(membersList.get(position).getId(),position);
-                                        sDialog.dismiss();
-                                    }
-                                })
-                                .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismiss();
-                                    }
-                                })
-                                .show();
-                        break;
-                    case 6:
-                        new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Alert!")
-                                .setCancelText("Cancel")
                                 .setConfirmText("OK").setContentText("Are You sure to Delete Card ?")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
@@ -1015,6 +993,29 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                 })
                                 .show();
                         break;
+                    case 6:
+                        new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Alert!")
+                                .setCancelText("Cancel")
+                                .setConfirmText("OK").setContentText("Do you really want to leave card "+CardHeading)
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        leaveCard();
+                                        //  alertRemove(membersList.get(position).getId(),position);
+                                        sDialog.dismiss();
+                                    }
+                                })
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        break;
+
                 }
 
             }
@@ -2870,6 +2871,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     JSONArray jsonArray=jsonArrayMembers.getJSONArray(j);
                                     // String[] members = new String[jsonArray.length()];
                                     //String[] labelText = new String[jsonArray.length()];
+                                    String isMember="0";
                                     for (int k=0;k<jsonArray.length();k++){
                                         MembersPojo membersPojo=new MembersPojo();
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
@@ -2879,6 +2881,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
                                         membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
                                         membersPojo.setTick("1");
+                                        if(jsonObject.getString("uid").equals(pref.getString("user_id",""))){
+                                            isMember="1";
+                                        }
                                         //  members[k]=jsonObject.getString("profile_pic");
                                         // labelText[k]=jsonObject.getString("initials");
                                        /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
@@ -2887,6 +2892,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                             labelText[k] = jsonObject.getString("label_text");
                                         }*/
                                         cardMembersPojoList1.add(membersPojo);
+                                    }
+                                    if(isMember.equals("1")){
+                                      if(dataList.size()==6){
+                                            dataList.add(new DrawerPojo("Leave Card"));
+                                        }
+                                    }
+                                    else {
+                                        if(dataList.size()==7)
+                                        dataList.remove(6);
                                     }
                                    rvMembersResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
                                     memberAdapter = new RVMemberResultAdapter(Mactivity,cardMembersPojoList1,cardId,list_id,boardId,projectId);
@@ -4782,7 +4796,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                         postions_list = new ArrayList<>();
 
-                        for (int i = 1; i <=Integer.valueOf(response); i++) {
+                        for (int i = 1; i <=Integer.valueOf(response)+1; i++) {
 
                             postions_list.add(i+"");
                         }

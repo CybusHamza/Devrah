@@ -173,6 +173,8 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
                     intent.putExtra("parentCommentData",projectsList.get(position).getComments());
                     intent.putExtra("parentProfilePic",projectsList.get(position).getParentProfilePic());
                     intent.putExtra("parentInitials",projectsList.get(position).getParentInitials());
+                    intent.putExtra("parentIsFile",projectsList.get(position).getParentIsFile());
+                    intent.putExtra("parentFileType",projectsList.get(position).getParentfileType());
                     activity.startActivity(intent);
                 }
                 /*if(projectsList.get(position).getLevel()==2){
@@ -196,6 +198,8 @@ public class RvAdapter1 extends RecyclerView.Adapter<RvAdapter1.RvViewHolder> {
                     intent.putExtra("parentCommentData",projectsList.get(position).getComments());
                     intent.putExtra("parentProfilePic",projectsList.get(position).getParentProfilePic());
                     intent.putExtra("parentInitials",projectsList.get(position).getParentInitials());
+                    intent.putExtra("parentIsFile",projectsList.get(position).getParentIsFile());
+                    intent.putExtra("parentFileType",projectsList.get(position).getParentfileType());
                     activity.startActivity(intent);
                 }
             }

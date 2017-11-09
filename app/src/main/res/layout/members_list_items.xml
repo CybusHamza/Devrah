@@ -34,6 +34,7 @@
             android:textColor="#000"
             android:textStyle="bold"
             android:padding="5dp"
+            android:fontFamily="@string/monoSapce"
             android:background="@drawable/bg_circle"
             android:layout_alignTop="@+id/memberProfilePic"
             android:layout_alignStart="@+id/memberProfilePic" />
@@ -47,7 +48,8 @@
             android:paddingTop="20dp"
             android:text="test"
             android:textColor="#fff"
-            android:textSize="20dp"
+            android:textSize="15dp"
+            android:fontFamily="@string/monoSapce"
             android:layout_weight="0.54" />
 
         <ImageView

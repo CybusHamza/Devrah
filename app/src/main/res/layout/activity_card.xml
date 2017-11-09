@@ -324,7 +324,6 @@
                         android:id="@+id/rv_files_cardscreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_gravity="left"
                         android:clickable="true" />
                     </LinearLayout>
@@ -443,7 +442,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_recycler_checklist"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/outer_border_checklist"
+                        android:background="@drawable/checklist_border_outer"
                         android:dividerHeight="5dp"
                         android:layout_width="match_parent"/>
                     </LinearLayout>

@@ -48,6 +48,7 @@
     </style>
     <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:fontFamily">@string/monoSapce</item>
         <!-- Support library compatibility -->
         <item name="windowActionBarOverlay">true</item>
     </style>

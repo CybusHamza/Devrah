@@ -96,7 +96,7 @@ public class Child_Comments extends AppCompatActivity implements callBack{
     ImageView sendComments,sendAttachment;
     String b64,formattedDate;
     ProgressDialog ringProgressDialog;
-    String filepath,cardId,parentId,fullName,parentCommentsData,parentProfilePic,parentInitials;
+    String filepath,cardId,parentId,fullName,parentCommentsData,parentProfilePic,parentInitials,parentIsFile,parentFileType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +129,8 @@ public class Child_Comments extends AppCompatActivity implements callBack{
         parentCommentsData=intent.getStringExtra("parentCommentData");
         parentProfilePic=intent.getStringExtra("parentProfilePic");
         parentInitials=intent.getStringExtra("parentInitials");
+        parentIsFile=intent.getStringExtra("parentIsFile");
+        parentFileType=intent.getStringExtra("parentFileType");
         getComments();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etComments.getWindowToken(), 0);
@@ -606,8 +608,8 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                         commentsPojo1.setChecklistId("");
                         commentsPojo1.setComments(parentCommentsData);
                         commentsPojo1.setFullName(fullName);
-                        commentsPojo1.setIsFile("");
-                        commentsPojo1.setFileType("");
+                        commentsPojo1.setIsFile(parentIsFile);
+                        commentsPojo1.setFileType(parentFileType);
                         commentsPojo1.setParentId("");
                         commentsPojo1.setDate("");
                         commentsPojo1.setCreatedBy("");
@@ -643,6 +645,8 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                                     commentsPojo.setInitials(obj.getString("initials"));
                                     commentsPojo.setParentProfilePic(obj.getString("profile_pic"));
                                     commentsPojo.setParentInitials(obj.getString("initials"));
+                                    commentsPojo.setParentIsFile(obj.getString("is_Upload"));
+                                    commentsPojo.setParentfileType(obj.getString("file_type"));
                                     commentsPojo.setLevel(Level.LEVEL_TWO);
                                     listPojo.add(commentsPojo);
                                    /* JSONArray array=jsonArray1.getJSONArray(i);

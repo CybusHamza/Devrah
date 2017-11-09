@@ -24,10 +24,11 @@
             android:id="@+id/etComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#00FA9A"
+            android:backgroundTint="#636262"
             android:singleLine="true"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="#00FA9A" />
+            android:textColor="#636262"
+            android:textColorHint="#636262"
+            android:textSize="13sp"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -40,7 +41,7 @@
             android:gravity="right"
             android:text="Cancel"
             android:textColor="#f50b22"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:id="@+id/btn_cancel"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -52,7 +53,7 @@
             android:gravity="right"
             android:text="Save"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:id="@+id/btn_save"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"

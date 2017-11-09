@@ -204,4 +204,23 @@ public class CommentsPojo {
     }
 
     String date;
+
+    public String getParentIsFile() {
+        return parentIsFile;
+    }
+
+    public void setParentIsFile(String parentIsFile) {
+        this.parentIsFile = parentIsFile;
+    }
+
+    public String getParentfileType() {
+        return parentfileType;
+    }
+
+    public void setParentfileType(String parentfileType) {
+        this.parentfileType = parentfileType;
+    }
+
+    String parentIsFile;
+    String parentfileType;
 }

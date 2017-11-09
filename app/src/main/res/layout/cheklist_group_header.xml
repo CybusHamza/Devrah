@@ -7,56 +7,26 @@
     android:background="@null"
     android:layout_margin="5dp"
     >
-    <LinearLayout
-        android:id="@+id/commentsCheckListLayout"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Comments"
-            android:textSize="17sp"
-            android:gravity="start"
-            android:textColor="#fff"/>
 
-    <ImageView
-        android:id="@+id/commentsCheckList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="185dp"
-        android:layout_marginEnd="15dp"
-        android:layout_gravity="end"
-        android:background="@drawable/comments_icon"/>
-       <!-- <TextView
-            android:id="@+id/noOfComments"
-            android:layout_marginStart="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"/>-->
-    </LinearLayout>
-    <ProgressBar
-        android:id="@+id/simpleProgressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:progressTint="@color/blue" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:weightSum="1"
         android:background="@drawable/outer_border_checklist"
         android:orientation="horizontal"
         android:layout_marginBottom="3dp">
-
+        <ProgressBar
+            android:id="@+id/simpleProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:progressTint="@color/blue" />
 
        <!-- <ImageView
             android:layout_width="30dp"
@@ -67,11 +37,12 @@
             android:background="@drawable/checkbox_icon"
             />-->
         <TextView
+            android:layout_below="@id/simpleProgressBar"
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_margin="5dp"
-            android:padding="7dp"
+            android:padding="5dp"
             android:drawablePadding="30dp"
             android:paddingLeft="20dp"
             android:text="Check List"
@@ -79,24 +50,35 @@
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:textCursorDrawable="@null"
-            android:textSize="17sp"
+            android:textSize="15sp"
             android:textColor="#fff"
              />
         <TextView
+            android:layout_below="@id/simpleProgressBar"
             android:id="@+id/tvCompletedPercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/deleteCheckList"
+            android:layout_toLeftOf="@+id/commentsCheckList"
             android:textColor="#fff"
             android:layout_margin="10dp"
             />
         <ImageView
+            android:layout_below="@id/simpleProgressBar"
+            android:id="@+id/commentsCheckList"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="2dp"
+            android:layout_toLeftOf="@+id/deleteCheckList"
+            android:background="@drawable/comments_icon"/>
+        <ImageView
+            android:layout_below="@id/simpleProgressBar"
             android:id="@+id/deleteCheckList"
             android:layout_width="50dp"
             android:layout_height="70dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="5dp"
             android:background="@drawable/close_white_icon"/>
+
        <!-- <ImageView
             android:id="@+id/commentsCheckList"
             android:layout_width="wrap_content"

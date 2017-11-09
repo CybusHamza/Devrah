@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#000"
@@ -42,10 +42,11 @@
         android:id="@+id/etTitle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/black"
         android:layout_below="@+id/titleLabel"
+        android:textSize="13sp"
         android:layout_alignStart="@+id/boardSpinner" />
             <TextView
                 android:id="@+id/projectLabel"
@@ -201,8 +202,9 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="10dp"
         android:text="Copy"
-        android:textSize="15sp"
-        android:layout_marginBottom="5dp"/>
+        android:textAllCaps="false"
+        android:textSize="13sp"
+        android:layout_marginBottom="2dp"/>
 
     <Button
         android:id="@+id/close"
@@ -211,11 +213,12 @@
         android:background="@null"
         android:text="Close"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="2dp"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="10dp"
         android:textColor="#f50b22"
-        android:textSize="15sp"
+        android:textSize="13sp"
+        android:textAllCaps="false"
         android:layout_toStartOf="@id/copy"  />
         </RelativeLayout>
     </ScrollView>
