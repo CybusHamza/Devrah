@@ -19,6 +19,8 @@ import com.app.devrah.pojo.boardNotificationsPojo;
 import com.app.devrah.pojo.cardNotificationsPojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -129,6 +131,12 @@ public class NotificationAdapter extends BaseAdapter {
                         activity.startActivity(intent);
                     }
                 }
+
+            }
+        });
+        Collections.sort(projectsList, new Comparator<NotificationsPojo>() {
+            public int compare(NotificationsPojo first, NotificationsPojo second)  {
+                return second.getDate().compareTo(first.getDate());
             }
         });
 

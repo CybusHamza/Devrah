@@ -116,7 +116,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
             public void onClick(View view) {
                 //openFile(activity,url);
 
-                    String url = attachmentList.get(position).nameOfFile.replace(" ","%20");
+                    String url = attachmentList.get(position).getNameOfFile().replace(" ","%20");
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/card_uploads/"+url));
                     activity. startActivity(browserIntent);
                 }

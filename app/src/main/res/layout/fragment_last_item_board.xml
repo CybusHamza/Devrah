@@ -19,8 +19,8 @@
         android:background="#fff"
         android:padding="10dp"
         android:gravity="center"
-        android:textSize="20dp"
-        android:textColor="@color/colorGreen"/>
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"/>
 
 
 </RelativeLayout>

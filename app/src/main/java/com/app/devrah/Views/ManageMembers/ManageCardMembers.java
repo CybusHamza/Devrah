@@ -30,7 +30,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.app.devrah.Adapters.team_addapter;
+import com.app.devrah.Adapters.team_adapter_cards;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.cards.CardActivity;
@@ -69,7 +69,7 @@ public class ManageCardMembers extends Fragment {
     ArrayList<MembersPojo> listPojo;
     MembersPojo membersPojoData;
     ArrayAdapter<String> projectADdapter;
-    team_addapter addapter;
+    team_adapter_cards addapter;
     ArrayList<MembersPojo> membersPojos;
     ProgressDialog ringProgressDialog;
     List<All_Teams> teamLists;
@@ -77,6 +77,7 @@ public class ManageCardMembers extends Fragment {
     Button btnClose,btnSave;
     TextView heading;
     FragmentManager fm;
+    ArrayList<String> cardMembers;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -122,7 +123,7 @@ public class ManageCardMembers extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.magnage_members_popup, container, false);
+        View view = inflater.inflate(R.layout.magnage_members_popup1, container, false);
         Intent intent = getActivity().getIntent();
 
         p_id = intent.getStringExtra("project_id");
@@ -130,7 +131,7 @@ public class ManageCardMembers extends Fragment {
         c_id = intent.getStringExtra("card_id");
         l_id = intent.getStringExtra("list_id");
 
-        search = (EditText) view.findViewById(R.id.search);
+      //  search = (EditText) view.findViewById(R.id.search);
 
         currentMember = (GridView) view.findViewById(R.id.grid_view);
         TeamMember = (GridView) view.findViewById(R.id.grid_view_team);
@@ -165,19 +166,24 @@ public class ManageCardMembers extends Fragment {
                /* if(membersPojos.size()==1){
                     Toast.makeText(getActivity(),"You have to keep atleast one user in board!",Toast.LENGTH_LONG).show();
                 }else {*/
-                    new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                  /*  new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("Remove This member")
                             .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismiss();
+                                    sDialog.dismiss();*/
                                     //teamid = teamListids .get(i);
-                                    usertoadd = membersPojos.get(i).getUserId();
+                                    if(membersPojos.get(i).getIsCardMember().equals("1")) {
+                                        usertoadd = membersPojos.get(i).getUserId();
 
-                                    deletemember();
-                                }
-                            }).setCancelText("Cancel")
+                                        deletemember();
+                                    }else {
+                                        usertoadd = membersPojos.get(i).getUserId();
+                                        addmember();
+                                    }
+                                //}
+                          /*  }).setCancelText("Cancel")
                             .showCancelButton(true)
                             .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
@@ -185,14 +191,14 @@ public class ManageCardMembers extends Fragment {
                                     sweetAlertDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
 //                }
 
 
             }
         });
 
-        TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int pos=Team_list.getSelectedItemPosition();
@@ -204,10 +210,10 @@ public class ManageCardMembers extends Fragment {
                 addmember();
 
             }
-        });
+        });*/
 
-        getmembers();
-        getMyTeams();
+        getCardmembers();
+       // getMyTeams();
         return view;
     }
 
@@ -236,7 +242,7 @@ public class ManageCardMembers extends Fragment {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_CARD_MEMBERS,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_BOARD_MEMBERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -244,7 +250,7 @@ public class ManageCardMembers extends Fragment {
                         ringProgressDialog.dismiss();
                         membersPojos = new ArrayList<>();
                         if(response.equals("false")){
-                            addapter = new team_addapter(getActivity(), membersPojos);
+                            addapter = new team_adapter_cards(getActivity(), membersPojos);
 
                             currentMember.setAdapter(addapter);
 
@@ -259,16 +265,22 @@ public class ManageCardMembers extends Fragment {
                                     MembersPojo membersPojo = new MembersPojo();
 
 
-                                    membersPojo.setName(jsonObject.getString("first_name"));
+                                    membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
                                     membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
                                     membersPojo.setUserId(jsonObject.getString("id"));
                                     membersPojo.setInetial(jsonObject.getString("initials"));
                                     membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
-
+                                    String isCardMember="0";
+                                    for(int j=0;j<cardMembers.size();j++){
+                                        if(jsonObject.getString("id").equals(cardMembers.get(j))){
+                                            isCardMember="1";
+                                        }
+                                    }
+                                    membersPojo.setIsCardMember(isCardMember);
 
                                     membersPojos.add(membersPojo);
 
-                                    addapter = new team_addapter(getActivity(), membersPojos);
+                                    addapter = new team_adapter_cards(getActivity(), membersPojos);
 
                                     currentMember.setAdapter(addapter);
 
@@ -320,7 +332,7 @@ public class ManageCardMembers extends Fragment {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("card_id", c_id);
+                params.put("board_id", b_id);
 
                 return params;
             }
@@ -350,10 +362,11 @@ public class ManageCardMembers extends Fragment {
 
                         ringProgressDialog.dismiss();
                         membersPojos = new ArrayList<>();
+                        cardMembers=new ArrayList<>();
                         if(response.equals("false")){
-                            addapter = new team_addapter(getActivity(), membersPojos);
+                           /* addapter = new team_adapter_cards(getActivity(), membersPojos);
 
-                            currentMember.setAdapter(addapter);
+                            currentMember.setAdapter(addapter);*/
 
                         }else {
                             try {
@@ -371,20 +384,23 @@ public class ManageCardMembers extends Fragment {
                                     membersPojo.setUserId(jsonObject.getString("id"));
                                     membersPojo.setInetial(jsonObject.getString("initials"));
                                     membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
+                                    cardMembers.add(jsonObject.getString("id"));
 
-
-                                    membersPojos.add(membersPojo);
-
+                                  //  membersPojos.add(membersPojo);
+/*
                                     addapter = new team_addapter(getActivity(), membersPojos);
 
-                                    currentMember.setAdapter(addapter);
+                                    currentMember.setAdapter(addapter);*/
 
                                 }
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
                         }
+                        getmembers();
 
                     }
                 }, new Response.ErrorListener() {
@@ -565,7 +581,7 @@ public class ManageCardMembers extends Fragment {
                                 //}
                             }
 
-                            addapter = new team_addapter(getActivity(), listPojo);
+                            addapter = new team_adapter_cards(getActivity(), listPojo);
                             TeamMember.setAdapter(addapter);
 
 
@@ -639,7 +655,7 @@ public class ManageCardMembers extends Fragment {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        getmembers();
+                        getCardmembers();
 
                     }
                 }, new Response.ErrorListener() {
@@ -719,7 +735,7 @@ public class ManageCardMembers extends Fragment {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        getmembers();
+                        getCardmembers();
 
                     }
                 }, new Response.ErrorListener() {
@@ -794,7 +810,7 @@ public class ManageCardMembers extends Fragment {
             if (pos == 0) {
                 //getTeamMembers("0");
             } else {
-                getTeamMembers(teamListids.get(pos));
+              //  getTeamMembers(teamListids.get(pos));
             }
 
 

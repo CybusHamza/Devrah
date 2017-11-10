@@ -216,7 +216,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

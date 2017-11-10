@@ -66,4 +66,14 @@ public class MembersPojo {
     }
 
     public String tick;
+
+    public String getIsCardMember() {
+        return isCardMember;
+    }
+
+    public void setIsCardMember(String isCardMember) {
+        this.isCardMember = isCardMember;
+    }
+
+    public String isCardMember;
 }

@@ -1178,7 +1178,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     uploadFile.delegate = CardActivity.this;
                     uploadFile.execute(path);
 
-                    ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading File ...", true);
+                    ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading File ...", true);
                     ringProgressDialog.setCancelable(false);
                     ringProgressDialog.show();
                 }
@@ -1814,7 +1814,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     @Override
     public void onBackPressed() {
-
         if (getSupportFragmentManager().findFragmentByTag("Frag1") != null) {
 //            CardActivity.showLabelsMenu();
 
@@ -1848,7 +1847,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 //            ColorsPojo colorsPojo = new ColorsPojo();
 //            colorList.add(colorsPojo.getColor());
 //            showLabelsMenu();
-        }else if(getSupportFragmentManager().findFragmentByTag("Frag3") != null){
+        }else if(getSupportFragmentManager().findFragmentByTag("Frag3") != null ){
             getSupportFragmentManager().popBackStackImmediate("Frag3", 0);
         }else if(isFromMyCardsScreen.equals("true")){
             super.onBackPressed();
@@ -2940,7 +2939,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                             attachmentsList1.add(FilePojo);
                                         } else {
                                             membersPojo.setFileId(jsonObject.getString("id"));
-                                            membersPojo.setNameOfFile(jsonObject.getString("original_name"));
+                                            membersPojo.setNameOfFile(jsonObject.getString("file_name"));
                                             membersPojo.setDateUpload(jsonObject.getString("added_on"));
                                             membersPojo.setIsCover(jsonObject.getString("make_cover"));
                                             attachmentsList.add(membersPojo);
@@ -3707,7 +3706,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         return res;
     }
     private void uploadImage(final String formattedDate, final String b64, final String originalName) {
-        ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", "Uploading image ...", true);
+        ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading image ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_card.php", new Response.Listener<String>() {
@@ -3778,7 +3777,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         requestQueue.add(request);
     }
     private void saveNewAttachmentByCardId(final String attachmentName,final String originalName) {
-        ringProgressDialog = ProgressDialog.show(CardActivity.this, "Please wait ...", " ...", true);
+        ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", " ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST,End_Points.SAVE_NEW_ATTACHMENT_BY_CARD_ID, new Response.Listener<String>() {
@@ -3938,8 +3937,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onResponse(String response) {
                 // loading.dismiss();
+
                 ringProgressDialog.dismiss();
                 if (!(response.equals(""))) {
+                    ringProgressDialog.dismiss();
                     getCardList();
 
                 }

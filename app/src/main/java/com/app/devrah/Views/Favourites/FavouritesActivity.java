@@ -51,11 +51,13 @@ public class FavouritesActivity extends AppCompatActivity {
         toolbar.setTitle("Favourites");
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listPojo = new ArrayList<>();
         lv = (ListView) findViewById(R.id.favouriteListView);
-
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
         getFavourite();
+
 
     }
 
