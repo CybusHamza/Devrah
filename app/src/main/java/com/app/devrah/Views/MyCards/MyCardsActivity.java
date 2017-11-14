@@ -98,7 +98,7 @@ public class MyCardsActivity extends AppCompatActivity {
     Button addNewCard;
     AlertDialog myalertdialog;
     Spinner projectSpinner,boardSpinner,listSpinner;
-    Button saveCard,cancelCard;
+    TextView saveCard,cancelCard;
     EditText etCardName;
     public static Boolean isMyCardsActive=false;
     String filter;
@@ -264,8 +264,8 @@ public class MyCardsActivity extends AppCompatActivity {
         projectSpinner=(Spinner)dialogView.findViewById(R.id.projectSpinner);
         boardSpinner=(Spinner)dialogView.findViewById(R.id.boardSpinner);
         listSpinner=(Spinner)dialogView.findViewById(R.id.listSpinner);
-        saveCard=(Button)dialogView.findViewById(R.id.saveCardBtn);
-        cancelCard=(Button)dialogView.findViewById(R.id.cancelBtn);
+        saveCard=(TextView)dialogView.findViewById(R.id.saveCardBtn);
+        cancelCard=(TextView)dialogView.findViewById(R.id.close);
         etCardName= (EditText)dialogView.findViewById(R.id.etCardName);
         cancelCard.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -105,7 +105,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 holder.attachment.setVisibility(View.VISIBLE);
                 Picasso.with(activity)
                         .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + fileName[i])
-                        .resize(250,200)
+                        .resize(250,150)
                         .into(holder.attachment);
             } else {
                 holder.attachment.setVisibility(View.GONE);

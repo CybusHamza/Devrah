@@ -326,8 +326,8 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         LayoutInflater inflater = LayoutInflater.from(CreateNewTeamActivity.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_add_member, null);
         member = (AutoCompleteTextView) subView.findViewById(R.id.etMember);
-       Button save = (Button) subView.findViewById(R.id.saveBtn);
-       Button cancel = (Button) subView.findViewById(R.id.cancelBtn);
+       TextView save = (TextView) subView.findViewById(R.id.copy);
+        TextView cancel = (TextView) subView.findViewById(R.id.close);
 
 
         final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
@@ -569,8 +569,8 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         final EditText member = (EditText) subView.findViewById(R.id.etMember);
 
 
-        Button save = (Button) subView.findViewById(R.id.saveBtn);
-        Button cancel = (Button) subView.findViewById(R.id.cancelBtn);
+        TextView save = (TextView) subView.findViewById(R.id.copy);
+        TextView cancel = (TextView) subView.findViewById(R.id.close);
 
 
         final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
@@ -812,9 +812,14 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                         ringProgressDialog.dismiss();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if (!jsonObject.getString("member_added").equals("0")) {
+                            if (jsonObject.getString("member_added").equals("1")) {
                                 getTeamMembers();
                                 Toast.makeText(CreateNewTeamActivity.this, "Member Added Successfully", Toast.LENGTH_LONG).show();
+
+                            }else if(jsonObject.getString("member_added").equals("2")){
+                                Toast.makeText(CreateNewTeamActivity.this, "This user already exists in this team", Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(CreateNewTeamActivity.this, "Member not found,Please enter a valid email address", Toast.LENGTH_LONG).show();
 
                             }
 

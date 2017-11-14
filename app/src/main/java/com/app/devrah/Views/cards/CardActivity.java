@@ -4132,7 +4132,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         TextView heading, boardHeading,listHeading;
 
-        Button cancel, copy;
+        TextView cancel, copy;
 
         heading = (TextView) customView.findViewById(R.id.heading);
         boardHeading= (TextView) customView.findViewById(R.id.boardLabel);
@@ -4148,8 +4148,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         attachmentcb= (CheckBox) customView.findViewById(R.id.attachmentcb);
         membercb= (CheckBox) customView.findViewById(R.id.memberscb);
 
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = (TextView) customView.findViewById(R.id.copy);
+        cancel = (TextView) customView.findViewById(R.id.close);
 
 
         //getSpinnerData();
@@ -4282,7 +4282,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         TextView heading, boardHeading,listHeading;
 
-        Button cancel, copy;
+        TextView cancel, copy;
 
         heading = (TextView) customView.findViewById(R.id.heading);
         boardHeading= (TextView) customView.findViewById(R.id.boardLabel);
@@ -4292,8 +4292,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         Projects= (Spinner) customView.findViewById(R.id.projectSpinner);
         listSpinner= (Spinner) customView.findViewById(R.id.listSpinner);
         positionSpinner= (Spinner) customView.findViewById(R.id.positionSpinner);
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = (TextView) customView.findViewById(R.id.copy);
+        cancel = (TextView) customView.findViewById(R.id.close);
 
 
         //getSpinnerData();

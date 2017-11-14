@@ -213,9 +213,11 @@ public class ManageCardMembers extends Fragment {
         });*/
 
         getCardmembers();
+
        // getMyTeams();
         return view;
     }
+
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -238,7 +240,7 @@ public class ManageCardMembers extends Fragment {
     public void getmembers() {
 
         final ProgressDialog ringProgressDialog;
-        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -350,8 +352,7 @@ public class ManageCardMembers extends Fragment {
     }
     public void getCardmembers() {
 
-        final ProgressDialog ringProgressDialog;
-        ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -645,7 +646,7 @@ public class ManageCardMembers extends Fragment {
     public void addmember() {
 
 
-        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -725,7 +726,7 @@ public class ManageCardMembers extends Fragment {
     public void deletemember() {
 
 
-        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+       final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -823,6 +824,5 @@ public class ManageCardMembers extends Fragment {
         }
 
     }
-
 
 }

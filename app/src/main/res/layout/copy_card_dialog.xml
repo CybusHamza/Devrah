@@ -192,34 +192,41 @@
             android:text="Members"
             android:textColor="@color/black" />
     </LinearLayout>
-    <Button
-        android:id="@+id/copy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:background="@null"
-        android:layout_alignEnd="@+id/linearLayout1"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="10dp"
-        android:text="Copy"
-        android:textAllCaps="false"
-        android:textSize="13sp"
-        android:layout_marginBottom="2dp"/>
-
-    <Button
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:text="Close"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="2dp"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="10dp"
-        android:textColor="#f50b22"
-        android:textSize="13sp"
-        android:textAllCaps="false"
-        android:layout_toStartOf="@id/copy"  />
+            <LinearLayout
+                android:layout_below="@id/linearLayout1"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_alignParentEnd="true"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Cancel"
+                    android:textColor="#f50b22"
+                    android:textSize="15sp"
+                    android:id="@+id/close"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="20dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Copy"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:id="@+id/copy"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="20dp"
+                    />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 

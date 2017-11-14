@@ -1164,14 +1164,14 @@ private void getDueDates(final String currentDate){
 
         TextView heading, sub;
 
-        Button cancel, copy;
+        TextView cancel, copy;
 
         heading = (TextView) customView.findViewById(R.id.heading);
         sub = (TextView) customView.findViewById(R.id.sub_heading);
         Postions = (Spinner) customView.findViewById(R.id.position);
         Projects = (Spinner) customView.findViewById(R.id.projects_group);
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = (TextView) customView.findViewById(R.id.copy);
+        cancel = (TextView) customView.findViewById(R.id.close);
 
 
         getSpinnerData();

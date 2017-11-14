@@ -1184,7 +1184,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         TextView heading, sub , pos;
 
-        Button cancel, copy;
+        TextView cancel, copy;
 
         heading = (TextView) customView.findViewById(R.id.heading);
         sub = (TextView) customView.findViewById(R.id.board_txt);
@@ -1192,8 +1192,8 @@ public class ChildFragmentBoardExtended extends Fragment {
         Postions = (Spinner) customView.findViewById(R.id.position);
         Projects = (Spinner) customView.findViewById(R.id.projects_group);
         boards = (Spinner) customView.findViewById(R.id.board);
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = (TextView) customView.findViewById(R.id.copy);
+        cancel = (TextView) customView.findViewById(R.id.close);
 
 
         getSpinnerData();

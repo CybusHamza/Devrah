@@ -25,7 +25,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -455,14 +454,14 @@ public class BoardsActivity extends AppCompatActivity {
         alertDialog.setView(customView);
         alertDialog.show();
 
-        Button cancel, copy;
+        TextView cancel, copy;
         final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
         final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
         tvheading.setText("Update Project Name");
         etCardName.setText(projectTitle);
 
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = (TextView) customView.findViewById(R.id.copy);
+        cancel = (TextView) customView.findViewById(R.id.close);
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -812,13 +811,13 @@ public class BoardsActivity extends AppCompatActivity {
 
         TextView heading, sub;
 
-        Button cancel, copy;
+        TextView cancel, copy;
 
         heading = (TextView) customView.findViewById(R.id.heading);
         sub = (TextView) customView.findViewById(R.id.sub_heading);
         project_groups = (Spinner) customView.findViewById(R.id.projects_group);
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = (TextView) customView.findViewById(R.id.copy);
+        cancel = (TextView) customView.findViewById(R.id.close);
 
 
         getSpinnerData();

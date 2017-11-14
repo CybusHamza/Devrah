@@ -87,32 +87,41 @@
         android:layout_below="@+id/board"
         android:layout_alignStart="@+id/sub_heading" />
 
-    <Button
-        android:id="@+id/copy"
+    <LinearLayout
+        android:layout_below="@id/position"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:background="@null"
-        android:layout_alignEnd="@+id/projects_group"
-        android:layout_below="@+id/position"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="Copy"
-        android:textSize="15sp"/>
-
-    <Button
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:text="Close"
-        android:layout_below="@+id/position"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:textSize="15sp"
-        android:textColor="#f50b22"
-        android:layout_toStartOf="@id/copy" />
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Cancel"
+            android:textColor="#f50b22"
+            android:textSize="15sp"
+            android:id="@+id/close"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Copy"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:id="@+id/copy"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="20dp"
+            />
+    </LinearLayout>
    <!-- <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
