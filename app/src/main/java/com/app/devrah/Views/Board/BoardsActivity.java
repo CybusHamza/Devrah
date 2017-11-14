@@ -787,7 +787,7 @@ public class BoardsActivity extends AppCompatActivity {
                 changeStatus("3");
                 alertDialog.dismiss();
 
-               /* imgactive.setVisibility(View.GONE);
+               /*imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.GONE);
                 imgcomplete.setVisibility(View.VISIBLE);*/
             }

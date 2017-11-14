@@ -110,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
        // imageView.setImageBitmap();
-        Picasso.with(getApplicationContext()).load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+        Picasso.with(getApplicationContext()).load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
                 .placeholder(R.drawable.pp_dummy).into(imageView);
 
 
@@ -214,7 +214,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
       //  Toast.makeText(getApplicationContext(),"Upadte Pro",Toast.LENGTH_SHORT).show();
-        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/Api_service/updateUserProfile",
+        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/devrah/Api_service/updateUserProfile",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -493,7 +493,7 @@ public class ProfileActivity extends AppCompatActivity {
       final ProgressDialog  ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Updating...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_mobile.php", new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/devrah/upload_image_mobile.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

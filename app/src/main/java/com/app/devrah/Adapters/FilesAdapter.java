@@ -77,7 +77,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
      private void DownloadFiles(String name){
 
         try {
-            String url = "http://m1.cybussolutions.com/kanban/uploads/card_uploads/"+attachmentList.get(position).getNameOfFile();
+            String url = "http://m1.cybussolutions.com/devrah/uploads/card_uploads/"+attachmentList.get(position).getNameOfFile();
 
             URL u = new URL(url);
             InputStream is = u.openStream();
@@ -117,7 +117,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
                 //openFile(activity,url);
 
                     String url = attachmentList.get(position).getNameOfFile().replace(" ","%20");
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/card_uploads/"+url));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/devrah/uploads/card_uploads/"+url));
                     activity. startActivity(browserIntent);
                 }
 

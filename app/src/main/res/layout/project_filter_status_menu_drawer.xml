@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_weight="1">
+   >
     <TextView
         android:layout_width="wrap_content"
         android:layout_margin="10dp"
@@ -18,17 +18,17 @@
         android:textColor="#000"
         android:layout_height="wrap_content"
         android:text="Change Status Filter"
-        android:layout_weight="0.7"/>
+       />
     <ImageView
         android:id="@+id/crossIcon"
-        android:layout_marginEnd="3dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="13dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/cross_icon"
-        android:layout_weight="0.3"/>
+        android:layout_gravity="end"/>
 </LinearLayout>
 
 
@@ -37,6 +37,19 @@
         android:layout_height="2dp"
         android:layout_margin="10dp"
         android:background="#000"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/all_bell_icon"
+            />
     <Switch
         android:layout_margin="5dp"
         android:id="@+id/all"
@@ -46,11 +59,25 @@
         app:theme="@style/Color1SwitchStyle"
         android:gravity="left"
         />
+    </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_margin="10dp"
         android:background="#808080"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/active_bell_icon"
+            />
     <Switch
         android:layout_margin="5dp"
         android:id="@+id/active"
@@ -60,11 +87,25 @@
         app:theme="@style/Color1SwitchStyle"
         android:gravity="left"
         />
+        </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_margin="10dp"
         android:background="#808080"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/inactive_bell_icon"
+            />
     <Switch
         android:layout_margin="5dp"
         android:id="@+id/inactive"
@@ -74,11 +115,25 @@
         app:theme="@style/Color1SwitchStyle"
         android:gravity="left"
         />
+        </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_margin="10dp"
         android:background="#808080"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/complete_bell_icon"
+            />
     <Switch
         android:layout_margin="5dp"
         android:id="@+id/completed"
@@ -88,6 +143,7 @@
         app:theme="@style/Color1SwitchStyle"
         android:gravity="left"
         />
+        </LinearLayout>
    <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

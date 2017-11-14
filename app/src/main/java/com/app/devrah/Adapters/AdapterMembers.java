@@ -81,7 +81,7 @@ public AdapterMembers(Activity activity,List<MembersPojo> customList){
             }
             else{
                 Picasso.with(activity)
-                        .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+                        .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
                         .into(holder.profile);
 
             }

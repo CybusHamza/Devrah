@@ -92,7 +92,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
             holder.tv.setVisibility(View.GONE);
             holder.edit.setVisibility(View.GONE);
             Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/kanban/uploads/comment_images/" + projectsList.get(position).getComments())
+                    .load("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + projectsList.get(position).getComments())
                     .resize(250,200)
                     .into(holder.attachment);
         }else if(projectsList.get(position).getIsFile().equals("1")){
@@ -119,7 +119,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
             holder.profilePic.setVisibility(View.VISIBLE);
             holder.marker.setVisibility(View.GONE);
                 Picasso.with(activity)
-                        .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + projectsList.get(position).getProfilePic())
+                        .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + projectsList.get(position).getProfilePic())
                         .into(holder.profilePic);
         }
         else
@@ -149,7 +149,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
                 if(projectsList.get(position).getIsFile().equals("1")) {
                     // String fileType=getMimeType(URLDecoder.decode(projectsList.get(position).getComments()));
                     String url = projectsList.get(position).getComments().replace(" ", "%20");
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/comment_images/" + url));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + url));
                     activity.startActivity(browserIntent);
                 }
             }
@@ -158,7 +158,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
             @Override
             public void onClick(View view) {
                 String url = projectsList.get(position).getComments().replace(" ", "%20");
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/comment_images/" + url));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + url));
                 activity.startActivity(browserIntent);
             }
         });

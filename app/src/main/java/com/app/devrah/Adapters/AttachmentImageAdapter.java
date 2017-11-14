@@ -98,7 +98,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         if(!(attachmentList.get(position).getImageFile().equals(""))){
 
             Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                    .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
                     .resize(180,180)
                     .into(holder.imgViewAttachments);
         }
@@ -186,7 +186,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         Button cancelBtn= (Button) dialogView.findViewById(R.id.cancelBtn);
         label.setText(imageName);
         Picasso.with(activity)
-                .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + imageName)
+                .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + imageName)
                 .resize(345,300)
                 .into(image);
         downloadImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +204,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     }
 
                 }else {
-                    Picasso.with(activity).load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + imageName).into(picassoImageTarget(activity, "imageDir", imageName));
+                    Picasso.with(activity).load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + imageName).into(picassoImageTarget(activity, "imageDir", imageName));
                     //  Target target=picassoImageTarget(activity, "imageDir",imageName);
                     //Toast.makeText(activity, "Image Saved to the Directory imageDir", Toast.LENGTH_LONG).show();
                     myalertdialog.dismiss();

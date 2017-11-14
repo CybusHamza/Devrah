@@ -174,7 +174,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             if (cover[i].equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
                 Picasso.with(activity)
-                        .load("http://m1.cybussolutions.com/kanban/uploads/card_uploads/" + fileName[i])
+                        .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
                         .resize(350,200)
                         .onlyScaleDown()
                         .into(holder.attachment);
@@ -441,7 +441,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 image.setMaxWidth(20);
 
                 Picasso.with(activity)
-                        .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + imageUrl[i])
+                        .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + imageUrl[i])
                         .into(image);
 
                 // Adds the view to the layout

@@ -667,6 +667,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 colorList.add(getResources().getColor(R.color.colorPurple));
                 colorList.add(getResources().getColor(R.color.wierdBlue));
                 colorList.add(getResources().getColor(R.color.colorYellow));
+                //colorList.add(getResources().getColor(R.color.pink));
 
                 labelNameList.add("");
                 labelNameList.add("");
@@ -677,6 +678,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 labelNameList.add("");
                 labelNameList.add("");
                 labelNameList.add("");
+               // labelNameList.add("");
 
                 RVLabelAdapter.index = -1;
 
@@ -3709,7 +3711,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading image ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_card.php", new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/devrah/upload_image_card.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -4257,7 +4259,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
-            if(pos!=0)
+            if(pos!=-1)
             getBorads(spinnerGroupIds.get(pos));
 
 
@@ -5177,7 +5179,7 @@ class  UploadFile extends AsyncTask<String,Void,String>
 
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_card.php");
+                URL url = new URL("http://m1.cybussolutions.com/devrah/upload_file_card.php");
 
                 // Open a HTTP  connection to  the URL
                 conn = (HttpURLConnection) url.openConnection();

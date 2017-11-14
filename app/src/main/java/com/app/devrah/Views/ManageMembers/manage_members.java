@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -31,6 +33,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.devrah.Adapters.MemberAdapter;
 import com.app.devrah.Adapters.team_addapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
@@ -65,11 +68,12 @@ public class manage_members extends AppCompatActivity {
     MembersPojo membersPojoData;
     ArrayAdapter<String> projectADdapter;
     team_addapter team_addapter;
+    MemberAdapter member_adapter;
     ArrayList<MembersPojo> membersPojos;
     ProgressDialog ringProgressDialog;
     List<All_Teams> teamLists;
     String teamid,usertoadd;
-    Button btnClose,btnSave;
+    Button btnClose,btnSave,addMemberBtn;
     TextView heading;
 
 
@@ -91,9 +95,9 @@ public class manage_members extends AppCompatActivity {
         search = (AutoCompleteTextView) findViewById(R.id.search);
 
         currentMember = (GridView) findViewById(R.id.grid_view);
-        TeamMember = (GridView) findViewById(R.id.grid_view_team);
+       // TeamMember = (GridView) findViewById(R.id.grid_view_team);
 
-        Team_list = (Spinner) findViewById(R.id.search_team);
+
         heading = (TextView) findViewById(R.id.heading);
         heading.setText("Manage Project Member");
 
@@ -172,7 +176,7 @@ public class manage_members extends AppCompatActivity {
             }
         });
 
-        TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int pos=Team_list.getSelectedItemPosition();
@@ -183,14 +187,15 @@ public class manage_members extends AppCompatActivity {
                 addmember();
 
             }
-        });
+        });*/
 
         getmembers();
-        getMyTeams();
+       // getMyTeams();
 
 
         btnClose= (Button) findViewById(R.id.close);
         btnSave= (Button) findViewById(R.id.save);
+        addMemberBtn= (Button) findViewById(R.id.buttonAddMember);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,6 +210,53 @@ public class manage_members extends AppCompatActivity {
 
             }
         });
+        addMemberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showTeamMembersDialog();
+            }
+        });
+    }
+
+    private void showTeamMembersDialog() {
+        LayoutInflater inflater = LayoutInflater.from(manage_members.this);
+        View view = inflater.inflate(R.layout.dilog_for_team_members, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(manage_members.this).create();
+        alertDialog.setCancelable(false);
+        TeamMember = (GridView) view.findViewById(R.id.grid_view_team);
+        Team_list = (Spinner) view.findViewById(R.id.search_team);
+        TextView tvDone = (TextView) view.findViewById(R.id.addMember);
+        TextView tvCanvel = (TextView) view.findViewById(R.id.cancel);
+        tvDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+
+        tvCanvel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int pos=Team_list.getSelectedItemPosition();
+                teamid = teamListids .get(pos);
+                usertoadd = listPojo.get(i).getUserId();
+
+
+                addmember();
+
+            }
+        });
+
+        alertDialog.setView(view);
+        alertDialog.show();
+        getMyTeams();
     }
 
     private void searchUser(final String email) {
@@ -325,9 +377,9 @@ public class manage_members extends AppCompatActivity {
 
                                 membersPojos.add(membersPojo);
 
-                                team_addapter = new team_addapter(manage_members.this, membersPojos);
+                                member_adapter = new MemberAdapter(manage_members.this, membersPojos);
 
-                                currentMember.setAdapter(team_addapter);
+                                currentMember.setAdapter(member_adapter);
 
                             }
                         } catch (JSONException e) {

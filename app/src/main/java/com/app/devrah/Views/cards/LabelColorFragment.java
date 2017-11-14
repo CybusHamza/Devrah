@@ -136,6 +136,7 @@ public class LabelColorFragment extends Fragment {
         myColorList.add(getResources().getColor(R.color.wierdBlue));
         myColorList.add(getResources().getColor(R.color.lightGreen));
         myColorList.add(getResources().getColor(R.color.purple));
+       // myColorList.add(getResources().getColor(R.color.pink));
 
         images = new ArrayList<>();
         layouts = new ArrayList<>();

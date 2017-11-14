@@ -966,7 +966,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
 
                     // open a URL connection to the Servlet
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                    URL url = new URL("http://m1.cybussolutions.com/kanban/upload_file_comments.php");
+                    URL url = new URL("http://m1.cybussolutions.com/devrah/upload_file_comments.php");
 
                     // Open a HTTP  connection to  the URL
                     conn = (HttpURLConnection) url.openConnection();

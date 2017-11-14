@@ -460,10 +460,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-
-
-                          ringProgressDialog.dismiss();
+                        ringProgressDialog.dismiss();
                         edtSeach.setText("");
                         if (response.equals("false")) {
                             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)

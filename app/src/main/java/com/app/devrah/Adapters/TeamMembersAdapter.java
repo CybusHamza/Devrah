@@ -120,7 +120,7 @@ public class TeamMembersAdapter extends BaseAdapter {
         }else if(!membersList.get(position).getImage().equals("null") && !membersList.get(position).getImage().equals("")){
             holder.alias_img.setVisibility(View.GONE);
             Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + membersList.get(position).getImage())
+                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + membersList.get(position).getImage())
                     .into(holder.profilePic);
         }else {
             holder.alias_img.setVisibility(View.GONE);

@@ -32,7 +32,7 @@
         android:layout_gravity="center"
         android:id="@+id/alias"
         android:layout_marginLeft="20dp"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:gravity="center_horizontal"
         android:text="Hamza "
         android:layout_below="@+id/img" />

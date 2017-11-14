@@ -38,7 +38,19 @@
         android:layout_height="2dp"
         android:layout_margin="10dp"
         android:background="#000"/>
-
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/newest"/>
     <Switch
         android:layout_margin="5dp"
         android:id="@+id/newestFirst"
@@ -48,20 +60,35 @@
         app:theme="@style/Color1SwitchStyle"
         android:gravity="left"
         />
+    </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_margin="10dp"
         android:background="#808080"/>
-    <Switch
-        android:layout_margin="5dp"
-        android:id="@+id/oldestFirst"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="   Oldest"
-        app:theme="@style/Color1SwitchStyle"
-        android:gravity="left"
-    />
+        >
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/oldest"/>
+        <Switch
+            android:layout_margin="5dp"
+            android:id="@+id/oldestFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="   Oldest"
+            app:theme="@style/Color1SwitchStyle"
+            android:gravity="left"
+        />
+        </LinearLayout>
    <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

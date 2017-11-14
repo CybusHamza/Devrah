@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
@@ -21,14 +20,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Hamza Android on 8/9/2017.
  */
 
-public class team_adapter_cards extends BaseAdapter {
+public class MemberAdapter extends BaseAdapter {
 
     Activity activity;
     ArrayList<MembersPojo> memberssList;
     private LayoutInflater inflater;
 
 
-    public  team_adapter_cards(Activity activity, ArrayList<MembersPojo> memberssList) {
+    public  MemberAdapter(Activity activity, ArrayList<MembersPojo> memberssList) {
         this.activity = activity;
         this.memberssList = memberssList;
 
@@ -57,16 +56,16 @@ public class team_adapter_cards extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (view == null)
-            view = inflater.inflate(R.layout.card_member_grid_view, null);
+            view = inflater.inflate(R.layout.member_grid_view_row, null);
 
         holder.name = (TextView) view.findViewById(R.id.alias);
         holder.alias_img = (TextView) view.findViewById(R.id.alias_img);
         holder.imgProfile = (CircleImageView) view.findViewById(R.id.img);
-        holder.tick = (ImageView) view.findViewById(R.id.tickMember);
 
         MembersPojo membersPojo = memberssList.get(i);
 
         holder.name.setText(membersPojo.getName());
+        holder.name.setTextColor(activity.getResources().getColor(R.color.colorWhite));
 
 
 
@@ -87,11 +86,6 @@ public class team_adapter_cards extends BaseAdapter {
                     .into( holder.imgProfile );
 
         }
-        if(membersPojo.getIsCardMember().equals("1")){
-            holder.tick.setVisibility(View.VISIBLE);
-        }else {
-            holder.tick.setVisibility(View.GONE);
-        }
 
         return view;
     }
@@ -99,7 +93,6 @@ public class team_adapter_cards extends BaseAdapter {
     public static class ViewHolder{
         TextView name,alias_img ;
         CircleImageView imgProfile;
-        ImageView tick;
     }
 
 }

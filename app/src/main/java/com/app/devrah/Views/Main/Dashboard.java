@@ -110,7 +110,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
 
         if(!currentImage.equals("") && !currentImage.equals("null")) {
             Picasso.with(getApplicationContext())
-                    .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + currentImage)
+                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
                     .into(imgProfile);
         }else {
             tvAlias.setVisibility(View.VISIBLE);
