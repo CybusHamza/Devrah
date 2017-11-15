@@ -276,6 +276,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 rvLabel.setVisibility(View.GONE);
 
                 menuChanger(menu, false);
+                ((CardActivity)activity).updateUI();
 
                 return true;
             }
@@ -285,7 +286,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     }
 
-    public  static void showDatColors(List<String> data)
+    public  static void showDatColors(List<String> data,List<String> labelNameList,List<String> lablid,List<String> isCardAssigned)
     {
 
         showLabelsMenu();
@@ -299,8 +300,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
         }
+
         rvLabel.setLayoutManager(new LinearLayoutManager(mcontext));
-        rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList,data,lableid,"continue");
+        rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList,data,lablid,"continue",isCardAssigned);
         rvLabel.setAdapter(rvAdapterLabel);
         asliList = rvAdapterLabel.getDataString();
         fabm.close(true);
@@ -516,7 +518,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         tvMembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMembersDialog();
+               // showMembersDialog();
             }
         });
 
@@ -1195,7 +1197,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     }
 
     public void getChecklistData() {
-        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog = ProgressDialog.show(activity, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -1648,8 +1650,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 rvAdapterLabel = new RVLabelAdapter(Mactivity, colorList, listt, labelNameList, asliList,colorList1,"new");
                 rvLabel.setAdapter(rvAdapterLabel);
 */
+                getBoaardAssignedLabels();
                 fabm.close(true);
-                FragmentManager fm = getSupportFragmentManager();
+               /* FragmentManager fm = getSupportFragmentManager();
 
                 RVLabelAdapter.index = -1;
                 LabelColorFragment colorFragment = new LabelColorFragment();
@@ -1658,7 +1661,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.add(R.id.fragmentContainer, colorFragment).addToBackStack("Frag1").commit();
 
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);*/
 
 
 
@@ -1670,7 +1673,80 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         return true;
     }
+    public void getBoaardAssignedLabels(){
+        final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_BOARD_ASSIGNED_LABELS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
+                        ArrayList<String> colors = new ArrayList<String>();
+                        ArrayList<String> names=new ArrayList<>();
+                        ArrayList<String> id=new ArrayList<>();
+                        ArrayList<String> isCardAssigned=new ArrayList<>();
+                        try {
+                            JSONArray jsonArray=new JSONArray(response);
+                            for (int i=0;i<jsonArray.length();i++){
+                                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                                colors.add(jsonObject.getString("label_color"));
+                                names.add(jsonObject.getString("label_text"));
+                                id.add(jsonObject.getString("id"));
+                                String assigned="0";
+                                for (int j=0;j<cardLabelsPojoList.size();j++){
+                                    if(jsonObject.getString("id").equals(cardLabelsPojoList.get(j).getLabelid())){
+                                        assigned="1";
+                                    }
+                                }
+                                isCardAssigned.add(assigned);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                       /* for (int i = 0; i < labelList.size(); i++) {
+                            colors.add(labelList.get(i).getLabelColorCards());
+                            names.add()
+                        }*/
+                        CardActivity.showDatColors(colors,names,id,isCardAssigned);
+                        CardActivity.rvLabelResult.setVisibility(View.GONE);
+                        CardActivity.labelAdd.setVisibility(View.VISIBLE);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(activity, "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(activity, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("boardId", BoardExtended.boardId);
+
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(request);
+    }
 
     private void addUser(final String userid) {
         ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
@@ -2840,6 +2916,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         JSONObject jsonObject=jsonArray.getJSONObject(k);
                                         labelsPojo.setLabelTextCards(jsonObject.getString("label_text"));
                                         labelsPojo.setLabelColorCards(jsonObject.getString("label_color"));
+                                        labelsPojo.setLabelid(jsonObject.getString("board_assoc_label_id"));
                                         labelNameList.add(jsonObject.getString("label_text"));
                                         colorList1.add(jsonObject.getString("label_color"));
                                         lableid.add(jsonObject.getString("board_assoc_label_id"));

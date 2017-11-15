@@ -63,5 +63,15 @@ public class CardAssociatedLabelsPojo {
 
     public String labelColorCards;
 
+    public String getLabelid() {
+        return labelid;
+    }
+
+    public void setLabelid(String labelid) {
+        this.labelid = labelid;
+    }
+
+    public String labelid;
+
 
 }

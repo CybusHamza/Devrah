@@ -26,11 +26,7 @@ import com.app.devrah.Holders.View_holder_label;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
-import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.Views.cards.LabelColorFragment;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,10 +38,10 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by AQSA SHaaPARR on 6/13/2017.
  */
 
-public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
+public class BoardAssignedLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
 
     public static int index;
-   // String lableid;
+    // String lableid;
     public static int pos;
     public List<String> labelNameList;
     public List<Integer> myList;
@@ -58,15 +54,14 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
     List<String> LableIdList;
     List<Integer> positionList;
     public static List<String> colornames;
-    public List<String> isCardAssinged;
     //  HashMap<String,String > listName;
 
-    public RVLabelAdapter() {
+    public BoardAssignedLabelAdapter() {
     }
 
     //////////////////String labelName Activity activity
 
-    public RVLabelAdapter(Context context, List<Integer> myList, List<Integer> positionList, List<String> labelNameList, List<String> asliLabelNames , List<String> colornames , List<String> LableIdList,String type, List<String> isCardAssinged) {
+    public BoardAssignedLabelAdapter(Context context, List<Integer> myList, List<Integer> positionList, List<String> labelNameList, List<String> asliLabelNames , List<String> colornames , List<String> LableIdList,String type) {
 
         this.myList = myList;
         this.context = context;
@@ -77,7 +72,6 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
         this.colornames = colornames;
         this.LableIdList = LableIdList;
         this.type = type;
-        this.isCardAssinged=isCardAssinged;
         // this.labelName = labelName;
     }
 
@@ -100,12 +94,8 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
                 holder.tvLabelNames.setText(labelNameList.get(position));
                 holder.tvLabelNames.setVisibility(View.VISIBLE);
             }
-            if(isCardAssinged.get(position)!=null && isCardAssinged.get(position).equals("1")){
-                holder.imgLabel.setVisibility(View.VISIBLE);
-            }else {
-                holder.imgLabel.setVisibility(View.GONE);
-            }
-              String labelColor=colornames.get(position);
+
+            String labelColor=colornames.get(position);
             if(labelColor.equals("blue")){
                 holder.rowLabel.setBackgroundColor(context.getResources().getColor(R.color.blue));
             }else if(labelColor.equals("sky-blue")){
@@ -134,35 +124,19 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
 
 
 
-        if (labelNameList.get(position) != null) {
-            holder.tvLabelNames.setText(labelNameList.get(position));
+            if (labelNameList.get(position) != null) {
+                holder.tvLabelNames.setText(labelNameList.get(position));
+                holder.tvLabelNames.setVisibility(View.VISIBLE);
+            } else {
 
-            holder.tvLabelNames.setVisibility(View.VISIBLE);
-        } else {
+                holder.tvLabelNames.setVisibility(View.GONE);
 
-            holder.tvLabelNames.setVisibility(View.GONE);
-
-        }
-            if(isCardAssinged.get(position)!=null && isCardAssinged.get(position).equals("1")){
-                holder.imgLabel.setVisibility(View.VISIBLE);
-            }else {
-                holder.imgLabel.setVisibility(View.GONE);
             }
 
-        //  listName  = new HashMap<>();
-        holder.rowLabel.setBackgroundColor(myList.get(position));
+            //  listName  = new HashMap<>();
+            holder.rowLabel.setBackgroundColor(myList.get(position));
 
         }
-        holder.rowLabel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isCardAssinged.get(position).equals("1")){
-                    UnAssignLabelById(LableIdList.get(position),position);
-                }else {
-                    AssignLabelById(LableIdList.get(position),position);
-                }
-            }
-        });
 /*
         holder.rowLabel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +222,6 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
                 deleteLable(LableIdList.get(position));
             }
         });*/
-
         holder.editLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -288,7 +261,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
                     if(labelColor.equals("blue")){
                         index = -13615201;
                         LabelColorFragment.color = context.getResources().getColor(R.color.blue);
-                       // index = myList.get(position);
+                        // index = myList.get(position);
                     }else if(labelColor.equals("sky-blue")){
                         index = -13369367;
                         LabelColorFragment.color = context.getResources().getColor(R.color.wierdBlue);
@@ -348,114 +321,6 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
 
     }
 
-    private void UnAssignLabelById(final String board_label_id, final int position) {
-        final SharedPreferences pref = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.UN_ASSIGN_LABEL_BY_ID,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonArray=new JSONObject(response);
-                            if(jsonArray.getString("success").equals("1")){
-                               isCardAssinged.set(position,"0");
-                                notifyDataSetChanged();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-//                ringProgressDialog.dismiss();
-                if (error instanceof NoConnectionError) {
-
-
-                    Toast.makeText(context, "check your internet connection", Toast.LENGTH_SHORT).show();
-
-                } else if (error instanceof TimeoutError) {
-
-
-                    Toast.makeText(context, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-                params.put("board_id", BoardExtended.boardId);
-                params.put("userId", pref.getString("user_id",""));
-                params.put("card_id", CardActivity.cardId);
-                params.put("brd_label_id", board_label_id);
-
-                return params;
-            }
-        };
-
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(request);
-    }
-    private void AssignLabelById(final String board_label_id, final int position) {
-        final SharedPreferences pref = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.ASSIGN_LABEL_BY_ID,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-
-                            if(!response.equals("0")){
-                                isCardAssinged.set(position,"1");
-                                notifyDataSetChanged();
-                            }
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-//                ringProgressDialog.dismiss();
-                if (error instanceof NoConnectionError) {
-
-
-                    Toast.makeText(context, "check your internet connection", Toast.LENGTH_SHORT).show();
-
-                } else if (error instanceof TimeoutError) {
-
-
-                    Toast.makeText(context, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-                params.put("board_id", BoardExtended.boardId);
-                params.put("userId", pref.getString("user_id",""));
-                params.put("card_id", CardActivity.cardId);
-                params.put("lbl_id", board_label_id);
-
-                return params;
-            }
-        };
-
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(request);
-    }
     public void remove(int color) {
         notifyDataSetChanged();
         int position = myList.indexOf(color);
@@ -521,7 +386,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
 
                         rvLabelResult.setVisibility(View.VISIBLE);*/
 
-                       //fm.popBackStack();
+                        //fm.popBackStack();
 
                     }
                 }, new Response.ErrorListener() {

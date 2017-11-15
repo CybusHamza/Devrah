@@ -124,7 +124,7 @@ public class LabelColorFragment extends Fragment {
 
         myColorList = new ArrayList<>();
         adapter = new RVLabelAdapter();
-        myColorList.add(getResources().getColor(R.color.colorAccent));
+        myColorList.add(getResources().getColor(R.color.black));
         fm = getFragmentManager();
 
         myColorList.add(getResources().getColor(R.color.colorPrimaryDark));

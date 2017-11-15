@@ -74,7 +74,7 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
                     holder.member.setMaxWidth(50);
                     holder.member.setMaxHeight(50);
                       Picasso.with(activity)
-                              .load("http://m1.cybussolutions.com/kanban/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
+                              .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
                               .resize(50, 50)
                               .centerInside()
                               .into(holder.member);

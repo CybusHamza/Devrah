@@ -43,7 +43,7 @@
 
     <RelativeLayout
         android:layout_width="75dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
             android:layout_weight="1"
         android:layout_marginRight="10dp"
         android:background="@color/colorAccent"
@@ -66,7 +66,7 @@
 </RelativeLayout>
     <RelativeLayout
         android:layout_width="75dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:id="@+id/rvOne"
 
         android:layout_weight="1"
@@ -92,7 +92,7 @@
 
     <RelativeLayout
         android:layout_width="75dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:background="#000"
         android:layout_weight="1"
         android:layout_alignTop="@+id/relativeLayout6"
@@ -129,7 +129,7 @@
 
         <RelativeLayout
             android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="#000"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
@@ -154,7 +154,7 @@
 
         <RelativeLayout
             android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="@color/colorYellow"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
@@ -178,8 +178,9 @@
 
         <RelativeLayout
             android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="#000"
+           android:src="@drawable/background_label_view"
             android:layout_weight="1"
 
             android:id="@+id/relativeLayout5"
@@ -215,7 +216,7 @@
 
         <RelativeLayout
             android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
             android:background="@color/colorOrangeRed"
             android:layout_alignTop="@+id/relativeLayout3"
@@ -239,7 +240,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -264,7 +265,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="@color/colorGreen"
             android:id="@+id/relativeLayout3"
             android:layout_weight="1"

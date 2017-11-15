@@ -128,6 +128,9 @@ public class End_Points {
     public static final String CEHCK_PASS = BASE_URL + "checkpas";
     public static final String UPDATE_PASS = BASE_URL + "updatePass";
     public static final String SEARCH_USER_TO_ADD_MEMBER = BASE_URL + "searchusertoaddmember";
+    public static final String GET_BOARD_ASSIGNED_LABELS = BASE_URL + "getBoardAssignedLabels";
+    public static final String UN_ASSIGN_LABEL_BY_ID = BASE_URL + "unAssignLabelById";
+    public static final String ASSIGN_LABEL_BY_ID = BASE_URL + "reAssignLabelById";
 
 
 }
