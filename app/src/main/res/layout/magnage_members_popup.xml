@@ -49,12 +49,12 @@
     </LinearLayout>
 
 
-    <ImageView
+   <!-- <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:background="@color/gray_btn_bg_color"/>
+        android:background="@color/gray_btn_bg_color"/>-->
 
     <GridView
         android:id="@+id/grid_view"

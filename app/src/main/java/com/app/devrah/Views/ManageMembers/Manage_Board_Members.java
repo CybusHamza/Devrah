@@ -137,7 +137,7 @@ public class Manage_Board_Members extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 usertoadd=ids.get(i);
-                addmember();
+                addmember(-1);
                 search.setText("");
                 // Toast.makeText(manage_members.this,ids.get(i).toString()+""+name.get(i).toString(),Toast.LENGTH_LONG).show();
             }
@@ -226,7 +226,7 @@ public class Manage_Board_Members extends AppCompatActivity {
                 usertoadd = listPojo.get(i).getUserId();
 
 
-                addmember();
+                addmember(i);
 
             }
         });
@@ -537,6 +537,12 @@ public class Manage_Board_Members extends AppCompatActivity {
                                 membersPojoData.setUserId(jsonObject1.getString("id"));
                                 membersPojoData.setInetial(jsonObject1.getString("initials"));
                                 membersPojoData.setGp_pic(jsonObject1.getString("gp_picture"));
+                                String isAssigned="0";
+                                for(int i=0;i<membersPojos.size();i++){
+                                    if(jsonObject1.getString("id").equals(membersPojos.get(i).getUserId()))
+                                        isAssigned="1";
+                                }
+                                membersPojoData.setIsCardMember(isAssigned);
                                 listPojo.add(membersPojoData);
                                 //}
                             }
@@ -601,7 +607,7 @@ public class Manage_Board_Members extends AppCompatActivity {
 
     }
 
-    public void addmember() {
+    public void addmember(final int pos) {
 
 
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
@@ -614,7 +620,18 @@ public class Manage_Board_Members extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-                        getmembers();
+                        if(!response.equals("0")) {
+                            if(pos!=-1) {
+                                listPojo.get(pos).setIsCardMember("1");
+                                addapter.notifyDataSetChanged();
+                            }
+                            Toast.makeText(Manage_Board_Members.this,"Member Added Successfully",Toast.LENGTH_LONG).show();
+                            getmembers();
+                        }else {
+                            Toast.makeText(Manage_Board_Members.this,"Member Not Added",Toast.LENGTH_LONG).show();
+
+                        }
+
 
                     }
                 }, new Response.ErrorListener() {

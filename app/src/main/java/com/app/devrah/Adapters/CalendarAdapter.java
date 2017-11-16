@@ -397,7 +397,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 image.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
                 //break;
             }else if(labels[i].equals("lime")) {
-                image.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+                image.setBackgroundColor(activity.getResources().getColor(R.color.green));
                 //break;
             }
             holder.labelsView.addView(image);

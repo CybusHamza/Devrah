@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.devrah.R;
@@ -61,11 +62,16 @@ public class team_addapter extends BaseAdapter {
         holder.name = (TextView) view.findViewById(R.id.alias);
         holder.alias_img = (TextView) view.findViewById(R.id.alias_img);
         holder.imgProfile = (CircleImageView) view.findViewById(R.id.img);
+        holder.tick = (ImageView) view.findViewById(R.id.tick);
 
         MembersPojo membersPojo = memberssList.get(i);
 
         holder.name.setText(membersPojo.getName());
-
+        if(membersPojo.getIsCardMember().equals("1")){
+            holder.tick.setVisibility(View.VISIBLE);
+        }else {
+            holder.tick.setVisibility(View.GONE);
+        }
 
 
         if((membersPojo.getProfile_pic().equals("null") || membersPojo.getProfile_pic().equals("")) && (membersPojo.getGp_pic().equals("null") || membersPojo.getGp_pic().equals("")))
@@ -92,6 +98,7 @@ public class team_addapter extends BaseAdapter {
     public static class ViewHolder{
         TextView name,alias_img ;
         CircleImageView imgProfile;
+        ImageView tick;
     }
 
 }
