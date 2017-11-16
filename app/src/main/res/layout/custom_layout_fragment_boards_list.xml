@@ -20,7 +20,7 @@
         android:visibility="gone"/>
     <HorizontalScrollView
         android:layout_below="@+id/cardImage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:paddingBottom="2dp"
@@ -30,7 +30,7 @@
         >
         <LinearLayout
             android:id="@+id/labelsLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="2dp"
@@ -159,14 +159,14 @@
         />
     <HorizontalScrollView
         android:layout_below="@id/dateLabel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:id="@+id/memberScroller"
         >
     <LinearLayout
         android:id="@+id/membersListView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         tools:ignore="Orientation">

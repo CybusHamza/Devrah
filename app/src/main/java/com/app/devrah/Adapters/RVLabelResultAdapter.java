@@ -95,7 +95,7 @@ public class RVLabelResultAdapter extends RecyclerView.Adapter<ViewHolderRVcardS
         } else if (labelColor.equals("dark-green")) {
             holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.darkgreen));
         } else if (labelColor.equals("lime")) {
-            holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+            holder.rvLabel.setBackgroundColor(activity.getResources().getColor(R.color.green));
         }
 
         /*holder.rvLabel.setBackgroundColor(myResultantList.get(position));

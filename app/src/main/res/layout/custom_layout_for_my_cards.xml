@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:longClickable="true"
     android:layout_width="match_parent"
-    android:background="@drawable/border"
+    android:background="@drawable/outer_border_message_screen"
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
@@ -12,12 +12,12 @@
             android:id="@+id/projectName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
+            android:paddingTop="5dp"
             android:paddingLeft="10dp"
             android:layout_marginLeft="5dp"
             android:text="Project:test"
             android:textColor="#fff"
-            android:textSize="16dp" />
+            android:textSize="13dp" />
 
     <TextView
         android:id="@+id/boardName"
@@ -28,23 +28,23 @@
         android:layout_marginLeft="5dp"
         android:text="Project:test"
         android:textColor="#fff"
-        android:textSize="16dp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="13dp"
+        android:paddingBottom="5dp"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:padding="10dp"
-
+        android:textSize="13sp"
+        android:padding="5dp"
+        android:background="@drawable/bottom_border"
         android:text="sdfghj"
         android:layout_alignParentBottom="true"
         android:id="@+id/tvFavouritesData"
         android:gravity="center"
         android:textColor="#fff"
         android:layout_below="@id/boardName"
-        android:layout_marginBottom="15dp"
+
         />
 
 </RelativeLayout>

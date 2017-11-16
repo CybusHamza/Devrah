@@ -38,6 +38,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_margin="20dp"
+        android:background="@drawable/back_spinner_black"
         android:layout_below="@+id/sub_heading"
         android:layout_marginTop="23dp" />
     <LinearLayout

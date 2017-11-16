@@ -40,6 +40,7 @@
                android:paddingTop="10dp"
                android:textAlignment="center"
                android:paddingLeft="10dp"
+               android:background="@drawable/back_spinner_black"
                android:layout_marginRight="20dp" />
 
        </LinearLayout>

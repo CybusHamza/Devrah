@@ -3358,6 +3358,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     @Override
                     public void onResponse(String response) {
                         etDescription.setText(description);
+                        cardDescription=description;
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
 
 

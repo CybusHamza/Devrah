@@ -39,6 +39,7 @@
         android:layout_alignParentStart="true"
         android:layout_margin="15dp"
         android:layout_below="@+id/projectLabel"
+        android:background="@drawable/back_spinner_black"
         android:layout_marginTop="7dp" />
     <TextView
         android:id="@+id/boardLabel"
@@ -60,6 +61,7 @@
         android:layout_alignParentStart="true"
         android:layout_margin="20dp"
         android:layout_below="@+id/boardLabel"
+        android:background="@drawable/back_spinner_black"
         android:layout_marginTop="7dp" />
     <TextView
         android:id="@+id/listLabel"
@@ -81,6 +83,7 @@
         android:layout_alignParentStart="true"
         android:layout_margin="20dp"
         android:layout_below="@+id/listLabel"
+        android:background="@drawable/back_spinner_black"
         android:layout_marginTop="7dp" />
     <TextView
         android:id="@+id/positionLabel"
@@ -102,6 +105,7 @@
         android:layout_alignParentStart="true"
         android:layout_margin="20dp"
         android:layout_below="@+id/positionLabel"
+        android:background="@drawable/back_spinner_black"
         android:layout_marginTop="7dp" />
     <LinearLayout
         android:layout_below="@id/positionSpinner"

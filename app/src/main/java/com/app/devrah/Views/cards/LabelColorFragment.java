@@ -58,9 +58,9 @@ public class LabelColorFragment extends Fragment {
     public static int color;
     String lableid;
     public EditText etLabelName;
-    RelativeLayout rOne, rTwo, rThree, rFour, rFive, rSix, rSeven, rEight, rNine;
+    RelativeLayout rOne, rTwo, rThree, rFour, rFive, rSix, rSeven, rEight, rNine,rTen,rEleven;
     RVLabelAdapter adapter;
-    ImageView imgOne, imgTwo, imgThree, imgFour, imgFive, imgSix, imgSeven, imgEight, ImgNine;
+    ImageView imgOne, imgTwo, imgThree, imgFour, imgFive, imgSix, imgSeven, imgEight, ImgNine,imgTen,imgEleven;
     List<RelativeLayout> layouts;
     List<Integer> myColorList;
     EditText labelName;
@@ -136,6 +136,8 @@ public class LabelColorFragment extends Fragment {
         myColorList.add(getResources().getColor(R.color.wierdBlue));
         myColorList.add(getResources().getColor(R.color.lightGreen));
         myColorList.add(getResources().getColor(R.color.purple));
+        myColorList.add(getResources().getColor(R.color.green));
+        myColorList.add(getResources().getColor(R.color.pink));
        // myColorList.add(getResources().getColor(R.color.pink));
 
         images = new ArrayList<>();
@@ -166,6 +168,11 @@ public class LabelColorFragment extends Fragment {
         rNine.setBackgroundColor(myColorList.get(8));
         rEight = (RelativeLayout) view.findViewById(R.id.relativeLayout8);
         rEight.setBackgroundColor(myColorList.get(7));
+        rTen = (RelativeLayout) view.findViewById(R.id.relativeLayout10);
+        rTen.setBackgroundColor(myColorList.get(9));
+        rEleven = (RelativeLayout) view.findViewById(R.id.relativeLayout11);
+        rEleven.setBackgroundColor(myColorList.get(10));
+
         imgOne = (ImageView) view.findViewById(R.id.img_one);
 
         imgTwo = (ImageView) view.findViewById(R.id.img2);
@@ -178,6 +185,8 @@ public class LabelColorFragment extends Fragment {
         imgEight = (ImageView) view.findViewById(R.id.img8);
 
         imgNine = (ImageView) view.findViewById(R.id.img9);
+        imgTen = (ImageView) view.findViewById(R.id.img10);
+        imgEleven = (ImageView) view.findViewById(R.id.img11);
 
         if (flag == 5) {
             tvDelete.setVisibility(View.VISIBLE);
@@ -276,6 +285,24 @@ public class LabelColorFragment extends Fragment {
                         break;
 
                     }
+                    case 9: {
+
+                        imgTen.setVisibility(View.VISIBLE);
+                        selectedImageView = imgTen;
+                        colorselected = "lime";
+
+                        break;
+
+                    }
+                    case 10: {
+
+                        imgEleven.setVisibility(View.VISIBLE);
+                        selectedImageView = imgEleven;
+                        colorselected = "pink";
+
+                        break;
+
+                    }
                 }
 
                 }
@@ -348,6 +375,8 @@ public class LabelColorFragment extends Fragment {
         images.add(imgSeven);
         images.add(imgEight);
         images.add(imgNine);
+        images.add(imgTen);
+        images.add(imgEleven);
 
 
         rOne.setOnClickListener(new View.OnClickListener() {
@@ -540,7 +569,7 @@ public class LabelColorFragment extends Fragment {
                         visibleImages.add(layout);
                         layout.setVisibility(View.GONE);
                     }
-                    colorselected = "lime";
+                    colorselected = "dark-green";
                     color = Color.TRANSPARENT;
                     Drawable background = rEight.getBackground();
                     if (background instanceof ColorDrawable)
@@ -577,6 +606,56 @@ public class LabelColorFragment extends Fragment {
 
             }
         });
+        rTen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgTen.setVisibility(View.VISIBLE);
+                //changeVisibility(imgNine);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgTen) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected = "lime";
+                    color = Color.TRANSPARENT;
+                    Drawable background = rTen.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
+
+                    color = myColorList.get(9);
+
+                }
+
+            }
+        });
+        rEleven.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgEleven.setVisibility(View.VISIBLE);
+                //changeVisibility(imgNine);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgEleven) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected = "pink";
+                    color = Color.TRANSPARENT;
+                    Drawable background = rEleven.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color);
+
+                    color = myColorList.get(10);
+
+                }
+
+            }
+        });
 
         layouts.add(rOne);
         layouts.add(rTwo);
@@ -587,6 +666,8 @@ public class LabelColorFragment extends Fragment {
         layouts.add(rSeven);
         layouts.add(rEight);
         layouts.add(rNine);
+        layouts.add(rTen);
+        layouts.add(rEleven);
 
         tvDone.setOnClickListener(new View.OnClickListener() {
             @Override

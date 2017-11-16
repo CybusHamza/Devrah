@@ -401,7 +401,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
     private void searchUser(final String email) {
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEARCH_USER,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEARCH_USER_TEAM,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -410,13 +410,15 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                         name = new ArrayList<>();
 
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
+                            if(!response.equals("false")) {
+                                JSONArray jsonArray = new JSONArray(response);
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
 
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                ids.add(jsonObject.getString("id"));
-                                name.add(jsonObject.getString("email"));
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    ids.add(jsonObject.getString("id"));
+                                    name.add(jsonObject.getString("email"));
+                                }
                             }
 
                             ArrayAdapter<String> adapter =
@@ -487,7 +489,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEARCH_USER,
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEARCH_USER_TEAM,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

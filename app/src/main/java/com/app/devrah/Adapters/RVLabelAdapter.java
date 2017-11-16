@@ -127,7 +127,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
             }else if(labelColor.equals("dark-green")){
                 holder.rowLabel.setBackgroundColor(context.getResources().getColor(R.color.darkgreen));
             }else if(labelColor.equals("lime")){
-                holder.rowLabel.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
+                holder.rowLabel.setBackgroundColor(context.getResources().getColor(R.color.green));
             }
         }
         else{
@@ -303,7 +303,7 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
 
                         index = -11861886;
                     }else if(labelColor.equals("pink")){
-                        index =-16777216;
+                        index =-62725;
                         LabelColorFragment.color = context.getResources().getColor(R.color.pink);
                     }else if(labelColor.equals("orange")){
                         index = -32985;
@@ -318,8 +318,8 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
                         index = -8604862;
                         LabelColorFragment.color = context.getResources().getColor(R.color.darkgreen);
                     }else if(labelColor.equals("lime")){
-                        index = -8604862;
-                        LabelColorFragment.color = context.getResources().getColor(R.color.lightGreen);
+                        index = -4856291;
+                        LabelColorFragment.color = context.getResources().getColor(R.color.green);
                     }
 
 

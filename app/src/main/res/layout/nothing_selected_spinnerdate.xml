@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="40dp"
     android:padding="10dp"
-    android:background="@drawable/bg_boards_extended_list_white"
+
     style="?android:attr/spinnerItemStyle"
     android:textColor="#000"
 

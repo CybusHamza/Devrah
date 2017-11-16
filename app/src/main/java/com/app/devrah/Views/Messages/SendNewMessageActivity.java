@@ -471,12 +471,13 @@ public class SendNewMessageActivity extends AppCompatActivity {
                     ringProgressDialog.dismiss();
                         try {
                             JSONObject object=new JSONObject(response);
-                            if(object.getString("message_sent").equals("0")){
-                                Toast.makeText(SendNewMessageActivity.this,"Please enter valid email address",Toast.LENGTH_LONG).show();
-                            }else {
+                            if(!object.getString("message_sent").equals("0")){
                                 Intent intent=new Intent(SendNewMessageActivity.this,MessagesActivity.class );
                                 startActivity(intent);
                                 finish();
+                            }else {
+                                Toast.makeText(SendNewMessageActivity.this,"Please enter valid email address",Toast.LENGTH_LONG).show();
+
                             }
 
                         } catch (JSONException e) {
