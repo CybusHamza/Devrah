@@ -94,7 +94,7 @@ public class FavouritesActivity extends AppCompatActivity {
 
                             FavouritesPojo myCardsPojo = new FavouritesPojo();
                             myCardsPojo.setId("");
-                            myCardsPojo.setData("No data found");
+                            myCardsPojo.setData("No favourites found");
                             myCardsPojo.setP_name("");
                             myCardsPojo.setP_status("");
                             myCardsPojo.setBrdid("");

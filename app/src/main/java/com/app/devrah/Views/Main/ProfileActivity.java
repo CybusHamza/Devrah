@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -69,7 +70,8 @@ public class ProfileActivity extends AppCompatActivity {
     EditText etEmail,etF_name,etL_name,etPhoneNumber,etDevrahTag,etCompany,etPosition,etWebsite;
     String email,f_name,l_name,f_num,devrah_tag,s_company,s_position,s_website,initials,id;
 
-    Button chooseFile,updateProfile,cancelBtn;
+    Button chooseFile;
+    TextView updateProfile,cancelBtn;
     private static final int REQUEST_PERMISSIONS=0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -80,8 +82,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         toolbar = (Toolbar) findViewById(R.id.header);
-        updateProfile = (Button) findViewById(R.id.btnUpdate);
-        cancelBtn = (Button) findViewById(R.id.btnCancel);
+        updateProfile = (TextView) findViewById(R.id.btnUpdate);
+        cancelBtn = (TextView) findViewById(R.id.btnCancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -77,6 +77,9 @@ public class NotificationAdapter extends BaseAdapter {
         //holder.userName.setText(projectsList.get(position).getUserName()+ projectsList.get(position).getLabel()+ projectsList.get(position).getData());
         holder.userName.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()  + "</b> "+ "<font color=#C3C3C3>" +projectsList.get(position).getLabel() + "</font>" +"<b>" + projectsList.get(position).getData() + "</b> " ));
         holder.date = (TextView) convertView.findViewById(R.id.date);
+        if(projectsList.get(position).getLabel().equals("No notification found") && projectsList.get(position).getUserName().equals("")){
+            holder.userName.setText(Html.fromHtml("<font color=#FFFFFF>" +projectsList.get(position).getLabel() + "</font>"));
+        }
         /* String inputPattern = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         String date=inputFormat.format(projectsList.get(position).getDate());
@@ -91,7 +94,7 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                if (!projectsList.get(position).getLabel().equals("No data found")) {
+                if (!projectsList.get(position).getLabel().equals("No notification found")) {
                     if (projectsList.get(position).getLabel().equals(" added you to the project ")) {
                         Intent intent = new Intent(activity, BoardsActivity.class);
                         intent.putExtra("pid", projectsList.get(position).getProjectId());

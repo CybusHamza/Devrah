@@ -63,4 +63,14 @@ public class AttachmentsImageFilePojo {
 
     public String isCover;
 
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
+    }
+
+    public String originalFileName;
+
 }

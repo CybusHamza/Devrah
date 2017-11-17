@@ -105,7 +105,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         holder.imgViewAttachments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadImageDialog(position,attachmentList.get(position).getImageFile(),attachmentList.get(position).getIsCover(),attachmentList.get(position).getAttch_id());
+                downloadImageDialog(position,attachmentList.get(position).getImageFile(),attachmentList.get(position).getIsCover(),attachmentList.get(position).getAttch_id(),attachmentList.get(position).getOriginalFileName());
                 }
         });
      //   ((CardActivity) activity).getFragmentManager();
@@ -157,7 +157,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         });*/
     }
 
-    private void downloadImageDialog(final int pos,final String imageName, final String isCover, final String attachmentId) {
+    private void downloadImageDialog(final int pos,final String imageName, final String isCover, final String attachmentId,final String originalFileName) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.custom_diloag_download_image, null);
@@ -184,7 +184,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         });
         Button downloadImageBtn= (Button) dialogView.findViewById(R.id.downloadImageBtn);
         Button cancelBtn= (Button) dialogView.findViewById(R.id.cancelBtn);
-        label.setText(imageName);
+        label.setText(originalFileName);
         Picasso.with(activity)
                 .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + imageName)
                 .resize(345,300)

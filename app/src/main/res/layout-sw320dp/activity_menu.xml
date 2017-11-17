@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/bg_projects"
+    android:orientation="vertical"
+    tools:context=".Views.Teams.MenuActivity">
+
+    <include
+
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"/>
+
+
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create New Team"
+        android:textColor="#fff"
+        android:id="@+id/tvCreateNewTeam"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:background="@drawable/background_create_new_team"
+        android:padding="15dp"
+        android:gravity="center"/>-->
+
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ALL TEAMS"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:layout_margin="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#fff"
+            android:layout_margin="10dp"/>-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_margin="10dp">
+        <ListView
+            android:layout_below="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lvTeams"
+            android:dividerHeight="7dp"
+            android:layout_margin="10dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <Button
+        android:id="@+id/buttonTeam"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
+        android:background="@drawable/plus_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="10dp"
+        />
+
+
+
+</RelativeLayout>

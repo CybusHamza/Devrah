@@ -67,7 +67,7 @@
                     android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textSize="@dimen/labels_text_size"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -98,6 +98,7 @@
                     android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -125,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -156,6 +158,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -185,6 +188,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -215,6 +219,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -242,6 +247,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -270,6 +276,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -289,21 +296,34 @@
                 android:orientation="horizontal"
                 android:layout_below="@id/website"
                 android:layout_alignParentBottom="true"
-                android:gravity="end">
-                <Button
-                    android:id="@+id/btnCancel"
+                android:gravity="end"
+                >
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:text="Cancel"
+                    android:textColor="#f50b22"
+                    android:textSize="15sp"
+                    android:id="@+id/btnCancel"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="5dp"
                     />
-                <Button
-                    android:id="@+id/btnUpdate"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Update"/>
-
-
-
+                    android:gravity="right"
+                    android:text="Update"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:id="@+id/btnUpdate"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="5dp"
+                    />
             </LinearLayout>
 
 

@@ -135,7 +135,6 @@
                     android:id="@+id/rv_recycler_labels"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
@@ -146,7 +145,7 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="10dp"
                     android:text="CREATE A NEW LABEL"
-                    android:textColor="#00FA9A"
+                    android:textColor="#fff"
                     android:visibility="gone" />
                 <LinearLayout
                     android:id="@+id/labelsLayout"
@@ -324,7 +323,6 @@
                         android:id="@+id/rv_files_cardscreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_gravity="left"
                         android:clickable="true" />
                 </LinearLayout>
@@ -443,7 +441,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_recycler_checklist"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/outer_border_checklist"
+                        android:background="@drawable/checklist_border_outer"
                         android:dividerHeight="5dp"
                         android:layout_width="match_parent"/>
                 </LinearLayout>

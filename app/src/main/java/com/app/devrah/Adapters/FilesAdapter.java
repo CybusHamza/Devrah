@@ -109,7 +109,7 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesHolder> {
         //if(!(attachmentList.get(position).getNameOfFile().equals("")) && attachmentList.get(position).getNameOfFile()!=null) {
             holder.datePosted.setText(attachmentList.get(position).getDateUpload());
             //   holder.fileSize.setText(String.valueOf(attachmentList.get(position).getSizeOfFile()));
-            holder.tvFileName.setText(attachmentList.get(position).getNameOfFile());
+            holder.tvFileName.setText(attachmentList.get(position).getOriginalFileName());
        // holder.tvFileName.setPaintFlags(holder.tvFileName.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         holder.tvFileName.setOnClickListener(new View.OnClickListener() {
             @Override

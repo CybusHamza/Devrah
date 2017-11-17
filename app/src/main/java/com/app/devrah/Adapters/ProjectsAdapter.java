@@ -79,7 +79,7 @@ public class ProjectsAdapter extends BaseAdapter {
             holder.isactive.setImageResource(R.drawable.inactive_icon);
             //holder.status.setBackgroundColor(activity.getResources().getColor(R.color.colorRed));
         }
-        if(projectsList.get(position).getData().equals("No data found") && projectsList.get(position).getId().equals("")) {
+        if(projectsList.get(position).getData().equals("No project found") && projectsList.get(position).getId().equals("")) {
             holder.status.setVisibility(View.INVISIBLE);
             holder.isactive.setVisibility(View.INVISIBLE);
         }else {
@@ -97,7 +97,7 @@ public class ProjectsAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!projectsList.get(position).getData().equals("No data found") && !projectsList.get(position).getId().equals("")) {
+                if(!projectsList.get(position).getData().equals("No project found") && !projectsList.get(position).getId().equals("")) {
                     Intent intent = new Intent(activity, BoardsActivity.class);
                     intent.putExtra("pid", projectsList.get(position).getId());
                     intent.putExtra("ptitle", projectsList.get(position).getData());

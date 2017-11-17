@@ -178,7 +178,7 @@ public void getNotifications() {
                                      notificationsPojo.setIsLocked("");
                                      notificationsPojo.setListId("");
                                      notificationsPojo.setBoard_name("");
-                                     notificationsPojo.setLabel("No data found");
+                                     notificationsPojo.setLabel("No notification found");
                                      listPojo.add(notificationsPojo);
                                  }
                                  if(!mainObject.getString("project_notifications").equals("false")) {

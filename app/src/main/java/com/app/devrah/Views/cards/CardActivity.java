@@ -3014,6 +3014,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         if (jsonObject.getString("file_type").equals("image")) {
                                             FilePojo.setAttch_id(jsonObject.getString("id"));
                                             FilePojo.setImageFile(jsonObject.getString("file_name"));
+                                            FilePojo.setOriginalFileName(jsonObject.getString("original_name"));
                                             FilePojo.setIsCover(jsonObject.getString("make_cover"));
                                             attachmentsList1.add(FilePojo);
                                         } else {
@@ -3021,6 +3022,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                             membersPojo.setNameOfFile(jsonObject.getString("file_name"));
                                             membersPojo.setDateUpload(jsonObject.getString("added_on"));
                                             membersPojo.setIsCover(jsonObject.getString("make_cover"));
+                                            membersPojo.setOriginalFileName(jsonObject.getString("original_name"));
                                             attachmentsList.add(membersPojo);
 
                                         }

@@ -1,7 +1,5 @@
 package com.app.devrah.pojo;
 
-import java.util.Date;
-
 /**
  * Created by AQSA SHaaPARR on 6/23/2017.
  */
@@ -65,6 +63,16 @@ public class AttachmentsPojo {
     }
 
     public String fileId;
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
+    }
+
+    public String originalFileName;
 
 
 

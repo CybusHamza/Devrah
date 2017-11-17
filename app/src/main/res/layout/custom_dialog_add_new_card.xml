@@ -34,7 +34,7 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:textColor="#000"
-        android:background="@drawable/spinner_dropdown" />
+        android:background="@drawable/back_spinner_black" />
     <TextView
         android:id="@+id/bTextView"
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:textColor="#000"
-        android:background="@drawable/spinner_dropdown" />
+        android:background="@drawable/back_spinner_black" />
     <TextView
         android:id="@+id/lTextView"
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:textColor="#000"
-        android:background="@drawable/spinner_dropdown" />
+        android:background="@drawable/back_spinner_black" />
     <TextView
         android:id="@+id/cTextView"
         android:layout_width="match_parent"

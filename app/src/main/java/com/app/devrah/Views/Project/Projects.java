@@ -485,7 +485,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                                 JSONArray array = new JSONArray(response);
                                 if(array.length()<1){
                                     projectPojoData = new ProjectsPojo();
-                                    projectPojoData.setData("No data found");
+                                    projectPojoData.setData("No project found");
                                     projectPojoData.setId("");
                                     projectPojoData.setProjectStatus("");
                                     projectPojoData.setProjectCreatedBy("");

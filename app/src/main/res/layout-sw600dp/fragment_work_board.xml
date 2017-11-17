@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".Views.Board.WorkBoard">
 
 
@@ -10,12 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:textColor="#000"
-        android:alpha="0"
-        android:layout_marginTop="59dp"
+        android:textColor="#fff"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:padding="3dp"
-        android:text="Work Board"
+        android:text="Work Boards"
         android:id="@+id/tvReferenceBoard" />
 
     <ImageView
@@ -24,29 +22,37 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
+        android:visibility="gone"
         android:src="@drawable/search_icon_white"
         android:layout_alignTop="@+id/tvReferenceBoard"
         android:layout_alignParentEnd="true" />
-    <ListView
-        android:layout_marginBottom="10dp"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
-        android:id="@+id/lvRBoard"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/searchBar" />
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@+id/tvReferenceBoard" >
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="6dp"
+            android:id="@+id/lvRBoard"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/tvReferenceBoard" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
     <Button
         android:id="@+id/buttonAddRBoard"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:background="@drawable/add_btn"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
+        android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         />
 

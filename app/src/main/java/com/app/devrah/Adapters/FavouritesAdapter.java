@@ -67,7 +67,7 @@ public class FavouritesAdapter extends BaseAdapter {
         holder.data.setText('"'+projectsList.get(position).getData()+'"');
         holder.p_name.setText("Project: "+projectsList.get(position).getP_name());
 
-        if(projectsList.get(position).getData().equals("No data found") && projectsList.get(position).getBrdid().equals("")) {
+        if(projectsList.get(position).getData().equals("No favourites found") && projectsList.get(position).getBrdid().equals("")) {
             holder.favouriteIcon.setVisibility(View.INVISIBLE);
             holder.p_name.setText("");
         }
@@ -76,7 +76,7 @@ public class FavouritesAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!projectsList.get(position).getData().equals("No data found") && !projectsList.get(position).getBrdid().equals("")) {
+                if(!projectsList.get(position).getData().equals("No favourites found") && !projectsList.get(position).getBrdid().equals("")) {
 
                     Intent intent = new Intent(activity, BoardExtended.class);
                     intent.putExtra("TitleData", projectsList.get(position).getData());

@@ -19,149 +19,149 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header">
         <RelativeLayout
-        android:layout_below="@id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:padding="15dp">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePic"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/profile_pic"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#fff"/>
-    <Button
-        android:id="@+id/btnchoosePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose file"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@+id/profilePic"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/email"
+            android:layout_below="@id/header"
             android:layout_width="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:textColorHint="#BFBFBF"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btnchoosePic"
-            android:layout_marginTop="15dp"
-            android:layout_alignParentStart="true">
 
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:hint="E-mail"
-                android:textCursorDrawable="@null"
-                android:editable="false"
-                android:fontFamily="@string/monoSapce"
-                android:textColorHint="#636262"
-                android:backgroundTint="#636262"
-                android:textColor="@color/colorWhite"
+            android:padding="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilePic"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/profile_pic"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#fff"/>
+            <Button
+                android:id="@+id/btnchoosePic"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textSize="@dimen/text_size_small"
-                />
+                android:text="Choose file"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/profilePic"/>
 
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-
-            android:layout_width="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:fontFamily="@string/monoSapce"
-            android:paddingTop="20dp"
-            android:textColorHint="#BFBFBF"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/email"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="23dp"
-            android:id="@+id/firstName">
-
-            <EditText
-                android:fontFamily="@string/monoSapce"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email"
                 android:layout_width="match_parent"
-                android:hint="First Name"
-                android:id="@+id/etFname"
-                android:textColorHint="#636262"
-                android:backgroundTint="#636262"
-                android:textCursorDrawable="@null"
-                android:textColor="@color/colorWhite"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                android:textColorHint="#BFBFBF"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textSize="@dimen/text_size_small"
-                />
+                android:layout_below="@+id/btnchoosePic"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentStart="true">
 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:hint="E-mail"
+                    android:textCursorDrawable="@null"
+                    android:editable="false"
+                    android:fontFamily="@string/monoSapce"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_small"
+                    />
 
-            android:layout_width="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:textColorHint="#BFBFBF"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:layout_below="@+id/firstName"
-            android:layout_alignStart="@+id/description"
-            android:id="@+id/lastName">
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:fontFamily="@string/monoSapce"
+
+            <android.support.design.widget.TextInputLayout
+
                 android:layout_width="match_parent"
-                android:hint="Last Name"
-                android:id="@+id/etLName"
-                android:textColorHint="#636262"
-                android:backgroundTint="#636262"
-                android:textColor="@color/colorWhite"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/text_size_small"
-                />
-
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-
-            android:layout_width="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-
-            android:textColorHint="#BFBFBF"
-            android:layout_height="wrap_content"
-            android:id="@+id/phoneNumber"
-            android:layout_marginTop="22dp"
-            android:layout_below="@+id/lastName"
-            android:layout_alignParentEnd="true">
-
-            <EditText
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:fontFamily="@string/monoSapce"
-                android:layout_width="match_parent"
-                android:hint="Phone Number"
-                android:id="@+id/etPhoneNum"
-                android:textColorHint="#636262"
-                android:backgroundTint="#636262"
-                android:textColor="@color/colorWhite"
+                android:paddingTop="20dp"
+                android:textColorHint="#BFBFBF"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:singleLine="true"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/text_size_small"
-                />
+                android:layout_below="@+id/email"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="23dp"
+                android:id="@+id/firstName">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:fontFamily="@string/monoSapce"
+                    android:layout_width="match_parent"
+                    android:hint="First Name"
+                    android:id="@+id/etFname"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/colorWhite"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_small"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+
+                android:layout_width="match_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                android:textColorHint="#BFBFBF"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:layout_below="@+id/firstName"
+                android:layout_alignStart="@+id/description"
+                android:id="@+id/lastName">
+
+                <EditText
+                    android:fontFamily="@string/monoSapce"
+                    android:layout_width="match_parent"
+                    android:hint="Last Name"
+                    android:id="@+id/etLName"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+
+                android:layout_width="match_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+
+                android:textColorHint="#BFBFBF"
+                android:layout_height="wrap_content"
+                android:id="@+id/phoneNumber"
+                android:layout_marginTop="22dp"
+                android:layout_below="@+id/lastName"
+                android:layout_alignParentEnd="true">
+
+                <EditText
+                    android:fontFamily="@string/monoSapce"
+                    android:layout_width="match_parent"
+                    android:hint="Phone Number"
+                    android:id="@+id/etPhoneNum"
+                    android:textColorHint="#636262"
+                    android:backgroundTint="#636262"
+                    android:textColor="@color/colorWhite"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_small"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
 
 
             <android.support.design.widget.TextInputLayout
@@ -289,33 +289,46 @@
 
 
 
-        <LinearLayout
-            android:id="@+id/btmlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/website"
-            android:layout_alignParentBottom="true"
-            android:gravity="end">
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/btmlayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
-               />
-            <Button
-                android:id="@+id/btnUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Update"/>
+                android:orientation="horizontal"
+                android:layout_below="@id/website"
+                android:layout_alignParentBottom="true"
+                android:gravity="end"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Cancel"
+                    android:textColor="#f50b22"
+                    android:textSize="15sp"
+                    android:id="@+id/btnCancel"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="5dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Update"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:id="@+id/btnUpdate"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="5dp"
+                    />
+            </LinearLayout>
 
 
 
-        </LinearLayout>
-
-
-
-    </RelativeLayout>
+        </RelativeLayout>
 
     </ScrollView>
 

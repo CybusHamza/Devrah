@@ -442,7 +442,7 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
         ringProgressDialog = ProgressDialog.show(CheckList_Comments.this, "Please wait ...", "Uploading image ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/kanban/upload_image_comment.php", new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/devrah/upload_image_comment.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
