@@ -116,7 +116,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else {
                     strInitials=strName.charAt(0)+""+strl_name.charAt(0);
-                    if (strEmail.matches(emailPattern) && strPassword.length() >= 8 && strPassword.equals(strConfirmPassword)) {
+                    if (strEmail.matches(emailPattern) && strPassword.length() >= 8 && strPassword.equals(strConfirmPassword) && !strPassword.contains(" ")) {
                         Signup();
                     }else if(!strEmail.matches(emailPattern)){
                         Toast.makeText(getApplicationContext(),"Email format is not correct",Toast.LENGTH_LONG).show();
@@ -125,6 +125,9 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                     else if(!strPassword.equals(strConfirmPassword)){
                         Toast.makeText(getApplicationContext(),"Password Mismatches",Toast.LENGTH_LONG).show();
+                    }else if(strPassword.length()>0 && strPassword.contains(" ")){
+                        Toast.makeText(getApplicationContext(),"Password should not contain spaces",Toast.LENGTH_LONG).show();
+
                     }
                 }
             }

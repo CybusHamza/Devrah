@@ -3,7 +3,6 @@ package com.app.devrah.Views.Main;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -14,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,6 +75,8 @@ public class Login extends AppCompatActivity implements
 
     //google api client
     private GoogleApiClient mGoogleApiClient;
+    AlertDialog alertDialog;
+    private boolean isClicked=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +91,7 @@ public class Login extends AppCompatActivity implements
                 forgotPasswordDialog();
             }
         });
-
+        isClicked=false;
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnSignUp = (TextView) findViewById(R.id.btn_signup);
 
@@ -110,8 +112,12 @@ public class Login extends AppCompatActivity implements
         //signInButton.setSize(SignInButton.SIZE_WIDE);
         //signInButton.setScopes(gso.getScopeArray());
 
+        //.enableAutoManage(this /* FragmentActivity */,
+      //  0 /* googleApiClientId used when auto-managing multiple googleApiClients */,
+       //         this /* OnConnectionFailedListener */)
         //Initializing google api client
         mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
       //  mGoogleApiClient.connect();
@@ -131,6 +137,7 @@ public class Login extends AppCompatActivity implements
 
                 else
                 {
+                    isClicked=true;
                     onSignInClicked();
 
                 }
@@ -184,7 +191,7 @@ public class Login extends AppCompatActivity implements
         if (mGoogleApiClient.isConnected()) {
 
             // clearCookies();
-            mGoogleApiClient.clearDefaultAccountAndReconnect();
+           // mGoogleApiClient.clearDefaultAccountAndReconnect();
                     /*Plus.AccountApi
                             .clearDefaultAccount(mGoogleApiClient);
 
@@ -199,15 +206,34 @@ public class Login extends AppCompatActivity implements
 
     public void forgotPasswordDialog() {
         // canvas.setMode(CanvasView.Mode.TEXT);
-        AlertDialog.Builder alert = new AlertDialog.Builder(Login.this);
-        alert.setTitle("Forgot Password"); //Set Alert dialog title here
-        alert.setMessage("Enter Your Email Here"); //Message here
+        LayoutInflater inflater = LayoutInflater.from(Login.this);
+        View subView = inflater.inflate(R.layout.custom_dialog_for_forgot_password, null);
+        final EditText email = (EditText) subView.findViewById(R.id.etEmail);
+        alertDialog = new AlertDialog.Builder(Login.this).create();
+        alertDialog.setCancelable(false);
 
-        // Set an EditText view to get user input
-        final EditText input = new EditText(Login.this);
-        alert.setView(input);
-
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        TextView ok = (TextView) subView.findViewById(R.id.ok);
+        TextView cancel = (TextView) subView.findViewById(R.id.cancel_btn);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String srt = email.getText().toString();
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if(!srt.matches(emailPattern)) {
+                    Toast.makeText(Login.this, "Please enter a valid Email", Toast.LENGTH_LONG).show();
+                    return;
+                }else {
+                    forgotPass(srt);
+                }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+      /*  alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //You will get as string input data in this variable.
                 // here we convert the input to a string and show in a toast.
@@ -222,15 +248,10 @@ public class Login extends AppCompatActivity implements
 
 
             } // End of onClick(DialogInterface dialog, int whichButton)
-        }); //End of alert.setPositiveButton
-        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // Canceled.
-                dialog.cancel();
-            }
-        }); //End of alert.setNegativeButton
-        AlertDialog alertDialog = alert.create();
+        });*/
+        alertDialog.setView(subView);
         alertDialog.show();
+
 
     }
     public void login() {
@@ -415,8 +436,12 @@ public class Login extends AppCompatActivity implements
             }else {
                 url="";
             }
-            if(acct.getDisplayName()!=null) {
+            if(acct.getEmail()!=null && acct.getDisplayName()!=null) {
                 Signup(acct.getDisplayName().toString(), acct.getEmail().toString(), url);
+
+            }else {
+                if(isClicked)
+                onSignInClicked();
             }
 
            /* intent.putExtra("Gprofile",url.toString());
@@ -606,6 +631,7 @@ public class Login extends AppCompatActivity implements
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismiss();
+                                    alertDialog.dismiss();
                                 }
                             })
                             .show();
@@ -684,7 +710,7 @@ public class Login extends AppCompatActivity implements
     protected void onStart() {
         super.onStart();
 
-        mGoogleApiClient.connect();
+      //  mGoogleApiClient.connect();
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
@@ -710,9 +736,6 @@ public class Login extends AppCompatActivity implements
 
 
     }
-
-
-
 
 
     @Override

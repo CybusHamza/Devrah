@@ -54,6 +54,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
     int resource;
     ProgressDialog ringProgressDialog;
     String checklistid,name;
+    Boolean done=false;
 
     private LayoutInflater layoutInflater;
 
@@ -115,8 +116,11 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
         holder.name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
                 finalHolder3.name.setFocusable(true);
+
                 if (i==6 ) {
+                    done=true;
                     finalHolder3.name.clearFocus();
                     InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(finalHolder3.name.getWindowToken(), 0);
@@ -124,6 +128,16 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
 
                 }
                 return true;
+            }
+        });
+        finalHolder3.name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+
+                } else if(!done){
+                    finalHolder3.name.setText(checkListiItemName.get(position));
+                }
             }
         });
 

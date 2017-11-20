@@ -172,11 +172,16 @@ public class ProfileActivity extends AppCompatActivity {
                // if (email.matches(emailPattern)){
 
 
-
-                if (b64 != null){
-                    LoadImage();
+                l_name= etL_name.getText().toString();
+                f_name= etF_name.getText().toString();
+                if(!l_name.equals("") && !f_name.equals("") && l_name.trim().length()!=0 && f_name.trim().length()!=0) {
+                    if (b64 != null) {
+                        LoadImage();
+                    } else {
+                        uploadData();
+                    }
                 }else {
-                    uploadData();
+                    Toast.makeText(getApplicationContext(),"Please Enter the fields first name and last name",Toast.LENGTH_LONG).show();
                 }
 
                 //}
@@ -204,6 +209,7 @@ public class ProfileActivity extends AppCompatActivity {
         s_website = etWebsite.getText().toString();
         f_num =etPhoneNumber.getText().toString();
         devrah_tag = etDevrahTag.getText().toString();
+        if(devrah_tag.contains("@"))
         devrah_tag=devrah_tag.substring(1);
       //  img = PreferenceManager.getDefaultSharedPreferencesName(getApplicationContext())
       //  img =

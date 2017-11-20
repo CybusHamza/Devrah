@@ -82,7 +82,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Views.cards.CheckList_Detail"
-            android:windowSoftInputMode="adjustNothing" />
+           android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Views.Messages.Reply"
             android:windowSoftInputMode="stateHidden" />

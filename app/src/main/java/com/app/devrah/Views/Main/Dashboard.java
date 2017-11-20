@@ -108,9 +108,13 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         gLogin = pref.getString("Glogin", "");
 
 
-        if(!currentImage.equals("") && !currentImage.equals("null")) {
+        if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("false")) {
             Picasso.with(getApplicationContext())
                     .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
+                    .into(imgProfile);
+        }else if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("true")){
+            Picasso.with(getApplicationContext())
+                    .load(currentImage)
                     .into(imgProfile);
         }else {
             tvAlias.setVisibility(View.VISIBLE);
@@ -411,10 +415,12 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                     Toast.makeText(Dashboard.this,"Please Enter Password",Toast.LENGTH_LONG).show();
                 }else {
                     if(newpass.equals(confirmpass)) {
-                        if(newpass.length()>7)
+                        if(newpass.length()>7 && !newpass.contains(" "))
                             CheckPass();
-                        else
+                        else if(newpass.length()<8)
                             Toast.makeText(Dashboard.this,"Password length must be minimum 8 characters",Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(Dashboard.this,"Password should not contain spaces",Toast.LENGTH_LONG).show();
 
                     }else {
                         Toast.makeText(Dashboard.this,"New password and confirm password fields mismatches",Toast.LENGTH_LONG).show();

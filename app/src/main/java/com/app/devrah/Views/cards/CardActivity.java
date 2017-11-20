@@ -877,7 +877,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 if (!(checkListName.isEmpty())  && checkListName.trim().length()>0) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
-                   addnewChecklist(checkListName);
+                    addnewChecklist(checkListName);
                     alertDialog.dismiss();
 
                 }
