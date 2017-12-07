@@ -106,7 +106,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             holder.edit.setVisibility(View.GONE);
             Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + projectsList.get(position).getComments())
-                    .resize(250,200)
+                    .resize(activity.getResources().getDimensionPixelSize(R.dimen.comment_size_width),activity.getResources().getDimensionPixelSize(R.dimen.comment_size_height))
                     .into(holder.attachment);
         }else if(projectsList.get(position).getIsFile().equals("1")){
             holder.tv.setPaintFlags(holder.tv.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
@@ -132,6 +132,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             holder.marker.setVisibility(View.GONE);
             Picasso.with(activity)
                     .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + projectsList.get(position).getProfilePic())
+                    .resize(activity.getResources().getDimensionPixelSize(R.dimen.comment_size_width),activity.getResources().getDimensionPixelSize(R.dimen.comment_size_height))
                     .into(holder.profilePic);
         }
         else
@@ -553,7 +554,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
                 params.put("card_id", cardId);
                 params.put("check_id",checkListId);
                 params.put("comments",comments);
-                SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_APPEND);
+                SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                 String userID = pref.getString("user_id", "");
                 String fullName=pref.getString("first_name","")+" "+pref.getString("last_name","");
                 params.put("userId", userID);

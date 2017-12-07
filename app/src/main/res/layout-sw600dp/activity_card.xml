@@ -99,8 +99,8 @@
                     android:layout_margin="10dp">
                     <ImageView
                         android:id="@+id/descriptionIcon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/description_icon"/>
                     <EditText
@@ -110,10 +110,11 @@
                         android:hint="Add Description"
                         android:textColorHint="#c1bdbd"
                         app:backgroundTint="#fff"
-                        android:textSize="15dp"
+                        android:textSize="13sp"
                         android:textCursorDrawable="@null"
                         android:cursorVisible="false"
                         android:layout_marginLeft="10dp"
+                        android:maxLength="255"
                         android:textColor="#fff"
 
                         />
@@ -156,8 +157,8 @@
                     android:visibility="gone">
                     <ImageView
                         android:id="@+id/labelIcon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/label_icon"/>
 
@@ -175,8 +176,8 @@
                     android:layout_margin="10dp">
                     <ImageView
                         android:id="@+id/calenderIcon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/calender_icon"/>
                     <LinearLayout
@@ -196,7 +197,7 @@
                             android:textAlignment="center"
                             android:text="Start Date"
                             android:textColor="#fff"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             android:background="@drawable/bg_date_picker_outline"
                             />
 
@@ -213,7 +214,7 @@
                             android:layout_weight="1"
                             android:text="Due Date"
                             android:textColor="#fff"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             android:background="@drawable/bg_date_picker_outline"
                             />
                     </LinearLayout>
@@ -248,7 +249,7 @@
                             android:textAlignment="center"
                             android:text="Start time"
                             android:textColor="#fff"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             android:background="@drawable/bg_date_picker_outline"
                             />
 
@@ -265,7 +266,7 @@
                             android:layout_weight="1"
                             android:text="Due Time"
                             android:textColor="#fff"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             android:background="@drawable/bg_date_picker_outline"
                             />
                     </LinearLayout>
@@ -291,8 +292,8 @@
                     android:visibility="gone">
                     <ImageView
                         android:id="@+id/membersIcon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/members_icon"/>
                     <android.support.v7.widget.RecyclerView
@@ -311,8 +312,8 @@
                     android:visibility="gone"
                     android:id="@+id/filesAttachmentLayout">
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="start"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/attachment_icon_card"
@@ -549,13 +550,13 @@
             app:menu_labels_cornerRadius="3dp"
             app:menu_labels_ellipsize="none"
             app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
-            app:menu_labels_margin="0dp"
+            app:menu_labels_margin="8dp"
             app:menu_labels_maxLines="-1"
-            app:menu_labels_padding="8dp"
-            app:menu_labels_paddingBottom="4dp"
+            app:menu_labels_padding="5dp"
+            app:menu_labels_paddingBottom="8dp"
             app:menu_labels_paddingLeft="8dp"
             app:menu_labels_paddingRight="8dp"
-            app:menu_labels_paddingTop="4dp"
+            app:menu_labels_paddingTop="8dp"
             app:menu_labels_position="left"
             app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
             app:menu_labels_showShadow="true"
@@ -580,7 +581,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_label_icon"
                 app:fab_label="Labels"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                android:layout_marginBottom="8dp"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/members"
@@ -588,7 +590,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_icon_member"
                 app:fab_label="Members"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                android:layout_marginBottom="8dp"/>
 
 
 
@@ -598,7 +601,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_label_checklist"
                 app:fab_label="Check List"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                android:layout_marginBottom="8dp"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/attachments"
@@ -606,7 +610,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_icon_attachment"
                 app:fab_label="Attachments"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                android:layout_marginBottom="8dp"/>
 
         </com.github.clans.fab.FloatingActionMenu>
 
@@ -635,7 +640,7 @@
 
     <ListView
         android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="#ffff"

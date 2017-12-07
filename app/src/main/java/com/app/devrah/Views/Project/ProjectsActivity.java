@@ -2,6 +2,7 @@ package com.app.devrah.Views.Project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -22,8 +23,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -35,6 +38,7 @@ import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Teams.MenuActivity;
 import com.app.devrah.pojo.DrawerPojo;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,6 +225,38 @@ public class ProjectsActivity extends AppCompatActivity {
 //        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tab_contacts, 0, 0);
 //        tabLayout.getTabAt(2).setCustomView(tabThree);
     }
+   /* private void setUpIndicatorWidth(TabLayout tabLayout) {
+        Class<?> tabLayoutClass = tabLayout.getClass();
+        Field tabStrip = null;
+        try {
+            tabStrip = tabLayoutClass.getDeclaredField("mTabStrip");
+            tabStrip.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        LinearLayout layout = null;
+        try {
+            if (tabStrip != null) {
+                layout = (LinearLayout) tabStrip.get(tabLayout);
+            }
+            if (layout != null) {
+                for (int i = 0; i < layout.getChildCount(); i++) {
+                    View child = layout.getChildAt(i);
+                    child.setPadding(0, 0, 0, 0);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        params.setMarginStart(UnitConvert.dipToPixels(this, 18));
+                        params.setMarginEnd(UnitConvert.dipToPixels(this, 18));
+                    }
+                    child.setLayoutParams(params);
+                    child.invalidate();
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }*/
 
     private void setupViewPager(ViewPager viewPager) {
 
@@ -371,7 +407,7 @@ public class ProjectsActivity extends AppCompatActivity {
 
 
        // LinearLayout active, inactive, complete,all;
-        Switch active, inactive, complete,all;
+        final Switch active, inactive, complete,all;
         final ImageView imgactive, igminactive, imgcomplete,imgall,crossIcon;
 
 
@@ -379,7 +415,6 @@ public class ProjectsActivity extends AppCompatActivity {
         inactive = (Switch) customView.findViewById(R.id.inactive);
         complete = (Switch) customView.findViewById(R.id.completed);
         all = (Switch) customView.findViewById(R.id.all);
-
 
         /*imgactive = (ImageView) customView.findViewById(R.id.activeimg);
         igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);

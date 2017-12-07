@@ -26,8 +26,9 @@
         android:id="@+id/notifications_tabs"
         android:background="@null"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        app:tabMode="fixed"
+        android:layout_height="72dp"
+        app:tabMinWidth="300dp"
+        app:tabMode="scrollable"
         app:tabGravity="fill"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />

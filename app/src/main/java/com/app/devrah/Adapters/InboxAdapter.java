@@ -152,6 +152,7 @@ public class InboxAdapter extends BaseAdapter {
                     intent.putExtra("b_id", inboxPojo.getBoardId());
                     intent.putExtra("c_id", inboxPojo.getCardId());
                     intent.putExtra("date", inboxPojo.getDate());
+                    intent.putExtra("email", inboxPojo.getEmail().substring(1));
 
                     activity.startActivity(intent);
                 }

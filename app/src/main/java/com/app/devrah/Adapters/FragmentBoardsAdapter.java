@@ -1,6 +1,7 @@
 package com.app.devrah.Adapters;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
@@ -46,8 +47,9 @@ public class FragmentBoardsAdapter extends BaseAdapter{
     private LayoutInflater inflater;
     String list_id;
     List<CardAssociatedCheckBox> cardCheckboxPojoList;
+    BroadcastReceiver broadcastReceiver;
 
-    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount, String list_id, List<CardAssociatedCheckBox> cardCheckboxPojoList) {
+    public FragmentBoardsAdapter(Activity activity, List<ProjectsPojo> projectsList, List<CardAssociatedLabelsPojo> labelList, List<CardAssociatedMembersPojo> memberList, List<CardAssociatedCoverPojo> coverList, int membercount, String list_id, List<CardAssociatedCheckBox> cardCheckboxPojoList, BroadcastReceiver broadcastReceiver) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
@@ -56,6 +58,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         this.coverList=coverList;
         this.list_id=list_id;
         this.cardCheckboxPojoList=cardCheckboxPojoList;
+        this.broadcastReceiver=broadcastReceiver;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -105,7 +108,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 holder.attachment.setVisibility(View.VISIBLE);
                 Picasso.with(activity)
                         .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
-                        .resize(250,150)
+                        .resize(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height))
                         .into(holder.attachment);
             } else {
                 holder.attachment.setVisibility(View.GONE);
@@ -362,8 +365,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
                 if ((imageUrl[i].equals("null") || imageUrl[i].equals("")) && (gp_picture[i].equals("null") || gp_picture[i].equals(""))) {
                     TextView image = new TextView(activity);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(80,80);
-                    layoutParams.setMargins(5,0,0,0);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(activity.getResources().getDimensionPixelSize(R.dimen.circle_image_size_width),activity.getResources().getDimensionPixelSize(R.dimen.circle_image_size_height));
+                    layoutParams.setMargins(activity.getResources().getDimensionPixelSize(R.dimen.margin_left),0,0,0);
                     //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
                     image.setLayoutParams(layoutParams);
                     image.setBackground(activity.getResources().getDrawable(R.drawable.bg_circle));
@@ -379,8 +382,9 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                     holder.membersView.addView(image);
                 } else if(!imageUrl[i].equals("null") && !imageUrl[i].equals("")){
                     CircleImageView image = new CircleImageView(activity);
-                    image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
+                    image.setLayoutParams(new android.view.ViewGroup.LayoutParams(activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_width),activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_height)));
                     // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
+                   image.setPadding(7,0,0,0);
                     image.setMaxHeight(20);
                     image.setMaxWidth(20);
 
@@ -392,7 +396,8 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                     holder.membersView.addView(image);
                 }else {
                     CircleImageView image = new CircleImageView(activity);
-                    image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
+                    image.setLayoutParams(new android.view.ViewGroup.LayoutParams(activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_width),activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_height)));
+                    image.setPadding(7,0,0,0);
                     // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
                     image.setMaxHeight(20);
                     image.setMaxWidth(20);

@@ -170,18 +170,17 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         holder.attachment.setVisibility(View.GONE);
         String cover[]=coverList.get(position).getIsCover();
         String fileName[]=coverList.get(position).getFileName();
-        for(int i=0;i<cover.length;i++) {
+       /* for(int i=0;i<cover.length;i++) {
             if (cover[i].equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
                 Picasso.with(activity)
                         .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
-                        .resize(350,200)
-                        .onlyScaleDown()
+                        .resize(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height))
                         .into(holder.attachment);
             } else {
                 holder.attachment.setVisibility(View.GONE);
             }
-        }
+        }*/
 
         if(!projectsList.get(position).getnOfAttachments().equals("0")){
             holder.dueDate.setVisibility(View.VISIBLE);
@@ -248,7 +247,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 holder.headingDueDate.setVisibility(View.VISIBLE);
             }
         } else {
-            holder.headingDueDate.setText("Due "+projectsList.get(position).getDueDate());
+            holder.headingDueDate.setText("Due : "+projectsList.get(position).getDueDate());
             holder.headingDueDate.setVisibility(View.VISIBLE);
         }
         if(projectsList.get(position).getIsCardLocked().equals("1")){
@@ -418,8 +417,8 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
 
             if ((imageUrl[i].equals("null") || imageUrl[i].equals("")) && (gp_picture[i].equals("null") || gp_picture[i].equals(""))) {
                 TextView image = new TextView(activity);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(80,80);
-                layoutParams.setMargins(5,0,0,0);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(activity.getResources().getDimensionPixelSize(R.dimen.circle_image_size_width),activity.getResources().getDimensionPixelSize(R.dimen.circle_image_size_height));
+                layoutParams.setMargins(activity.getResources().getDimensionPixelSize(R.dimen.margin_left),0,0,0);
                 //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
                 image.setLayoutParams(layoutParams);
                 image.setBackground(activity.getResources().getDrawable(R.drawable.bg_circle));
@@ -435,7 +434,8 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 holder.membersView.addView(image);
             } else if(!imageUrl[i].equals("null") && !imageUrl[i].equals("")){
                 CircleImageView image = new CircleImageView(activity);
-                image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
+                image.setLayoutParams(new android.view.ViewGroup.LayoutParams(activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_width),activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_height)));
+                image.setPadding(7,0,0,0);
                 // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
                 image.setMaxHeight(20);
                 image.setMaxWidth(20);
@@ -448,7 +448,8 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 holder.membersView.addView(image);
             }else {
                 CircleImageView image = new CircleImageView(activity);
-                image.setLayoutParams(new android.view.ViewGroup.LayoutParams(100, 80));
+                image.setLayoutParams(new android.view.ViewGroup.LayoutParams(activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_width),activity.getResources().getDimensionPixelSize(R.dimen.circle_alias_size_height)));
+                image.setPadding(7,0,0,0);
                 // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
                 image.setMaxHeight(20);
                 image.setMaxWidth(20);

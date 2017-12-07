@@ -133,5 +133,15 @@ public class InboxPojo {
     public String projectId;
     public String boardId;
     public String cardId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String email;
 }
 

@@ -2,40 +2,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".Views.Board.ReferenceBoard">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-
         android:textColor="#fff"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:padding="3dp"
         android:text="Archive Boards"
-        android:id="@+id/tvReferenceBoard"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/lvRBoard" />
+        android:id="@+id/tvReferenceBoard" />
 
     <ImageView
         android:id="@+id/searchBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:src="@drawable/search_icon_white"
+        android:layout_marginBottom="10dp"
         android:visibility="gone"
-        android:layout_alignTop="@+id/etSearchBarRB"
-        android:layout_alignEnd="@+id/lvRBoard" />
-
+        android:src="@drawable/search_icon_white"
+        android:layout_alignTop="@+id/tvReferenceBoard"
+        android:layout_alignParentEnd="true" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@+id/tvReferenceBoard" >
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="6dp"
+            android:id="@+id/lvRBoard"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/tvReferenceBoard" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
     <Button
         android:id="@+id/buttonAddRBoard"
-        android:layout_width="40dp"
-        android:layout_height="36dp"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
         android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -47,40 +59,15 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Find Board"
         android:backgroundTint="#008080"
+        android:textColorHint="#A9A9A9"
+        android:id="@+id/etSearchWBoard"
         android:textColor="#000"
-        android:id="@+id/etSearchBarRB"
-        android:layout_alignTop="@+id/tvReferenceBoard"
-        android:layout_alignStart="@+id/lvRBoard" />
+        android:layout_above="@+id/lvRBoard"
+        android:layout_alignStart="@+id/tvReferenceBoard"
+        android:layout_alignEnd="@+id/lvRBoard" />
 
-    <TextView
-        android:id="@+id/hidentxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:visibility="gone"
-        android:text="No Board Found"
-        android:textColor="#fff"
-        android:layout_above="@+id/buttonAddRBoard"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="73dp" />
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swiperefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_below="@+id/tvReferenceBoard" >
-        <ListView
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="3dp"
-            android:id="@+id/lvRBoard"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/tvReferenceBoard" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 </RelativeLayout>

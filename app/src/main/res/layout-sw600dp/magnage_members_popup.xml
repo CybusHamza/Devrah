@@ -12,8 +12,8 @@
         android:background="#62b9cc"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:gravity="center_vertical"
         android:text="Manage Board Members"
         android:textColor="#fff"
@@ -32,7 +32,8 @@
             android:textSize="17sp"
             android:textColor="#fff"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"/>
 
 
         <AutoCompleteTextView
@@ -44,7 +45,8 @@
             android:singleLine="true"
             android:imeOptions="actionSearch"
             android:textColorHint="#FFACA9A9"
-            android:hint="Search Members by emial ..." />
+            android:hint="Search Members by email ..."
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 
@@ -59,8 +61,12 @@
     <GridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="10dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
         android:numColumns="4">
 
     </GridView>
@@ -120,8 +126,8 @@
      </GridView>-->
     <Button
         android:id="@+id/buttonAddMember"
-        android:layout_width="40dp"
-        android:layout_height="36dp"
+        android:layout_width="55dp"
+        android:layout_height="46dp"
         android:background="@drawable/plus_btn"
         android:layout_gravity="end"
         android:layout_marginTop="50dp"

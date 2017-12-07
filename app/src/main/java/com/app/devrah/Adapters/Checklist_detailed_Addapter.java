@@ -1,11 +1,13 @@
 package com.app.devrah.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
@@ -114,10 +116,13 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
             holder.name.setText(checkListiItemName.get(position));
         final Holder finalHolder3 = holder;
         holder.name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @SuppressLint("ResourceType")
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
                 finalHolder3.name.setFocusable(true);
+             //  finalHolder3.name.setBackground(activity.getResources().getDrawable(R.style.CustomEditTextTheme));
+              //  finalHolder3.name.setBackgroundResource(R.drawable.abc);
 
                 if (i==6 ) {
                     done=true;
@@ -125,7 +130,6 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                     InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(finalHolder3.name.getWindowToken(), 0);
                     edit_checkbox (finalHolder3.name.getText().toString(),checkListiItemIds.get(position),position);
-
                 }
                 return true;
             }
@@ -137,6 +141,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
 
                 } else if(!done){
                     finalHolder3.name.setText(checkListiItemName.get(position));
+
                 }
             }
         });

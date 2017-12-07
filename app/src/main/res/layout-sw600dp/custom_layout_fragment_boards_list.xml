@@ -9,12 +9,12 @@
     android:layout_marginRight="10dp"
     android:layout_height="wrap_content">
     <ImageView
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="1dp"
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:id="@+id/cardImage"
-        android:layout_width="250dp"
+        android:layout_width="350dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:visibility="gone"/>
@@ -23,17 +23,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:paddingBottom="2dp"
+        android:paddingBottom="5dp"
         android:paddingStart="5dp"
-        android:paddingEnd="5dp"
+        android:paddingEnd="10dp"
         android:id="@+id/labelScroller"
         >
         <LinearLayout
             android:id="@+id/labelsLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginStart="4dp"
             tools:ignore="Orientation">
@@ -70,8 +70,8 @@
         />
     <ImageView
         android:id="@+id/checkboxIcon"
-        android:layout_width="21dp"
-        android:layout_height="21dp"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/checklist_icon"
         android:layout_toEndOf="@+id/descriptionIcon"
@@ -85,12 +85,12 @@
         android:layout_toEndOf="@id/checkboxIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:paddingStart="1dp"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
         android:paddingEnd="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:text=""
         android:id="@+id/noOfCheckedCheckbox"
         android:textColor="#fff"
@@ -98,13 +98,13 @@
         />
     <ImageView
         android:id="@+id/lockedIcon"
-        android:layout_width="20dp"
-        android:layout_height="15dp"
+        android:layout_width="18dp"
+        android:layout_height="13dp"
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/lock_icon"
         android:layout_toEndOf="@+id/noOfCheckedCheckbox"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="10dp"
         android:visibility="gone"
         />
     <ImageView
@@ -122,7 +122,7 @@
         android:layout_below="@id/tvFragmentBoardsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:padding="3dp"
         android:layout_marginTop="5dp"
         android:text="due date"
@@ -136,8 +136,8 @@
     <ImageView
         android:layout_below="@id/tvFragmentBoardsList"
         android:layout_toRightOf="@id/dateLabel"
-        android:layout_width="13dp"
-        android:layout_height="13dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_marginTop="10dp"
         android:id="@+id/attachmentIcon"
         android:textColor="#fff"
@@ -149,9 +149,9 @@
         android:layout_toRightOf="@id/attachmentIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:padding="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:text=""
         android:id="@+id/nOfAttachments"
         android:textColor="#fff"
@@ -161,13 +161,16 @@
         android:layout_below="@id/dateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:paddingTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="1dp"
         android:id="@+id/memberScroller"
         >
         <LinearLayout
             android:id="@+id/membersListView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_margin="4dp"
             tools:ignore="Orientation">
         </LinearLayout>

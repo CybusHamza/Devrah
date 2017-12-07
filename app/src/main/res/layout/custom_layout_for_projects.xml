@@ -20,7 +20,8 @@
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:paddingTop="5dp"
-            android:fontFamily="@string/monoSapce"
+            android:maxLines="6"
+            android:ellipsize="marquee"
             android:textSize="13sp"
             android:gravity="center_vertical"
             android:layout_marginStart="10dp"
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:background="@drawable/active"
+            android:visibility="invisible"
 
             />
 
@@ -50,8 +52,9 @@
             android:gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:text="Active"
+            android:visibility="invisible"
             android:layout_marginTop="3dp"
-            android:fontFamily="@string/monoSapce"/>
+           />
     </LinearLayout>
     </LinearLayout>
 
@@ -69,7 +72,8 @@
         android:background="@drawable/bottom_border"
         android:textColor="#fff"
         android:fontFamily="@string/monoSapce"
-        />
+        android:ellipsize="marquee"
+        android:singleLine="true" />
 
 
 

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    tools:context=".Views.Project.ProjectsActivity"
+    >-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/background_dashboard"
+    android:layout_height="match_parent"
+    tools:context=".Views.cards.CheckList_Detail">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/app_bar">
+    </include>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_id"
+        android:layout_below="@id/header"
+
+        >
+
+    </ListView>
+    <Button
+        android:id="@+id/send_checkbox"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        android:background="@drawable/plus_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="10dp" />
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:id="@+id/ll"
+         android:orientation="horizontal"
+         android:layout_below="@+id/header"
+         android:weightSum="2"
+         android:layout_height="wrap_content">
+
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="50dp"
+         android:layout_weight="1.85"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         android:textColor="@color/colorWhite"
+         android:hint="add new item"
+         android:textCursorDrawable="@null"
+         android:id="@+id/addItem" />
+
+
+
+
+     </LinearLayout>-->
+</RelativeLayout>
+    <!-- <FrameLayout
+         android:id="@+id/content_frame"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent" />
+
+
+
+     <ListView
+         android:id="@+id/left_drawer"
+         android:layout_width="240dp"
+         android:layout_height="match_parent"
+         android:layout_gravity="end"
+         android:choiceMode="singleChoice"
+         android:divider="#DCDCDC"
+         android:dividerHeight="2dp"
+         android:background="#ffff"/>
+
+ </android.support.v4.widget.DrawerLayout>-->

@@ -125,6 +125,8 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
         lv = (ListView)view.findViewById(R.id.lvRBoard);
         btnAddWBoard = (Button)view.findViewById(R.id.buttonAddRBoard);
+        search = (ImageView)view.findViewById(R.id.searchBar);
+        etSearch = (EditText)view.findViewById(R.id.etSearchWBoard);
 
         btnAddWBoard.setOnClickListener(this);
 
@@ -132,9 +134,9 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         projectid = bundle.getString("pid");
 
         tvReferenceBoard =(TextView) view.findViewById(R.id.tvReferenceBoard);
-        hidentxt =(TextView) view.findViewById(R.id.hidentxt);
+       // hidentxt =(TextView) view.findViewById(R.id.hidentxt);
         search = (ImageView)view.findViewById(R.id.searchBar);
-        etSearch = (EditText)view.findViewById(R.id.etSearchBarRB);
+      //  etSearch = (EditText)view.findViewById(R.id.etSearchBarRB);
 
         etSearch.setVisibility(View.INVISIBLE);
         search.setOnClickListener(this);
@@ -321,11 +323,11 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                         myList = new ArrayList<>();
                         if(response.equals("{\"nodata\":0}"))
                         {
-                          hidentxt.setVisibility(View.VISIBLE);
+                        //  hidentxt.setVisibility(View.VISIBLE);
                                  }
                         else {
 
-                            hidentxt.setVisibility(View.INVISIBLE);
+                          //  hidentxt.setVisibility(View.INVISIBLE);
 
                         try {
 //                            edtSeach.setText("");

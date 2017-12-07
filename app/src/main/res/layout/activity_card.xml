@@ -114,6 +114,7 @@
                         android:textCursorDrawable="@null"
                         android:cursorVisible="false"
                         android:layout_marginLeft="10dp"
+                        android:maxLength="255"
                         android:textColor="#fff"
 
                        />

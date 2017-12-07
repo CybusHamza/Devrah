@@ -512,7 +512,7 @@ public class BoardExtended extends AppCompatActivity {
 
                     case 4:
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Confirm!")
+                                .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")
                                 .setConfirmText("OK").setContentText("Cards are associated with this board. Do you really want to leave?")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -534,7 +534,7 @@ public class BoardExtended extends AppCompatActivity {
 
                     case 5:
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Confirm!")
+                                .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")
                                 .setConfirmText("OK").setContentText("Do you really want to delete Board?")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1428,7 +1428,7 @@ private void getDueDates(final String currentDate){
 
                             ArrayAdapter<String> projectADdapter;
                             projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, spinnerValues);
-                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            projectADdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             Projects.setAdapter(projectADdapter);
                             Projects.setOnItemSelectedListener(new CustomOnItemSelectedListener_boards());
 
@@ -1513,7 +1513,7 @@ private void getDueDates(final String currentDate){
 
                             ArrayAdapter<String> projectADdapter;
                             projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, postions_list);
-                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            projectADdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                              Postions.setAdapter(projectADdapter);
 
 

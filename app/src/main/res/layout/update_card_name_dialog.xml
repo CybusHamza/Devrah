@@ -30,6 +30,8 @@
                 android:textSize="13sp"
                 android:textColor="@color/black"
                 android:layout_below="@+id/heading"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 />
 
 

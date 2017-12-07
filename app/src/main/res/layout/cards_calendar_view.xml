@@ -81,7 +81,7 @@
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/checklist_icon"
         android:layout_toEndOf="@+id/descriptionIcon"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="5dp"
         android:visibility="gone"
 
@@ -109,7 +109,7 @@
         android:layout_below="@id/tvFragmentBoardsList"
         android:background="@drawable/lock_icon"
         android:layout_toEndOf="@+id/noOfCheckedCheckbox"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="3dp"
         android:layout_marginTop="7dp"
         android:visibility="gone"
         />

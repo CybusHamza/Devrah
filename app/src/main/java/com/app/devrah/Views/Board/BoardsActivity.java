@@ -884,7 +884,7 @@ public class BoardsActivity extends AppCompatActivity {
                             }
 
                             projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, spinnerValues);
-                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            projectADdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             project_groups.setAdapter(projectADdapter);
 
 

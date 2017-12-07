@@ -145,7 +145,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                 }
                 if(filteredLeaves.size()<1){
                     projectPojoData = new ProjectsPojo();
-                    projectPojoData.setData("No data found");
+                    projectPojoData.setData("No project found");
                     projectPojoData.setId("");
                     projectPojoData.setProjectStatus("");
                     projectPojoData.setProjectCreatedBy("");
@@ -632,7 +632,7 @@ public class Projects extends Fragment implements View.OnClickListener {
 //                                    listPojo.add(projectPojoData);
                                 }
                                 timeAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.nothing_selected_spinnerdate, spinnerValues);
-                                timeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                                timeAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                                 spinnerProjectGroup.setAdapter(timeAdapter);
 
                                 spinnerProjectGroup.setSelection(0);

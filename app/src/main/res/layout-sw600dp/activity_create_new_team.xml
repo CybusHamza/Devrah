@@ -44,7 +44,7 @@
         <Button
             android:id="@+id/btnAddMember"
             android:layout_below="@+id/view"
-            android:layout_width="250dp"
+            android:layout_width="450dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Add By Name or Email"
@@ -54,7 +54,7 @@
         <Button
             android:id="@+id/btnAddBulk"
             android:layout_below="@+id/btnAddMember"
-            android:layout_width="250dp"
+            android:layout_width="450dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Bulk Add Members"

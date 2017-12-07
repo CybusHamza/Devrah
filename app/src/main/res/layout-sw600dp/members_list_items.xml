@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:background="@drawable/notifications_border"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/memberProfilePic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:textColor="#fff" />
+            <TextView
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:id="@+id/alias_img"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:layout_marginLeft="3dp"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:fontFamily="@string/monoSapce"
+                android:background="@drawable/bg_circle"
+                android:layout_alignTop="@+id/memberProfilePic"
+                android:layout_alignStart="@+id/memberProfilePic" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/memberName"
+            android:layout_width="394dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:text="test"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="@string/monoSapce"
+            android:layout_weight="0.54" />
+
+        <ImageView
+            android:id="@+id/removeAccessTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/remove_user" />
+    </LinearLayout>
+
+
+</LinearLayout>

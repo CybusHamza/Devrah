@@ -21,7 +21,7 @@
         <include
 
             android:id="@+id/app_bar"
-            layout="@layout/app_bar1">
+            layout="@layout/app_bar">
 
 
         </include>
@@ -75,7 +75,7 @@
 
     <ListView
         android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:choiceMode="singleChoice"

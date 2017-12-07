@@ -47,6 +47,8 @@
         android:textColor="@color/black"
         android:layout_below="@+id/titleLabel"
         android:textSize="13sp"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
         android:layout_alignStart="@+id/boardSpinner" />
             <TextView
                 android:id="@+id/projectLabel"

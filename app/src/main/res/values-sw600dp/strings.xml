@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Devrah</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="signup">Don\'t have an account yet? <b>Sign Up</b></string>
+    <string name="signin">Already have an account? <b>Sign In</b></string>
+    <string-array name="drawer_items_array">
+
+
+    </string-array>
+    <string name="view_more"><u>View more Comments</u></string>
+    <string name="monoSapce">sans-serif</string>
+    <string name="belist">0.5f</string>
+</resources>

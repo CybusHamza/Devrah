@@ -35,7 +35,7 @@ public class viewMessage extends AppCompatActivity {
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
     LinearLayout cancel_button,reply_btn;
     Toolbar toolbar;
-    String messageType,message_id,isRead,projectId,boardId,cardId,msgDate;
+    String messageType,message_id,isRead,projectId,boardId,cardId,msgDate,email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,7 @@ public class viewMessage extends AppCompatActivity {
         boardId = intent.getStringExtra("b_id");
         cardId = intent.getStringExtra("c_id");
         msgDate = intent.getStringExtra("date");
+        email = intent.getStringExtra("email");
         if(isRead.equals("0")){
             markAsRead();
         }
@@ -90,6 +91,7 @@ public class viewMessage extends AppCompatActivity {
                 intent.putExtra("b_id",boardId);
                 intent.putExtra("c_id",cardId);
                 intent.putExtra("date",msgDate);
+                intent.putExtra("email",email);
                 finish();
                 startActivity(intent);
             }

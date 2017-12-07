@@ -39,7 +39,7 @@ import static com.app.devrah.R.id.editor;
 public class Reply extends AppCompatActivity {
     EditText from  ,board,card,project,subject;
     private RichEditor mEditor;
-    String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject;
+    String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject,email;
     LinearLayout cancel_button,send_btn;
     Toolbar toolbar;
     String message,projectId,boardId,cardId,msgDate;
@@ -80,6 +80,7 @@ public class Reply extends AppCompatActivity {
         boardId = intent.getStringExtra("b_id");
         cardId = intent.getStringExtra("c_id");
         msgDate = intent.getStringExtra("date");
+        email = intent.getStringExtra("email");
        // String showText="-------------On "+msgDate+"  "+strfrom+"-------------"+'\n'+strmessage
       //  mEditor.setPlaceholder();
         /*send_btn.setOnClickListener(new View.OnClickListener() {
@@ -399,7 +400,7 @@ public class Reply extends AppCompatActivity {
                 params.put("messageContent",message);
                 params.put("subjct_email",strsubject);
                 params.put("userId",userId);
-                params.put("listofuserids",strfrom);
+                params.put("listofuserids",email);
                 params.put("add_msg_prjct",projectId);
                 params.put("add_msg_brd",boardId);
                 params.put("add_msg_crd",cardId);

@@ -46,6 +46,7 @@
                 android:textColor="#fff"
                 android:textColorHint="#b8b7b7"
                 app:backgroundTint="#fff"
+                android:textSize="13sp"
                 android:textCursorDrawable="@null"
                 android:layout_alignStart="@+id/projectSpinner"
                 android:layout_alignEnd="@+id/projectSpinner" />
@@ -74,8 +75,8 @@
                 android:background="@drawable/back_spinner"
                 android:layout_toRightOf="@+id/project"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:layout_alignParentEnd="true" />
             <TextView
                 android:id="@+id/board"
@@ -97,8 +98,8 @@
                 android:background="@drawable/back_spinner"
                 android:layout_toRightOf="@+id/project"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:layout_alignParentEnd="true" />
             <TextView
                 android:id="@+id/card"
@@ -119,15 +120,15 @@
                 android:layout_below="@+id/boardSpinner"
                 android:background="@drawable/back_spinner"
                 android:layout_toRightOf="@+id/project"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:layout_alignParentEnd="true" />
             <TextView
                 android:id="@+id/subject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="45dp"
                 android:text="Subject : "
                 android:textSize="13sp"
                 android:textColor="#fff"

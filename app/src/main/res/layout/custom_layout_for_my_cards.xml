@@ -16,8 +16,10 @@
             android:paddingLeft="10dp"
             android:layout_marginLeft="5dp"
             android:text="Project:test"
+            android:ellipsize="marquee"
             android:textColor="#fff"
-            android:textSize="13dp" />
+            android:textSize="13sp"
+            android:singleLine="true" />
 
     <TextView
         android:id="@+id/boardName"
@@ -27,9 +29,11 @@
         android:paddingLeft="10dp"
         android:layout_marginLeft="5dp"
         android:text="Project:test"
+        android:ellipsize="marquee"
         android:textColor="#fff"
-        android:textSize="13dp"
-        android:paddingBottom="5dp"/>
+        android:textSize="13sp"
+        android:paddingBottom="5dp"
+        android:singleLine="true" />
 
 
     <TextView
@@ -40,11 +44,12 @@
         android:background="@drawable/bottom_border"
         android:text="sdfghj"
         android:layout_alignParentBottom="true"
+        android:ellipsize="marquee"
         android:id="@+id/tvFavouritesData"
         android:gravity="center"
         android:textColor="#fff"
         android:layout_below="@id/boardName"
 
-        />
+        android:singleLine="true" />
 
 </RelativeLayout>

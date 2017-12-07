@@ -1,35 +1,33 @@
 {
   "project_info": {
-    "project_number": "611988679962",
-    "firebase_url": "https://devrah-2dc43.firebaseio.com",
-    "project_id": "devrah-2dc43",
-    "storage_bucket": "devrah-2dc43.appspot.com"
+    "project_number": "928194261944",
+    "project_id": "default-demo-app-2475e"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:611988679962:android:1aca0cdc466be197",
+        "mobilesdk_app_id": "1:928194261944:android:1aca0cdc466be197",
         "android_client_info": {
           "package_name": "com.app.devrah"
         }
       },
       "oauth_client": [
         {
-          "client_id": "611988679962-aplpqhjkc4t4crcjcqkm1r69la29mmrh.apps.googleusercontent.com",
+          "client_id": "928194261944-2mcovlso7vm9e4nrcl00t7fjd6j5gvrm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "928194261944-skm56nhbbn72cnka3ahch42g7dlnh5an.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.app.devrah",
-            "certificate_hash": "98fc78b60c72077f3b416d6e2ff2c954abe0fe32"
+            "certificate_hash": "f39ee7343c6f520220cbe85bea03bb8ef219a563"
           }
-        },
-        {
-          "client_id": "611988679962-b0k73sii08nmvi5igiecnskm15p4ac62.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkT5BQQlDwjz06CLHRa1g7QGjSetPAPHQ"
+          "current_key": "AIzaSyB7hgOsA_-TnB11sRSFzGS3iAdU6_B0irg"
         }
       ],
       "services": {
@@ -37,16 +35,11 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "611988679962-b0k73sii08nmvi5igiecnskm15p4ac62.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2
+          "status": 1
         }
       }
     }

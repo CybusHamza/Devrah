@@ -35,6 +35,7 @@
             android:backgroundTint="#636262"
             android:textColor="#636262"
             android:textSize="13sp"
+            android:imeOptions="actionDone"
             android:layout_height="wrap_content"
             android:singleLine="true"
         />
@@ -125,6 +126,7 @@
             android:textSize="15dp"
             android:maxLength="255"
             android:textColor="#636262"
+            android:imeOptions="actionDone"
             android:layout_height="wrap_content"
             />
 

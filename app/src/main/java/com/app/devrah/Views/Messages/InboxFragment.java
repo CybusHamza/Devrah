@@ -188,6 +188,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener {
                                 projectPojoData.setDate(object.getString("datetime"));
                                // projectPojoData.setFrom(object.getString("email"));
                                 projectPojoData.setFrom(","+object.getString("first_name")+" "+ object.getString("last_name"));
+                                projectPojoData.setEmail(","+object.getString("email"));
                                 projectPojoData.setIsread(object.getString("is_read"));
                                 projectPojoData.setMessage(object.getString("message"));
                                 projectPojoData.setP_id(object.getString("project_name"));

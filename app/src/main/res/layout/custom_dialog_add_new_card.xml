@@ -82,6 +82,8 @@
         android:layout_height="50dp"
         android:layout_marginLeft="5dp"
         android:textColor="#000"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:layout_marginRight="5dp"/>
     <LinearLayout
         android:orientation="horizontal"

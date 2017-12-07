@@ -200,7 +200,41 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 mGoogleApiClient.connect();
                 if(gLogin.equals("true")){
                     ProfileArray= new String[]{"Logoff"};
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                    LayoutInflater inflater = LayoutInflater.from(Dashboard.this);
+                    View subView = inflater.inflate(R.layout.custom_dialog_logoff, null);
+                    final TextView logoff = (TextView) subView.findViewById(R.id.logoff);
+                    final AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
+                    alertDialog.setCancelable(true);
+                    alertDialog.setCanceledOnTouchOutside(true);
+                    logoff.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                            if (mGoogleApiClient.isConnected()) {
+                                mGoogleApiClient.clearDefaultAccountAndReconnect().setResultCallback(new ResultCallback<Status>() {
+
+                                    @Override
+                                    public void onResult(Status status) {
+
+                                        mGoogleApiClient.disconnect();
+                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = pref.edit();
+                                        editor.clear();
+                                        editor.apply();
+                                        Intent logOutIntent = new Intent(Dashboard.this, Login.class);
+                                        finish();
+                                        startActivity(logOutIntent);
+                                    }
+                                });
+
+                            }
+                        }
+                    });
+                    alertDialog.setView(subView);
+                    alertDialog.show();
+
+
+                  /*  AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
                     builder.setTitle("Settings")
                             .setItems(ProfileArray, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -209,24 +243,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                                     switch (which) {
                                         case 0:
 
-                                            if (mGoogleApiClient.isConnected()) {
-                                                mGoogleApiClient.clearDefaultAccountAndReconnect().setResultCallback(new ResultCallback<Status>() {
 
-                                                    @Override
-                                                    public void onResult(Status status) {
-
-                                                        mGoogleApiClient.disconnect();
-                                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                                        SharedPreferences.Editor editor = pref.edit();
-                                                        editor.clear();
-                                                        editor.apply();
-                                                        Intent logOutIntent = new Intent(Dashboard.this, Login.class);
-                                                        finish();
-                                                        startActivity(logOutIntent);
-                                                    }
-                                                });
-
-                                            }
 
 
 
@@ -235,10 +252,48 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
 
                                 }
                             });
-                    builder.show();
+                    builder.show();*/
                 }else {
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                    LayoutInflater inflater = LayoutInflater.from(Dashboard.this);
+                    View subView = inflater.inflate(R.layout.custom_dialog_edit_profile, null);
+                    final TextView logoff = (TextView) subView.findViewById(R.id.logoff);
+                    final TextView editProfile = (TextView) subView.findViewById(R.id.editProfile);
+                    final TextView changePassword = (TextView) subView.findViewById(R.id.changePass);
+                    final AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
+                    alertDialog.setCancelable(true);
+                    alertDialog.setCanceledOnTouchOutside(true);
+                    logoff.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.clear();
+                            editor.apply();
+                            Intent logOutIntent = new Intent(Dashboard.this, Login.class);
+                            finish();
+                            startActivity(logOutIntent);
+                        }
+                    });
+                    editProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            finish();
+                            startActivity(intent);
+                        }
+                    });
+                    changePassword.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                            changePasswordDialog();
+                        }
+                    });
+                    alertDialog.setView(subView);
+                    alertDialog.show();
+                    /*AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
                     builder.setTitle("Settings")
                             .setItems(ProfileArray, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -269,7 +324,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
 
                                 }
                             });
-                    builder.show();
+                    builder.show();*/
                 }
                 //return builder.create();
 
@@ -617,7 +672,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         requestQueue.add(request);
 
     }
-    public void clearBackstack() {
+  /*  public void clearBackstack() {
 
         int backStackEntry = getSupportFragmentManager().getBackStackEntryCount();
 
@@ -635,7 +690,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
             }
         }
 
-    }
+    }*/
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/outer_border_message_screen"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:text="Card:test"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.1"
+            android:background="@drawable/close_email" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/project"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:text="Card:test"
+        android:ellipsize="marquee"
+        android:textColor="#fff"
+        android:textSize="13sp"
+        android:singleLine="true" />
+    <TextView
+        android:id="@+id/boardName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="Card:test"
+        android:ellipsize="marquee"
+        android:layout_marginLeft="5dp"
+        android:textColor="#fff"
+        android:textSize="13sp"
+        android:singleLine="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        >
+
+        <TextView
+            android:id="@+id/board"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="Project:test"
+            android:textColor="#fff"
+            android:textSize="13sp"
+            android:ellipsize="marquee"
+            android:layout_weight="0.6"
+            android:layout_marginStart="5dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="0.4"
+            android:gravity="end"
+            android:text="18-07-2017"
+            android:textSize="12sp"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <TextView
+
+        android:id="@+id/activities_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:background="@drawable/bottom_border"
+        android:text="sdfghj"
+        android:ellipsize="marquee"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        android:singleLine="true" />
+
+
+</LinearLayout>

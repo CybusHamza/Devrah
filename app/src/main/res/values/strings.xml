@@ -12,5 +12,6 @@
 
     </string-array>
 <string name="view_more"><u>View more Comments</u></string>
-<string name="monoSapce">monospace</string>
+<string name="monoSapce">sans-serif</string>
+    <string name="belist">0.8f</string>
 </resources>

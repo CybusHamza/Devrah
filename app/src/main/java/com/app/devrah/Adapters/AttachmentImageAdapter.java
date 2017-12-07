@@ -187,7 +187,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         label.setText(originalFileName);
         Picasso.with(activity)
                 .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + imageName)
-                .resize(345,300)
+                .resize(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height))
                 .into(image);
         downloadImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

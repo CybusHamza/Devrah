@@ -132,8 +132,12 @@ public class ChildFragmentBoardExtended extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    @Override
+    public void onPause(){
+        super.onPause();
+        getActivity().unregisterReceiver(broadcastReceiver);
 
-
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -208,7 +212,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
 
                 }
-                adapter = new FragmentBoardsAdapter(getActivity(), filteredLeaves,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id,cardCheckboxPojoList);
+                adapter = new FragmentBoardsAdapter(getActivity(), filteredLeaves,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id,cardCheckboxPojoList,broadcastReceiver);
                 lv.setAdapter(adapter);
 
             }
@@ -586,8 +590,6 @@ public class ChildFragmentBoardExtended extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
-
     public void showCustomDialog(){
 
 
@@ -809,7 +811,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                                     cardCheckboxPojoList.add(checkBoxPojo);
                                 }
 
-                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id,cardCheckboxPojoList);
+                                adapter = new FragmentBoardsAdapter(getActivity(), listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,list_id,cardCheckboxPojoList,broadcastReceiver);
                                 lv.setAdapter(adapter);
                                /* for(int i=0;i<listPojo.size();i++){
                                    // && !listPojo.get(i).getAssignedTo().equals(pref.getString("user_id","")
@@ -1173,6 +1175,7 @@ public class ChildFragmentBoardExtended extends Fragment {
         requestQueue.add(request);
     }
 
+
     private void showDialog(final String data) {
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -1275,7 +1278,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                             ArrayAdapter<String> projectADdapter;
                             projectADdapter = new ArrayAdapter<String>(getActivity(), R.layout.nothing_selected_spinnerdate, spinnerValues);
-                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            projectADdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             Projects.setAdapter(projectADdapter);
                             Projects.setOnItemSelectedListener(new CustomOnItemSelectedListener_boards());
 
@@ -1378,7 +1381,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                         ArrayAdapter<String> projectADdapter;
                         projectADdapter = new ArrayAdapter<String>(getActivity(), R.layout.nothing_selected_spinnerdate, postions_list);
-                        projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        projectADdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                         Postions.setAdapter(projectADdapter);
 
 
@@ -1440,7 +1443,7 @@ public class ChildFragmentBoardExtended extends Fragment {
                         if(response.equals("{\"nodata\":0}")){
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                                     (getActivity(),R.layout.nothing_selected_spinnerdate,boards_name);
-                            dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
 
                             boards.setAdapter(dataAdapter);
                         }
@@ -1459,7 +1462,7 @@ public class ChildFragmentBoardExtended extends Fragment {
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                                     (getActivity(),R.layout.nothing_selected_spinnerdate,boards_name);
-                            dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
 
                             boards.setAdapter(dataAdapter);
 

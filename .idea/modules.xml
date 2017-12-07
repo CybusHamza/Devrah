@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Devrah.iml" filepath="$PROJECT_DIR$/Devrah.iml" />
+      <module fileurl="file://C:\Users\Sufyan Cybus\StudioProjects\Devrah_GitHub\Devrah.iml" filepath="C:\Users\Sufyan Cybus\StudioProjects\Devrah_GitHub\Devrah.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Devrah_GitHub.iml" filepath="$PROJECT_DIR$/Devrah_GitHub.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

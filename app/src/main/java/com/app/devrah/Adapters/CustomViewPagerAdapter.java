@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 
+import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.LastItemBoardFragment;
 
 import java.util.ArrayList;
@@ -50,7 +52,10 @@ public class CustomViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return 0.8f;
+        TypedValue tempVal = new TypedValue();
+        context.getResources().getValue(R.dimen.testlist, tempVal, true);
+        float some_decimal = tempVal.getFloat();
+        return some_decimal;
     }
     /*public static int getCustomPosition(){
         return position;

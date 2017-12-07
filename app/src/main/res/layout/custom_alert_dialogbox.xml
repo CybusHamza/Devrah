@@ -36,7 +36,8 @@
             android:hint="Name"
             android:singleLine="true"
             android:textColor="#636262"
-            android:textColorHint="#636262" />
+            android:textColorHint="#636262"
+            android:imeOptions="actionDone"/>
 
     </android.support.design.widget.TextInputLayout>
 

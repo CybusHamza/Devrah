@@ -472,7 +472,7 @@ public class manage_members extends AppCompatActivity {
                             }
 
                             projectADdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.nothing_selected_spinnerdate, teamList);
-                            projectADdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            projectADdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             Team_list.setAdapter(projectADdapter);
 
 

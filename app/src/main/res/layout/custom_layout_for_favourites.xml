@@ -19,6 +19,8 @@
             android:layout_marginStart="5dp"
             android:paddingLeft="10dp"
             android:text="Project:test"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:textColor="#fff"
             android:textSize="15dp"
             android:layout_weight="7"/>
@@ -45,6 +47,8 @@
         android:id="@+id/tvFavouritesData"
         android:gravity="center"
         android:textColor="#fff"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         />
 
 </LinearLayout>
