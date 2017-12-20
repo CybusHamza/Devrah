@@ -1,6 +1,7 @@
 package com.app.devrah.Views.Board;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -105,7 +107,12 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                     @Override
                     public void onRefresh() {
                         edtSeach.setText("");
-                       getWorkBoards();
+                        try {
+                            getWorkBoards();
+                        }catch (OutOfMemoryError error){
+                            error.printStackTrace();
+                        }
+
                         mySwipeRefreshLayout.setRefreshing(false);
                     }
                 }
@@ -159,8 +166,12 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
             }
         });
 
+        try {
+            getWorkBoards();
+        }catch (OutOfMemoryError error){
+            error.printStackTrace();
+        }
 
-        getWorkBoards();
        /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -243,11 +254,37 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
             alertDialog.setCancelable(false);
         edt = (EditText)customView.findViewById(R.id.input_watever);
+        showKeyBoard(edt);
         final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        final TextView addBoardAndMore = (TextView)customView.findViewById(R.id.btn_add_board1);
+        addBoardAndMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String projectData = edt.getText().toString();
+                if (!(projectData.isEmpty())) {
+
+                    addNewBoard(projectData);
+                    edt.setText("");
+/*
+                    ProjectsPojo projectPojoData = new ProjectsPojo();
+                    projectPojoData.setData(projectData);
+                    myList.add(projectPojoData);
+                    adapter = new BoardsAdapter(getActivity(), myList);
+
+
+                    lvWBoard.setAdapter(adapter);*/
+
+                }
+                else {
+                    Toast.makeText(getActivity(),"Please Enter Board Name",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(edt);
                 alertDialog.dismiss();
             }
         });
@@ -268,7 +305,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
 
                     lvWBoard.setAdapter(adapter);*/
-
+                    hideKeyBoard(edt);
                     alertDialog.dismiss();
 
                 }
@@ -335,7 +372,14 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 //
 
     }
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     public void addNewBoard(final String board)
     {
         final ProgressDialog ringProgressDialog;

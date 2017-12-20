@@ -127,6 +127,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
                 if (i==6 ) {
                     done=true;
                     finalHolder3.name.clearFocus();
+
                     InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(finalHolder3.name.getWindowToken(), 0);
                     edit_checkbox (finalHolder3.name.getText().toString(),checkListiItemIds.get(position),position);
@@ -138,7 +139,7 @@ public class Checklist_detailed_Addapter extends ArrayAdapter<check_model> {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
-
+                    finalHolder3.name.setSelection(checkListiItemName.get(position).length());
                 } else if(!done){
                     finalHolder3.name.setText(checkListiItemName.get(position));
 

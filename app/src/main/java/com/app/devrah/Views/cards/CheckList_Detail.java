@@ -246,7 +246,8 @@ public class CheckList_Detail extends AppCompatActivity {
         final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
         tvheading.setText("Update CheckList Name");
         etCardName.setText(name);
-
+        etCardName.setSelection(etCardName.getText().length());
+        showKeyBoard(etCardName);
         copy = (Button) customView.findViewById(R.id.copy);
         cancel = (Button) customView.findViewById(R.id.close);
         copy.setOnClickListener(new View.OnClickListener() {
@@ -270,14 +271,21 @@ public class CheckList_Detail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                hideKeyBoard(etCardName);
                 alertDialog.dismiss();
 
             }
         });
 
     }
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     private void add_checkbox  (final String checkbox) {
         ringProgressDialog = ProgressDialog.show(CheckList_Detail.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);

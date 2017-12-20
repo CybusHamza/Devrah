@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "928194261944",
-    "project_id": "default-demo-app-2475e"
+    "project_number": "522274369939",
+    "project_id": "firebase-devrah2"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:928194261944:android:1aca0cdc466be197",
+        "mobilesdk_app_id": "1:522274369939:android:1aca0cdc466be197",
         "android_client_info": {
           "package_name": "com.app.devrah"
         }
       },
       "oauth_client": [
         {
-          "client_id": "928194261944-2mcovlso7vm9e4nrcl00t7fjd6j5gvrm.apps.googleusercontent.com",
+          "client_id": "522274369939-6cgtgphpf82p9ooa3bsvc8p8f4hkdtbk.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "928194261944-skm56nhbbn72cnka3ahch42g7dlnh5an.apps.googleusercontent.com",
+          "client_id": "522274369939-6775qnoi20ufdlck6tse0ucvv2a1jqe8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.app.devrah",
-            "certificate_hash": "f39ee7343c6f520220cbe85bea03bb8ef219a563"
+            "certificate_hash": "2dd995f89d109453b7e3337ef92017450f472df3"
           }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7hgOsA_-TnB11sRSFzGS3iAdU6_B0irg"
+          "current_key": "AIzaSyBbOSuamNIYCOujGIgkICBzvxRX7gap47o"
         }
       ],
       "services": {

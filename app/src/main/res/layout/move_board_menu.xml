@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#fff"
-    android:layout_height="350dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/relativelayout">
 
 
     <TextView
@@ -21,6 +23,31 @@
         android:id="@+id/borderline"
         android:background="@drawable/border_line"/>
     <TextView
+        android:layout_below="@id/borderline"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:textColor="#000"
+        android:text="Title: "
+        android:layout_alignParentStart="true" />
+
+    <EditText
+
+        android:id="@+id/etTitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/black"
+        android:layout_below="@+id/title"
+        android:textSize="13sp"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        android:layout_alignStart="@+id/boardSpinner" />
+    <TextView
         android:id="@+id/sub_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,21 +65,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/back_spinner_black"
         android:layout_below="@+id/sub_heading"
-        android:layout_marginTop="23dp" />
+       />
 
-
-    <Spinner
-        android:id="@+id/position"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="41dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/back_spinner_black"
-        android:layout_below="@+id/projects_group" />
 
     <TextView
         android:id="@+id/pos_txt"
@@ -62,9 +82,19 @@
         android:textStyle="bold"
         android:textColor="#000"
         android:text=" Position : "
+        android:layout_marginStart="17dp"
         android:layout_below="@+id/projects_group"
         android:layout_alignStart="@+id/sub_heading" />
-
+    <Spinner
+        android:id="@+id/position"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/back_spinner_black"
+        android:layout_below="@+id/pos_txt" />
 
     <LinearLayout
         android:layout_below="@id/position"
@@ -72,6 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
+        android:layout_gravity="end"
         android:layout_alignParentEnd="true"
         >
         <TextView
@@ -103,4 +134,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#fff"
+
     android:layout_height="wrap_content">
 
 
@@ -20,9 +21,10 @@
         android:id="@+id/borderline"
         android:background="@drawable/border_line"/>
     <ScrollView
+        android:id="@+id/relativelayout"
         android:layout_below="@id/borderline"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

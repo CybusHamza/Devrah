@@ -167,8 +167,12 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         tvName.setText(childname);
 
+try {
+    getCardList(list_id);
+}catch (OutOfMemoryError error){
+  error.printStackTrace();
+}
 
-        getCardList(list_id);
         if(check1.equals("")) {
             if (list_color.equals("") || list_color == null) {
                 tvName.setBackgroundColor(getActivity().getResources().getColor(R.color.float_transparent));
@@ -358,6 +362,8 @@ public class ChildFragmentBoardExtended extends Fragment {
         final TextView heading= (TextView) customView.findViewById(R.id.heading);
         heading.setText("Update List Name");
         etListName.setText(listName);
+        etListName.setSelection(etListName.getText().length());
+        showKeyBoard(etListName);
 
         copy = (Button) customView.findViewById(R.id.copy);
         cancel = (Button) customView.findViewById(R.id.close);
@@ -478,6 +484,13 @@ public class ChildFragmentBoardExtended extends Fragment {
          purpleColor = (Button)customView.findViewById(R.id.purpleColor);
          yellowColor = (Button)customView.findViewById(R.id.yellowColor);
          redColor = (Button)customView.findViewById(R.id.redColor);
+         ImageView crossIcon= (ImageView) customView.findViewById(R.id.crossIcon);
+         crossIcon.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 alertDialog.dismiss();
+             }
+         });
 
         noColor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -599,15 +612,48 @@ public class ChildFragmentBoardExtended extends Fragment {
 
         alertDialog.setCancelable(false);
         edt = (EditText)customView.findViewById(R.id.input_watever);
+        showKeyBoard(edt);
         TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        TextView addCardAndMore = (TextView)customView.findViewById(R.id.btn_add_board1);
         TextView headingTitle = (TextView)customView.findViewById(R.id.headingTitle);
         headingTitle.setText("Add Card");
-        addCard.setText("Add Card");
+        addCard.setText("Save and Close");
         final TextView cancelbtn = (TextView) customView.findViewById(R.id.btn_cancel);
         cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(edt);
                 alertDialog.dismiss();
+            }
+        });
+        addCardAndMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String projectData = edt.getText().toString();
+                String  boardsFragmentData = edt.getText().toString();
+
+                if (!(boardsFragmentData.equals("")) && boardsFragmentData.trim().length()>0) {
+                   /* boardsFragmentPojoData = new ProjectsPojo();
+                    boardsFragmentPojoData.setData(boardsFragmentData);
+                    listPojo.add(boardsFragmentPojoData);
+                    adapter = new FragmentBoardsAdapter(getActivity(), listPojo);
+
+
+                    lv.setAdapter(adapter);*/
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
+                    row++;
+                    saveCardByListId(boardsFragmentData,row);
+                    edt.setText("");
+                }
+                else {
+                    Toast.makeText(getActivity(),"Please Enter Card Name",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
             }
         });
         addCard.setOnClickListener(new View.OnClickListener() {
@@ -647,7 +693,14 @@ public class ChildFragmentBoardExtended extends Fragment {
 
     }
 
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     public void getCardList(final String lsitId) {
 
       /* final ProgressDialog ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);

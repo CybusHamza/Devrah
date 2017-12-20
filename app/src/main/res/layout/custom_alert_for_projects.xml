@@ -142,19 +142,33 @@
         android:gravity="right"
         android:text="Cancel"
         android:id="@+id/cancel_btn"
-        android:paddingLeft="20dp"
+        android:paddingLeft="2dp"
         android:textSize="15sp"
-        android:paddingRight="20dp"
+        android:paddingRight="15dp"
         android:paddingTop="20dp"
+
         android:textColor="#f50b22"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Save and Add"
+        android:id="@+id/addProject1"
+        android:paddingLeft="2dp"
+        android:textSize="15sp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="5dp"
+
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:text="Add Project"
+        android:text="Save and Close"
         android:id="@+id/addProject"
-        android:paddingLeft="20dp"
+        android:paddingLeft="2dp"
         android:textSize="15sp"
         android:paddingRight="20dp"
         android:paddingTop="20dp"

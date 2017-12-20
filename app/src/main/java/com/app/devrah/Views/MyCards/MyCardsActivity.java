@@ -470,6 +470,11 @@ public class MyCardsActivity extends AppCompatActivity {
         mSearchAction = menu.findItem(R.id.action_search);
         return super.onPrepareOptionsMenu(menu);
     }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        unregisterReceiver(broadcastReceiver);
+    }
 
     protected void handleMenuSearch() {
 
@@ -573,8 +578,9 @@ public class MyCardsActivity extends AppCompatActivity {
 
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(),"check your internet connection",Toast.LENGTH_LONG).show();
 
-                    new SweetAlertDialog(MyCardsActivity.this, SweetAlertDialog.ERROR_TYPE)
+                   /* new SweetAlertDialog(MyCardsActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("check your internet connection")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -583,9 +589,10 @@ public class MyCardsActivity extends AppCompatActivity {
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 } else if (error instanceof TimeoutError) {
-
+                    Toast.makeText(getApplicationContext(),"Connection TimeOut! Please check your internet connection.",Toast.LENGTH_LONG).show();
+/*
                     new SweetAlertDialog(MyCardsActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Error!")
                             .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
@@ -595,7 +602,7 @@ public class MyCardsActivity extends AppCompatActivity {
                                     sDialog.dismiss();
                                 }
                             })
-                            .show();
+                            .show();*/
                 }
             }
         }) {

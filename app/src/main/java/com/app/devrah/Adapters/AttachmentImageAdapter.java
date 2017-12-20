@@ -329,7 +329,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
     private Target picassoImageTarget(final Context context, final String imageDir, final String imageName) {
         Log.d("picassoImageTarget", " picassoImageTarget");
         final File root = new File(Environment.getExternalStorageDirectory()
-                + File.separator + "folder_name" + File.separator);
+                + File.separator + "Devrah" + File.separator);
         if (!root.exists()) {
 
             root.mkdirs();
@@ -469,7 +469,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         requestQueue.add(request);
     }
     public void ShowToast(){
-        Toast.makeText(activity, "Image Save to the directory file_name", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Image Save to the directory Devrah", Toast.LENGTH_SHORT).show();
     }
 
 }

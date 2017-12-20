@@ -1,6 +1,7 @@
 package com.app.devrah.Views.Board;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -147,7 +149,12 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                     @Override
                     public void onRefresh() {
                         edtSeach.setText("");
-                        Refrence();
+                        try {
+                            Refrence();
+                        }catch (OutOfMemoryError error){
+                            error.printStackTrace();
+                        }
+
                         mySwipeRefreshLayout.setRefreshing(false);
                     }
                 }
@@ -190,7 +197,12 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
             }
         });
-        Refrence();
+        try {
+            Refrence();
+        }catch (OutOfMemoryError error){
+            error.printStackTrace();
+        }
+
 
        /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -280,12 +292,31 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
 
         edt = (EditText)customView.findViewById(R.id.input_watever);
+        showKeyBoard(edt);
        TextView tvAddCard = (TextView) customView.findViewById(R.id.btn_add_board);
         final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(edt);
                 alertDialog.dismiss();
+            }
+        });
+        final TextView addBoardAndMore = (TextView)customView.findViewById(R.id.btn_add_board1);
+        addBoardAndMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String projectData = edt.getText().toString();
+                if (!(projectData.isEmpty())) {
+                    AddNewReferenceBoard(projectData);
+                    edt.setText("");
+                }
+                else {
+                    Toast.makeText(getActivity(),"Please Enter Board Name",Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
         tvAddCard.setOnClickListener(new View.OnClickListener() {
@@ -295,6 +326,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                 String projectData = edt.getText().toString();
                 if (!(projectData.isEmpty())) {
                     AddNewReferenceBoard(projectData);
+                    hideKeyBoard(edt);
                     alertDialog.dismiss();
                 }
                 else {
@@ -307,7 +339,14 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
         alertDialog.setView(customView);
         alertDialog.show();
     }
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     public  void Refrence()
     {
         final ProgressDialog ringProgressDialog;

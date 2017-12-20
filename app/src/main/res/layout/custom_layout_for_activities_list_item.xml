@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:text="14-06-2017"
         android:gravity="end"
-        android:textColor="#fff"/>
+        android:textColor="#fff"
+        android:textSize="10sp"/>
 
 
 </RelativeLayout>

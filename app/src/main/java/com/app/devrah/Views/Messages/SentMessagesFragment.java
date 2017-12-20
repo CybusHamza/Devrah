@@ -216,6 +216,7 @@ public class SentMessagesFragment extends Fragment implements View.OnClickListen
                                  projectPojoData.setProjectId(object.getString("project_id"));
                                  projectPojoData.setBoardId(object.getString("board_id"));
                                  projectPojoData.setCardId(object.getString("card_id"));
+                                 projectPojoData.setEmail(object.getString("email"));
 
                                 listPojo.add(projectPojoData);
 

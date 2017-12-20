@@ -281,9 +281,17 @@ public class BoardsActivity extends AppCompatActivity {
     public void updateData(){
         int position=viewPager.getCurrentItem();
         if(position==1){
-            ((ReferenceBoard)adapter1.getItem(position)).Refrence();
+            try {
+                ((ReferenceBoard) adapter1.getItem(position)).Refrence();
+            }catch (OutOfMemoryError error){
+                error.printStackTrace();
+            }
         }else if(position==0){
-            ((WorkBoard)adapter1.getItem(position)).getWorkBoards();
+            try {
+                ((WorkBoard) adapter1.getItem(position)).getWorkBoards();
+            }catch (OutOfMemoryError error){
+                error.printStackTrace();
+            }
         }
     }
     private void setupTabIcons() {
@@ -459,6 +467,8 @@ public class BoardsActivity extends AppCompatActivity {
         final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
         tvheading.setText("Update Project Name");
         etCardName.setText(projectTitle);
+        etCardName.setSelection(etCardName.getText().length());
+        showKeyBoard(etCardName);
 
         copy = (TextView) customView.findViewById(R.id.copy);
         cancel = (TextView) customView.findViewById(R.id.close);
@@ -468,6 +478,7 @@ public class BoardsActivity extends AppCompatActivity {
                 String check=etCardName.getText().toString();
                 if(!check.equals("") && check!="" && check.trim().length()>0) {
                     UpdateProjectName(etCardName.getText().toString());
+                    hideKeyBoard(etCardName);
                     alertDialog.dismiss();
                 }else {
                     Toast.makeText(BoardsActivity.this,"Project Name is must!",Toast.LENGTH_LONG).show();
@@ -479,12 +490,20 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                hideKeyBoard(etCardName);
                 alertDialog.dismiss();
 
             }
         });
 
+    }
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
     }
     public void openDrawer() {
         adapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
@@ -809,16 +828,22 @@ public class BoardsActivity extends AppCompatActivity {
         alertDialog.setView(customView);
         alertDialog.show();
 
-        TextView heading, sub;
+        TextView heading, sub,headingTitle;
 
         TextView cancel, copy;
+        final EditText ettitle;
 
         heading = (TextView) customView.findViewById(R.id.heading);
+        headingTitle = (TextView) customView.findViewById(R.id.title);
         sub = (TextView) customView.findViewById(R.id.sub_heading);
+        ettitle = (EditText) customView.findViewById(R.id.etTitle);
         project_groups = (Spinner) customView.findViewById(R.id.projects_group);
         copy = (TextView) customView.findViewById(R.id.copy);
         cancel = (TextView) customView.findViewById(R.id.close);
-
+        ettitle.setText(toolbar.getTitle());
+        ettitle.setSelection(toolbar.getTitle().length());
+        if (action.equals("copy"))
+        showKeyBoard(ettitle);
 
         getSpinnerData();
 
@@ -826,10 +851,14 @@ public class BoardsActivity extends AppCompatActivity {
             heading.setText("Move Project");
             sub.setText("Move To Group : ");
             copy.setText("Move");
+            ettitle.setVisibility(View.GONE);
+            headingTitle.setVisibility(View.GONE);
         }else{
             heading.setText("Copy Project");
             sub.setText("Copy To Group : ");
             copy.setText("Copy");
+            ettitle.setVisibility(View.VISIBLE);
+            headingTitle.setVisibility(View.VISIBLE);
         }
 
 
@@ -841,7 +870,8 @@ public class BoardsActivity extends AppCompatActivity {
                     moveProject();
                     alertDialog.dismiss();
                 } else {
-                    copyProject();
+                    copyProject(ettitle.getText().toString());
+                    hideKeyBoard(ettitle);
                     alertDialog.dismiss();
                 }
             }
@@ -850,8 +880,7 @@ public class BoardsActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                hideKeyBoard(ettitle);
                 alertDialog.dismiss();
 
             }
@@ -930,7 +959,7 @@ public class BoardsActivity extends AppCompatActivity {
 
     }
 
-    public void copyProject() {
+    public void copyProject(final String projectName) {
 
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
@@ -972,6 +1001,7 @@ public class BoardsActivity extends AppCompatActivity {
                 int pos = project_groups.getSelectedItemPosition();
                 params.put("userId", userId);
                 params.put("project_id", projectID);
+                params.put("project_name", projectName);
                 params.put("group_id", spinnerGroupIds.get(pos));
                 return params;
             }

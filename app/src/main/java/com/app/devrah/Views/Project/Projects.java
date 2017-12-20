@@ -1,6 +1,7 @@
 package com.app.devrah.Views.Project;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -215,15 +217,13 @@ public class Projects extends Fragment implements View.OnClickListener {
     }
 
     public void showCustomDialog() {
-
-
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View customView = layoutInflater.inflate(R.layout.custom_alert_for_projects, null);
         alertDialog = new AlertDialog.Builder(getContext()).create();
         alertDialog.setCancelable(false);
         title = (EditText) customView.findViewById(R.id.input_title);
         etDescription = (EditText) customView.findViewById(R.id.etEmail);
-
+        showKeyBoard(title);
         laEt = (LinearLayout) customView.findViewById(R.id.laEt);
         laSpinner = (LinearLayout) customView.findViewById(R.id.laSpinner);
         etProjectGroup = (EditText) customView.findViewById(R.id.etCustomSpinnerData);
@@ -262,14 +262,143 @@ public class Projects extends Fragment implements View.OnClickListener {
 
 
         TextView addCard = (TextView) customView.findViewById(R.id.addProject);
+        TextView addCardAndMore = (TextView) customView.findViewById(R.id.addProject1);
         TextView cancel = (TextView) customView.findViewById(R.id.cancel_btn);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(title);
                 alertDialog.dismiss();
             }
         });
-        addCard.setText("Add Project");
+        addCard.setText("Save and Close");
+        addCardAndMore.setText("Save and Add");
+        addCardAndMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                projectData = title.getText().toString();
+                final String projectDescription = etDescription.getText().toString();
+
+                if (laEt.getVisibility() == View.VISIBLE) {
+                    description = etProjectGroup.getText().toString();
+                    if(etProjectGroup.getText().toString().equals("")){
+                        Toast.makeText(getActivity(),"Please Enter Group Name",Toast.LENGTH_LONG).show();
+                        return;
+                    }else {
+                        if(projectDescription.length()<=255) {
+                            ProjectGroupEt();
+                            etProjectGroup.setText("");
+                            title.setText("");
+                            etDescription.setText("");
+                        }else {
+                            Toast.makeText(getActivity(),"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                    // description = etDescription.getText().toString();
+
+                }
+                if (laSpinner.getVisibility() == View.VISIBLE) {
+                    int pos=spinnerProjectGroup.getSelectedItemPosition();
+                    if(pos!=-1){
+                        GroupName = timeAdapter.getItem(spinnerProjectGroup.getSelectedItemPosition());
+                        int index = spinnerValues.indexOf(GroupName);
+                        groupId = spinnerGroupIds.get(index);
+                        //description = spinnerProjectGroup.
+                        //Toast.makeText(getActivity().getApplicationContext(), GroupName, Toast.LENGTH_SHORT).show();
+
+
+                        if (!(projectData.isEmpty())) {
+                           /* projectPojoData = new ProjectsPojo();
+                            projectPojoData.setData(projectData);
+                            projectPojoData.setDescription(description);
+                            listPojo.add(projectPojoData);
+                            adapter = new ProjectsAdapter(getActivity(), listPojo);
+                            lv.setAdapter(adapter);*/
+                            if(projectDescription.length()<=255) {
+                                //alertDialog.dismiss();
+                                ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
+                                ringProgressDialog.setCancelable(false);
+                                ringProgressDialog.show();
+                                StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        ringProgressDialog.dismiss();
+                                        if (response.equals("0")) {
+                                            Toast.makeText(getActivity().getApplicationContext(), "Project name already exists!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            title.setText("");
+                                            etDescription.setText("");
+                                            getProjectsData();
+                                            Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        ringProgressDialog.dismiss();
+                                      //  alertDialog.dismiss();
+                                        Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+
+
+                                )
+
+                                {
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+
+                                        Map<String, String> params = new HashMap<>();
+                                        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                        String userId = pref.getString("user_id", "");
+
+//                                params.put("id",userId);
+//                                params.put("project_description",projectDescription);
+//                                params.put("project_name",projectData);
+//                                params.put("project_group",description);
+
+                                        //  String userId = pref.getString("user_id","");
+
+                                        params.put("id", userId);
+                                        params.put("project_description", projectDescription);
+                                        params.put("project_name", projectData);
+                                        params.put("project_group", groupId);
+                                        //   params.put("")
+
+                                        //    params.put("pg_name",GroupName);
+
+
+                                        // params.put()
+                                        // params.put("password",strPassword );
+                                        return params;
+                                    }
+                                };
+                                RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                                requestQueue.add(request);
+
+                            }else
+                            {
+                                Toast.makeText(getActivity(),"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Enter Project Name", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }else {
+                        Toast.makeText(getActivity(), "Project Group is not Selected", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
+                //  final String projectDescription = etDescription.getText().toString();
+                // = etDescription.getText().toString();
+            }
+        });
+
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,6 +415,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                     }else {
                         if(projectDescription.length()<=255) {
                             ProjectGroupEt();
+                            hideKeyBoard(title);
                             alertDialog.dismiss();
                         }else {
                             Toast.makeText(getActivity(),"Description maximum limit is 255",Toast.LENGTH_LONG).show();
@@ -313,6 +443,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                             adapter = new ProjectsAdapter(getActivity(), listPojo);
                             lv.setAdapter(adapter);*/
                             if(projectDescription.length()<=255) {
+                                hideKeyBoard(title);
                             alertDialog.dismiss();
                             ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
                             ringProgressDialog.setCancelable(false);
@@ -399,6 +530,15 @@ public class Projects extends Fragment implements View.OnClickListener {
         alertDialog.show();
 
 
+    }
+
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
     }
 
 //    public void  showDialog(){

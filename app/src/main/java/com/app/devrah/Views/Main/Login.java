@@ -436,12 +436,15 @@ public class Login extends AppCompatActivity implements
             }else {
                 url="";
             }
-            if(acct.getEmail()!=null && acct.getDisplayName()!=null) {
+            if(acct.getEmail()!=null && acct.getDisplayName()!=null && isClicked) {
                 Signup(acct.getDisplayName().toString(), acct.getEmail().toString(), url);
 
             }else {
-                if(isClicked)
-                onSignInClicked();
+                if(isClicked) {
+                    onSignInClicked();
+                    isClicked=false;
+                }
+
             }
 
            /* intent.putExtra("Gprofile",url.toString());

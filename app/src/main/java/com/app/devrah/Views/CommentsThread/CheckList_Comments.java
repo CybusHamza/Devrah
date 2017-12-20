@@ -214,7 +214,10 @@ public class CheckList_Comments extends AppCompatActivity implements callBack{
                             alertDialog.dismiss();
 
                             Intent intent = new Intent();
-                            intent.setType("*/*");
+                           // Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath());
+                           intent.setType("*/*");
+                            //intent.setType(uri.toString());
+
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             //   intent.setSelector(Intent.getIntent().removeCategory(););
 

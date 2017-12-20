@@ -1,6 +1,7 @@
 package com.app.devrah.Views.BoardExtended;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -130,7 +132,14 @@ public class LastItemBoardFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     public void showDialog() {
 
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
@@ -138,12 +147,13 @@ public class LastItemBoardFragment extends Fragment {
         final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
         alertDialog.setCancelable(false);
         edt = (EditText) customView.findViewById(R.id.input_watever);
-
+        showKeyBoard(edt);
         final TextView addCard = (TextView) customView.findViewById(R.id.btn_add_board);
         final TextView cancelbtn = (TextView) customView.findViewById(R.id.btn_cancel);
         cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(edt);
                 alertDialog.dismiss();
             }
         });
@@ -173,7 +183,7 @@ public class LastItemBoardFragment extends Fragment {
                     // adapter.notifyDataSetChanged();
                     addNewList(projectData, String.valueOf(adapter.getCount() - 1));
                     //    CustomViewPagerAdapter.mFragmentList.remove(CustomViewPagerAdapter.customCount() -1);
-
+                    hideKeyBoard(edt);
                     alertDialog.dismiss();
                 }else {
                     Toast.makeText(getActivity(),"Please Enter List Name",Toast.LENGTH_SHORT).show();

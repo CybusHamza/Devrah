@@ -586,7 +586,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                                     (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,project_name);
-
+                            dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             project.setAdapter(dataAdapter);
 
                             project.setOnItemSelectedListener(new CustomOnItemSelectedListener_projects());
@@ -689,7 +689,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                                     (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,boards_name);
-
+                            dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             board.setAdapter(dataAdapter);
 
                             board.setOnItemSelectedListener(new CustomOnItemSelectedListener_boards());
@@ -905,7 +905,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                                     (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,cards_name);
-
+                            dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             card.setAdapter(dataAdapter);
 
 

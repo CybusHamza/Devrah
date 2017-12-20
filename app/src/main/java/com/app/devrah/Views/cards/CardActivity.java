@@ -37,7 +37,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -349,7 +351,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             BoardExtended.pTitle=intent.getStringExtra("project_title");
         //}
 
-        getCardList();
+        try{
+            getCardList();
+        }catch (OutOfMemoryError error){
+            error.printStackTrace();
+        }
+
+
 
         labelNameList = new ArrayList<>();
         asliList = new ArrayList<>();
@@ -553,9 +561,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        getChecklistData();
-
+        try {
+            getChecklistData();
+        }catch (OutOfMemoryError error){
+            error.printStackTrace();
+        }
         toolbar.setNavigationIcon(R.drawable.back_arrow_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -3575,7 +3585,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     public void updateUI()
     {
-        getCardList();
+        try{
+            getCardList();
+        }catch (OutOfMemoryError error){
+            error.printStackTrace();
+        }
+
     }
 
     public static void addlabel(final String lablecolor, final String lableText) {
@@ -4099,7 +4114,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         Button cancel, copy;
         final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
         etCardName.setText(CardHeading);
-
+        etCardName.setSelection(etCardName.getText().length());
+        showKeyBoard(etCardName);
         copy = (Button) customView.findViewById(R.id.copy);
         cancel = (Button) customView.findViewById(R.id.close);
         copy.setOnClickListener(new View.OnClickListener() {
@@ -4129,7 +4145,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });
 
     }
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     public  void updateCardTime(final String startTime, final String dueTime) {
         final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.UPDATE_CARD_DUE_TIME,
@@ -4203,6 +4226,33 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         requestQueue.add(request);
 
     }
+    public void setupUI(final View view, final EditText editText) {
+
+        //Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+
+            view.setOnTouchListener(new View.OnTouchListener() {
+
+                public boolean onTouch(View v, MotionEvent event) {
+                    view.clearFocus();
+                    hideSoftKeyboard(CardActivity.this,editText);
+                    return false;
+                }
+            });
+        }
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView,editText);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity,EditText editText) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
     private void showDialogCopy() {
 
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
@@ -4221,6 +4271,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         listHeading= (TextView) customView.findViewById(R.id.listLabel);
         etTitleCopyCard= (EditText) customView.findViewById(R.id.etTitle);
         etTitleCopyCard.setText(CardHeading);
+        etTitleCopyCard.setSelection(etTitleCopyCard.getText().length());
+        showKeyBoard(etTitleCopyCard);
         Projects=(Spinner) customView.findViewById(R.id.projectSpinner);
         boardSpinner= (Spinner) customView.findViewById(R.id.boardSpinner);
         listSpinner= (Spinner) customView.findViewById(R.id.listSpinner);
@@ -4229,7 +4281,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         labelcb= (CheckBox) customView.findViewById(R.id.labelcb);
         attachmentcb= (CheckBox) customView.findViewById(R.id.attachmentcb);
         membercb= (CheckBox) customView.findViewById(R.id.memberscb);
-
+        setupUI(customView.findViewById(R.id.relativelayout),etTitleCopyCard);
         copy = (TextView) customView.findViewById(R.id.copy);
         cancel = (TextView) customView.findViewById(R.id.close);
 
@@ -4249,6 +4301,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 }else if(listSpinner.getSelectedItemPosition()==0 || listSpinner.getSelectedItemPosition()==-1){
                     Toast.makeText(CardActivity.this,"Error, list name is must!",Toast.LENGTH_LONG).show();
                 }else {
+                    hideKeyBoard(etTitleCopyCard);
                     alertDialog.dismiss();
                     copyCard();
                 }
@@ -4260,7 +4313,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onClick(View view) {
 
-
+                hideKeyBoard(etTitleCopyCard);
                 alertDialog.dismiss();
 
             }

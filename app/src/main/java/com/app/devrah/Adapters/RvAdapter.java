@@ -1,20 +1,31 @@
 package com.app.devrah.Adapters;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,12 +50,20 @@ import com.app.devrah.Views.CommentsThread.Child_Comments;
 import com.app.devrah.pojo.CommentsPojo;
 import com.app.devrah.pojo.Level;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by Hamza Android on 10/24/2017.
@@ -53,10 +72,13 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
 
     List<CommentsPojo> projectsList;
-    Context activity;
+    Activity activity;
     ProgressDialog ringProgressDialog;
-    public RvAdapter(Context con, List<CommentsPojo> projectsList) {
-        activity = con;
+    AlertDialog myalertdialog;
+    private static final int REQUEST_PERMISSIONS=5;
+    Boolean success=false;
+    public RvAdapter(Activity con, List<CommentsPojo> projectsList) {
+        this.activity = con;
         this.projectsList = projectsList;
     }
 
@@ -158,9 +180,11 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         holder.attachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = projectsList.get(position).getComments().replace(" ", "%20");
+               /* String url = projectsList.get(position).getComments().replace(" ", "%20");
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + url));
-                activity.startActivity(browserIntent);
+                activity.startActivity(browserIntent);*/
+                downloadImageDialog(position,projectsList.get(position).getComments(),projectsList.get(position).getComments());
+
             }
         });
         holder.reply.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +297,71 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         });
     }
 
+    private void downloadImageDialog(int position, final String comments, String comments1) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.custom_diloag_download_image, null);
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+        ImageView image= (ImageView) dialogView.findViewById(R.id.imageLoaded);
+        TextView label= (TextView) dialogView.findViewById(R.id.label);
+
+        Button downloadImageBtn= (Button) dialogView.findViewById(R.id.downloadImageBtn);
+        Button cancelBtn= (Button) dialogView.findViewById(R.id.cancelBtn);
+        Button makeCover= (Button) dialogView.findViewById(R.id.makeCoverBtn);
+        makeCover.setVisibility(View.GONE);
+        label.setText(comments);
+        Picasso.with(activity)
+                .load("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + comments)
+                .resize(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height))
+                .into(image);
+        downloadImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+
+                    if (Build.VERSION.SDK_INT > 22) {
+
+                       activity.requestPermissions(new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+
+                    }
+
+                }else {
+                    Picasso.with(activity).load("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + comments).into(picassoImageTarget(activity, "imageDir", comments));
+                    //  Target target=picassoImageTarget(activity, "imageDir",imageName);
+                    //Toast.makeText(activity, "Image Saved to the Directory imageDir", Toast.LENGTH_LONG).show();
+                    myalertdialog.dismiss();
+                    ShowToast();
+                }
+               /* if (success) {
+                    Toast.makeText(activity, "Image saved with success",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(activity,
+                            "Error during image saving", Toast.LENGTH_LONG).show();
+                }*/
+                // String url =imageName.replace(" ","%20");
+                // Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/kanban/uploads/card_uploads/"+url));
+                //activity. startActivity(browserIntent);
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myalertdialog.dismiss();
+            }
+        });
+
+        myalertdialog = builder.create();
+        myalertdialog.show();
+    }
+    public void ShowToast(){
+        Toast.makeText(activity, "Image Save to the directory Devrah", Toast.LENGTH_SHORT).show();
+    }
     @Override
     public int getItemCount() {
         return projectsList.size();
@@ -639,5 +728,61 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.RvViewHolder> {
         requestQueue.add(request);
 
     }
+    private Target picassoImageTarget(final Context context, final String imageDir, final String imageName) {
+        Log.d("picassoImageTarget", " picassoImageTarget");
+        final File root = new File(Environment.getExternalStorageDirectory()
+                + File.separator + "Devrah" + File.separator);
+        if (!root.exists()) {
 
+            root.mkdirs();
+        }
+        ContextWrapper cw = new ContextWrapper(context);
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+        final File myImageFile = new File(root, formattedDate+imageName); // path to /data/data/yourapp/app_imageDir
+        return new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Create image file
+                        //  Toast.makeText(context,"Image Saved to directory "+myImageFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
+
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(myImageFile);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                            //   Toast.makeText(context,"Image Saved to directory "+myImageFile.getAbsolutePath(),Toast.LENGTH_LONG).show();
+
+                        } catch (IOException e) {
+                            // Toast.makeText(context,"Failed to save image ",Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                success=true;
+                                fos.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
+
+
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+            }
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                if (placeHolderDrawable != null) {}
+            }
+        };
+    }
 }

@@ -1,5 +1,6 @@
 package com.app.devrah.Views.BoardExtended;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -48,6 +51,7 @@ import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.Favourites.FavouritesActivity;
 import com.app.devrah.Views.ManageMembers.Manage_Board_Members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
+import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CalendarPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarCheckBox;
 import com.app.devrah.pojo.CardAssociatedCalendarCoverPojo;
@@ -447,7 +451,8 @@ public class BoardExtended extends AppCompatActivity {
         final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
         tvheading.setText("Update Board Name");
         etCardName.setText(title);
-
+        etCardName.setSelection(etCardName.getText().length());
+        showKeyBoard(etCardName);
         copy = (Button) customView.findViewById(R.id.copy);
         cancel = (Button) customView.findViewById(R.id.close);
         copy.setOnClickListener(new View.OnClickListener() {
@@ -456,6 +461,7 @@ public class BoardExtended extends AppCompatActivity {
                 String check=etCardName.getText().toString();
                 if(!check.equals("") && check!="" && check.trim().length()>0) {
                     UpdateBoardName(etCardName.getText().toString());
+                    hideKeyBoard(etCardName);
                     alertDialog.dismiss();
                 }else {
                     Toast.makeText(BoardExtended.this,"Board Name is must!",Toast.LENGTH_LONG).show();
@@ -467,12 +473,20 @@ public class BoardExtended extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                hideKeyBoard(etCardName);
                 alertDialog.dismiss();
 
             }
         });
 
+    }
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
     }
 
     public void openDrawer() {
@@ -1162,17 +1176,24 @@ private void getDueDates(final String currentDate){
         alertDialog.setView(customView);
         alertDialog.show();
 
-        TextView heading, sub;
+        TextView heading, sub,headingTitle;
 
         TextView cancel, copy;
-
+        final EditText ettitle;
         heading = (TextView) customView.findViewById(R.id.heading);
+        headingTitle = (TextView) customView.findViewById(R.id.title);
         sub = (TextView) customView.findViewById(R.id.sub_heading);
         Postions = (Spinner) customView.findViewById(R.id.position);
         Projects = (Spinner) customView.findViewById(R.id.projects_group);
         copy = (TextView) customView.findViewById(R.id.copy);
         cancel = (TextView) customView.findViewById(R.id.close);
-
+        ettitle = (EditText) customView.findViewById(R.id.etTitle);
+        ettitle.setText(toolbar.getTitle());
+        ettitle.setSelection(toolbar.getTitle().length());
+        if (data.equals("copy")) {
+            setupUI(customView.findViewById(R.id.relativelayout),ettitle);
+            showKeyBoard(ettitle);
+        }
 
         getSpinnerData();
 
@@ -1180,6 +1201,8 @@ private void getDueDates(final String currentDate){
             heading.setText("Move Board");
             sub.setText("Move To Project ");
             copy.setText("Move");
+            ettitle.setVisibility(View.GONE);
+            headingTitle.setVisibility(View.GONE);
         }
 
 
@@ -1190,8 +1213,9 @@ private void getDueDates(final String currentDate){
                 if (data.equals("move")) {
                     moveBoard();
                 } else {
-                    copyBoard();
+                    copyBoard(ettitle.getText().toString());
                 }
+                hideKeyBoard(ettitle);
                 alertDialog.dismiss();
             }
         });
@@ -1200,14 +1224,40 @@ private void getDueDates(final String currentDate){
             @Override
             public void onClick(View view) {
 
-
+                hideKeyBoard(ettitle);
                 alertDialog.dismiss();
 
             }
         });
 
     }
+    public void setupUI(final View view, final EditText editText) {
 
+        //Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+
+            view.setOnTouchListener(new View.OnTouchListener() {
+
+                public boolean onTouch(View v, MotionEvent event) {
+                    view.clearFocus();
+                    hideSoftKeyboard(BoardExtended.this,editText);
+                    return false;
+                }
+            });
+        }
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView,editText);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity, EditText editText) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
     public void getList() {
 
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
@@ -1612,7 +1662,7 @@ private void getDueDates(final String currentDate){
 
     }
 
-    public void copyBoard() {
+    public void copyBoard(final String boardName) {
 
 
         ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
@@ -1658,6 +1708,7 @@ private void getDueDates(final String currentDate){
                 params.put("project_id_to", spinnerGroupIds.get(pos));
                 params.put("position_to", postions_list.get(pos1));
                 params.put("userId",pref.getString("user_id",""));
+                params.put("board_name",boardName);
                 return params;
             }
         };
