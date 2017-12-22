@@ -37,6 +37,9 @@ import com.app.devrah.pojo.CardAssociatedCalendarCheckBox;
 import com.app.devrah.pojo.CardAssociatedCalendarCoverPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -170,17 +173,18 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         holder.attachment.setVisibility(View.GONE);
         String cover[]=coverList.get(position).getIsCover();
         String fileName[]=coverList.get(position).getFileName();
-       /* for(int i=0;i<cover.length;i++) {
+        for(int i=0;i<cover.length;i++) {
             if (cover[i].equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
-                Picasso.with(activity)
+                Glide.with(activity)
                         .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
-                        .resize(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height))
+                        .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                .skipMemoryCache(true))
                         .into(holder.attachment);
             } else {
                 holder.attachment.setVisibility(View.GONE);
             }
-        }*/
+        }
 
         if(!projectsList.get(position).getnOfAttachments().equals("0")){
             holder.dueDate.setVisibility(View.VISIBLE);

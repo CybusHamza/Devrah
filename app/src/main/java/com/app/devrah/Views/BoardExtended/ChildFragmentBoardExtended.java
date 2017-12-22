@@ -115,6 +115,7 @@ public class ChildFragmentBoardExtended extends Fragment {
     List<String> postions_list;
     EditText edtSeach;
 
+
     private OnFragmentInteractionListener mListener;
     static ChildFragmentBoardExtended fragment;
     String check1="";

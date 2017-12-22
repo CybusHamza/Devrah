@@ -66,8 +66,10 @@
         android:background="@drawable/back_spinner_black"/>
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="36dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="2dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="0.15"
             android:id="@+id/showET"
             android:src="@drawable/plus_btn"/>

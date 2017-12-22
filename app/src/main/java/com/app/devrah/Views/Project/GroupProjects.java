@@ -1,6 +1,7 @@
 package com.app.devrah.Views.Project;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,10 +11,15 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.CustomExpandableListAdapter;
 import com.app.devrah.Adapters.GroupProjectAdapter;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.readyInterface;
 import com.app.devrah.pojo.GroupProjectsPojo;
@@ -72,8 +79,21 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
     String groupProjectData;
     GroupProjectsPojo groupProjectsPojo;
     GroupProjectAdapter adapter;
-
-
+    ProgressDialog ringProgressDialog;
+    String GroupName;
+    private Spinner spinnerProjectGroup;
+    AlertDialog alertDialog;
+    EditText title, spinnerData;
+    String projectData;
+    LinearLayout laEt, laSpinner;
+    public EditText etDescription;
+    String groupId;
+    EditText etProjectGroup;
+    ArrayAdapter<String> timeAdapter;
+    ImageView showSpinner;
+    List<String> spinnerValues;
+    List<String> spinnerGroupIds;
+    String description;
     /////////////////////////////////////////
    public ArrayList<String> whatever, whateverId, projectId, projectNames, dummy;
 
@@ -117,7 +137,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_projects, container, false);
-     //   addGrouProjects = (Button) view.findViewById(R.id.buttonAddGroupProject);
+       addGrouProjects = (Button) view.findViewById(R.id.buttonAddProject);
       //  AddGroupProjectListView = (ListView) view.findViewById(R.id.groupProjectsListView);
         pojoList = new ArrayList<>();
 
@@ -125,6 +145,12 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
 
         expandableLv = (ExpandableListView) view.findViewById(R.id.lvExp);
         mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        addGrouProjects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCustomDialog();
+            }
+        });
         //   spinnerValues = new String[]{};
         mySwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -221,7 +247,323 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
 
 
     }
+    public void showCustomDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        View customView = layoutInflater.inflate(R.layout.custom_alert_for_projects, null);
+        alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setCancelable(false);
+        title = (EditText) customView.findViewById(R.id.input_title);
+        etDescription = (EditText) customView.findViewById(R.id.etEmail);
+        showKeyBoard(title);
+        laEt = (LinearLayout) customView.findViewById(R.id.laEt);
+        laSpinner = (LinearLayout) customView.findViewById(R.id.laSpinner);
+        etProjectGroup = (EditText) customView.findViewById(R.id.etCustomSpinnerData);
 
+
+        ImageView showET = (ImageView) customView.findViewById(R.id.showET);
+        showSpinner = (ImageView) customView.findViewById(R.id.imageShowSpinner);
+
+        spinnerProjectGroup = (Spinner) customView.findViewById(R.id.spinProjectGroup);
+        //   spinnerData = (EditText)customView.findViewById(R.id.etCustomSpinnerData);
+
+        getSpinnerData();
+
+        // getProjectsData();
+
+        showET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                laEt.setVisibility(View.VISIBLE);
+                laSpinner.setVisibility(View.GONE);
+//                spinnerProjectGroup.setVisibility(View.GONE);
+//                spinnerData.setVisibility(View.VISIBLE);
+            }
+        });
+
+        showSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                laSpinner.setVisibility(View.VISIBLE);
+                laEt.setVisibility(View.GONE);
+
+            }
+        });
+
+
+        TextView addCard = (TextView) customView.findViewById(R.id.addProject);
+        TextView addCardAndMore = (TextView) customView.findViewById(R.id.addProject1);
+        TextView cancel = (TextView) customView.findViewById(R.id.cancel_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyBoard(title);
+                alertDialog.dismiss();
+            }
+        });
+        addCard.setText("Save and Close");
+        addCardAndMore.setText("Save and Add");
+        addCardAndMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                projectData = title.getText().toString();
+                final String projectDescription = etDescription.getText().toString();
+
+                if (laEt.getVisibility() == View.VISIBLE) {
+                    description = etProjectGroup.getText().toString();
+                    if (etProjectGroup.getText().toString().equals("")) {
+                        Toast.makeText(getActivity(), "Please Enter Group Name", Toast.LENGTH_LONG).show();
+                        return;
+                    } else {
+                        if (projectDescription.length() <= 255) {
+                            ProjectGroupEt();
+                            etProjectGroup.setText("");
+                            title.setText("");
+                            etDescription.setText("");
+                        } else {
+                            Toast.makeText(getActivity(), "Description maximum limit is 255", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                    // description = etDescription.getText().toString();
+
+                }
+                if (laSpinner.getVisibility() == View.VISIBLE) {
+                    int pos = spinnerProjectGroup.getSelectedItemPosition();
+                    if (pos != -1) {
+                        GroupName = timeAdapter.getItem(spinnerProjectGroup.getSelectedItemPosition());
+                        int index = spinnerValues.indexOf(GroupName);
+                        groupId = spinnerGroupIds.get(index);
+                        //description = spinnerProjectGroup.
+                        //Toast.makeText(getActivity().getApplicationContext(), GroupName, Toast.LENGTH_SHORT).show();
+
+
+                        if (!(projectData.isEmpty())) {
+                           /* projectPojoData = new ProjectsPojo();
+                            projectPojoData.setData(projectData);
+                            projectPojoData.setDescription(description);
+                            listPojo.add(projectPojoData);
+                            adapter = new ProjectsAdapter(getActivity(), listPojo);
+                            lv.setAdapter(adapter);*/
+                            if (projectDescription.length() <= 255) {
+                                //alertDialog.dismiss();
+                                ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
+                                ringProgressDialog.setCancelable(false);
+                                ringProgressDialog.show();
+                                StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        ringProgressDialog.dismiss();
+                                        if (response.equals("0")) {
+                                            Toast.makeText(getActivity().getApplicationContext(), "Project name already exists!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            title.setText("");
+                                            etDescription.setText("");
+                                         prepareDataList();
+                                            Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        ringProgressDialog.dismiss();
+                                        //  alertDialog.dismiss();
+                                        Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+
+
+                                )
+
+                                {
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+
+                                        Map<String, String> params = new HashMap<>();
+                                        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                        String userId = pref.getString("user_id", "");
+
+//                                params.put("id",userId);
+//                                params.put("project_description",projectDescription);
+//                                params.put("project_name",projectData);
+//                                params.put("project_group",description);
+
+                                        //  String userId = pref.getString("user_id","");
+
+                                        params.put("id", userId);
+                                        params.put("project_description", projectDescription);
+                                        params.put("project_name", projectData);
+                                        params.put("project_group", groupId);
+                                        //   params.put("")
+
+                                        //    params.put("pg_name",GroupName);
+
+
+                                        // params.put()
+                                        // params.put("password",strPassword );
+                                        return params;
+                                    }
+                                };
+                                RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                                requestQueue.add(request);
+
+                            } else {
+                                Toast.makeText(getActivity(), "Description maximum limit is 255", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Enter Project Name", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Project Group is not Selected", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+                //  final String projectDescription = etDescription.getText().toString();
+                // = etDescription.getText().toString();
+            }
+        });
+        addCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                projectData = title.getText().toString();
+                final String projectDescription = etDescription.getText().toString();
+
+                if (laEt.getVisibility() == View.VISIBLE) {
+                    description = etProjectGroup.getText().toString();
+                    if(etProjectGroup.getText().toString().equals("")){
+                        Toast.makeText(getActivity(),"Please Enter Group Name",Toast.LENGTH_LONG).show();
+                        return;
+                    }else {
+                        if(projectDescription.length()<=255) {
+                            ProjectGroupEt();
+                            hideKeyBoard(title);
+                            alertDialog.dismiss();
+                        }else {
+                            Toast.makeText(getActivity(),"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                    // description = etDescription.getText().toString();
+
+                }
+                if (laSpinner.getVisibility() == View.VISIBLE) {
+                    int pos=spinnerProjectGroup.getSelectedItemPosition();
+                    if(pos!=-1){
+                        GroupName = timeAdapter.getItem(spinnerProjectGroup.getSelectedItemPosition());
+                        int index = spinnerValues.indexOf(GroupName);
+                        groupId = spinnerGroupIds.get(index);
+                        //description = spinnerProjectGroup.
+                        //Toast.makeText(getActivity().getApplicationContext(), GroupName, Toast.LENGTH_SHORT).show();
+
+
+                        if (!(projectData.isEmpty())) {
+                           /* projectPojoData = new ProjectsPojo();
+                            projectPojoData.setData(projectData);
+                            projectPojoData.setDescription(description);
+                            listPojo.add(projectPojoData);
+                            adapter = new ProjectsAdapter(getActivity(), listPojo);
+                            lv.setAdapter(adapter);*/
+                            if(projectDescription.length()<=255) {
+                                hideKeyBoard(title);
+                                alertDialog.dismiss();
+                                ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
+                                ringProgressDialog.setCancelable(false);
+                                ringProgressDialog.show();
+                                StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        ringProgressDialog.dismiss();
+                                        if (response.equals("0")) {
+                                            Toast.makeText(getActivity().getApplicationContext(), "Project name already exists!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            prepareDataList();
+                                            Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        ringProgressDialog.dismiss();
+                                        alertDialog.dismiss();
+                                        Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+
+
+                                )
+
+                                {
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+
+                                        Map<String, String> params = new HashMap<>();
+                                        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                        String userId = pref.getString("user_id", "");
+
+//                                params.put("id",userId);
+//                                params.put("project_description",projectDescription);
+//                                params.put("project_name",projectData);
+//                                params.put("project_group",description);
+
+                                        //  String userId = pref.getString("user_id","");
+
+                                        params.put("id", userId);
+                                        params.put("project_description", projectDescription);
+                                        params.put("project_name", projectData);
+                                        params.put("project_group", groupId);
+                                        //   params.put("")
+
+                                        //    params.put("pg_name",GroupName);
+
+
+                                        // params.put()
+                                        // params.put("password",strPassword );
+                                        return params;
+                                    }
+                                };
+                                RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                                requestQueue.add(request);
+
+                            }else
+                            {
+                                Toast.makeText(getActivity(),"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Enter Project Name", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }else {
+                        Toast.makeText(getActivity(), "Project Group is not Selected", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
+                //  final String projectDescription = etDescription.getText().toString();
+                // = etDescription.getText().toString();
+            }
+        });
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+    }
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     public void prepareDataList() {
 
         final ProgressDialog ringProgressDialog;
@@ -430,6 +772,187 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
         }
             return projectName;
         }
+    public void getSpinnerData() {
+
+
+        spinnerValues = new ArrayList<>();
+        spinnerGroupIds = new ArrayList<>();
+
+        ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_SPINNER_GROUP_PROJECTS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //    Toast.makeText(getActivity().getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+
+                        ringProgressDialog.dismiss();
+                        if (response.equals("false")) {
+                            new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Error!")
+                                    .setConfirmText("OK").setContentText("Error")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismiss();
+
+                                        }
+                                    })
+                                    .show();
+                        } else {
+
+                            String userid;
+
+                            try {
+
+                                String firstname, email, lastName, profilePic;
+
+                                JSONArray array = new JSONArray(response);
+                                for (int i = 0; i < array.length(); i++) {
+
+                                    JSONObject object = new JSONObject(array.getString(i));
+                                    spinnerValues.add(String.valueOf(object.get("pg_name")));
+                                    spinnerGroupIds.add(String.valueOf(object.get("pg_id")));
+                                    // Toast.makeText(getActivity().getApplicationContext(), spinnerValues.get(i), Toast.LENGTH_SHORT).show();
+                                    //spinnerValues[i] = String.valueOf(object.get("pg_name"));
+
+//                                    projectPojoData = new ProjectsPojo();
+//                                    projectPojoData.setData(object.getString("project_name"));
+//                                    projectPojoData.setId(object.getString("project_id"));
+//                                    listPojo.add(projectPojoData);
+                                }
+                                timeAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.nothing_selected_spinnerdate, spinnerValues);
+                                timeAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
+                                spinnerProjectGroup.setAdapter(timeAdapter);
+
+                                spinnerProjectGroup.setSelection(0);
+
+
+//                                spinnerProjectGroup.set
+
+//                                adapter = new ProjectsAdapter(getActivity(), listPojo);
+//
+//
+//                                lv.setAdapter(adapter);
+//
+//
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                //alertDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(getActivity(), "check your internet connectionn", Toast.LENGTH_SHORT).show();
+
+
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity(),"Connection TimeOut! Please check your internet connection."
+                            , Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("user_id", userId);
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+
+    }
+
+    public void ProjectGroupEt() {
+
+        description = etProjectGroup.getText().toString();
+
+
+        final String projectDescription = etDescription.getText().toString();
+        // = etDescription.getText().toString();
+
+        if (!(projectData.isEmpty())) {
+           /* projectPojoData = new ProjectsPojo();
+            projectPojoData.setData(projectData);
+            projectPojoData.setDescription(description);
+            listPojo.add(projectPojoData);
+            adapter = new ProjectsAdapter(getActivity(), listPojo);
+            lv.setAdapter(adapter);*/
+
+            StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_NEW_PROJECT_ET, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    String checkResponse=response.trim();
+                    if(!checkResponse.equals("Project already exist")) {
+                        prepareDataList();
+                        Toast.makeText(getActivity().getApplicationContext(), "Project Added Successfully", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity().getApplicationContext(), "Error, project's group name already exists!", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    Toast.makeText(getActivity().getApplicationContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+
+            )
+
+            {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+
+                    Map<String, String> params = new HashMap<>();
+                    SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                    String userId = pref.getString("user_id", "");
+
+                    params.put("id", userId);
+                    params.put("project_description", projectDescription);
+                    params.put("project_name", projectData);
+                    //    params.put("project_group",description);
+
+                    params.put("pg_name", description);
+                    // params.put()
+                    // params.put("password",strPassword );
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+            requestQueue.add(request);
+
+
+        } else {
+            Toast.makeText(getActivity(), "No Text Entered", Toast.LENGTH_SHORT).show();
+        }
+//
+//        alertDialog.dismiss();
+
+
+    }
 
 }
 

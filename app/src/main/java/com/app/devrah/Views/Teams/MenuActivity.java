@@ -1,6 +1,7 @@
 package com.app.devrah.Views.Teams;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -127,7 +129,7 @@ public class MenuActivity extends AppCompatActivity {
         final EditText etTeamDescription = (EditText) view.findViewById(R.id.input_team_description);
         TextView tvDone = (TextView) view.findViewById(R.id.addMember);
         TextView tvCanvel = (TextView) view.findViewById(R.id.cancel);
-
+        showKeyBoard(etTeamName);
 
 
 
@@ -140,7 +142,7 @@ public class MenuActivity extends AppCompatActivity {
                 if(!teamName.equals("")) {
                     if(etTeamDescription.getText().toString().length()<=255) {
                         creatNewTeam(etTeamName.getText().toString(), etTeamDescription.getText().toString());
-
+                        hideKeyBoard(etTeamName);
                         alertDialog.dismiss();
                     }else {
                         Toast.makeText(MenuActivity.this,"Description maximum limit is 255",Toast.LENGTH_LONG).show();
@@ -155,6 +157,7 @@ public class MenuActivity extends AppCompatActivity {
         tvCanvel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(etTeamName);
                 alertDialog.dismiss();
             }
         });
@@ -164,7 +167,14 @@ public class MenuActivity extends AppCompatActivity {
 
 
     }
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     @Override
     public void onBackPressed() {
 

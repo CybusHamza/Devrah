@@ -36,6 +36,12 @@
         <!--<item name="android:background">#fac903</item>-->
         <!--</style>-->
     </style>
+    <style name="MenuButtonsSmall">
+        <item name="fab_size">mini</item>
+        <item name="fab_colorNormal">#FF7F27</item>
+        <item name="fab_colorPressed">#FFF48B42</item>
+        <item name="fab_colorRipple">#99FFFFFF</item>
+    </style>
     <style name="labelbackground" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:background">@drawable/background_label_view</item>
@@ -103,7 +109,7 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowMinWidthMajor">76%</item>
         <item name="android:windowMinWidthMinor">76%</item>
-        <item name="android:layout_marginLeft">9dp</item>
+        <item name="android:layout_marginLeft">6dp</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:layout_height">match_parent</item>

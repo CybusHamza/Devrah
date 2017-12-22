@@ -122,6 +122,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
+                        ProjectsActivity.status="1";
                         getProjectsData();
                         mySwipeRefreshLayout.setRefreshing(false);
                     }

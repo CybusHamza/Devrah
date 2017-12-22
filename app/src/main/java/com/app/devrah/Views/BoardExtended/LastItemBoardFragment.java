@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class LastItemBoardFragment extends Fragment {
     String b_id;
     public TextView tvAddPage;
     EditText edt;
+    ImageView addList;
     CustomViewPagerAdapter adapter ;
     ParentBoardExtendedFragment fragment;
     List<ProjectsPojo> listPojo;
@@ -88,6 +90,7 @@ public class LastItemBoardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_last_item_board, container, false);
         tvAddPage = (TextView) view.findViewById(R.id.tvAddPage);
+        addList= (ImageView) getActivity().findViewById(R.id.btnAddFrag);
         Bundle bundle = getArguments();
         p_id = bundle.getString("p_id");
         b_id = bundle.getString("b_id");
@@ -97,6 +100,12 @@ public class LastItemBoardFragment extends Fragment {
             @Override
             public void onClick(View v) {
             showDialog();
+            }
+        });
+        addList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog();
             }
         });
 

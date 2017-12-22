@@ -539,8 +539,8 @@
             app:menu_animationDelayPerItem="50"
             app:menu_backgroundColor="#4D000000"
             app:menu_buttonSpacing="0dp"
-            app:menu_colorNormal="#DA4336"
-            app:menu_colorPressed="#E75043"
+            app:menu_colorNormal="#FF7F27"
+            app:menu_colorPressed="#FFF48B42"
             app:menu_colorRipple="#99FFFFFF"
             app:menu_fab_size="normal"
             app:menu_icon="@drawable/fab_add"
@@ -581,7 +581,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_label_icon"
                 app:fab_label="Labels"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                style="@style/MenuButtonsSmall"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/members"
@@ -589,7 +590,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_icon_member"
                 app:fab_label="Members"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                style="@style/MenuButtonsSmall"/>
 
 
 
@@ -599,7 +601,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_label_checklist"
                 app:fab_label="Check List"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                style="@style/MenuButtonsSmall"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/attachments"
@@ -607,7 +610,8 @@
                 android:layout_height="10dp"
                 android:src="@drawable/fab_icon_attachment"
                 app:fab_label="Attachments"
-                app:fab_size="mini" />
+                app:fab_size="mini"
+                style="@style/MenuButtonsSmall"/>
 
         </com.github.clans.fab.FloatingActionMenu>
 
@@ -636,7 +640,7 @@
 
     <ListView
         android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+        android:layout_width="290dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="#ffff"

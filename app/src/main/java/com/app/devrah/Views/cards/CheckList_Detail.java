@@ -192,13 +192,16 @@ public class CheckList_Detail extends AppCompatActivity {
         alertDialog.setCancelable(false);
         final EditText edt = (EditText)customView.findViewById(R.id.input_watever);
         final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
+        final TextView addCardAndMore = (TextView)customView.findViewById(R.id.btn_add_board1);
         final TextView headingtv = (TextView)customView.findViewById(R.id.headingTitle);
         headingtv.setText("Add Checkbox");
-        addCard.setText("Add Checkbox");
+        addCard.setText("Save and Close");
+        showKeyBoard(edt);
         final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(edt);
                 alertDialog.dismiss();
             }
         });
@@ -212,6 +215,7 @@ public class CheckList_Detail extends AppCompatActivity {
 
                     add_checkbox(edt.getText().toString());
                     alertDialog.dismiss();
+                    hideKeyBoard(edt);
 
                 }
                 else {
@@ -223,6 +227,21 @@ public class CheckList_Detail extends AppCompatActivity {
 
 
 
+
+            }
+        });
+        addCardAndMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String checkListName = edt.getText().toString();
+                if (!(checkListName.isEmpty())&& checkListName.trim().length()>0) {
+                    add_checkbox(edt.getText().toString());
+                    edt.setText("");
+
+                }
+                else {
+                    Toast.makeText(CheckList_Detail.this,"Name is must",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

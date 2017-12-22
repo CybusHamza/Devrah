@@ -65,6 +65,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BoardsActivity extends AppCompatActivity {
 
+    Switch active, inactive, complete;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     Spinner project_groups;
@@ -734,7 +735,7 @@ public class BoardsActivity extends AppCompatActivity {
         alertDialog.setCancelable(false);
 
        // LinearLayout active, inactive, complete;
-        Switch active, inactive, complete;
+
         final ImageView imgactive, igminactive, imgcomplete,crossIcon;
 
 
@@ -751,7 +752,7 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                drawerLayout.closeDrawer(Gravity.END);
+              //  drawerLayout.closeDrawer(Gravity.END);
             }
         });
         if (status.equals("1")) {
@@ -781,7 +782,7 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeStatus("1");
-                alertDialog.dismiss();
+              //  alertDialog.dismiss();
                 /*imgactive.setVisibility(View.VISIBLE);
                 igminactive.setVisibility(View.GONE);
                 imgcomplete.setVisibility(View.GONE);*/
@@ -792,7 +793,7 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeStatus("2");
-                alertDialog.dismiss();
+                //alertDialog.dismiss();
                /* imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.VISIBLE);
                 imgcomplete.setVisibility(View.GONE);*/
@@ -804,7 +805,7 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeStatus("3");
-                alertDialog.dismiss();
+                //alertDialog.dismiss();
 
                /*imgactive.setVisibility(View.GONE);
                 igminactive.setVisibility(View.GONE);
@@ -1082,6 +1083,34 @@ public class BoardsActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
                         status=stats;
+                        if (status.equals("1")) {
+                            // imgactive.setVisibility(View.VISIBLE);
+                            active.setChecked(true);
+                            inactive.setChecked(false);
+                            complete.setChecked(false);
+                            active.setClickable(false);
+                            inactive.setClickable(true);
+                            complete.setClickable(true);
+                            //active.setEnabled(false);
+                        } else if (status.equals("2")) {
+                            active.setChecked(false);
+                            inactive.setChecked(true);
+                            complete.setChecked(false);
+                            active.setClickable(true);
+                            inactive.setClickable(false);
+                            // igminactive.setVisibility(View.VISIBLE);
+                            complete.setClickable(true);
+                            // inactive.setEnabled(false);
+                        } else if (!(status.equals("null"))) {
+                            active.setChecked(false);
+                            inactive.setChecked(false);
+                            complete.setChecked(true);
+                            // imgcomplete.setVisibility(View.VISIBLE);
+                            complete.setClickable(false);
+                            active.setClickable(true);
+                            inactive.setClickable(true);
+                            //complete.setEnabled(false);
+                        }
                        // Toast.makeText(BoardsActivity.this, response, Toast.LENGTH_SHORT).show();
 
                     }

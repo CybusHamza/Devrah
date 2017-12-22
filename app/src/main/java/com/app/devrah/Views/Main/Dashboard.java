@@ -3,6 +3,7 @@ package com.app.devrah.Views.Main;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,12 +39,14 @@ import com.app.devrah.Views.MyCards.MyCardsActivity;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Project.ProjectsActivity;
 import com.app.devrah.Views.Teams.MenuActivity;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -460,6 +464,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         alertDialog.setCancelable(false);
         TextView ok = (TextView) subView.findViewById(R.id.ok);
         TextView cancel = (TextView) subView.findViewById(R.id.cancel_btn);
+        showKeyBoard(oldPassword);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -470,8 +475,10 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                     Toast.makeText(Dashboard.this,"Please Enter Password",Toast.LENGTH_LONG).show();
                 }else {
                     if(newpass.equals(confirmpass)) {
-                        if(newpass.length()>7 && !newpass.contains(" "))
+                        if(newpass.length()>7 && !newpass.contains(" ")) {
                             CheckPass();
+                            hideKeyBoard(oldPassword);
+                        }
                         else if(newpass.length()<8)
                             Toast.makeText(Dashboard.this,"Password length must be minimum 8 characters",Toast.LENGTH_LONG).show();
                         else
@@ -487,11 +494,20 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
        cancel.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               hideKeyBoard(oldPassword);
                alertDialog.dismiss();
            }
        });
         alertDialog.setView(subView);
         alertDialog.show();
+    }
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
     }
     @Override
     public void onBackPressed() {

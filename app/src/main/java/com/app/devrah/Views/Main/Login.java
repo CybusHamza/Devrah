@@ -137,7 +137,6 @@ public class Login extends AppCompatActivity implements
 
                 else
                 {
-                    isClicked=true;
                     onSignInClicked();
 
                 }
@@ -191,7 +190,7 @@ public class Login extends AppCompatActivity implements
         if (mGoogleApiClient.isConnected()) {
 
             // clearCookies();
-           // mGoogleApiClient.clearDefaultAccountAndReconnect();
+           //mGoogleApiClient.clearDefaultAccountAndReconnect();
                     /*Plus.AccountApi
                             .clearDefaultAccount(mGoogleApiClient);
 
@@ -336,7 +335,6 @@ public class Login extends AppCompatActivity implements
 //
 //                                }
 
-
                                 Intent intent = new Intent(Login.this, Dashboard.class);
                                 intent.putExtra("activityName", "");
                                 intent.putExtra("Glogin", "");
@@ -410,6 +408,7 @@ public class Login extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         //If signin
         if (requestCode == RC_SIGN_IN) {
+            isClicked=true;
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             //Calling a new function to handle signin
             handleSignInResult(result);
@@ -719,7 +718,6 @@ public class Login extends AppCompatActivity implements
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
-
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
         } else {
@@ -730,8 +728,10 @@ public class Login extends AppCompatActivity implements
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    if(googleSignInResult.isSuccess())
-                    handleSignInResult(googleSignInResult);
+                    if(googleSignInResult.isSuccess()) {
+                        handleSignInResult(googleSignInResult);
+                    }
+
 
                 }
             });

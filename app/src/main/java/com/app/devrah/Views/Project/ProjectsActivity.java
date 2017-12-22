@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -30,8 +31,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.devrah.Adapters.CustomDrawerAdapter;
+import com.app.devrah.Adapters.ProjectsAdapter;
 import com.app.devrah.R;
 import com.app.devrah.Views.Main.Dashboard;
 import com.app.devrah.Views.Notifications.NotificationsActivity;

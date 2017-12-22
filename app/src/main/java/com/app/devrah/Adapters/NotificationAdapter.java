@@ -75,7 +75,7 @@ public class NotificationAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.custom_layout_for_notifications_list_item, null);
         holder.userName = (TextView) convertView.findViewById(R.id.userName);
         //holder.userName.setText(projectsList.get(position).getUserName()+ projectsList.get(position).getLabel()+ projectsList.get(position).getData());
-        holder.userName.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()  + "</b> "+ "<font color=#C3C3C3>" +projectsList.get(position).getLabel() + "</font>" +"<b>" + projectsList.get(position).getData() + "</b> " ));
+        holder.userName.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()  + "</b> "+ "<font color=#C3C3C3>" +projectsList.get(position).getLabel() + "</font>" +"<b> <u>" + projectsList.get(position).getData() + "</u></b> " ));
         holder.date = (TextView) convertView.findViewById(R.id.date);
         if(projectsList.get(position).getLabel().equals("No notification found") && projectsList.get(position).getUserName().equals("")){
             holder.userName.setText(Html.fromHtml("<font color=#FFFFFF>" +projectsList.get(position).getLabel() + "</font>"));

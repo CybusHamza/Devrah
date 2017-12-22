@@ -39,6 +39,9 @@ import com.app.devrah.Network.End_Points;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.R;
 import com.app.devrah.pojo.AttachmentsImageFilePojo;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -97,9 +100,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
            // holder.imgViewAttachments.setImageBitmap(mList.get(position));
         if(!(attachmentList.get(position).getImageFile().equals(""))){
 
-            Picasso.with(activity)
+            Glide.with(activity)
                     .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
-                    .resize(180,180)
+                    .apply(new RequestOptions().override(180,180).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .skipMemoryCache(true))
                     .into(holder.imgViewAttachments);
         }
         holder.imgViewAttachments.setOnClickListener(new View.OnClickListener() {
@@ -185,9 +189,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         Button downloadImageBtn= (Button) dialogView.findViewById(R.id.downloadImageBtn);
         Button cancelBtn= (Button) dialogView.findViewById(R.id.cancelBtn);
         label.setText(originalFileName);
-        Picasso.with(activity)
+        Glide.with(activity)
                 .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + imageName)
-                .resize(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height))
+                .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true))
                 .into(image);
         downloadImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -855,7 +855,7 @@ public class MyCardsActivity extends AppCompatActivity {
 
             if(pos == 0)
             {
-                Toast.makeText(MyCardsActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MyCardsActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
             }
             else
             {
@@ -979,7 +979,7 @@ public class MyCardsActivity extends AppCompatActivity {
 
             if(pos == 0)
             {
-                Toast.makeText(MyCardsActivity.this,"Please Select Board", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MyCardsActivity.this,"Please Select Board", Toast.LENGTH_SHORT).show();
             }
             else
             {

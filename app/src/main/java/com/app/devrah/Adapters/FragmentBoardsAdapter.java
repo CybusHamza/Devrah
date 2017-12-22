@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,9 @@ import com.app.devrah.pojo.CardAssociatedCoverPojo;
 import com.app.devrah.pojo.CardAssociatedLabelsPojo;
 import com.app.devrah.pojo.CardAssociatedMembersPojo;
 import com.app.devrah.pojo.ProjectsPojo;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -106,14 +110,21 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         for(int i=0;i<cover.length;i++) {
             if (cover[i].equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
-                Picasso.with(activity)
+                Glide.with(activity)
                         .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
-                        .resize(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height))
-                        .into(holder.attachment);
+                        .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                .skipMemoryCache(true))
+                       .into(holder.attachment);
             } else {
                 holder.attachment.setVisibility(View.GONE);
             }
         }
+      /*  Picasso.Builder builder = new Picasso.Builder(activity);
+        builder.listener(new Picasso.Listener() {
+            @Override
+            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                exception.printStackTrace();
+            }});*/
 
         /*if(!projectsList.get(position).getAttachment().equals("") || projectsList.get(position).getAttachment()!=null){
             if(projectsList.get(position).getIsCover().equals("1")) {

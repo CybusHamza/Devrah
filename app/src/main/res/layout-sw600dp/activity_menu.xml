@@ -58,12 +58,12 @@
     <Button
         android:id="@+id/buttonTeam"
         android:layout_width="70dp"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginRight="10dp"
         />
 
