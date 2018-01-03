@@ -95,6 +95,7 @@ import com.app.devrah.pojo.ProjectsPojo;
 import com.app.devrah.pojo.check_model;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.mindorks.paracamera.Camera;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -240,7 +241,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<String> postions_listProjects;
     Spinner Projects;
 
-
+    Camera camera;
     static String isCardLocked,isCardSubscribed;
 
     public static void showLabelsMenu() {
@@ -403,7 +404,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         labelNameList.add("");
         labelNameList.add("");*/
 
-
+        camera = new Camera.Builder()
+                .resetToCorrectOrientation(true)// it will rotate the camera bitmap to the correct orientation from meta data
+                .setTakePhotoRequestCode(1)
+                .setDirectory("pics")
+                .setName("ali_" + System.currentTimeMillis())
+                .setImageFormat(Camera.IMAGE_JPEG)
+                .setCompression(75)
+                .setImageHeight(1000)// it will try to achieve this height as close as possible maintaining the aspect ratio;
+                .build(CardActivity.this);
         LACheckList = (LinearLayout) findViewById(R.id.LinearLayoutChecklist);
         rvCard = (RelativeLayout) findViewById(R.id.bg_card);
         simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
@@ -616,8 +625,17 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             }
 
                          else {
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, 1);
+                            /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(intent, 1);*/
+
+
+// Build the camera
+
+                                try {
+                                    camera.takePicture();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
                             alertDialog.dismiss();
 
                         }
@@ -1055,12 +1073,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Camera.REQUEST_TAKE_PHOTO ) {
 
-            Uri selectedImage = data.getData();
+         //   Uri selectedImage = data.getData();
             //  File imageFile = new File(selectedImage.toString());
 
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            Bitmap bitmap = camera.getCameraBitmap();
             Uri tempUri = getImageUri(getApplicationContext(), bitmap);
 
             String picturePath=getPathFromURI(tempUri);
@@ -3691,8 +3710,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             if (requestCode == REQUEST_PERMISSIONS && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (requestCode == REQUEST_PERMISSIONS) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, 1);
+                        /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 1);*/
+                        try {
+                            camera.takePicture();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
 
                     }
                 }
