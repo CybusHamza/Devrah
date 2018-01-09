@@ -137,8 +137,9 @@ public class CheckList_Detail extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.send_checkbox);
         dataList = new ArrayList<>();
         dataList.add(new DrawerPojo("Update CheckList Name"));
-       if(intent.hasExtra("addNewCheckbox"))
+       if(intent.hasExtra("addNewCheckbox")) {
            showDialog();
+       }
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,9 +214,10 @@ public class CheckList_Detail extends AppCompatActivity {
                 String checkListName = edt.getText().toString();
                 if (!(checkListName.isEmpty())&& checkListName.trim().length()>0) {
 
-                    add_checkbox(edt.getText().toString());
-                    alertDialog.dismiss();
+                    add_checkbox(edt.getText().toString(),"");
                     hideKeyBoard(edt);
+                    alertDialog.dismiss();
+
 
                 }
                 else {
@@ -235,9 +237,9 @@ public class CheckList_Detail extends AppCompatActivity {
             public void onClick(View view) {
                 String checkListName = edt.getText().toString();
                 if (!(checkListName.isEmpty())&& checkListName.trim().length()>0) {
-                    add_checkbox(edt.getText().toString());
+                    add_checkbox(edt.getText().toString(),"1");
                     edt.setText("");
-
+                    hideKeyBoard(edt);
                 }
                 else {
                     Toast.makeText(CheckList_Detail.this,"Name is must",Toast.LENGTH_SHORT).show();
@@ -305,7 +307,7 @@ public class CheckList_Detail extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
     }
-    private void add_checkbox  (final String checkbox) {
+    private void add_checkbox  (final String checkbox, final String addNewCheck) {
         ringProgressDialog = ProgressDialog.show(CheckList_Detail.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
@@ -337,6 +339,7 @@ public class CheckList_Detail extends AppCompatActivity {
                     intent.putExtra("checkListiItemName",checkListiItemName);
                     intent.putExtra("checkedItem",checkedItem);
                     intent.putExtra("checklistid",checklistid);
+                    if(!addNewCheck.equals(""))
                     intent.putExtra("addNewCheckbox","1");
                     intent.putExtra("name",name);
                     startActivity(intent);

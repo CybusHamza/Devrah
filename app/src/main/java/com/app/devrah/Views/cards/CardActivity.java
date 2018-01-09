@@ -3910,7 +3910,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 return map;
             }
         };
-
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
         requestQueue.add(request);
     }

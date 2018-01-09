@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +31,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -83,6 +89,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         return position;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -190,7 +197,61 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         }
         if(projectsList.get(position).getIsCardComplete().equals("1") && !holder.dueDate.getText().equals("")){
             holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_green_login));
-        }else {
+        } else if (!projectsList.get(position).getIsCardComplete().equals("1") && !holder.dueDate.getText().equals("")) {
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss", Locale.getDefault());
+
+            Date d1 = null;
+            Date d2=null;
+            Calendar c = Calendar.getInstance();
+            //Date = simpledateformat.format(calander.getTime());
+            String time=projectsList.get(position).getDuetTime();
+            if(time.equals("") || time.equals("null"))
+                time="00:00:00";
+            Calendar c1=Calendar.getInstance();
+            String[] splitDate=projectsList.get(position).getDueDate().split("-");
+
+            c1.set(Calendar.YEAR,Integer.valueOf(splitDate[0]));
+            c1.set(Calendar.MONTH,Integer.valueOf(splitDate[1])-1);
+            c1.set(Calendar.DATE,Integer.valueOf(splitDate[2]));
+            try {
+
+           // d1 = format.parse(projectsList.get(position).getDueDate()+" "+time);
+                String date1=format.format(c1.getTime());
+                String date=format.format(c.getTime());
+                d1=format.parse(date1);
+                d2=format.parse(date);
+                if(isBeforeDay(d1,d2)){
+                    int diff=d2.getDate()-d1.getDate();
+                    if(diff>2)
+                    holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_red));
+                    else if(diff<=2)
+                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_pink));
+                    else
+                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                }else if(isAfterDay(d1,d2)){
+                    int diff=d1.getDate()-d2.getDate();
+                    if(diff>=2)
+                    holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_gray));
+                    else if(diff<2)
+                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                    else
+                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                }else {
+                    holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                }
+                /*long diff = d2.getDate() - d1.getDate();
+               // long diffDays = diff / (24 * 60 * 60 * 1000);
+                if(diff>0 && diff<2){
+                    holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_gray));
+                }else if(diff<0 && diff>-2){
+                    holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_red));
+                }else {
+                    holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                }*/
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
             holder.dueDate.setBackground(null);
         }
        // if(projectsList.get(position).getnOfAttachments().length()>0){
@@ -430,7 +491,46 @@ public class FragmentBoardsAdapter extends BaseAdapter{
        }*/
         return convertView;
     }
-
+    public static boolean isAfterDay(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            throw new IllegalArgumentException("The dates must not be null");
+        }
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        return isAfterDay(cal1, cal2);
+    }
+    public static boolean isAfterDay(Calendar cal1, Calendar cal2) {
+        if (cal1 == null || cal2 == null) {
+            throw new IllegalArgumentException("The dates must not be null");
+        }
+        if (cal1.get(Calendar.ERA) < cal2.get(Calendar.ERA)) return false;
+        if (cal1.get(Calendar.ERA) > cal2.get(Calendar.ERA)) return true;
+        if (cal1.get(Calendar.YEAR) < cal2.get(Calendar.YEAR)) return false;
+        if (cal1.get(Calendar.YEAR) > cal2.get(Calendar.YEAR)) return true;
+        return cal1.get(Calendar.DAY_OF_YEAR) > cal2.get(Calendar.DAY_OF_YEAR);
+    }
+    public static boolean isBeforeDay(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            throw new IllegalArgumentException("The dates must not be null");
+        }
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        return isBeforeDay(cal1, cal2);
+    }
+    public static boolean isBeforeDay(Calendar cal1, Calendar cal2) {
+        if (cal1 == null || cal2 == null) {
+            throw new IllegalArgumentException("The dates must not be null");
+        }
+        if (cal1.get(Calendar.ERA) < cal2.get(Calendar.ERA)) return true;
+        if (cal1.get(Calendar.ERA) > cal2.get(Calendar.ERA)) return false;
+        if (cal1.get(Calendar.YEAR) < cal2.get(Calendar.YEAR)) return true;
+        if (cal1.get(Calendar.YEAR) > cal2.get(Calendar.YEAR)) return false;
+        return cal1.get(Calendar.DAY_OF_YEAR) < cal2.get(Calendar.DAY_OF_YEAR);
+    }
     public static class ViewHolder{
 
         LinearLayout membersView;

@@ -642,8 +642,6 @@ try {
 
 
                     lv.setAdapter(adapter);*/
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
                     row++;
                     saveCardByListId(boardsFragmentData,row);
                     edt.setText("");

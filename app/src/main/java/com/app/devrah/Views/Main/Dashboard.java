@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.FireBase_Notifications.RegistrationIntentService;
+import com.app.devrah.Holders.ImageConverter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.Favourites.FavouritesActivity;
@@ -39,7 +43,9 @@ import com.app.devrah.Views.MyCards.MyCardsActivity;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Project.ProjectsActivity;
 import com.app.devrah.Views.Teams.MenuActivity;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -80,6 +86,42 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
+        tvTime = (TextView) findViewById(R.id.tvTime);
+        tvQuote = (TextView) findViewById(R.id.tvQuote);
+        tvAuthor = (TextView) findViewById(R.id.tvAuthor);
+        tvAlias = (TextView) findViewById(R.id.alias_img);
+        imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
+        imgFavourites = (ImageView) findViewById(R.id.imageFavourites);
+        imgMyCards = (ImageView) findViewById(R.id.imageView6);
+        imgNotifications = (ImageView) findViewById(R.id.imageNotification);
+        imgInbox = (ImageView) findViewById(R.id.imageInbox);
+        imgMenu = (ImageView) findViewById(R.id.imageMenu);
+        imgProfile = (CircleImageView) findViewById(R.id.imageProfile);
+        imgProfile.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        currentImage = pref.getString("profile_pic", "");
+        initials = pref.getString("initials", "");
+        gLogin = pref.getString("Glogin", "");
+
+
+        if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("false")) {
+           /* Glide.with(this)
+                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
+                    .into(imgProfile);*/
+            Picasso.with(getApplicationContext())
+                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
+                    .transform(new ImageConverter())
+                    .into(imgProfile);
+        }else if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("true")){
+            Picasso.with(getApplicationContext())
+                    .load(currentImage)
+                    .transform(new ImageConverter())
+                    .into(imgProfile);
+        }else {
+            tvAlias.setVisibility(View.VISIBLE);
+            tvAlias.setText(initials);
+        }
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -94,36 +136,8 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        tvTime = (TextView) findViewById(R.id.tvTime);
-        tvQuote = (TextView) findViewById(R.id.tvQuote);
-        tvAuthor = (TextView) findViewById(R.id.tvAuthor);
-        tvAlias = (TextView) findViewById(R.id.alias_img);
-        imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
-        imgFavourites = (ImageView) findViewById(R.id.imageFavourites);
-        imgMyCards = (ImageView) findViewById(R.id.imageView6);
-        imgNotifications = (ImageView) findViewById(R.id.imageNotification);
-        imgInbox = (ImageView) findViewById(R.id.imageInbox);
-        imgMenu = (ImageView) findViewById(R.id.imageMenu);
-        imgProfile = (CircleImageView) findViewById(R.id.imageProfile);
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        currentImage = pref.getString("profile_pic", "");
-        initials = pref.getString("initials", "");
-        gLogin = pref.getString("Glogin", "");
 
 
-        if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("false")) {
-            Picasso.with(getApplicationContext())
-                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
-                    .into(imgProfile);
-        }else if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("true")){
-            Picasso.with(getApplicationContext())
-                    .load(currentImage)
-                    .into(imgProfile);
-        }else {
-            tvAlias.setVisibility(View.VISIBLE);
-            tvAlias.setText(initials);
-        }
         /*Intent intent1=getIntent();
         if(intent1.getStringExtra("Glogin").equals("true")){
             String url=intent1.getStringExtra("Gprofile");

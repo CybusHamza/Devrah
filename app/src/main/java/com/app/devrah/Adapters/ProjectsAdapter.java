@@ -65,8 +65,8 @@ public class ProjectsAdapter extends BaseAdapter {
         holder.data.setText(projectsList.get(position).getData());
         if(projectsList.get(position).getProjectStatus().equals("1")) {
             holder.status.setText("Active");
-            holder.status.setTextColor(activity.getResources().getColor(R.color.colorYellow));
-            holder.isactive.setImageResource(R.drawable.active_yellow);
+            holder.status.setTextColor(activity.getResources().getColor(R.color.lightGreen));
+            holder.isactive.setImageResource(R.drawable.active);
            // holder.status.setBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
         }else if(projectsList.get(position).getProjectStatus().equals("3")) {
             holder.status.setText("Completed");

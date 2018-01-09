@@ -298,11 +298,11 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/laRow3">
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="45dp"
             android:background="@color/colorGreen"
             android:id="@+id/relativeLayout10"
-
+            android:layout_weight="1"
             android:layout_below="@+id/relativeLayout2"
             android:layout_alignParentStart="true">
 
@@ -310,7 +310,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="right"
                 android:id="@+id/img10"
@@ -322,11 +322,12 @@
 
         </RelativeLayout>
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="45dp"
             android:background="@color/colorGreen"
             android:id="@+id/relativeLayout11"
            android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:layout_below="@+id/relativeLayout2"
             android:layout_alignParentStart="true">
 
@@ -334,10 +335,36 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="right"
                 android:id="@+id/img11"
+                android:visibility="gone"
+                android:src="@drawable/tick_btn_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:background="@color/colorGreen"
+            android:id="@+id/relativeLayout12"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_below="@+id/relativeLayout2"
+            android:layout_alignParentStart="true">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:id="@+id/img12"
                 android:visibility="gone"
                 android:src="@drawable/tick_btn_icon"
                 android:layout_centerVertical="true"
