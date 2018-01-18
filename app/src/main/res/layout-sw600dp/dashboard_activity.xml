@@ -113,9 +113,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         >
         <TextView
+            android:id="@+id/heloUserText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Good Morning"
+            android:textColor="@color/colorWhite"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:layout_below="@+id/heloUserText"
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

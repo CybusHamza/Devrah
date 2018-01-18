@@ -35,7 +35,7 @@
         android:layout_marginRight="5dp"
         android:layout_height="match_parent"
         android:groupIndicator="@null"
-        android:dividerHeight="7dp"
+        android:dividerHeight="9dp"
         android:layout_width="match_parent"/>
     </android.support.v4.widget.SwipeRefreshLayout>
     <Button

@@ -14,6 +14,7 @@
         android:layout_marginLeft="10dp"
         android:padding="3dp"
         android:text="Archive Boards"
+        android:layout_marginBottom="5dp"
         android:id="@+id/tvReferenceBoard" />
 
     <ImageView
@@ -37,7 +38,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="6dp"
+            android:dividerHeight="9dp"
             android:id="@+id/lvRBoard"
             android:layout_margin="10dp"
             android:layout_below="@+id/tvReferenceBoard" />

@@ -20,7 +20,7 @@
         android:id="@+id/buttonSendNewMessage"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/add_btn"
+        android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"

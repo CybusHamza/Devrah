@@ -45,6 +45,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -171,7 +172,18 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         holder.dueDate.setVisibility(View.GONE);
         if(!projectsList.get(position).getDueDate().equals("null")) {
             holder.dueDate.setVisibility(View.VISIBLE);
-            holder.dueDate.setText(projectsList.get(position).getDueDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd");
+            Date myDate = null;
+            try {
+                String myTime=projectsList.get(position).getDueDate();
+                myDate = dateFormat.parse(myTime);
+                SimpleDateFormat timeFormat = new SimpleDateFormat("dd MMM,yy");
+                String finalDate = timeFormat.format(myDate);
+                holder.dueDate.setText( finalDate );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         else {
             holder.dueDate.setText("");
@@ -262,20 +274,57 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 d2=format.parse(date);
                 if(isBeforeDay(d1,d2)){
                     int diff=d2.getDate()-d1.getDate();
-                    if(diff>=2)
-                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_red));
-                    else if(diff<=2)
-                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_pink));
-                    else
-                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                    int diffMonth=d2.getMonth()-d1.getMonth();
+                    int diffYear=d2.getYear()-d1.getYear();
+                    if(diffYear==0) {
+                        if(diffMonth==0) {
+                            if (diff > 2)
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_red));
+                            else if (diff <= 2 && diff > 0)
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_pink));
+                            else
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                        }else if(diffMonth>0){
+                            int daysBetween = daysBetween(c1.getTime(), c.getTime());
+                            if(daysBetween<=2 && daysBetween>0){
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_pink));
+                            }else
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_red));
+                        }
+                    }else if(diffYear>0){
+                        int daysBetween = daysBetween(c1.getTime(), c.getTime());
+                        if(daysBetween<=2 && daysBetween>0){
+                            holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_pink));
+                        }else
+                            holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_red));
+                    }
                 }else if(isAfterDay(d1,d2)){
                     int diff=d1.getDate()-d2.getDate();
-                    if(diff>=2)
-                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_gray));
-                    else if(diff<2)
-                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
-                    else
-                        holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                    int diffMonth=d1.getMonth()-d2.getMonth();
+                    int diffYear=d1.getYear()-d2.getYear();
+
+                    if(diffYear==0) {
+                        if(diffMonth==0) {
+                            if (diff >= 2)
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_gray));
+                            else if (diff < 2)
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                            else
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                        }else if(diffMonth>0){
+                            int daysBetween = daysBetween(c.getTime(), c1.getTime());
+                            if(daysBetween<2){
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                            }else
+                                holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_gray));
+                        }
+                    }else if(diffYear>0){
+                        int daysBetween = daysBetween(c.getTime(), c1.getTime());
+                        if(daysBetween<2){
+                            holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
+                        }else
+                            holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_gray));
+                    }
                 }else {
                     holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_orange));
                 }
@@ -341,6 +390,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("board_id", BoardExtended.boardId);
                 intent.putExtra("board_name", BoardExtended.bTitle);
                 intent.putExtra("project_title", BoardExtended.pTitle);
+                intent.putExtra("work_board", BoardExtended.isWorkBoard);
                 intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);
@@ -366,6 +416,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("board_id", BoardExtended.boardId);
                 intent.putExtra("board_name", BoardExtended.bTitle);
                 intent.putExtra("project_title", BoardExtended.pTitle);
+                intent.putExtra("work_board", BoardExtended.isWorkBoard);
                 intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);
@@ -392,6 +443,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("board_id", BoardExtended.boardId);
                 intent.putExtra("board_name", BoardExtended.bTitle);
                 intent.putExtra("project_title", BoardExtended.pTitle);
+                intent.putExtra("work_board", BoardExtended.isWorkBoard);
                 intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);
@@ -486,7 +538,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 layoutParams.setMargins(activity.getResources().getDimensionPixelSize(R.dimen.margin_left),0,0,0);
                 //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
                 image.setLayoutParams(layoutParams);
-                image.setBackground(activity.getResources().getDrawable(R.drawable.bg_circle));
+                image.setBackground(activity.getResources().getDrawable(R.drawable.round_bkg));
                 // image.setImageDrawable(activity.getResources().getDrawable(R.drawable.bg__dashboard_calender));20170704090751.jpg
                 image.setMaxHeight(20);
                 image.setMaxWidth(20);
@@ -535,6 +587,9 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
           // notifyDataSetChanged();
        }*/
         return convertView;
+    }
+    public int daysBetween(Date d1, Date d2){
+        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
     public static boolean isAfterDay(Date date1, Date date2) {
         if (date1 == null || date2 == null) {

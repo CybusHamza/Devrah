@@ -14,6 +14,7 @@
         android:layout_marginLeft="10dp"
         android:padding="3dp"
         android:text="Archive Boards"
+        android:layout_marginBottom="5dp"
         android:id="@+id/tvReferenceBoard" />
 
     <ImageView

@@ -90,24 +90,23 @@ public class LastItemBoardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_last_item_board, container, false);
         tvAddPage = (TextView) view.findViewById(R.id.tvAddPage);
-        addList= (ImageView) getActivity().findViewById(R.id.btnAddFrag);
         Bundle bundle = getArguments();
         p_id = bundle.getString("p_id");
         b_id = bundle.getString("b_id");
         adapter = new CustomViewPagerAdapter(getFragmentManager());
-
+    //    addList= (ImageView) getActivity().findViewById(R.id.btnAddFrag);
         tvAddPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             showDialog();
             }
         });
-        addList.setOnClickListener(new View.OnClickListener() {
+       /* addList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialog();
             }
-        });
+        });*/
 
         return view;
     }
@@ -151,9 +150,9 @@ public class LastItemBoardFragment extends Fragment {
     }
     public void showDialog() {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View customView = layoutInflater.inflate(R.layout.custom_alert_dialog_add_list, null);
-        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setCancelable(false);
         edt = (EditText) customView.findViewById(R.id.input_watever);
         showKeyBoard(edt);

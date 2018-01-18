@@ -61,13 +61,13 @@
     <Spinner android:id="@+id/spinProjectGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="25dp"
         android:layout_weight="1"
         android:background="@drawable/back_spinner_black"/>
 
         <ImageView
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginEnd="7dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="0.15"

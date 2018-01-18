@@ -99,6 +99,7 @@ public class BoardExtended extends AppCompatActivity {
     public static String boardId;
     public static String bTitle;
     public static String pTitle;
+    public static String isWorkBoard;
     CustomDrawerAdapter DrawerAdapter;
     List<String> spinnerValues;
     List<String> spinnerGroupIds;
@@ -127,6 +128,7 @@ public class BoardExtended extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_extended);
+
         getList();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -141,6 +143,10 @@ public class BoardExtended extends AppCompatActivity {
         projectId=p_id;
         boardId=b_id;
         pTitle=projectTitle;
+        if(intent.getStringExtra("work_board").equals("1"))
+            isWorkBoard=intent.getStringExtra("work_board");
+        else
+            isWorkBoard="0";
       //  pTitle=projectTitle;
 
 
@@ -199,6 +205,7 @@ public class BoardExtended extends AppCompatActivity {
         logo.setVisibility(View.INVISIBLE);
 
         dataList = new ArrayList<>();
+        View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
 
         dataList.add(new DrawerPojo("Update Board Name"));
         dataList.add(new DrawerPojo("Copy Board"));
@@ -207,6 +214,9 @@ public class BoardExtended extends AppCompatActivity {
         dataList.add(new DrawerPojo("Leave Board"));
         dataList.add(new DrawerPojo("Delete Board"));
         dataList.add(new DrawerPojo("Calendar"));
+        if(intent.getStringExtra("work_board").equals("1")) {
+            dataList.add(new DrawerPojo("Archive Board"));
+        }
 
 
         edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
@@ -307,7 +317,7 @@ public class BoardExtended extends AppCompatActivity {
         //  addFrag = (Button)findViewById(R.id.btnAddFrag);
 
         openDrawer();
-
+        mDrawerList.addHeaderView(header);
        /* fragment.addPage("To Do");
         fragment.addPage("Doing");
         fragment.addPage("Done");*/
@@ -498,24 +508,24 @@ public class BoardExtended extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
 
-                    case 0:
-                        updateBoardNameDialog();
-                        break;
-
-
                     case 1:
-
-                        showDialog("copy");
+                        updateBoardNameDialog();
                         break;
 
 
                     case 2:
 
-                        showDialog("move");
+                        showDialog("copy");
                         break;
 
 
                     case 3:
+
+                        showDialog("move");
+                        break;
+
+
+                    case 4:
 
                         Intent intent = new Intent(BoardExtended.this, Manage_Board_Members.class);
                         intent.putExtra("P_id",p_id);
@@ -524,7 +534,7 @@ public class BoardExtended extends AppCompatActivity {
 
                         break;
 
-                    case 4:
+                    case 5:
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")
@@ -546,7 +556,7 @@ public class BoardExtended extends AppCompatActivity {
                                 .show();
                         break;
 
-                    case 5:
+                    case 6:
                         new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")
@@ -567,8 +577,30 @@ public class BoardExtended extends AppCompatActivity {
                                 })
                                 .show();
                         break;
-                    case 6:
+                    case 7:
                         showCalendarDialog();
+
+                        break;
+                    case 8:
+                        new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Confirmation!")
+                                .setCancelText("Cancel")
+                                .setConfirmText("OK").setContentText("Do you really want to Archive Board?")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                        archiveBoard();
+                                    }
+                                })
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
 
                         break;
 
@@ -1092,6 +1124,105 @@ private void getDueDates(final String currentDate){
                             finish();
                             startActivity(intent);
                         }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(BoardExtended.this, "check your internet connection", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                                    intent.putExtra("pid", p_id);
+
+                                    intent.putExtra("ptitle", pTitle);
+                                    intent.putExtra("status", "0");
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(BoardExtended.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(BoardExtended.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                                    intent.putExtra("pid", p_id);
+
+                                    intent.putExtra("ptitle", pTitle);
+                                    intent.putExtra("status", "0");
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", b_id);
+                params.put("project_id", p_id);
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+                params.put("userId", pref.getString("user_id",""));
+
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardExtended.this.getApplicationContext());
+        requestQueue.add(request);
+    }
+    private void archiveBoard() {
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.ARCHIVE_BOARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        if(!response.equals("0") && !response.equals("notexist") && !response.equals("notCompleted")){
+                            Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                            intent.putExtra("pid", p_id);
+
+                            intent.putExtra("ptitle", pTitle);
+                            intent.putExtra("status", "0");
+                            finish();
+                            startActivity(intent);
+                        }else if(response.equals("notexist")){
+                            Toast.makeText(BoardExtended.this,"No card exists in this board",Toast.LENGTH_LONG).show();
+                        }else if(response.equals("notCompleted")){
+                            Toast.makeText(BoardExtended.this,"Please complete all cards in the board to archive it",Toast.LENGTH_LONG).show();
+                        }
+
 
 
 

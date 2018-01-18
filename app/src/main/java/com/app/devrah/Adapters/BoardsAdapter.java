@@ -143,6 +143,7 @@ public class BoardsAdapter extends BaseAdapter {
                     intent.putExtra("p_id", projectsList.get(position).getId());
                     intent.putExtra("b_id", projectsList.get(position).getBoardID());
                     intent.putExtra("ptitle", BoardsActivity.ptitle);
+                    intent.putExtra("work_board", "1");
                     //  intent.putExtra("list_id",projectsList.get(position).getListId());
                     //intent.putExtra("ptitle",);
 

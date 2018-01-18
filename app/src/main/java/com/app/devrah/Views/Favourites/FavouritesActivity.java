@@ -98,6 +98,7 @@ public class FavouritesActivity extends AppCompatActivity {
                             myCardsPojo.setP_name("");
                             myCardsPojo.setP_status("");
                             myCardsPojo.setBrdid("");
+                            myCardsPojo.setBoardType("");
                             listPojo.add(myCardsPojo);
                             adapter = new FavouritesAdapter(FavouritesActivity.this, listPojo);
                             lv.setAdapter(adapter);
@@ -117,6 +118,7 @@ public class FavouritesActivity extends AppCompatActivity {
                                     myCardsPojo.setP_name(jsonObject.getString("project_name"));
                                     myCardsPojo.setP_status(jsonObject.getString("project_id"));
                                     myCardsPojo.setBrdid(jsonObject.getString("brdId"));
+                                    myCardsPojo.setBoardType(jsonObject.getString("board_type_id"));
                                     listPojo.add(myCardsPojo);
                                 }
 

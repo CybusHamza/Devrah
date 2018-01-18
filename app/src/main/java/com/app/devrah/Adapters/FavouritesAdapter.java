@@ -83,6 +83,7 @@ public class FavouritesAdapter extends BaseAdapter {
                     intent.putExtra("ptitle", projectsList.get(position).getP_name());
                     intent.putExtra("p_id", projectsList.get(position).getP_status());
                     intent.putExtra("b_id", projectsList.get(position).getBrdid());
+                    intent.putExtra("work_board", projectsList.get(position).getBoardType());
                     intent.putExtra("activity", "favourites");
                     activity.finish();
 

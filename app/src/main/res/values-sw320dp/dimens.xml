@@ -10,11 +10,11 @@
     <dimen name="cover_size_height">150dp</dimen>
     <dimen name="comment_size_width">250dp</dimen>
     <dimen name="comment_size_height">200dp</dimen>
-    <dimen name="circle_image_size_width">35dp</dimen>
-    <dimen name="circle_image_size_height">35dp</dimen>
-    <dimen name="circle_alias_size_width">35dp</dimen>
-    <dimen name="circle_alias_size_height">35dp</dimen>
-    <dimen name="margin_left">10dp</dimen>
+    <dimen name="circle_image_size_width">37dp</dimen>
+    <dimen name="circle_image_size_height">37dp</dimen>
+    <dimen name="circle_alias_size_width">40dp</dimen>
+    <dimen name="circle_alias_size_height">40dp</dimen>
+    <dimen name="margin_left">4dp</dimen>
     <dimen name="attachment_popup_width">305dp</dimen>
     <dimen name="attachment_popup_height">300dp</dimen>
     <item name="testlist" type="dimen" format="float">0.8</item>

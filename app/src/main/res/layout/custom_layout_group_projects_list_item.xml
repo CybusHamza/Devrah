@@ -39,9 +39,9 @@
             android:layout_gravity="end">
             <ImageView
                 android:id="@+id/icon_active"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/active"
 
                 />
@@ -51,7 +51,10 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/lightGreen"
                 android:id="@+id/btnActive"
-                android:padding="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="1dp"
                 android:gravity="center_vertical"
                 android:layout_marginRight="10dp"
                 android:text="Active"

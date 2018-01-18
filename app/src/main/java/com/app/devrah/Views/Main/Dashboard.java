@@ -65,14 +65,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnConnectionFailedListener{
 
-    TextView tvTime, tvQuote,tvAlias,tvAuthor;
+    TextView tvTime, tvQuote,tvAlias,tvAuthor,tvHeloUser;
     String[] quotes,authorName;
     ImageView imgProjects, imgFavourites, imgMyCards, imgNotifications, imgInbox, imgMenu;
     String quote;
     Random rand;
     CircleImageView imgProfile;
     // int random;
-    String currentImage,initials;
+    String currentImage,initials,firstName;
     Activity mActivity;
     String gLogin;
     String[] ProfileArray = {"Edit Profile", "Logoff", "Change Password"};
@@ -88,6 +88,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         setContentView(R.layout.dashboard_activity);
         tvTime = (TextView) findViewById(R.id.tvTime);
         tvQuote = (TextView) findViewById(R.id.tvQuote);
+        tvHeloUser = (TextView) findViewById(R.id.heloUserText);
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
         tvAlias = (TextView) findViewById(R.id.alias_img);
         imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
@@ -102,6 +103,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         currentImage = pref.getString("profile_pic", "");
         initials = pref.getString("initials", "");
         gLogin = pref.getString("Glogin", "");
+        firstName = pref.getString("first_name", "");
 
 
         if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("false")) {
@@ -395,7 +397,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 "Mark Twain"
         };
 
-
+        tvHeloUser.setText("Good Morning, "+firstName+"!");
         final Calendar c = Calendar.getInstance();
 
 

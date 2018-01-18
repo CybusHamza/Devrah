@@ -99,6 +99,7 @@ public class NotificationAdapter extends BaseAdapter {
                         Intent intent = new Intent(activity, BoardsActivity.class);
                         intent.putExtra("pid", projectsList.get(position).getProjectId());
                         intent.putExtra("ptitle", projectsList.get(position).getData());
+                        intent.putExtra("project_created_by", projectsList.get(position).getProjectCreatedBy());
                         intent.putExtra("ScreenName", "activities");
                         activity.finish();
                         activity.startActivity(intent);
@@ -108,6 +109,7 @@ public class NotificationAdapter extends BaseAdapter {
                         intent.putExtra("b_id", projectsList.get(position).getBoardId());
                         intent.putExtra("TitleData", projectsList.get(position).getData());
                         intent.putExtra("ptitle", projectsList.get(position).getProjectTitle());
+                        intent.putExtra("work_board", projectsList.get(position).getBoardType());
                         intent.putExtra("ScreenName", "activities");
                         activity.finish();
                         activity.startActivity(intent);

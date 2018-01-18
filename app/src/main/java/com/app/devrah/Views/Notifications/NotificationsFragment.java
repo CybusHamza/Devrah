@@ -175,6 +175,7 @@ public void getNotifications() {
                                      notificationsPojo.setCardDescription("");
                                      notificationsPojo.setIsComplete("");
                                      notificationsPojo.setIsSubscribed("");
+                                     notificationsPojo.setProjectCreatedBy("");
                                      notificationsPojo.setIsLocked("");
                                      notificationsPojo.setListId("");
                                      notificationsPojo.setBoard_name("");
@@ -192,6 +193,7 @@ public void getNotifications() {
                                      notificationsPojo.setDate(jsonObject.getString("project_assigned_on"));
                                      notificationsPojo.setProjectId(jsonObject.getString("project_id"));
                                      notificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
+                                     notificationsPojo.setProjectCreatedBy(jsonObject.getString("project_created_by"));
                                      notificationsPojo.setBoardId("0");
                                      notificationsPojo.setCardId("");
                                      notificationsPojo.setCardDueDate("");
@@ -224,6 +226,8 @@ public void getNotifications() {
                                      boardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
                                      boardnotificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
                                      boardnotificationsPojo.setDate(jsonObject.getString("board_assigned_on"));
+                                     boardnotificationsPojo.setBoardType(jsonObject.getString("board_type_id"));
+                                     boardnotificationsPojo.setProjectCreatedBy("");
                                      boardnotificationsPojo.setCardId("");
                                      boardnotificationsPojo.setCardDueDate("");
                                      boardnotificationsPojo.setCardStartDate("");
@@ -266,6 +270,7 @@ public void getNotifications() {
                                          cardnotificationsPojo.setListId(jsonObject.getString("list_id"));
                                          cardnotificationsPojo.setBoard_name(jsonObject.getString("board_name"));
                                          cardnotificationsPojo.setLabel(" added you to the card ");
+                                         cardnotificationsPojo.setProjectCreatedBy("");
 
                                          listPojo.add(cardnotificationsPojo);
                                          // getLabelsList(jsonObject.getString("id"));

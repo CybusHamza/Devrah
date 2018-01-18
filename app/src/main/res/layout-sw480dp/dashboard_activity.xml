@@ -23,8 +23,8 @@
         android:id="@+id/rl">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageProfile"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             app:srcCompat="@drawable/bg_circle"
             android:layout_marginTop="192dp"
             app:civ_border_color="#fff"
@@ -33,8 +33,8 @@
             android:layout_toStartOf="@+id/imageView6" />
 
         <TextView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:id="@+id/alias_img"
             android:visibility="gone"
             android:gravity="center"
@@ -53,8 +53,8 @@
 
         <ImageView
             android:id="@+id/dashboard_projects"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:srcCompat="@drawable/dashboard_projects_icon"
             android:layout_marginBottom="6dp"
             android:layout_marginStart="25dp"
@@ -63,16 +63,16 @@
 
         <ImageView
             android:id="@+id/imageMenu"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:srcCompat="@drawable/dashboard_menu_icon"
             android:layout_alignTop="@+id/dashboard_projects"
             android:layout_alignStart="@+id/imageNotification" />
 
         <ImageView
             android:id="@+id/imageInbox"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginRight="5dp"
             app:srcCompat="@drawable/dashboard_messages_icon"
             android:layout_marginBottom="12dp"
@@ -81,16 +81,16 @@
 
         <ImageView
             android:id="@+id/imageFavourites"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:srcCompat="@drawable/dashboard_star_icon"
             android:layout_below="@+id/imageProfile"
             android:layout_alignStart="@+id/dashboard_projects" />
 
         <ImageView
             android:id="@+id/imageNotification"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
 
             app:srcCompat="@drawable/dashboard_noti_icon"
             android:layout_below="@+id/imageProfile"
@@ -99,8 +99,8 @@
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_centerInParent="true"
@@ -112,12 +112,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl"
+        android:layout_marginTop="10dp"
         >
         <TextView
+            android:id="@+id/heloUserText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Good Morning"
+            android:textColor="@color/colorWhite"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:layout_below="@+id/heloUserText"
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
+            android:layout_marginTop="35dp"
             android:layout_marginBottom="2dp"
             android:textSize="25sp"
             android:gravity="center_horizontal"

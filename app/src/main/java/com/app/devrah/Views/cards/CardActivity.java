@@ -80,6 +80,7 @@ import com.app.devrah.Adapters.team_addapter;
 import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.ManageMembers.ManageCardMembers;
 import com.app.devrah.Views.MyCards.MyCardsActivity;
@@ -204,6 +205,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<AttachmentsImageFilePojo> attachmentsList1;
     private ListView mDrawerList;
     public static String cardId;
+    public static String projectStatus;
 
     List<ProjectsPojo> listPojo1,labelsPojoList;
     List<CardAssociatedLabelsPojo> cardLabelsPojoList;
@@ -345,11 +347,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         isCardLocked = intent.getStringExtra("isLocked");
         isCardSubscribed = intent.getStringExtra("isSubscribed");
         isFromMyCardsScreen = intent.getStringExtra("fromMyCards");
+        if(isFromMyCardsScreen.equals("board"))
+            projectStatus=intent.getStringExtra("projectStatus");
         //if(isFromMyCardsScreen.equals("true")){
             BoardExtended.bTitle=intent.getStringExtra("board_name");
             projectId=intent.getStringExtra("project_id");
             BoardExtended.boardId=intent.getStringExtra("board_id");
             BoardExtended.pTitle=intent.getStringExtra("project_title");
+            BoardExtended.isWorkBoard=intent.getStringExtra("work_board");
         //}
 
         try{
@@ -357,7 +362,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }catch (OutOfMemoryError error){
             error.printStackTrace();
         }
-
+        View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
 
 
         labelNameList = new ArrayList<>();
@@ -507,7 +512,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             cbStartTime.setVisibility(View.VISIBLE);
         }
 
-        if(!dueDate.equals("") && !dueDate.equals("null") && !startDate.equals("0000-00-00")) {
+        if(!dueDate.equals("") && !dueDate.equals("null") && !dueDate.equals("0000-00-00")) {
             cbDueDate.setText(dueDate);
             cbDueDate.setVisibility(View.VISIBLE);
         }else if(dueDate.equals("null") && dueDate.equals("0000-00-00")){
@@ -525,7 +530,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onClick(View v) {
                 if(isCompletedBtn.getText().equals("Mark Completed")){
-                    updateCardCompleted("1");
+                    if(!cbDueDate.getText().toString().equals("Due Date")) {
+                        updateCardCompleted("1");
+                    }else {
+                        Toast.makeText(CardActivity.this,"Select due date to complete card",Toast.LENGTH_LONG).show();
+                    }
                 }else if(isCompletedBtn.getText().equals("Unmark Completed")){
                     updateCardCompleted("0");
                 }
@@ -866,7 +875,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         rv = (RecyclerView) findViewById(R.id.rv_recycler_view);
 
 //        menuChanger(menu,false);
-
+        mDrawerList.addHeaderView(header);
         openDrawer();
 
       //  getChecklistData();
@@ -956,23 +965,23 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0:
+                    case 1:
                         updateCardNameDialog();
                         break;
-                    case 1:
+                    case 2:
                         showDialogCopy();
                         break;
-                    case 2:
+                    case 3:
                     showDialog("move");
                         break;
-                    case 3:
+                    case 4:
                         if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null") || isCardSubscribed.equals("")){
                             subscribe();
                         }else {
                             unSubscribe();
                         }
                         break;
-                    case 4:
+                    case 5:
                         String label;
                         if(isCardLocked.equals("1")){
                             new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
@@ -1019,7 +1028,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         }
 
                         break;
-                    case 5:
+                    case 6:
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
@@ -1041,7 +1050,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                 })
                                 .show();
                         break;
-                    case 6:
+                    case 7:
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
@@ -1983,13 +1992,25 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             Intent intent=new Intent(CardActivity.this,NotificationsActivity.class);
             finish();
             startActivity(intent);
-        } else {
+        } else if(isFromMyCardsScreen.equals("board")){
+            super.onBackPressed();
+            Intent intent=new Intent(CardActivity.this,BoardsActivity.class);
+            intent.putExtra("pid", projectId);
+            intent.putExtra("ptitle",BoardExtended.pTitle);
+            intent.putExtra("status", projectStatus);
+            finish();
+            startActivity(intent);
+        }else {
             super.onBackPressed();
             Intent intent=new Intent(CardActivity.this,BoardExtended.class);
             intent.putExtra("b_id",BoardExtended.boardId);
             intent.putExtra("p_id",BoardExtended.projectId);
             intent.putExtra("TitleData",BoardExtended.bTitle);
             intent.putExtra("ptitle",BoardExtended.pTitle);
+            if(BoardExtended.isWorkBoard.equals("1"))
+            intent.putExtra("work_board",BoardExtended.isWorkBoard);
+            else
+                intent.putExtra("work_board","0");
             //intent.putExtra("TitleData",CardHeading);
             finish();
             startActivity(intent);
@@ -2033,7 +2054,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 getCardList();
                 Toast.makeText(CardActivity.this,"User successfully Unsubscribed!",Toast.LENGTH_LONG).show();
                 isCardSubscribed="0";
-                dataList.set(3,new DrawerPojo("Subscribed"));
+                dataList.set(3,new DrawerPojo("Subscribe"));
                 DrawerAdapter.notifyDataSetChanged();
                 drawerLayout.closeDrawer(Gravity.END);
 
@@ -2103,7 +2124,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 // loading.dismiss();
                 ringProgressDialog.dismiss();
                 isCardSubscribed="1";
-                dataList.set(3,new DrawerPojo("Un-subscribed"));
+                dataList.set(3,new DrawerPojo("Un-subscribe"));
                 DrawerAdapter.notifyDataSetChanged();
                 getCardList();
                 Toast.makeText(CardActivity.this,"User successfully subscribed!",Toast.LENGTH_LONG).show();

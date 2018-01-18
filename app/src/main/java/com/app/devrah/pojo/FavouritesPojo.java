@@ -5,7 +5,21 @@ package com.app.devrah.pojo;
  */
 
 public class FavouritesPojo {
-    public String data,id,P_name,P_status,brdid;
+    public String data;
+    public String id;
+    public String P_name;
+    public String P_status;
+    public String brdid;
+
+    public String getBoardType() {
+        return boardType;
+    }
+
+    public void setBoardType(String boardType) {
+        this.boardType = boardType;
+    }
+
+    public String boardType;
 
     public String getBrdid() {
         return brdid;

@@ -152,6 +152,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         final String childStatus=text[1];
         final String projectId=text[2];
         String projectDescription;
+        final String projectCreatedBy=text[4];
         if(text[3].equals("")){
             projectDescription="";
         }else {
@@ -179,6 +180,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 intent.putExtra("pid", projectId);
                 intent.putExtra("ptitle", childText);
                 intent.putExtra("status", childStatus);
+                intent.putExtra("project_created_by", projectCreatedBy);
                 context.startActivity(intent);
 
             }
@@ -197,8 +199,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         if (childStatus.equals("1")) {
             statusList.setText("Active");
-            statusList.setTextColor(context.getResources().getColor(R.color.colorYellow));
-            isactive.setImageResource(R.drawable.active_yellow);
+            statusList.setTextColor(context.getResources().getColor(R.color.lightGreen));
+            isactive.setImageResource(R.drawable.active);
         }else if (childStatus.equals("2")) {
             statusList.setText("In-Active");
             statusList.setTextColor(context.getResources().getColor(R.color.colorRed));

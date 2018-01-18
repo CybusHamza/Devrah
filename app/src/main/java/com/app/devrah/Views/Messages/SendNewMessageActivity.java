@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -74,6 +75,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
     ArrayList<String> boards_name ;
     ArrayList<String> boards_ids ;
+    ArrayList<String> boards_type_id ;
 
     // cards arraylist
 
@@ -663,32 +665,110 @@ public class SendNewMessageActivity extends AppCompatActivity {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_WORK_BOARD,
+        final StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_ALL_BOARDS_BY_PROJECT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
-
+                        int positionDisabled=-1;
                         boards_ids = new ArrayList<>();
                         boards_name = new ArrayList<>();
+                        boards_type_id = new ArrayList<>();
 
                         boards_name.add(0,"Select");
                         boards_ids.add(0,"0");
+                        boards_type_id.add(0,"0");
 
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObjectMain=new JSONObject(response);
+                            JSONArray jsonArray = new JSONArray(jsonObjectMain.getString("work_board"));
+                            JSONArray jsonArray1 = new JSONArray(jsonObjectMain.getString("archive_board"));
+                            if(jsonArray.length()>0){
+                                boards_name.add(1,"Work Board");
+                                boards_ids.add(1,"-1");
+                                boards_type_id.add(1,"-1");
+                                for (int i = 0 ; i < jsonArray.length();i++)
+                                {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    boards_name.add(jsonObject.getString("board_name"));
+                                    boards_ids.add(jsonObject.getString("id"));
+                                    boards_type_id.add(jsonObject.getString("board_type_id"));
 
-                            for (int i = 0 ; i < jsonArray.length();i++)
-                            {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                boards_name.add(jsonObject.getString("board_name"));
-                                boards_ids.add(jsonObject.getString("id"));
+                                }
+                            }else if(jsonArray.length()<1 && jsonArray1.length()>0 ){
+                                boards_name.add(1,"Archive Board");
+                                boards_ids.add(1,"-1");
+                                boards_type_id.add(1,"-1");
+                                for (int i = 0 ; i < jsonArray1.length();i++)
+                                {
+                                    JSONObject jsonObject = jsonArray1.getJSONObject(i);
+                                    boards_name.add(jsonObject.getString("board_name"));
+                                    boards_ids.add(jsonObject.getString("id"));
+                                    boards_type_id.add(jsonObject.getString("board_type_id"));
 
+                                }
+                            }
+                            if(jsonArray.length()>0 && jsonArray1.length()>0 ){
+                                boards_name.add(boards_name.size(),"Archive Board");
+                                boards_ids.add(boards_ids.size(),"-1");
+                                boards_type_id.add(boards_type_id.size(),"-1");
+                                for (int i = 0 ; i < jsonArray1.length();i++)
+                                {
+                                    JSONObject jsonObject = jsonArray1.getJSONObject(i);
+                                    boards_name.add(jsonObject.getString("board_name"));
+                                    boards_ids.add(jsonObject.getString("id"));
+                                    boards_type_id.add(jsonObject.getString("board_type_id"));
+
+                                }
                             }
 
+
+
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                                    (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,boards_name);
+                                    (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,boards_name){
+                                @Override
+                                public boolean isEnabled(int position){
+                                    int pos = -1;
+                                    if((boards_name.get(position).equals("Work Board") && boards_ids.get(position).equals("-1")) || (boards_name.get(position).equals("Archive Board") && boards_ids.get(position).equals("-1"))) {
+                                       pos=position;
+                                    }
+
+                                    if(position == 1 || position==pos)
+                                    {
+                                        //Disable the third item of spinner.
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                }
+
+                                @Override
+                                public View getDropDownView(int position, View convertView,ViewGroup parent)
+                                {
+                                    View spinnerview = super.getDropDownView(position, convertView, parent);
+
+                                    TextView spinnertextview = (TextView) spinnerview;
+                                    int pos = -1;
+                                    if((boards_name.get(position).equals("Work Board") && boards_ids.get(position).equals("-1")) || (boards_name.get(position).equals("Archive Board") && boards_ids.get(position).equals("-1"))) {
+                                        pos=position;
+                                    }
+                                    if(position == 1 || position==pos) {
+
+                                        //Set the disable spinner item color fade .
+                                        spinnertextview.setTextColor(Color.parseColor("#bcbcbb"));
+                                    }
+                                    else {
+
+                                        spinnertextview.setTextColor(Color.BLACK);
+
+                                    }
+                                    return spinnerview;
+                                }
+                            };
+
                             dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                             board.setAdapter(dataAdapter);
 
@@ -893,15 +973,17 @@ public class SendNewMessageActivity extends AppCompatActivity {
                         cards_ids.add(0,"0");
 
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
+                            if(!response.equals("false")) {
+                                JSONArray jsonArray = new JSONArray(response);
 
-                            for (int i = 0 ; i < jsonArray.length();i++)
-                            {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                cards_name.add(jsonObject.getString("card_name"));
-                                cards_ids.add(jsonObject.getString("id"));
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    cards_name.add(jsonObject.getString("card_name"));
+                                    cards_ids.add(jsonObject.getString("id"));
 
+                                }
                             }
+
 
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                                     (SendNewMessageActivity.this,R.layout.custom_dropdown_layout,cards_name);
@@ -1005,7 +1087,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
 
-            if(pos == 0)
+            if(pos == 0 || (boards_name.get(pos).equals("Work Board") && boards_ids.get(pos).equals("-1")) || (boards_name.get(pos).equals("Archive Board") && boards_ids.get(pos).equals("-1")))
             {
                // Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
             }

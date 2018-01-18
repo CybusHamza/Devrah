@@ -7,6 +7,26 @@ package com.app.devrah.pojo;
 public class NotificationsPojo {
     public String data;
 
+    public String getProjectCreatedBy() {
+        return projectCreatedBy;
+    }
+
+    public void setProjectCreatedBy(String projectCreatedBy) {
+        this.projectCreatedBy = projectCreatedBy;
+    }
+
+    public String projectCreatedBy;
+
+    public String getBoardType() {
+        return boardType;
+    }
+
+    public void setBoardType(String boardType) {
+        this.boardType = boardType;
+    }
+
+    public String boardType;
+
     public String getProjectTitle() {
         return projectTitle;
     }

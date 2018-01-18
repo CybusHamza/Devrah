@@ -655,10 +655,11 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                         if(projectid.equals(id))
                                         {
                                             String projectDescription=jsonObject.getString("project_description");
+                                            String projectCreatedBy=jsonObject.getString("project_created_by");
                                             if(projectDescription.equals("")){
                                                 projectDescription=" ";
                                             }
-                                            MyList.add( jsonObject.getString("project_name")+","+jsonObject.getString("project_status")+","+jsonObject.getString("project_id")+","+projectDescription);
+                                            MyList.add( jsonObject.getString("project_name")+","+jsonObject.getString("project_status")+","+jsonObject.getString("project_id")+","+projectDescription+","+projectCreatedBy);
                                             projectStatus.add(jsonObject.getString("project_status"));
                                             projectids.add(jsonObject.getString("project_id"));
 

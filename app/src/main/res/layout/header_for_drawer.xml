@@ -7,8 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="MENU"
-        android:textColor="#000"
+        android:textColor="#605e5e"
         android:textSize="20sp"
+        android:padding="10dp"
         android:textStyle="bold"
         android:gravity="center"/>
 

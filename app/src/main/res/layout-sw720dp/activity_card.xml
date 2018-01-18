@@ -600,7 +600,7 @@
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:src="@drawable/fab_label_checklist"
-                app:fab_label="Check List"
+                app:fab_label="Checklist"
                 app:fab_size="mini"
                 style="@style/MenuButtonsSmall"/>
 

@@ -67,7 +67,8 @@ public class CustomDrawerAdapter extends BaseAdapter {
             convertView = inflater.inflate(layoutResources, parent, false);
             drawerHolder.tvTitle = (TextView) convertView
                     .findViewById(R.id.tvNavigationDrawer);
-          //  drawerHolder.icon = (ImageView) convertView.findViewById(R.id.drawer_icon);
+            drawerHolder.ivIcon = (ImageView) convertView.findViewById(R.id.imageIconNavigationDrawer);
+
 
             convertView.setTag(drawerHolder);
 
@@ -81,6 +82,31 @@ public class CustomDrawerAdapter extends BaseAdapter {
 //        drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
 //                dItem.getImgResID()));
         drawerHolder.tvTitle.setText(dItem.getName());
+        if(dItem.getName().equals("Create New Team")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.team_icon_drawer));
+        }else if(dItem.getName().equals("Change Status Filter") || dItem.getName().equals("Manage Status")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.filter_drawer));
+        }else if(dItem.getName().equals("Manage Members")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.team_icon_drawer));
+        }else if(dItem.getName().equals("Calendar")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.calendar_icon_drawer));
+        }else if(dItem.getName().equals("Copy Project")|| dItem.getName().equals("Copy Board") || dItem.getName().equals("Copy")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.copy_drawer));
+        }else if(dItem.getName().equals("Subscribe") || dItem.getName().equals("Un-subscribe")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.subscribe_drawer));
+        }else if(dItem.getName().equals("Lock Card") || dItem.getName().equals("Unlock Card")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.lock_drawer));
+        }else if(dItem.getName().equals("Update Project Name") || dItem.getName().equals("Update Board Name") ||dItem.getName().equals("Update Card Name")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.update_drawer));
+        }else if(dItem.getName().equals("Delete Project") || dItem.getName().equals("Delete Board") || dItem.getName().equals("Delete Card")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.delete_drawer));
+        }else if(dItem.getName().equals("Move Project") ||dItem.getName().equals("Move Board") || dItem.getName().equals("Move")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.move_drawer));
+        }else if(dItem.getName().equals("Leave Project") ||dItem.getName().equals("Leave Board") || dItem.getName().equals("Leave Card")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.remove_drawer));
+        }else if(dItem.getName().equals("Archive Board")){
+            drawerHolder.ivIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.archive_drawer));
+        }
 
 
         return convertView;

@@ -7,6 +7,16 @@ package com.app.devrah.pojo;
 public class AcitivitiesPojo {
     public String data;
 
+    public String getProjectCreatedBy() {
+        return projectCreatedBy;
+    }
+
+    public void setProjectCreatedBy(String projectCreatedBy) {
+        this.projectCreatedBy = projectCreatedBy;
+    }
+
+    public String projectCreatedBy;
+
     public String getBoardId() {
         return boardId;
     }

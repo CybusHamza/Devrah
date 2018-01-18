@@ -126,6 +126,7 @@ public class ReferenceBoardAdapter extends BaseAdapter {
                     intent.putExtra("p_id", projectsList.get(position).getId());
                     intent.putExtra("b_id", projectsList.get(position).getBoardID());
                     intent.putExtra("ptitle", activity.getIntent().getStringExtra("ptitle"));
+                    intent.putExtra("work_board", "0");
 
                     activity.startActivity(intent);
                 }

@@ -52,6 +52,7 @@ import static com.app.devrah.Views.cards.CardActivity.isCardLocked;
 import static com.app.devrah.Views.cards.CardActivity.isCardSubscribed;
 import static com.app.devrah.Views.cards.CardActivity.isFromMyCardsScreen;
 import static com.app.devrah.Views.cards.CardActivity.list_id;
+import static com.app.devrah.Views.cards.CardActivity.projectStatus;
 import static com.app.devrah.Views.cards.CardActivity.startDate;
 import static com.app.devrah.Views.cards.CardActivity.startTime;
 
@@ -109,6 +110,9 @@ public class CheckList_Detail extends AppCompatActivity {
                 intent.putExtra("project_id",BoardExtended.projectId);
                 intent.putExtra("board_id",BoardExtended.boardId);
                 intent.putExtra("project_title",BoardExtended.pTitle);
+                intent.putExtra("work_board", BoardExtended.isWorkBoard);
+                if(isFromMyCardsScreen.equals("board"))
+                    intent.putExtra("projectStatus", projectStatus);
                 startActivity(intent);
             }
         });
@@ -427,6 +431,9 @@ public class CheckList_Detail extends AppCompatActivity {
         intent.putExtra("project_id",BoardExtended.projectId);
         intent.putExtra("board_id",BoardExtended.boardId);
         intent.putExtra("project_title",BoardExtended.pTitle);
+        intent.putExtra("work_board", BoardExtended.isWorkBoard);
+        if(isFromMyCardsScreen.equals("board"))
+            intent.putExtra("projectStatus", projectStatus);
         startActivity(intent);
 
 

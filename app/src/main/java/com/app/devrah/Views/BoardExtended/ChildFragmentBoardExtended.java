@@ -139,6 +139,11 @@ public class ChildFragmentBoardExtended extends Fragment {
         getActivity().unregisterReceiver(broadcastReceiver);
 
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("updateComplete"));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

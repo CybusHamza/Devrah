@@ -133,5 +133,11 @@ public class End_Points {
     public static final String ASSIGN_LABEL_BY_ID = BASE_URL + "reAssignLabelById";
     public static final String SEARCH_USER_TEAM = BASE_URL + "searchUserTeam";
 
+    public static final String DELETE_PROJECT= BASE_URL + "delete_project";
+    public static final String GET_ALL_BOARDS_BY_PROJECT= BASE_URL + "getBoardsByProjects";
+    public static final String ARCHIVE_BOARD= BASE_URL + "boardCardsCheck";
+    public static final String GET_DUE_DATE_PROJECT= BASE_URL + "getDueDateProject";
+    public static final String GET_PROJECT_CREATED_BY = BASE_URL + "getProjectCreatedBy";
+
 
 }

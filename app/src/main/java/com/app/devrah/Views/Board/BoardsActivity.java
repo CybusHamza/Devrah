@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -43,27 +45,51 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.devrah.Adapters.CalendarAdapter;
+import com.app.devrah.Adapters.CalendarAdapterProject;
 import com.app.devrah.Adapters.CustomDrawerAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.ManageMembers.manage_members;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
 import com.app.devrah.Views.Project.ProjectsActivity;
+import com.app.devrah.pojo.CalendarPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarCheckBox;
+import com.app.devrah.pojo.CardAssociatedCalendarCoverPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarLabelsPojo;
+import com.app.devrah.pojo.CardAssociatedCalendarMembersPojo;
 import com.app.devrah.pojo.DrawerPojo;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class BoardsActivity extends AppCompatActivity {
+
+    CompactCalendarView compactCalendarView;
+    CalendarAdapterProject calendarAdapter;
+    ListView lv;
+    ArrayList<CalendarPojo> listPojo;
+    List<CardAssociatedCalendarLabelsPojo> cardLabelsPojoList;
+    List<CardAssociatedCalendarMembersPojo> cardMembersPojoList;
+    List<CardAssociatedCalendarCoverPojo> cardCoverPojoList;
+    List<CardAssociatedCalendarCheckBox> cardCheckboxPojoList;
 
     Switch active, inactive, complete;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -171,7 +197,8 @@ public class BoardsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // drawerPojo = new DrawerPojo();
-
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String userId = pref.getString("user_id", "");
         dataList = new ArrayList<>();
         View header = getLayoutInflater().inflate(R.layout.header_for_drawer, null);
         dataList.add(new DrawerPojo("Update Project Name"));
@@ -180,6 +207,10 @@ public class BoardsActivity extends AppCompatActivity {
         dataList.add(new DrawerPojo("Move Project"));
         dataList.add(new DrawerPojo("Manage Members"));
         dataList.add(new DrawerPojo("Leave Project"));
+        dataList.add(new DrawerPojo("Calendar"));
+      //  if(intent.hasExtra("project_created_by")) {
+        getProjectCreatedBy();
+        //}
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
@@ -279,6 +310,51 @@ public class BoardsActivity extends AppCompatActivity {
 
         setupTabIcons();
     }
+
+    private void getProjectCreatedBy() {
+        final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+        /*ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();*/
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_PROJECT_CREATED_BY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("1"))
+                        dataList.add(new DrawerPojo("Delete Project"));
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+              //  ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                } else if (error instanceof TimeoutError) {
+
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("project_id", projectID);
+                params.put("userId", pref.getString("user_id", ""));
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardsActivity.this);
+        requestQueue.add(request);
+    }
+
     public void updateData(){
         int position=viewPager.getCurrentItem();
         if(position==1){
@@ -564,6 +640,35 @@ public class BoardsActivity extends AppCompatActivity {
                                 })
                                 .show();
                         break;
+                    case 7:
+                        showCalendarDialog();
+
+                        break;
+                    case 8:
+                        final TextView textView = new TextView(BoardsActivity.this);
+                        textView.setText(getResources().getString(R.string.deleteProject));
+                        new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Confirmation!")
+                                .setCancelText("Cancel")
+                                .setConfirmText("OK")
+                                .setCustomView(textView)
+                              //  .setContentText(getResources().getString(R.string.deleteProject))
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismiss();
+                                        DeleteProject();
+                                    }
+                                })
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        break;
 
 
                 }
@@ -647,7 +752,384 @@ public class BoardsActivity extends AppCompatActivity {
 
 
     }
+    private void showCalendarDialog() {
+        final SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
 
+        LayoutInflater inflater = LayoutInflater.from(BoardsActivity.this);
+        View customView = inflater.inflate(R.layout.calendar_view_dialog, null);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(BoardsActivity.this,R.style.full_screen_dialog).create();
+        WindowManager.LayoutParams wmlp = alertDialog.getWindow().getAttributes();
+        alertDialog.getWindow().setLayout(320, DrawerLayout.LayoutParams.MATCH_PARENT);
+
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        wmlp.gravity = Gravity.END;
+        alertDialog.setView(customView);
+        alertDialog.show();
+        final TextView heading= (TextView) customView.findViewById(R.id.header);
+        final ImageView backBtn= (ImageView) customView.findViewById(R.id.backBtnCalender);
+        compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
+        lv= (ListView) customView.findViewById(R.id.listView);
+        // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
+        // Use constants provided by Java Calendar class
+        compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
+        Date dat=new Date();
+        heading.setText(dateFormatForMonth.format(dat));
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+       /* for(int i=1;i<10;i=i+2) {
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            cal.set(Calendar.DAY_OF_MONTH,i);
+            cal.set(Calendar.MONTH, 9);
+            cal.set(Calendar.YEAR, 2017);
+            long time = cal.getTimeInMillis();
+            Event event=new Event(Color.GREEN,time,"event");
+            compactCalendarView.addEvent(event);
+        }*/
+        List<Event> events = compactCalendarView.getEvents(1433701251000L); // can also take a Date object
+
+        // events has size 2 with the 2 events inserted previously
+//        Log.d(TAG, "Events: " + events);
+
+        // define a listener to receive callbacks when certain events happen.
+        compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
+            @Override
+            public void onDayClick(Date dateClicked) {
+                List<Event> events = compactCalendarView.getEvents(dateClicked);
+
+                if(events.toArray().length==0){
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
+                    String cardsByDate=dateFormat.format(dateClicked);
+                    Toast.makeText(BoardsActivity.this,"No cards due on "+cardsByDate,Toast.LENGTH_LONG).show();
+                }else {
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String cardsByDate=dateFormat.format(dateClicked);
+                    //getCards(cardsByDate);
+                    for(int i=listPojo.size()-1;i>=0;i--){
+                        if(listPojo.get(i).getDueDate().equals(cardsByDate)){
+                            lv.setSelection(i);
+                        }
+                    }
+
+                }
+
+//                Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+//                int month=firstDayOfNewMonth.getMonth();
+//                String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+                // String monthname=(String)android.text.format.DateFormat.format("MMM", month);
+                heading.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+
+                //  Toast.makeText(CalenderEvents.this,firstDayOfNewMonth.getDate(),Toast.LENGTH_LONG).show();
+                //   Log.d("month", "Month was scrolled to: " + firstDayOfNewMonth);
+            }
+        });
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String cardsByDate=dateFormat.format(dat);
+        getCards("",alertDialog);
+        getDueDates(cardsByDate);
+    }
+    private void getDueDates(final String currentDate){
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GET_DUE_DATE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        try {
+                            if (!response.equals("false")) {
+                                JSONArray jsonArray = new JSONArray(response);
+                                compactCalendarView.removeAllEvents();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    String dueDate=jsonObject.getString("card_end_date");
+                                    String[] dueDateSplit=dueDate.split("-");
+
+                                    if(dueDateSplit.length==3) {
+                                        int dayOfMonth = Integer.parseInt(dueDateSplit[2]);
+                                        int month = Integer.parseInt(dueDateSplit[1]);
+                                        int year = Integer.parseInt(dueDateSplit[0]);
+                                        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+                                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                        cal.set(Calendar.MONTH, month-1);
+                                        cal.set(Calendar.YEAR, year);
+                                        long time = cal.getTimeInMillis();
+                                        Event event = new Event(Color.GREEN, time, "event");
+                                        compactCalendarView.addEvent(event);
+                                    }
+
+
+                                }
+                                //  if(compactCalendarView.getEvents())
+                            }
+                            //getCards("");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(BoardsActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(BoardsActivity.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("uid",  pref.getString("user_id",""));
+                params.put("project_id", projectID);
+                params.put("board_id", "");
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardsActivity.this.getApplicationContext());
+        requestQueue.add(request);
+    }
+    private void getCards(final  String dueDate,final AlertDialog alertDialog){
+        final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.GETMYCARDSBYDUEDATE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        if (!(response.equals("false"))) {
+                            listPojo = new ArrayList<>();
+                            cardLabelsPojoList = new ArrayList<>();
+                            cardMembersPojoList = new ArrayList<>();
+                            cardCoverPojoList = new ArrayList<>();
+                            cardCheckboxPojoList = new ArrayList<>();
+                            try {
+                                CalendarPojo projectsPojo = null;
+                                JSONObject mainObject=new JSONObject(response);
+                                JSONArray jsonArrayCards = mainObject.getJSONArray("cards");
+                                JSONArray jsonArrayLabels = mainObject.getJSONArray("labels");
+                                JSONArray jsonArrayMembers = mainObject.getJSONArray("members");
+                                JSONArray jsonArrayAttachments = mainObject.getJSONArray("attachments");
+                                JSONArray jsonArrayAttachmentsCover = mainObject.getJSONArray("attachment_cover");
+                                JSONArray jsonArrayCheckbox = mainObject.getJSONArray("checkbox");
+
+                                //JSONObject cardsObject = jsonArray.getJSONObject(0);
+
+                                //  row=jsonArrayCards.length();
+                                for (int i = 0; i < jsonArrayCards.length(); i++) {
+                                    JSONObject jsonObject = jsonArrayCards.getJSONObject(i);
+                                    JSONArray jsonArray=jsonArrayAttachments.getJSONArray(i);
+
+                                    //JSONObject jsonObject1 = jsonArrayAttachments.getJSONObject(i);
+
+                                    projectsPojo = new CalendarPojo();
+                                    // CardAssociatedLabelsPojo labelsPojo = new CardAssociatedLabelsPojo();
+                                    projectsPojo.setId(jsonObject.getString("id"));
+                                    projectsPojo.setData(jsonObject.getString("card_name"));
+                                    projectsPojo.setAttachment(jsonObject.getString("file_name"));
+                                    projectsPojo.setDueDate(jsonObject.getString("card_end_date"));
+                                    projectsPojo.setDuetTime(jsonObject.getString("card_due_time"));
+                                    projectsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                                    projectsPojo.setCardDescription(jsonObject.getString("card_description"));
+                                    projectsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
+                                    projectsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                                    projectsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
+                                    projectsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
+                                    // projectsPojo.setCardAssignedMemberId(jsonObject.getString("crd_assigned_membr_id"));
+                                    projectsPojo.setnOfAttachments(String.valueOf(jsonArray.length()));
+                                    projectsPojo.setAssignedTo(jsonObject.getString("assigned_to"));
+                                    projectsPojo.setListId(jsonObject.getString("list_id"));
+                                    projectsPojo.setBoardID(jsonObject.getString("board_id"));
+
+                                    // projectsPojo.setBoardAssociatedLabelsId(jsonObject.getString("board_assoc_label_id"));
+                                    //projectsPojo.setLabels(jsonObject.getString("label_color"));
+
+//                                    cardLabelsPojoList.add(labelsPojo);
+
+                                    listPojo.add(projectsPojo);
+                                    // getLabelsList(jsonObject.getString("id"));
+
+                                }
+                                for(int j=0;j<jsonArrayLabels.length();j++){
+                                    CardAssociatedCalendarLabelsPojo labelsPojo = new CardAssociatedCalendarLabelsPojo();
+                                    JSONArray jsonArray=jsonArrayLabels.getJSONArray(j);
+                                    String[] labels = new String[jsonArray.length()];
+                                    String[] labelText = new String[jsonArray.length()];
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        labels[k]=jsonObject.getString("label_color");
+                                        if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }
+                                    }
+                                    labelsPojo.setLabels(labels);
+                                    labelsPojo.setLabelText(labelText);
+                                    cardLabelsPojoList.add(labelsPojo);
+                                }
+
+                                for(int j=0;j<jsonArrayMembers.length();j++){
+                                    CardAssociatedCalendarMembersPojo membersPojo = new CardAssociatedCalendarMembersPojo();
+                                    JSONArray jsonArray=jsonArrayMembers.getJSONArray(j);
+                                    String[] members = new String[jsonArray.length()];
+                                    String[] labelText = new String[jsonArray.length()];
+                                    String[] gp_picture = new String[jsonArray.length()];
+                                    String subsribed = "";
+                                    // SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        members[k]=jsonObject.getString("profile_pic");
+                                        labelText[k]=jsonObject.getString("initials");
+                                        gp_picture[k]=jsonObject.getString("gp_picture");
+                                        if(jsonObject.getString("uid").equals(pref.getString("user_id",""))) {
+                                            subsribed = jsonObject.getString("subscribed");
+                                        }
+                                       /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }*/
+                                    }
+                                    membersPojo.setMembers(members);
+                                    membersPojo.setInitials(labelText);
+                                    membersPojo.setGp_pictures(gp_picture);
+                                    membersPojo.setMemberSubscribed(subsribed);
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardMembersPojoList.add(membersPojo);
+                                }
+                                for(int j=0;j<jsonArrayAttachmentsCover.length();j++){
+                                    CardAssociatedCalendarCoverPojo membersPojo = new CardAssociatedCalendarCoverPojo();
+                                    JSONArray jsonArray=jsonArrayAttachmentsCover.getJSONArray(j);
+                                    String[] attachmentName = new String[jsonArray.length()];
+                                    String[] makeCover = new String[jsonArray.length()];
+                                    // String attachmentName=null;
+                                    //String makeCover=null;
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        attachmentName[k]=jsonObject.getString("file_name");
+                                        makeCover[k]=jsonObject.getString("make_cover");
+                                       /* if(jsonObject.getString("label_text")==null || jsonObject.getString("label_text").equals("null")){
+                                            labelText[k]="";
+                                        }else {
+                                            labelText[k] = jsonObject.getString("label_text");
+                                        }*/
+                                    }
+                                    membersPojo.setFileName(attachmentName);
+                                    membersPojo.setIsCover(makeCover);
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardCoverPojoList.add(membersPojo);
+                                }
+                                for(int j=0;j<jsonArrayCheckbox.length();j++){
+                                    CardAssociatedCalendarCheckBox checkBoxPojo = new CardAssociatedCalendarCheckBox();
+                                    JSONArray jsonArray=jsonArrayCheckbox.getJSONArray(j);
+                                    checkBoxPojo.setTotalCheckBoxes(jsonArray.length());
+                                    int checked=0;
+                                    for (int k=0;k<jsonArray.length();k++){
+
+                                        JSONObject jsonObject=jsonArray.getJSONObject(k);
+                                        if(jsonObject.getString("is_checked").equals("1")){
+                                            checked++;
+                                        }
+                                    }
+                                    checkBoxPojo.setCheckedCheckBox(String.valueOf(checked));
+
+                                    //  labelsPojo.setLabelText(labelText);
+                                    cardCheckboxPojoList.add(checkBoxPojo);
+                                }
+
+                                calendarAdapter = new CalendarAdapterProject(BoardsActivity.this, listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,alertDialog,cardCheckboxPojoList,projectID,projectTitle,status);
+                                lv.setAdapter(calendarAdapter);
+
+                                /*try {
+                                    cardAssociatedLabelsAdapter = new CardAssociatedLabelsAdapter(getActivity(), cardLabelsPojoList);
+                                    cardAssociatedLabelRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                                    cardAssociatedLabelRecycler.setAdapter(cardAssociatedLabelsAdapter);
+                                }catch (Exception e){
+                                    String s=e.toString();
+                                }*/
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+
+
+                            }
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(BoardsActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(BoardsActivity.this, "TimeOut Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("uid",  pref.getString("user_id",""));
+                params.put("project_id",projectID);
+               params.put("board_id", "");
+                params.put("card_due_date",dueDate);
+
+
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardsActivity.this.getApplicationContext());
+        requestQueue.add(request);
+    }
     public void LeaveProject() {
         final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
@@ -663,6 +1145,85 @@ public class BoardsActivity extends AppCompatActivity {
 
                         if(response.equals("1")){
                             Toast.makeText(BoardsActivity.this,"You are admin of this project , You can not leave project !",Toast.LENGTH_LONG).show();
+                        }else if(response.equals("{\"project_left\":1}")) {
+                            Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
+                            finish();
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(BoardsActivity.this,"No data found!",Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("project_id", projectID);
+                params.put("userId", pref.getString("user_id", ""));
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardsActivity.this);
+        requestQueue.add(request);
+
+
+    }
+    public void DeleteProject() {
+        final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_PROJECT,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        if(response.equals("1")){
+                            Toast.makeText(BoardsActivity.this,"You cannot delete this project",Toast.LENGTH_LONG).show();
                         }else if(response.equals("{\"project_left\":1}")) {
                             Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
                             finish();
