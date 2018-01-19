@@ -214,11 +214,11 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     position = totalPics - 1;
                     post[0]=totalPics-1;
                 }
-                progressBar.setVisibility(View.VISIBLE);
+              //  progressBar.setVisibility(View.VISIBLE);
                 Glide.with(activity)
                         .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
-                        .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true))
+                        .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true)
+                               )
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
@@ -251,11 +251,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     position = 0;
                     post[0]=0;
                 }
-                progressBar.setVisibility(View.VISIBLE);
+             //   progressBar.setVisibility(View.VISIBLE);
                 Glide.with(activity)
                         .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
-                        .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true))
+                        .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true))
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
@@ -289,11 +288,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                         position = totalPics - 1;
                         post[0] = totalPics - 1;
                     }
-                    progressBar.setVisibility(View.VISIBLE);
+                   // progressBar.setVisibility(View.VISIBLE);
                     Glide.with(activity)
                             .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
-                            .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width), activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true))
+                            .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width), activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true))
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
@@ -327,11 +325,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                         position = 0;
                         post[0] = 0;
                     }
-                    progressBar.setVisibility(View.VISIBLE);
+                  //  progressBar.setVisibility(View.VISIBLE);
                     Glide.with(activity)
                             .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
-                            .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width), activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true))
+                            .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width), activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true))
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
@@ -416,6 +413,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Glide.get(activity).clearMemory();
                 myalertdialog.dismiss();
             }
         });
