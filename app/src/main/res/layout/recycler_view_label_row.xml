@@ -8,7 +8,11 @@
     android:layout_marginRight="5dp"
 
     android:layout_marginTop="10dp">
-
+<ImageView
+    android:id="@+id/labelIcon"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:background="@drawable/label_icon"/>
 
     <RelativeLayout
         android:id="@+id/labels_row"
@@ -29,10 +33,9 @@
 
 
             android:layout_centerVertical="true"
-            android:layout_gravity="right"
-            android:layout_marginEnd="14dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/tick_btn_icon"
             android:visibility="gone" />
 

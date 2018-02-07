@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.MembersPojo;
 import com.squareup.picasso.Picasso;
@@ -87,7 +88,7 @@ public class team_addapter extends BaseAdapter {
         else {
             holder.alias_img.setVisibility(View.INVISIBLE);
             Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + membersPojo.getProfile_pic())
+                    .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + membersPojo.getProfile_pic())
                     .into( holder.imgProfile );
 
         }

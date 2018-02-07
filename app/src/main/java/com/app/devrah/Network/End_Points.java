@@ -3,7 +3,10 @@ package com.app.devrah.Network;
 
 public class End_Points {
 
-    public static final String BASE_URL = "http://m1.cybussolutions.com/devrah/Api_service/";
+    private static final String BASE_URL = "http://demo.cybussolutions.com/kanban/Api_service/";
+    public static final String BASE_URL_FILE_UPLOAD = "http://demo.cybussolutions.com/kanban/";
+    public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
+    private static final String BASE_URL_ACTIVITIES = "http://demo.cybussolutions.com/kanban/Activities/";
 
     public static final String LOGIN = BASE_URL + "login";
     public static final String FORGOT_PASSWORD = BASE_URL + "forgot";
@@ -138,6 +141,11 @@ public class End_Points {
     public static final String ARCHIVE_BOARD= BASE_URL + "boardCardsCheck";
     public static final String GET_DUE_DATE_PROJECT= BASE_URL + "getDueDateProject";
     public static final String GET_PROJECT_CREATED_BY = BASE_URL + "getProjectCreatedBy";
+    public static final String UPDATE_BG_BOARD = BASE_URL + "saveSpecificBoardBackground";
+    public static final String UPDATE_BG_BOARD_IMG = BASE_URL + "updateNewComputerBgImage";
+    public static final String DELETE_TEAM = BASE_URL + "DeleteTeam";
+    public static final String ACTIVITIES_DATA = BASE_URL_ACTIVITIES + "system_activities/";
+    public static final String NOTIFICATIONS_DATA = BASE_URL_ACTIVITIES + "system_notifications/";
 
 
 }

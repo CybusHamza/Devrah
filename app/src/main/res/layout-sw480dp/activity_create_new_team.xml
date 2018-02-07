@@ -48,25 +48,44 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Add By Name or Email"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/colorWhite"
             android:background="@color/colorPrimary" />
-        <Button
-            android:id="@+id/btnAddBulk"
-            android:layout_below="@+id/btnAddMember"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_centerHorizontal="true"
-            android:text="Bulk Add Members"
-            android:textColor="@color/colorWhite"
-            android:layout_marginTop="30dp"
-            android:background="#449d44"/>
+            android:gravity="center_horizontal"
+            android:id="@+id/linearLayout"
+            android:layout_below="@+id/btnAddMember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/btnAddBulk"
 
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Bulk Add Members"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="20dp"
+                android:background="#449d44"/>
+            <Button
+                android:id="@+id/btnDeleteTeam"
+                android:layout_below="@+id/btnAddBulk"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Delete Team"
+                android:visibility="gone"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="20dp"
+                android:background="#d9534f"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/listName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btnAddBulk"
+            android:layout_below="@+id/linearLayout"
             android:layout_marginTop="10dp"
             android:textSize="@dimen/text_size_normal"
             android:text="Members List"
@@ -74,10 +93,12 @@
             android:gravity="center"
             android:fontFamily="@string/monoSapce"/>
         <ListView
+            android:layout_marginTop="5dp"
             android:id="@+id/membersListView"
             android:layout_below="@+id/listName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:dividerHeight="7dp">
 
         </ListView>
     </RelativeLayout>

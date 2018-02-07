@@ -7,6 +7,26 @@ package com.app.devrah.pojo;
 public class AcitivitiesPojo {
     public String data;
 
+    public String getBase() {
+        return base;
+    }
+
+    public void setBase(String base) {
+        this.base = base;
+    }
+
+    public String base;
+
+    public String getActionUser() {
+        return actionUser;
+    }
+
+    public void setActionUser(String actionUser) {
+        this.actionUser = actionUser;
+    }
+
+    public String actionUser;
+
     public String getProjectCreatedBy() {
         return projectCreatedBy;
     }

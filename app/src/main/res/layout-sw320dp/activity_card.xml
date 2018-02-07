@@ -99,8 +99,8 @@
                     android:layout_margin="10dp">
                     <ImageView
                         android:id="@+id/descriptionIcon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/description_icon"/>
                     <EditText
@@ -147,7 +147,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="10dp"
                     android:text="CREATE A NEW LABEL"
-                    android:textColor="#fff"
+                    android:textColor="@color/createNewLabelColor"
                     android:visibility="gone" />
                 <LinearLayout
                     android:id="@+id/labelsLayout"
@@ -158,9 +158,9 @@
                     android:visibility="gone">
                     <ImageView
                         android:id="@+id/labelIcon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="8dp"
                         android:src="@drawable/label_icon"/>
 
                     <android.support.v7.widget.RecyclerView
@@ -309,7 +309,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:visibility="gone"
                     android:id="@+id/filesAttachmentLayout">
                     <ImageView
@@ -333,7 +335,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
                     android:visibility="gone">
                     <ImageView
                         android:layout_width="25dp"
@@ -444,7 +449,7 @@
                         android:id="@+id/rv_recycler_checklist"
                         android:layout_height="wrap_content"
                         android:background="@drawable/checklist_border_outer"
-                        android:dividerHeight="5dp"
+                        android:dividerHeight="7dp"
                         android:layout_width="match_parent"/>
                 </LinearLayout>
 

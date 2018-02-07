@@ -37,6 +37,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.squareup.picasso.Picasso;
 
@@ -112,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
        // imageView.setImageBitmap();
-        Picasso.with(getApplicationContext()).load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
+        Picasso.with(getApplicationContext()).load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + currentImage)
                 .placeholder(R.drawable.pp_dummy).into(imageView);
 
 
@@ -501,7 +502,7 @@ public class ProfileActivity extends AppCompatActivity {
       final ProgressDialog  ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Updating...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/devrah/upload_image_mobile.php", new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.BASE_URL_FILE_UPLOAD+"upload_image_mobile.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

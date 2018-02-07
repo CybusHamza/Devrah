@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.cards.CardActivity;
@@ -120,7 +121,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             if (cover[i].equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
                 Glide.with(activity)
-                        .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
+                        .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + fileName[i])
                         .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                 .skipMemoryCache(true))
                        .into(holder.attachment);
@@ -172,6 +173,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                 SimpleDateFormat timeFormat = new SimpleDateFormat("dd MMM,yy");
                 String finalDate = timeFormat.format(myDate);
                 holder.dueDate.setText( finalDate );
+                holder.dueDate.setCompoundDrawablesWithIntrinsicBounds(activity.getResources().getDrawable(R.drawable.clock),null,null,null);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -423,7 +425,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
 
         for (int i = 0; i < labels.length; i++) {
             TextView image = new TextView(activity);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(90,50);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(90,40);
             layoutParams.setMargins(10,0,0,0);
             //image.setLayoutParams(new android.view.ViewGroup.LayoutParams(60, 60));
             image.setLayoutParams(layoutParams);
@@ -517,7 +519,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
                     image.setMaxWidth(20);
 
                     Picasso.with(activity)
-                            .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + imageUrl[i])
+                            .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + imageUrl[i])
                             .into(image);
 
                     // Adds the view to the layout
@@ -545,6 +547,11 @@ public class FragmentBoardsAdapter extends BaseAdapter{
           // projectsList.remove(position);
           // notifyDataSetChanged();
        }*/
+       if(holder.dueDate.getText().equals("")){
+           holder.dueDate.setVisibility(View.GONE);
+       }else {
+           holder.dueDate.setVisibility(View.VISIBLE);
+       }
         return convertView;
     }
     public int daysBetween(Date d1, Date d2){

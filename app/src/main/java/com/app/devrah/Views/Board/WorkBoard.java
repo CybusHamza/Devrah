@@ -2,18 +2,26 @@ package com.app.devrah.Views.Board;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +31,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,19 +43,27 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.BoardsAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
+import com.app.devrah.Views.Main.ProfileActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import static com.app.devrah.Network.End_Points.ADD_WORK_BOARD;
+import static com.app.devrah.Network.End_Points.UPDATE_BG_BOARD;
+import static com.app.devrah.Network.End_Points.UPDATE_BG_BOARD_IMG;
 
 
 public class WorkBoard extends Fragment implements View.OnClickListener {
@@ -66,6 +83,13 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
     SwipeRefreshLayout mySwipeRefreshLayout;
     private OnFragmentInteractionListener mListener;
     EditText edtSeach;
+    Intent intent;
+    String mCurrentPhotoPath,ImageDecode;
+
+    private static int IMG_RESULT = 2;
+    String b64;
+    Calendar calendar;
+    String dateAndTime;
     public WorkBoard() {
         // Required empty public constructor
     }
@@ -171,7 +195,6 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         }catch (OutOfMemoryError error){
             error.printStackTrace();
         }
-
        /* etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -261,7 +284,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 String projectData = edt.getText().toString();
-                if (!(projectData.isEmpty())) {
+                if (!(projectData.isEmpty()) && !projectData.trim().isEmpty()) {
 
                     addNewBoard(projectData);
                     edt.setText("");
@@ -293,7 +316,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
 
                 String projectData = edt.getText().toString();
-                if (!(projectData.isEmpty())) {
+                if (!(projectData.isEmpty()) && !projectData.trim().isEmpty()) {
 
                     addNewBoard(projectData);
 
@@ -455,6 +478,168 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         requestQueue.add(request);
     }
 
+    public void upload(String boardId, String projectId, int position) {
+        intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.putExtra("bid",boardId);
+        intent.putExtra("pos",position);
+        startActivityForResult(intent, IMG_RESULT);
+
+    }
+
+
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
+    }
+    public void LoadImage(final String b64, final String boardid, final int position){
+        calendar = Calendar.getInstance();
+        dateAndTime=String.valueOf(calendar.get(Calendar.DATE))
+                +String.valueOf(calendar.get(Calendar.MONTH))
+                + String.valueOf(calendar.get(Calendar.YEAR))
+                + String.valueOf(calendar.get(Calendar.HOUR))
+                + String.valueOf(calendar.get(Calendar.MINUTE))
+                + String.valueOf(calendar.get(Calendar.SECOND));
+        final ProgressDialog  ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Updating...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.BASE_URL_FILE_UPLOAD+"upload_cover_board.php", new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                ringProgressDialog.dismiss();
+                // Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+
+                if (!(response.equals(""))) {
+                    //Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                   uploadData(response.trim(),boardid,position);
+                } else {
+                    Toast.makeText(getActivity(), "Picture not uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NetworkError) {
+                    message = "check your internet connection";
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                }else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity(),"Time Out error",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("image", b64);
+                map.put("name", dateAndTime);
+                return map;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+
+
+
+
+    }
+
+    private void uploadData(final String trim, final String boardid, final int position) {
+        final ProgressDialog  ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Updating...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, UPDATE_BG_BOARD_IMG,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        if (!response.equals("")) {
+                            //   holder.background.setBackground(activity.getResources().getDrawable(R.drawable.outer_border_message_screen));
+                          myList.get(position).setBackGroundPicture(trim);
+                          myList.get(position).setIsPicture("1");
+                          adapter.notifyDataSetChanged();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
+                    /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                   /* new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", boardid);
+                params.put("projectId", projectid);
+                params.put("userId", pref.getString("user_id",""));
+                params.put("bg_file", trim);
+                params.put("is_picture", "1");
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+    }
+
     public  void getWorkBoards()
     {
 
@@ -489,6 +674,8 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                                     projectsPojo.setId("");
                                     projectsPojo.setBoardStar("");
                                     projectsPojo.setIsFavouriteFromMembers("");
+                                    projectsPojo.setBackGroundPicture("");
+                                    projectsPojo.setIsPicture("");
 
                                     myList.add(projectsPojo);
                                 }else {
@@ -502,7 +689,8 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                                         projectsPojo.setId(jsonObject.getString("project_id"));
                                         projectsPojo.setBoardStar(jsonObject.getString("board_star"));
                                         projectsPojo.setIsFavouriteFromMembers(jsonObject.getString("is_favourite"));
-
+                                        projectsPojo.setBackGroundPicture(jsonObject.getString("background_picture"));
+                                        projectsPojo.setIsPicture(jsonObject.getString("is_picture"));
                                         myList.add(projectsPojo);
 
                                     }

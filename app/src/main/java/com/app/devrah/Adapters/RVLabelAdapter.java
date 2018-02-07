@@ -93,6 +93,10 @@ public class RVLabelAdapter extends RecyclerView.Adapter<View_holder_label> {
     @Override
     public void onBindViewHolder(final View_holder_label holder, final int position) {
 
+        if(position==0)
+            holder.labelIcon.setVisibility(View.VISIBLE);
+        else
+            holder.labelIcon.setVisibility(View.INVISIBLE);
 
         if(type.equals("continue"))
         {

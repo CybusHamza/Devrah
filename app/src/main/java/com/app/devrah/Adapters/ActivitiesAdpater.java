@@ -3,6 +3,7 @@ package com.app.devrah.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,22 +66,26 @@ public class ActivitiesAdpater extends BaseAdapter {
 
         holder.data = (TextView) convertView.findViewById(R.id.activities_data);
         holder.date = (TextView) convertView.findViewById(R.id.date);
-        holder.data.setText(projectsList.get(position).getUserName()+" "+projectsList.get(position).getData()+" "+projectsList.get(position).getDataArray());
-        holder.date.setText(projectsList.get(position).getDate());
+        holder.base = (TextView) convertView.findViewById(R.id.tvProjectsData);
+        holder.data.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()+ "</b>"+" "+"<font color=#C3C3C3>" +projectsList.get(position).getData()+ "</font>"+" "+"<b> <u>"+projectsList.get(position).getDataArray()+ "</u></b> "));
+        String date=Html.fromHtml(projectsList.get(position).getDate().replace("<br/>"," ")).toString();
+        holder.date.setText(date);
 //        if(projectsList.get(position).getDataArray().equals("No data found")  && projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
 //            holder.data.setText("No data found");
 //        }
-
+        holder.base.setText(projectsList.get(position).getBase());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(projectsList.get(position).getDataArray().equals("No data found")  && projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
+                if(projectsList.get(position).getBase().equals("No Data Found")  && projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
 
                 }else {
                     //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                    if (!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("") && projectsList.get(position).getListId().equals("") && projectsList.get(position).getCardId().equals("")) {
+                  /*  if (!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("") && projectsList.get(position).getListId().equals("") && projectsList.get(position).getCardId().equals("")) {
                         Intent intent = new Intent(activity, ProjectsActivity.class);
                         intent.putExtra("ScreenName", "activities");
+                        if(projectsList.get(position).getData().equals("added group"))
+                            intent.putExtra("showScreen1", "activities1");
                         activity.finish();
                         activity.startActivity(intent);
                     } else if (!projectsList.get(position).getDataArray().equals("") && !projectsList.get(position).getProjectId().equals("") && !projectsList.get(position).getBoardId().equals("") && projectsList.get(position).getListId().equals("") && projectsList.get(position).getCardId().equals("")) {
@@ -102,7 +107,7 @@ public class ActivitiesAdpater extends BaseAdapter {
                         activity.startActivity(intent);
                     } else {
                         Toast.makeText(activity, "Data not found", Toast.LENGTH_LONG).show();
-                    }
+                    }*/
                 }
 
 
@@ -114,7 +119,7 @@ public class ActivitiesAdpater extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data,date;
+        TextView data,date,base;
     }
 
 }

@@ -606,7 +606,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                     })
                                     .show();
                         } else {
-
+                            int count=0;
                             String userid;
 
                             try {
@@ -618,9 +618,11 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                 JSONObject object = new JSONObject(response);
 
                                 String data =  object.getString("group_name");
+                                String data1 =  object.getString("group_name_assigned");
 
                                 JSONArray jsonArray = new JSONArray(data);
-                                if(jsonArray.length()<1){
+                                JSONArray jsonArrayAssigned = new JSONArray(data1);
+                                if(jsonArray.length()<1 && jsonArrayAssigned.length()<1){
                                   TextView tv= (TextView) view.findViewById(R.id.hiddenText);
                                     tv.setVisibility(View.VISIBLE);
                                 }else {
@@ -628,10 +630,20 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                     tv.setVisibility(View.INVISIBLE);
                                 }
 
-
+                                    int unassignedPosition=-1;
                                 for (int i = 0; i < jsonArray.length(); i++) {
 
                                     JSONObject obj = new JSONObject(jsonArray.getString(i));
+
+                                    projectName.add(obj.getString("pg_id"));
+                                    projectId.add(obj.getString("pg_name"));
+                                    if(obj.getString("pg_name").equals("Unassigned"))
+                                        unassignedPosition=i;
+                                    listDataChild.put(obj.getString("pg_id"),null);
+                                }
+                                for (int i = 0; i < jsonArrayAssigned.length(); i++) {
+
+                                    JSONObject obj = new JSONObject(jsonArrayAssigned.getString(i));
 
                                     projectName.add(obj.getString("pg_id"));
                                     projectId.add(obj.getString("pg_name"));
@@ -641,17 +653,63 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
 
 
                                 String data2 =  object.getString("group_projects");
+                                String data3 =  object.getString("group_projects_unassigned");
 
                                 JSONArray jsonArray1 = new JSONArray(data2);
+                                JSONArray jsonArray2 = new JSONArray(data3);
+                                Boolean unassing=false;
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
+
+                                for (int i = 0; i < jsonArray.length()+jsonArrayAssigned.length(); i++) {
 
                                     MyList = new ArrayList<>();
+
                                     for (int j = 0 ; j<jsonArray1.length();j++)
                                     {
                                         JSONObject jsonObject = jsonArray1.getJSONObject(j);
                                         String id = jsonObject.getString("project_group");
                                         String projectid =projectName.get(i) ;
+
+
+                                        if(projectid.equals(id) && !projectId.get(i).equals("Unassigned"))
+                                        {
+                                            String projectDescription=jsonObject.getString("project_description");
+                                            String projectCreatedBy=jsonObject.getString("project_created_by");
+                                            if(projectDescription.equals("")){
+                                                projectDescription=" ";
+                                            }
+
+                                            MyList.add( jsonObject.getString("project_name")+","+jsonObject.getString("project_status")+","+jsonObject.getString("project_id")+","+projectDescription+","+projectCreatedBy);
+                                            projectStatus.add(jsonObject.getString("project_status"));
+                                            projectids.add(jsonObject.getString("project_id"));
+
+                                        }
+                                        if(projectid.equals(projectName.get(unassignedPosition)) && !unassing){
+                                            unassing=true;
+                                            for (int k = jsonArray2.length()-1; k >=0; k--) {
+                                                JSONObject jsonObject1 = jsonArray2.getJSONObject(k);
+                                                //  String id = jsonObject.getString("project_group");
+
+                                                String projectDescription = jsonObject1.getString("project_description");
+                                                String projectCreatedBy = jsonObject1.getString("project_created_by");
+                                                if (projectDescription.equals("")) {
+                                                    projectDescription = " ";
+                                                }
+
+                                                MyList.add( jsonObject1.getString("project_name") + "," + jsonObject1.getString("project_status") + "," + jsonObject1.getString("project_id") + "," + projectDescription + "," + projectCreatedBy);
+                                                projectStatus.add( jsonObject1.getString("project_status"));
+                                                projectids.add( jsonObject1.getString("project_id"));
+
+
+                                            }
+                                        }
+
+                                    }
+                                  /*  for (int j = 0 ; j<jsonArray2.length();j++)
+                                    {
+                                        JSONObject jsonObject = jsonArray2.getJSONObject(j);
+                                        String id = jsonObject.getString("project_group");
+                                        String projectid =projectName.get(unassignedPosition) ;
                                         if(projectid.equals(id))
                                         {
                                             String projectDescription=jsonObject.getString("project_description");
@@ -659,6 +717,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                             if(projectDescription.equals("")){
                                                 projectDescription=" ";
                                             }
+
                                             MyList.add( jsonObject.getString("project_name")+","+jsonObject.getString("project_status")+","+jsonObject.getString("project_id")+","+projectDescription+","+projectCreatedBy);
                                             projectStatus.add(jsonObject.getString("project_status"));
                                             projectids.add(jsonObject.getString("project_id"));
@@ -666,12 +725,15 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                         }
 
 
-                                    }
+                                    }*/
 
                                     listDataChild.put(projectName.get(i)+"", MyList);
                                     listDataStatus.put(projectName.get(i)+"", projectStatus);
                                 }
+                               // for (int i = 0; i < jsonArrayAssigned.length(); i++) {
 
+
+                                //}
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -809,13 +871,15 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                             try {
 
                                 String firstname, email, lastName, profilePic;
-
+                                int pos=0;
                                 JSONArray array = new JSONArray(response);
                                 for (int i = 0; i < array.length(); i++) {
 
                                     JSONObject object = new JSONObject(array.getString(i));
                                     spinnerValues.add(String.valueOf(object.get("pg_name")));
                                     spinnerGroupIds.add(String.valueOf(object.get("pg_id")));
+                                    if(object.get("pg_name").toString().equals("Unassigned"))
+                                        pos=i;
                                     // Toast.makeText(getActivity().getApplicationContext(), spinnerValues.get(i), Toast.LENGTH_SHORT).show();
                                     //spinnerValues[i] = String.valueOf(object.get("pg_name"));
 
@@ -828,7 +892,7 @@ public class GroupProjects extends Fragment implements View.OnClickListener,read
                                 timeAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                                 spinnerProjectGroup.setAdapter(timeAdapter);
 
-                                spinnerProjectGroup.setSelection(0);
+                                spinnerProjectGroup.setSelection(pos);
 
 
 //                                spinnerProjectGroup.set

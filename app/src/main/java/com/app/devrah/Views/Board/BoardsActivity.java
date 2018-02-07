@@ -4,8 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -67,6 +74,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,7 +89,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class BoardsActivity extends AppCompatActivity {
-
+    String b64;
+    static String boardId;
+    static int position;
+    Calendar calendar;
+    String dateAndTime;
+    String mCurrentPhotoPath,ImageDecode;
     CompactCalendarView compactCalendarView;
     CalendarAdapterProject calendarAdapter;
     ListView lv;
@@ -103,6 +116,7 @@ public class BoardsActivity extends AppCompatActivity {
     List<String> spinnerGroupIds;
     String title, status;
     View logo;
+    private static final int REQUEST_PERMISSIONS=0;
     CustomDrawerAdapter adapter;
     //   NavigationDrawerFragment drawerFragment;
 //    private int[] tabIcons = {
@@ -582,6 +596,138 @@ public class BoardsActivity extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
     }
+    public void uploadImage(String boardId,String projectId,int position){
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.putExtra("bid",boardId);
+        intent.putExtra("pos",position);
+        this.boardId=boardId;
+        this.position=position;
+        startActivityForResult(intent, 2);
+    }
+    public void uploadImage1(String boardId,String projectId,int position){
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.putExtra("bid",boardId);
+        intent.putExtra("pos",position);
+        this.boardId=boardId;
+        this.position=position;
+        startActivityForResult(intent, 3);
+    }
+    public void data(String boardId,int position){
+        this.boardId=boardId;
+        this.position=position;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == REQUEST_PERMISSIONS ) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 2);
+
+            } else {
+
+                Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == 1 ) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 3);
+
+            } else {
+
+                Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+
+            //  if (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            if (requestCode == 2  && resultCode == RESULT_OK && data != null) {
+                // textView.setText(stringBuffer.toString());
+                Uri URI = data.getData();
+                String[] FILE = {MediaStore.Images.Media.DATA};
+
+
+                Cursor cursor = getContentResolver().query(URI,
+                        FILE, null, null, null);
+
+                cursor.moveToFirst();
+               // Intent b = data.getExtras();
+                String baordid=boardId;
+                int pos=position;
+
+                int columnIndex = cursor.getColumnIndex(FILE[0]);
+                ImageDecode = cursor.getString(columnIndex);
+                cursor.close();
+                // CircleImageView imageView=(CircleImageView) findViewById(R.id.profilePic);
+
+                Bitmap unscaled= BitmapFactory.decodeFile(ImageDecode);
+
+
+//                imageView=(DrawingView)findViewById(R.id.drawingview);
+                mCurrentPhotoPath=ImageDecode;
+                b64 = encodeImage(unscaled);
+                ((WorkBoard) adapter1.getItem(0)).LoadImage(b64,baordid,pos);
+
+//
+                // imageView.setImageBitmap(BitmapFactory
+                //       .decodeFile(ImageDecode));
+
+            }
+            if (requestCode == 3  && resultCode == RESULT_OK && data != null) {
+                // textView.setText(stringBuffer.toString());
+                Uri URI = data.getData();
+                String[] FILE = {MediaStore.Images.Media.DATA};
+
+
+                Cursor cursor = getContentResolver().query(URI,
+                        FILE, null, null, null);
+
+                cursor.moveToFirst();
+                // Intent b = data.getExtras();
+                String baordid=boardId;
+                int pos=position;
+
+                int columnIndex = cursor.getColumnIndex(FILE[0]);
+                ImageDecode = cursor.getString(columnIndex);
+                cursor.close();
+                // CircleImageView imageView=(CircleImageView) findViewById(R.id.profilePic);
+
+                Bitmap unscaled= BitmapFactory.decodeFile(ImageDecode);
+
+
+//                imageView=(DrawingView)findViewById(R.id.drawingview);
+                mCurrentPhotoPath=ImageDecode;
+                b64 = encodeImage(unscaled);
+                ((ReferenceBoard) adapter1.getItem(1)).LoadImage(b64,baordid,pos);
+
+//
+                // imageView.setImageBitmap(BitmapFactory
+                //       .decodeFile(ImageDecode));
+
+            }
+        } catch (Exception e) {
+
+        }
+    }
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
+    }
     public void openDrawer() {
         adapter = new CustomDrawerAdapter(this, R.layout.list_item_drawer, dataList);
         mDrawerList.setAdapter(adapter);
@@ -646,7 +792,7 @@ public class BoardsActivity extends AppCompatActivity {
                         break;
                     case 8:
                         final TextView textView = new TextView(BoardsActivity.this);
-                        textView.setText(getResources().getString(R.string.deleteProject));
+                        textView.setText("Are you sure you want to delete this project?");
                         new SweetAlertDialog(BoardsActivity.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Confirmation!")
                                 .setCancelText("Cancel")

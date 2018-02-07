@@ -113,9 +113,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,6 +247,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     Camera camera;
     static String isCardLocked,isCardSubscribed;
+    static ImageView labelIcon;
 
     public static void showLabelsMenu() {
 
@@ -255,9 +258,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         if (rvLabel.getVisibility() == View.GONE) {
             rvLabel.setVisibility(View.VISIBLE);
             labelAdd.setVisibility(View.VISIBLE);
+            labelIcon.setVisibility(View.INVISIBLE);
         }
         if (labelAdd.getVisibility() == View.GONE) {
             labelAdd.setVisibility(View.VISIBLE);
+            labelIcon.setVisibility(View.INVISIBLE);
 
 
         }
@@ -275,7 +280,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 addlabel( RVLabelAdapter.colornames.get(pos),name);*/
 
-
+                labelIcon.setVisibility(View.VISIBLE);
                 rvLabelResult.setVisibility(View.VISIBLE);
                 labelAdd.setVisibility(View.GONE);
                 rvLabel.setVisibility(View.GONE);
@@ -370,6 +375,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         container = (RelativeLayout) findViewById(R.id.fragmentContainer);
         container1 = (RelativeLayout) findViewById(R.id.fragmentContainer1);
         rvFiles = (RecyclerView) findViewById(R.id.rv_files_cardscreen);
+        labelIcon= (ImageView) findViewById(R.id.labelIcon);
         fileList = new ArrayList<>();
         attachmentsList = new ArrayList<>();
         labelName = null;
@@ -408,7 +414,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         labelNameList.add("");
         labelNameList.add("");
         labelNameList.add("");*/
-
         camera = new Camera.Builder()
                 .resetToCorrectOrientation(true)// it will rotate the camera bitmap to the correct orientation from meta data
                 .setTakePhotoRequestCode(1)
@@ -450,11 +455,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }else {
             dataList.add(new DrawerPojo("Un-subscribe"));
         }
-        if(isCardLocked.equals("0")) {
+       /* if(isCardLocked.equals("0")) {
             dataList.add(new DrawerPojo("Lock Card"));
         }else {
             dataList.add(new DrawerPojo("Unlock Card"));
-        }
+        }*/
         dataList.add(new DrawerPojo("Delete Card"));
      //   dataList.add(new DrawerPojo("Leave Card"));
 
@@ -498,8 +503,20 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });
 
         if(!startDate.equals("") && !startDate.equals("null") && !startDate.equals("0000-00-00")) {
-            cbStartDate.setText(startDate);
-            cbStartDate.setVisibility(View.VISIBLE);
+           SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd");
+            Date myDate = null;
+            try {
+                String myTime=startDate;
+                myDate = dateFormat.parse(myTime);
+                SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MMM-yy");
+                String finalDate = timeFormat.format(myDate);
+                cbStartDate.setText(finalDate);
+                cbStartDate.setVisibility(View.VISIBLE);
+                 } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }else if(startDate.equals("null") && startDate.equals("0000-00-00")){
             cbStartDate.setText("Start Date");
             cbStartDate.setVisibility(View.VISIBLE);
@@ -513,8 +530,20 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }
 
         if(!dueDate.equals("") && !dueDate.equals("null") && !dueDate.equals("0000-00-00")) {
-            cbDueDate.setText(dueDate);
-            cbDueDate.setVisibility(View.VISIBLE);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd");
+            Date myDate = null;
+            try {
+                String myTime=dueDate;
+                myDate = dateFormat.parse(myTime);
+                SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MMM-yy");
+                String finalDate = timeFormat.format(myDate);
+                cbDueDate.setText(finalDate);
+                cbDueDate.setVisibility(View.VISIBLE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }else if(dueDate.equals("null") && dueDate.equals("0000-00-00")){
             cbDueDate.setText("Due Date");
             cbDueDate.setVisibility(View.VISIBLE);
@@ -981,7 +1010,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             unSubscribe();
                         }
                         break;
-                    case 5:
+                  /*  case 5:
                         String label;
                         if(isCardLocked.equals("1")){
                             new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
@@ -1027,8 +1056,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     .show();
                         }
 
-                        break;
-                    case 6:
+                        break;*/
+                    case 5:
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
@@ -1050,7 +1079,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                 })
                                 .show();
                         break;
-                    case 7:
+                    case 6:
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
@@ -3039,13 +3068,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         cardMembersPojoList1.add(membersPojo);
                                     }
                                     if(isMember.equals("1")){
-                                      if(dataList.size()==6){
+                                      if(dataList.size()==5){
                                             dataList.add(new DrawerPojo("Leave Card"));
                                         }
                                     }
                                     else {
-                                        if(dataList.size()==7)
-                                        dataList.remove(6);
+                                        if(dataList.size()==6)
+                                        dataList.remove(5);
                                     }
                                    rvMembersResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
                                     memberAdapter = new RVMemberResultAdapter(Mactivity,cardMembersPojoList1,cardId,list_id,boardId,projectId);
@@ -3199,7 +3228,19 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbDueDate.setText(dueDat);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                "yyyy-MM-dd");
+                        Date myDate = null;
+                        try {
+                            String myTime=dueDat;
+                            myDate = dateFormat.parse(myTime);
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MMM-yy");
+                            String finalDate = timeFormat.format(myDate);
+                            cbDueDate.setText(finalDate);
+                            cbDueDate.setVisibility(View.VISIBLE);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         dueDate=dueDat;
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
 
@@ -3272,7 +3313,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        cbStartDate.setText(startDat);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                "yyyy-MM-dd");
+                        Date myDate = null;
+                        try {
+                            String myTime=startDat;
+                            myDate = dateFormat.parse(myTime);
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MMM-yy");
+                            String finalDate = timeFormat.format(myDate);
+                            cbStartDate.setText(finalDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         startDate=startDat;
 
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
@@ -3868,7 +3920,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading image ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/devrah/upload_image_card.php", new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.BASE_URL_FILE_UPLOAD+"upload_image_card.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -3876,7 +3928,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 ringProgressDialog.dismiss();
                 if (!(response.equals(""))) {
                     // getCardList();
-                    saveNewAttachmentByCardId(response.trim().toString(),originalName);
+                    saveNewAttachmentByCardId(response.trim(),originalName);
 
                 } else {
                     ringProgressDialog.dismiss();
@@ -5376,7 +5428,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     // open a URL connection to the Servlet
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                    URL url = new URL("http://m1.cybussolutions.com/devrah/upload_file_card.php");
+                    URL url = new URL(End_Points.BASE_URL_FILE_UPLOAD+"upload_file_card.php");
 
                     // Open a HTTP  connection to  the URL
                     conn = (HttpURLConnection) url.openConnection();

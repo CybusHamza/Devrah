@@ -279,7 +279,7 @@ public class MyCardsActivity extends AppCompatActivity {
                     p_pos = projectSpinner.getSelectedItemPosition();
                     b_pos = boardSpinner.getSelectedItemPosition();
                     c_pos = listSpinner.getSelectedItemPosition();
-                String cardName=etCardName.getText().toString();
+                    String cardName=etCardName.getText().toString();
                     if(p_pos!=-1 && p_pos!=0 && b_pos!=-1 && b_pos!=0 && c_pos!=-1 && c_pos!=0 && !cardName.equals("") && cardName!="") {
                         myalertdialog.dismiss();
                         addnewCard(project_ids.get(p_pos).toString(),boards_ids.get(b_pos).toString(),list_ids.get(c_pos).toString(),etCardName.getText().toString());
@@ -452,6 +452,7 @@ public class MyCardsActivity extends AppCompatActivity {
                 params.put("list_id", l_id);
                 params.put("name", card_name);
                 params.put("row", "1");
+                params.put("my_card", "1");
                 return params;
             }
         };

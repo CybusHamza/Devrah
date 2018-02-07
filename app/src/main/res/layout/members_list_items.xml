@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
-    android:background="@drawable/notifications_border"
+    android:background="@drawable/outer_border_message_screen"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -14,13 +14,14 @@
         android:weightSum="1">
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/memberProfilePic"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+           android:layout_centerVertical="true"
             android:padding="5dp"
             android:textColor="#fff" />
         <TextView
@@ -35,6 +36,7 @@
             android:textStyle="bold"
             android:padding="5dp"
             android:fontFamily="@string/monoSapce"
+            android:layout_centerVertical="true"
             android:background="@drawable/bg_circle"
             android:layout_alignTop="@+id/memberProfilePic"
             android:layout_alignStart="@+id/memberProfilePic" />
@@ -44,8 +46,8 @@
             android:id="@+id/memberName"
             android:layout_width="194dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="20dp"
+            android:padding="10dp"
+           android:layout_gravity="center_vertical"
             android:text="test"
             android:textColor="#fff"
             android:textSize="15dp"
@@ -54,9 +56,9 @@
 
         <ImageView
             android:id="@+id/removeAccessTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+           android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
             android:src="@drawable/remove_user" />
     </LinearLayout>

@@ -196,7 +196,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             if (cover[i].equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
                 Glide.with(activity)
-                        .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
+                        .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + fileName[i])
                         .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                 .skipMemoryCache(true))
                         .into(holder.attachment);
@@ -558,7 +558,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 image.setMaxWidth(20);
 
                 Picasso.with(activity)
-                        .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + imageUrl[i])
+                        .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + imageUrl[i])
                         .into(image);
 
                 // Adds the view to the layout

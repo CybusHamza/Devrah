@@ -128,6 +128,7 @@ public class MenuActivity extends AppCompatActivity {
         etTeamName = (EditText) view.findViewById(R.id.input_teamName);
         final EditText etTeamDescription = (EditText) view.findViewById(R.id.input_team_description);
         TextView tvDone = (TextView) view.findViewById(R.id.addMember);
+        TextView tvDoneMore = (TextView) view.findViewById(R.id.addMember1);
         TextView tvCanvel = (TextView) view.findViewById(R.id.cancel);
         showKeyBoard(etTeamName);
 
@@ -153,6 +154,27 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         });
+        tvDoneMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String teamName,teamDescription;
+                teamName=etTeamName.getText().toString();
+                // teamDescription=etTeamDescription.getText().toString();
+                if(!teamName.equals("")) {
+                    if(etTeamDescription.getText().toString().length()<=255) {
+                        creatNewTeam(etTeamName.getText().toString(), etTeamDescription.getText().toString());
+                       etTeamName.setText("");
+                       etTeamDescription.setText("");
+                    }else {
+                        Toast.makeText(MenuActivity.this,"Description maximum limit is 255",Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    Toast.makeText(MenuActivity.this,"Enter Team Name",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
 
         tvCanvel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +224,7 @@ public class MenuActivity extends AppCompatActivity {
                             all_teams.setId("");
                             all_teams.setName("No Team found");
                             all_teams.setDescription("");
+                            all_teams.setTeamAdmin("");
 
                             teamList.add(all_teams);
 
@@ -220,6 +243,7 @@ public class MenuActivity extends AppCompatActivity {
                                 all_teams.setId(jsonObject.getString("id"));
                                 all_teams.setName(jsonObject.getString("team_name"));
                                 all_teams.setDescription(jsonObject.getString("team_description"));
+                                all_teams.setTeamAdmin(jsonObject.getString("created_by"));
 
                                 teamList.add(all_teams);
                             }

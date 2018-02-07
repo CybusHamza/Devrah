@@ -8,6 +8,16 @@ public class All_Teams {
     String id;
     String name;
 
+    public String getTeamAdmin() {
+        return teamAdmin;
+    }
+
+    public void setTeamAdmin(String teamAdmin) {
+        this.teamAdmin = teamAdmin;
+    }
+
+    String teamAdmin;
+
     public String getDescription() {
         return description;
     }

@@ -757,13 +757,15 @@ public class Projects extends Fragment implements View.OnClickListener {
                             try {
 
                                 String firstname, email, lastName, profilePic;
-
+                                int pos=0;
                                 JSONArray array = new JSONArray(response);
                                 for (int i = 0; i < array.length(); i++) {
 
                                     JSONObject object = new JSONObject(array.getString(i));
                                     spinnerValues.add(String.valueOf(object.get("pg_name")));
                                     spinnerGroupIds.add(String.valueOf(object.get("pg_id")));
+                                    if(object.get("pg_name").toString().equals("Unassigned"))
+                                        pos=i;
                                    // Toast.makeText(getActivity().getApplicationContext(), spinnerValues.get(i), Toast.LENGTH_SHORT).show();
                                     //spinnerValues[i] = String.valueOf(object.get("pg_name"));
 
@@ -776,7 +778,7 @@ public class Projects extends Fragment implements View.OnClickListener {
                                 timeAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
                                 spinnerProjectGroup.setAdapter(timeAdapter);
 
-                                spinnerProjectGroup.setSelection(0);
+                                spinnerProjectGroup.setSelection(pos);
 
 
 //                                spinnerProjectGroup.set

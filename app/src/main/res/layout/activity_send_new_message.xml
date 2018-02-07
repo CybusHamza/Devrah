@@ -58,7 +58,7 @@
             android:id="@+id/project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:text="Project : "
             android:textSize="13sp"
             android:textColor="#fff"
@@ -73,15 +73,15 @@
             android:layout_below="@+id/etEmails"
             android:background="@drawable/back_spinner"
             android:layout_toRightOf="@+id/project"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentEnd="true" />
         <TextView
             android:id="@+id/board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:text="Board : "
             android:textSize="13sp"
             android:textColor="#fff"
@@ -95,15 +95,15 @@
             android:layout_below="@+id/projectSpinner"
             android:background="@drawable/back_spinner"
             android:layout_toRightOf="@+id/project"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentEnd="true" />
         <TextView
             android:id="@+id/card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="35dp"
             android:text="Card : "
             android:textSize="13sp"
             android:textColor="#fff"
@@ -117,15 +117,15 @@
             android:layout_below="@+id/boardSpinner"
             android:background="@drawable/back_spinner"
             android:layout_toRightOf="@+id/project"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentEnd="true" />
         <TextView
             android:id="@+id/subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:text="Subject : "
             android:textSize="13sp"
             android:textColor="#fff"
@@ -133,16 +133,17 @@
             android:layout_alignParentStart="true" />
         <EditText
             android:id="@+id/etSubject"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:textSize="15sp"
             android:textColor="#fff"
             app:backgroundTint="#fff"
             android:textCursorDrawable="@null"
-            android:layout_alignBaseline="@+id/subject"
-            android:layout_alignBottom="@+id/subject"
-            android:layout_alignStart="@+id/cardSpinner"
-            android:layout_alignEnd="@+id/cardSpinner"/>
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/cardSpinner"
+            android:layout_toRightOf="@+id/subject"
+            android:layout_alignStart="@+id/projectSpinner"
+            android:layout_alignEnd="@+id/projectSpinner"/>
         <TextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
@@ -160,6 +161,7 @@
             android:layout_below="@id/message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             >
 
             <HorizontalScrollView
@@ -468,7 +470,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="10dp"
-
+                android:layout_marginTop="20dp"
                 android:layout_below="@+id/textEditorLayout">
                 <ImageView
                     android:src="@drawable/cancel_message"
@@ -488,7 +490,8 @@
                 android:orientation="vertical"
                 android:layout_below="@+id/textEditorLayout"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp">
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp">
                 <ImageView
                     android:src="@drawable/send"
                     android:layout_width="30dp"

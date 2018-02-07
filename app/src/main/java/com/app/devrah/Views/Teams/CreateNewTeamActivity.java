@@ -3,6 +3,7 @@ package com.app.devrah.Views.Teams;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -61,11 +62,11 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
     List<TeamMembersPojo> listPojo;
     TeamMembersPojo membersPojoData;
     TeamMembersAdapter adapter;
-    Button addMember, addBulkMember;
+    Button addMember, addBulkMember,deleteTeam;
     ImageView search;
     EditText etSearch;
     ProgressDialog ringProgressDialog;
-    String teamId, usertobeAddedId;
+    String teamId, usertobeAddedId,teamAdmin;
     ArrayList<String> ids;
     ArrayList<String> name;
     private MenuItem mSearchAction;
@@ -79,6 +80,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
 
         Intent intent = getIntent();
         teamId = intent.getStringExtra("teamMemberId");
+        teamAdmin = intent.getStringExtra("teamAdmin");
 
         ids = new ArrayList<>();
         name = new ArrayList<>();
@@ -119,6 +121,14 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         });
         addMember = (Button) findViewById(R.id.btnAddMember);
         addBulkMember = (Button) findViewById(R.id.btnAddBulk);
+        deleteTeam = (Button) findViewById(R.id.btnDeleteTeam);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String userId = pref.getString("user_id", "");
+        if(teamAdmin.equals(userId)){
+            deleteTeam.setVisibility(View.VISIBLE);
+        }else {
+            deleteTeam.setVisibility(View.GONE);
+        }
         search = (ImageView) findViewById(R.id.searchBtn);
         etSearch = (EditText) findViewById(R.id.etSearch);
         etSearch.setVisibility(View.INVISIBLE);
@@ -199,6 +209,31 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                 addBulkMembers();
             }
         });
+        deleteTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SweetAlertDialog(CreateNewTeamActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Alert!")
+                        .setCancelText("Cancel")
+                        .setConfirmText("OK").setContentText("Do you really want to delete this Team?")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                deleteTeam();
+                                sDialog.dismiss();
+                            }
+                        })
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .show();
+
+            }
+        });
 
 
         lv = (ListView) findViewById(R.id.membersListView);
@@ -209,6 +244,74 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
 
 
         lv.setAdapter(adapter);*/
+    }
+
+    private void deleteTeam() {
+        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_TEAM,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        Intent intent = new Intent(CreateNewTeamActivity.this, MenuActivity.class);
+                        finish();
+                        startActivity(intent);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CreateNewTeamActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CreateNewTeamActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("teamid", teamId);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
     }
 
     @Override
@@ -321,14 +424,21 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         adapter = new TeamMembersAdapter(CreateNewTeamActivity.this, filteredLeaves);
         lv.setAdapter(adapter);
     }
-
+    private void showKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+    private void hideKeyBoard(EditText title) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
     private void addMember() {
         LayoutInflater inflater = LayoutInflater.from(CreateNewTeamActivity.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_add_member, null);
         member = (AutoCompleteTextView) subView.findViewById(R.id.etMember);
        TextView save = (TextView) subView.findViewById(R.id.copy);
         TextView cancel = (TextView) subView.findViewById(R.id.close);
-
+        showKeyBoard(member);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
         alertDialog.setCancelable(false);
@@ -350,6 +460,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                     listPojo.add(membersPojoData);
                     lv.setAdapter(adapter);*/
                   //  builder.setCancelable(true);
+                    hideKeyBoard(member);
                     alertDialog.dismiss();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Enter Some Name", Toast.LENGTH_LONG).show();
@@ -360,6 +471,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View view) {
                // builder.setCancelable(true);
+                hideKeyBoard(member);
                 alertDialog.dismiss();
             }
         });
@@ -579,7 +691,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         alertDialog.setCancelable(false);
         alertDialog.setView(subView);
         alertDialog.show();
-
+        showKeyBoard(member);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -597,6 +709,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                     }
 
                     lv.setAdapter(adapter);*/
+                    hideKeyBoard(member);
                         alertDialog.dismiss();
                     }
                 } else {
@@ -608,6 +721,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyBoard(member);
                 alertDialog.dismiss();
             }
         });

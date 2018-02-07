@@ -38,11 +38,11 @@ public class NotificationAdapter extends BaseAdapter {
     List<Date> dateList = new ArrayList<Date>();
 
 
-    public NotificationAdapter(Activity activity, List<NotificationsPojo> projectsList, List<boardNotificationsPojo> boardNotificationList, List<cardNotificationsPojo> cardNotificationsList) {
+    public NotificationAdapter(Activity activity, List<NotificationsPojo> projectsList/*, List<boardNotificationsPojo> boardNotificationList, List<cardNotificationsPojo> cardNotificationsList*/) {
         this.activity = activity;
         this.projectsList = projectsList;
-        this.boardNotificationList = boardNotificationList;
-        this.cardNotificationsList = cardNotificationsList;
+        /*this.boardNotificationList = boardNotificationList;
+        this.cardNotificationsList = cardNotificationsList;*/
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
     }
@@ -77,6 +77,7 @@ public class NotificationAdapter extends BaseAdapter {
         //holder.userName.setText(projectsList.get(position).getUserName()+ projectsList.get(position).getLabel()+ projectsList.get(position).getData());
         holder.userName.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()  + "</b> "+ "<font color=#C3C3C3>" +projectsList.get(position).getLabel() + "</font>" +"<b> <u>" + projectsList.get(position).getData() + "</u></b> " ));
         holder.date = (TextView) convertView.findViewById(R.id.date);
+        holder.base = (TextView) convertView.findViewById(R.id.tvProjectsData);
         if(projectsList.get(position).getLabel().equals("No notification found") && projectsList.get(position).getUserName().equals("")){
             holder.userName.setText(Html.fromHtml("<font color=#FFFFFF>" +projectsList.get(position).getLabel() + "</font>"));
         }
@@ -85,8 +86,9 @@ public class NotificationAdapter extends BaseAdapter {
         String date=inputFormat.format(projectsList.get(position).getDate());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm a");
         String newDateFormate = outputFormat.format(date);*/
-        holder.date.setText(projectsList.get(position).getDate());
-
+        String date=Html.fromHtml(projectsList.get(position).getDate().replace("<br/>"," ")).toString();
+        holder.date.setText(date);
+        holder.base.setText(projectsList.get(position).getBase());
 //        holder.data = (TextView) convertView.findViewById(R.id.activities_data);
 //        holder.data.setText();
 
@@ -94,7 +96,7 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).show();
-                if (!projectsList.get(position).getLabel().equals("No notification found")) {
+             /*   if (!projectsList.get(position).getLabel().equals("No notification found")) {
                     if (projectsList.get(position).getLabel().equals(" added you to the project ")) {
                         Intent intent = new Intent(activity, BoardsActivity.class);
                         intent.putExtra("pid", projectsList.get(position).getProjectId());
@@ -135,15 +137,15 @@ public class NotificationAdapter extends BaseAdapter {
                         activity.finish();
                         activity.startActivity(intent);
                     }
-                }
+                }*/
 
             }
         });
-        Collections.sort(projectsList, new Comparator<NotificationsPojo>() {
+       /* Collections.sort(projectsList, new Comparator<NotificationsPojo>() {
             public int compare(NotificationsPojo first, NotificationsPojo second)  {
                 return second.getDate().compareTo(first.getDate());
             }
-        });
+        });*/
 
 
         return convertView;
@@ -151,7 +153,7 @@ public class NotificationAdapter extends BaseAdapter {
 
 
     public static class ViewHolder{
-        TextView data,userName,date;
+        TextView data,userName,date,base;
     }
 
 }

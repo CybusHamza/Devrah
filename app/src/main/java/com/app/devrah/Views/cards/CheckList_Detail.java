@@ -73,6 +73,7 @@ public class CheckList_Detail extends AppCompatActivity {
     private ListView mDrawerList;
     List<DrawerPojo> dataList;
     CustomDrawerAdapter adapter;
+    TextView addItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +140,7 @@ public class CheckList_Detail extends AppCompatActivity {
         });
        // addCheckbox = (EditText) findViewById(R.id.addItem);
         addButton = (Button) findViewById(R.id.send_checkbox);
+        addItem = (TextView) findViewById(R.id.addItem);
         dataList = new ArrayList<>();
         dataList.add(new DrawerPojo("Update CheckList Name"));
        if(intent.hasExtra("addNewCheckbox")) {
@@ -157,10 +159,16 @@ public class CheckList_Detail extends AppCompatActivity {
 
             }
         });
+       addItem.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               showDialog();
+           }
+       });
+
         toolbar.setTitle(name);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
       //  openDrawer();
-
         Checklist_detailed_Addapter checklist_detailed_addapter = new Checklist_detailed_Addapter(CheckList_Detail.this,R.layout.checklist_item_row,checkListiItemName,checkListiItemIds,checkedItem,name,checklistid);
 
         header.setAdapter(checklist_detailed_addapter);

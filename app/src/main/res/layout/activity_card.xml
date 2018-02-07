@@ -147,7 +147,7 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginRight="10dp"
                         android:text="CREATE A NEW LABEL"
-                        android:textColor="#fff"
+                        android:textColor="@color/createNewLabelColor"
                         android:visibility="gone" />
                 <LinearLayout
                     android:id="@+id/labelsLayout"

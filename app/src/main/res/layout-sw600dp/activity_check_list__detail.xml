@@ -20,19 +20,35 @@
         android:id="@+id/header"
         layout="@layout/app_bar">
     </include>
-    <ListView
+    <LinearLayout
+        android:layout_below="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/check_id"
-        android:layout_below="@id/header"
+        android:orientation="vertical"
+        android:layout_marginBottom="25dp"
+        android:weightSum="1">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/check_id"
+            android:layout_below="@id/header"
+            android:divider="@null"
+            android:layout_weight="0.9"
 
-        >
-
-    </ListView>
+            />
+        <TextView
+            android:layout_weight="0.1"
+            android:id="@+id/addItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add an item..."
+            android:textColor="@color/colorWhite"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
     <Button
         android:id="@+id/send_checkbox"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"

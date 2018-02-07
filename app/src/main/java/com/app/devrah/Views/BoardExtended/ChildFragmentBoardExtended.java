@@ -1037,6 +1037,7 @@ try {
                 params.put("list_id", list_id);
                 params.put("name", cardName);
                 params.put("row", String.valueOf(row));
+                params.put("my_card", "");
                 return params;
             }
         };

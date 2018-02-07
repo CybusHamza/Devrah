@@ -127,7 +127,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             holder.tv.setVisibility(View.GONE);
             holder.edit.setVisibility(View.GONE);
             Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + projectsList.get(position).getComments())
+                    .load(End_Points.IMAGES_BASE_URL+"comment_images/" + projectsList.get(position).getComments())
                     .resize(activity.getResources().getDimensionPixelSize(R.dimen.comment_size_width),activity.getResources().getDimensionPixelSize(R.dimen.comment_size_height))
                     .into(holder.attachment);
         }else if(projectsList.get(position).getIsFile().equals("1")){
@@ -153,7 +153,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
             holder.profilePic.setVisibility(View.VISIBLE);
             holder.marker.setVisibility(View.GONE);
             Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + projectsList.get(position).getProfilePic())
+                    .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + projectsList.get(position).getProfilePic())
                     .resize(activity.getResources().getDimensionPixelSize(R.dimen.comment_size_width),activity.getResources().getDimensionPixelSize(R.dimen.comment_size_height))
                     .into(holder.profilePic);
         }
@@ -174,7 +174,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
                 if(projectsList.get(position).getIsFile().equals("1")) {
                    // String fileType=getMimeType(URLDecoder.decode(projectsList.get(position).getComments()));
                     String url = projectsList.get(position).getComments().replace(" ", "%20");
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + url));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(End_Points.IMAGES_BASE_URL+"comment_images/" + url));
                     activity.startActivity(browserIntent);
                 }
             }
@@ -251,7 +251,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
         makeCover.setVisibility(View.GONE);
         label.setText(comments);
         Picasso.with(activity)
-                .load("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + comments)
+                .load(End_Points.IMAGES_BASE_URL+"comment_images/" + comments)
                 .resize(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height))
                 .into(image);
         downloadImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -269,7 +269,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
                     }
 
                 }else {
-                    Picasso.with(activity).load("http://m1.cybussolutions.com/devrah/uploads/comment_images/" + comments).into(picassoImageTarget(activity, "imageDir", comments));
+                    Picasso.with(activity).load(End_Points.IMAGES_BASE_URL+"comment_images/" + comments).into(picassoImageTarget(activity, "imageDir", comments));
                     //  Target target=picassoImageTarget(activity, "imageDir",imageName);
                     //Toast.makeText(activity, "Image Saved to the Directory imageDir", Toast.LENGTH_LONG).show();
                     myalertdialog.dismiss();

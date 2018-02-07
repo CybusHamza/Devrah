@@ -93,9 +93,9 @@ public class TeamMembersAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Error!")
+                        .setTitleText("Alert!")
                         .setCancelText("Cancel")
-                        .setConfirmText("OK").setContentText("Are You sure you want to Remove this member")
+                        .setConfirmText("OK").setContentText("Are You sure you want to Remove this member?")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -120,7 +120,7 @@ public class TeamMembersAdapter extends BaseAdapter {
         }else if(!membersList.get(position).getImage().equals("null") && !membersList.get(position).getImage().equals("")){
             holder.alias_img.setVisibility(View.GONE);
             Picasso.with(activity)
-                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + membersList.get(position).getImage())
+                    .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + membersList.get(position).getImage())
                     .into(holder.profilePic);
         }else {
             holder.alias_img.setVisibility(View.GONE);

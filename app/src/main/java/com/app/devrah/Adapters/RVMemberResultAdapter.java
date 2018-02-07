@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.devrah.Holders.ViewHolderMember;
+import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.ManageMembers.ManageCardMembers;
 import com.app.devrah.pojo.MembersPojo;
@@ -71,11 +72,11 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
 
                             });*/
                     holder.member= (CircleImageView) holder.itemView.findViewById(R.id.memberPic);
-                    holder.member.setMaxWidth(50);
-                    holder.member.setMaxHeight(50);
+                    holder.member.setMaxWidth(60);
+                    holder.member.setMaxHeight(60);
                       Picasso.with(activity)
-                              .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + memberList.get(position).getProfile_pic())
-                              .resize(50, 50)
+                              .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + memberList.get(position).getProfile_pic())
+                              .resize(60, 60)
                               .centerInside()
                               .into(holder.member);
 
@@ -87,11 +88,11 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
                 holder.initials.setVisibility(View.GONE);
                 try {
                     holder.member= (CircleImageView) holder.itemView.findViewById(R.id.memberPic);
-                    holder.member.setMaxWidth(50);
-                    holder.member.setMaxHeight(50);
+                    holder.member.setMaxWidth(60);
+                    holder.member.setMaxHeight(60);
                     Picasso.with(activity)
                             .load(memberList.get(position).getGp_pic())
-                            .resize(50, 50)
+                            .resize(60, 60)
                             .centerInside()
                             .into(holder.member);
                 } catch (Exception e) {

@@ -200,7 +200,7 @@ public class CalendarAdapterProject extends BaseAdapter implements View.OnTouchL
             if (cover[i].equals("1")) {
                 holder.attachment.setVisibility(View.VISIBLE);
                 Glide.with(activity)
-                        .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + fileName[i])
+                        .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + fileName[i])
                         .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.cover_size_width),activity.getResources().getDimensionPixelSize(R.dimen.cover_size_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                 .skipMemoryCache(true))
                         .into(holder.attachment);
@@ -565,7 +565,7 @@ public class CalendarAdapterProject extends BaseAdapter implements View.OnTouchL
                 image.setMaxWidth(20);
 
                 Picasso.with(activity)
-                        .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + imageUrl[i])
+                        .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + imageUrl[i])
                         .into(image);
 
                 // Adds the view to the layout
@@ -678,12 +678,12 @@ public class CalendarAdapterProject extends BaseAdapter implements View.OnTouchL
                         }else if(isCompleted.equals("0")){
                             projectsList.get(position).setIsCardComplete("0");
                         }
-                        Intent i = new Intent("updateComplete");
+                       /* Intent i = new Intent("updateComplete");
                         // Data you need to pass to activity
                         i.putExtra("cardId",projectsList.get(position).getId());
-                        i.putExtra("isComplete",isCompleted);
+                        i.putExtra("isComplete",isCompleted);*/
 
-                        activity.sendBroadcast(i);
+                      //  activity.sendBroadcast(i);
 
                         notifyDataSetChanged();
 
@@ -731,8 +731,8 @@ public class CalendarAdapterProject extends BaseAdapter implements View.OnTouchL
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("boardId",BoardExtended.boardId);
-                params.put("projectid",BoardExtended.projectId);
+                params.put("boardId",boardId);
+                params.put("projectid",projectid);
                 params.put("strt_dt",startDate);
                 params.put("end_dt",dueDate);
                 params.put("card_id",cardId);

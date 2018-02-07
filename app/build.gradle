@@ -55,6 +55,7 @@ dependencies {
     compile 'com.nbsp:library:1.8'
   /*  compile 'com.github.stfalcon:frescoimageviewer:0.5.0'*/
     implementation 'com.github.jakebonk:BoardView:1.2.1'
+    compile 'jp.wasabeef:picasso-transformations:2.1.0'
 }
 
 

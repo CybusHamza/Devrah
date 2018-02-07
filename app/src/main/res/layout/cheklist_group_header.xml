@@ -16,7 +16,7 @@
         android:weightSum="1"
         android:background="@drawable/outer_border_checklist"
         android:orientation="horizontal"
-        android:layout_marginBottom="3dp">
+        >
         <ProgressBar
             android:id="@+id/simpleProgressBar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"

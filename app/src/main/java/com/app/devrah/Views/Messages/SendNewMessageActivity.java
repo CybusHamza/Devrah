@@ -230,7 +230,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
         });
         mEditor = (RichEditor) findViewById(editor);
         mEditor.setEditorHeight(200);
-        mEditor.setEditorFontSize(22);
+        mEditor.setEditorFontSize(15);
         mEditor.setEditorFontColor(Color.BLACK);
         //mEditor.setEditorBackgroundColor(Color.BLUE);
         //mEditor.setBackgroundColor(Color.BLUE);
@@ -758,7 +758,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
                                     if(position == 1 || position==pos) {
 
                                         //Set the disable spinner item color fade .
-                                        spinnertextview.setTextColor(Color.parseColor("#bcbcbb"));
+                                        spinnertextview.setTextColor(Color.parseColor("#707070"));
                                     }
                                     else {
 
@@ -1064,6 +1064,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
             if(pos == 0)
             {
+                board.setSelection(0);
+                card.setSelection(0);
                 //Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
             }
             else
@@ -1089,6 +1091,9 @@ public class SendNewMessageActivity extends AppCompatActivity {
 
             if(pos == 0 || (boards_name.get(pos).equals("Work Board") && boards_ids.get(pos).equals("-1")) || (boards_name.get(pos).equals("Archive Board") && boards_ids.get(pos).equals("-1")))
             {
+                if(pos==0){
+                    card.setSelection(0);
+                }
                // Toast.makeText(SendNewMessageActivity.this,"Please Select Project", Toast.LENGTH_SHORT).show();
             }
             else

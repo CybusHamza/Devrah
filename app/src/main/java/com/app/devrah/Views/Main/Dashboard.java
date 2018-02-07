@@ -111,7 +111,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                     .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
                     .into(imgProfile);*/
             Picasso.with(getApplicationContext())
-                    .load("http://m1.cybussolutions.com/devrah/uploads/profile_pictures/" + currentImage)
+                    .load(End_Points.IMAGES_BASE_URL+"profile_pictures/" + currentImage)
                     .transform(new ImageConverter())
                     .into(imgProfile);
         }else if(!currentImage.equals("") && !currentImage.equals("null") && gLogin.equals("true")){
@@ -417,7 +417,13 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 }
 
                 int zone = c.get(Calendar.AM_PM);
-
+                if(hours>0 && hours<5 && zone==Calendar.PM){
+                    tvHeloUser.setText("Good Afternoon, "+firstName+"!");
+                }else if(hours>=5 &&hours<=11 && zone==Calendar.PM){
+                    tvHeloUser.setText("Good Evening, "+firstName+"!");
+                }else if(zone==Calendar.AM){
+                    tvHeloUser.setText("Good Morning, "+firstName+"!");
+                }
                 String amOrpm = ((zone == Calendar.AM) ? "am" : "pm");
                 ///+ ":" + (seconds < 10 ? "0" + seconds : seconds)
                 tvTime.setText((hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes)+ " " + amOrpm);

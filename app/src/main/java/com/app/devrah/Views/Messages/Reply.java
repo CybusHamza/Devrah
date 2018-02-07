@@ -7,10 +7,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,7 +30,12 @@ import com.android.volley.toolbox.Volley;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,19 +46,23 @@ import jp.wasabeef.richeditor.RichEditor;
 import static com.app.devrah.R.id.editor;
 
 public class Reply extends AppCompatActivity {
-    EditText from  ,board,card,project,subject;
+    EditText  board,card,project,subject;
+    MultiAutoCompleteTextView from;
     private RichEditor mEditor;
     String  strfrom ,strmessage ,strboard,strcard,strproject,strsubject,email;
     LinearLayout cancel_button,send_btn;
     Toolbar toolbar;
-    String message,projectId,boardId,cardId,msgDate;
+    String message,projectId,boardId,cardId,msgDate,strTO;
+    ArrayList<String> ids;
+    ArrayList<String> name;
+    ArrayList<String> devTag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply);
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Reply");
-        from = (EditText) findViewById(R.id.etEmails);
+        from = (MultiAutoCompleteTextView) findViewById(R.id.etEmails);
         board = (EditText) findViewById(R.id.boardSpinner);
         card = (EditText) findViewById(R.id.cardSpinner);
         project = (EditText) findViewById(R.id.projectSpinner);
@@ -89,7 +102,7 @@ public class Reply extends AppCompatActivity {
 
             }
         });*/
-        from.setText(strfrom);
+        from.setText(email+",");
         if(strboard.equals("null")){
             board.setText("NA");
         }else {
@@ -115,11 +128,11 @@ public class Reply extends AppCompatActivity {
         project.setClickable(false);
         subject.setClickable(false);
 
-        from.setEnabled(false);
+       // from.setEnabled(false);
         board.setEnabled(false);
         card.setEnabled(false);
         project.setEnabled(false);
-        subject.setEnabled(false);
+        //subject.setEnabled(false);
         mEditor. setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override
             public void onTextChange(String text) {
@@ -130,7 +143,7 @@ public class Reply extends AppCompatActivity {
         });
         mEditor = (RichEditor) findViewById(editor);
         mEditor.setEditorHeight(200);
-        mEditor.setEditorFontSize(22);
+        mEditor.setEditorFontSize(15);
         mEditor.setEditorFontColor(Color.BLACK);
         //mEditor.setEditorBackgroundColor(Color.BLUE);
         //mEditor.setBackgroundColor(Color.BLUE);
@@ -312,8 +325,10 @@ public class Reply extends AppCompatActivity {
         Date todayDate = new Date();
         String thisDate = currentDate.format(todayDate);
         mEditor.setEditorFontSize(15);
+        mEditor.focusEditor();
         String defualtText="\n"+"-------------On "+thisDate+"  "+userName+"-------------"+"\n"+strmessage;
-       mEditor.setHtml(Html.fromHtml(defualtText).toString());
+       mEditor.setHtml("<br>"+Html.fromHtml(defualtText).toString());
+
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -326,14 +341,145 @@ public class Reply extends AppCompatActivity {
                // if(message.equals("")){
                  //   Toast.makeText(Reply.this,"Please Enter some message",Toast.LENGTH_LONG).show();
                 //}else {
+                strTO = from.getText().toString().trim();
+                strTO=strTO.replaceAll(" ","");
+                strTO = strTO.trim().replaceAll(",$", "");
+                strsubject = subject.getText().toString();
                 if(mEditor.getHtml().isEmpty()){
                     Toast.makeText(Reply.this,"Please Enter some message",Toast.LENGTH_LONG).show();
                 }else {
-                    sendMessage();
+                    if(subject.getText().toString().equals("") || from.getText().toString().trim().equals(""))
+                    {
+                        Toast.makeText(Reply.this, "Fill the mandatory fields ", Toast.LENGTH_SHORT).show();
+                    }else {
+                        if(strTO.contains(";")){
+                            Toast.makeText(Reply.this, "Please use ',' to send message to multiple users", Toast.LENGTH_SHORT).show();
+                        }else {
+                            sendMessage();
+                        }
+                    }
                 }
                 //}
             }
         });
+        from.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchUser(from.getText().toString());
+               /* String test=to.getText().toString();
+                if(test.contains(";")){
+
+                }*/
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+    private void searchUser(final String email) {
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SEARCH_USER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ids = new ArrayList<>();
+                        name = new ArrayList<>();
+                        devTag = new ArrayList<>();
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                ids.add(jsonObject.getString("id"));
+                                name.add(jsonObject.getString("email"));
+                                devTag.add(jsonObject.getString("dev_tag"));
+                            }
+
+                            ArrayAdapter<String> adapter =
+                                    new ArrayAdapter<String>(Reply.this, android.R.layout.simple_list_item_1, name);
+                            from.setAdapter(adapter);
+                            //  to.setOnItemSelectedListener(new CustomOnItemSelectedListener_position());
+                            from.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+                            /*to.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                }
+                            });*/
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if (error instanceof NoConnectionError) {
+
+                  /*  new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();*/
+                } else if (error instanceof TimeoutError) {
+
+                   /* new SweetAlertDialog(SendNewMessageActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();*/
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                String emailtoSearch;
+                if(email.contains(",")){
+                    String[] emails=email.split(", ");
+                    emailtoSearch=emails[emails.length-1];
+                }else {
+                    emailtoSearch=email;
+                }
+                params.put("member_single_name", emailtoSearch);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
     }
     public void sendMessage () {
         final ProgressDialog ringProgressDialog;
@@ -400,7 +546,7 @@ public class Reply extends AppCompatActivity {
                 params.put("messageContent",message);
                 params.put("subjct_email",strsubject);
                 params.put("userId",userId);
-                params.put("listofuserids",email);
+                params.put("listofuserids",strTO);
                 params.put("add_msg_prjct",projectId);
                 params.put("add_msg_brd",boardId);
                 params.put("add_msg_crd",cardId);

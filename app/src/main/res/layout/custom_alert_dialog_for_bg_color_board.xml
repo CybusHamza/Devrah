@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="match_parent">
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Solid Background Image"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:textSize="18dp"
+            android:padding="10dp"/>
+        <ImageView
+            android:id="@+id/crossIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/cross_icon"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:weightSum="3"
+        >
+        <Button
+            android:id="@+id/noColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:text="No color"
+            android:textSize="12sp"
+            android:textColor="#000"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/blueColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/blue"
+            android:text="Blue"
+            android:textColor="#fff"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/pinkColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/pink"
+            android:text="Pink"
+            android:layout_weight="1"
+            android:textColor="#fff"/>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        >
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/skyBlueColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/skyBlue"
+            android:text="Sky Blue"
+            android:textColor="#fff"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/greenColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/darkgreen"
+            android:text="Green"
+            android:textColor="#fff"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/orangeColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/colorOrange"
+            android:text="Orange"
+            android:textColor="#fff"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        >
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/purpleColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/purple"
+            android:text="Purple"
+            android:textColor="#fff"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/yellowColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/colorYellow"
+            android:text="Yellow"
+            android:textColor="#fff"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/redColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/colorRed"
+            android:text="Red"
+            android:textColor="#fff"/>
+    </LinearLayout>
+    <LinearLayout
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        >
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/lightGreenColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/lightGreen"
+            android:text="Light Green"
+            android:textColor="#fff"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/seaGreenColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/seaGreen"
+            android:text="Sea Green"
+            android:textColor="#fff"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/blackColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:text="Black"
+            android:textColor="#fff"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Image"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="18dp"
+        android:padding="10dp"
+        />
+    <Button
+        android:layout_margin="10dp"
+        android:id="@+id/uploadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose file"/>
+
+
+
+</LinearLayout>

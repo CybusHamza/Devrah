@@ -11,6 +11,26 @@ public class ProjectsPojo {
     public String data;
     public String boardID;
 
+    public String getIsPicture() {
+        return isPicture;
+    }
+
+    public void setIsPicture(String isPicture) {
+        this.isPicture = isPicture;
+    }
+
+    public String isPicture;
+
+    public String getBackGroundPicture() {
+        return backGroundPicture;
+    }
+
+    public void setBackGroundPicture(String backGroundPicture) {
+        this.backGroundPicture = backGroundPicture;
+    }
+
+    public String backGroundPicture;
+
     public String getProjectDescription() {
         return projectDescription;
     }

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,11 +42,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.app.devrah.Network.End_Points.UPDATE_BG_BOARD_IMG;
 
 
 /**
@@ -59,7 +62,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class ReferenceBoard extends Fragment implements View.OnClickListener{
 
 
-
+    Calendar calendar;
+    String dateAndTime;
     View view;
     ListView lv;
     Button btnAddWBoard;
@@ -308,7 +312,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
             public void onClick(View view) {
 
                 String projectData = edt.getText().toString();
-                if (!(projectData.isEmpty())) {
+                if (!(projectData.isEmpty()) && !projectData.trim().isEmpty()) {
                     AddNewReferenceBoard(projectData);
                     edt.setText("");
                 }
@@ -324,7 +328,7 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
             public void onClick(View v) {
 
                 String projectData = edt.getText().toString();
-                if (!(projectData.isEmpty())) {
+                if (!(projectData.isEmpty())  && !projectData.trim().isEmpty()) {
                     AddNewReferenceBoard(projectData);
                     hideKeyBoard(edt);
                     alertDialog.dismiss();
@@ -346,6 +350,148 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
     private void hideKeyBoard(EditText title) {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+    }
+    public void LoadImage(final String b64, final String boardid, final int position){
+        calendar = Calendar.getInstance();
+        dateAndTime=String.valueOf(calendar.get(Calendar.DATE))
+                +String.valueOf(calendar.get(Calendar.MONTH))
+                + String.valueOf(calendar.get(Calendar.YEAR))
+                + String.valueOf(calendar.get(Calendar.HOUR))
+                + String.valueOf(calendar.get(Calendar.MINUTE))
+                + String.valueOf(calendar.get(Calendar.SECOND));
+        final ProgressDialog  ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Updating...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.BASE_URL_FILE_UPLOAD+"upload_cover_board.php", new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                ringProgressDialog.dismiss();
+                // Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+
+                if (!(response.equals(""))) {
+                    //Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                    uploadData(response.trim(),boardid,position);
+                } else {
+                    Toast.makeText(getActivity(), "Picture not uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+                , new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NetworkError) {
+                    message = "check your internet connection";
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                }else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity(),"Time Out error",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("image", b64);
+                map.put("name", dateAndTime);
+                return map;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
+
+
+
+
+
+    }
+
+    private void uploadData(final String trim, final String boardid, final int position) {
+        final ProgressDialog  ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Updating...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        final SharedPreferences pref = getActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        StringRequest request = new StringRequest(Request.Method.POST, UPDATE_BG_BOARD_IMG,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ringProgressDialog.dismiss();
+                        if (!response.equals("")) {
+                            //   holder.background.setBackground(activity.getResources().getDrawable(R.drawable.outer_border_message_screen));
+                            myList.get(position).setBackGroundPicture(trim);
+                            myList.get(position).setIsPicture("1");
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            ringProgressDialog.dismiss();
+
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(getActivity(), "check your internet connection", Toast.LENGTH_SHORT).show();
+                    /*new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("No Internet Connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(getActivity(), "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                   /* new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .show();*/
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id", boardid);
+                params.put("projectId", projectid);
+                params.put("userId", pref.getString("user_id",""));
+                params.put("bg_file", trim);
+                params.put("is_picture", "1");
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(request);
     }
     public  void Refrence()
     {
@@ -379,6 +525,8 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                                 projectsPojo.setData("No Board found");
                                 projectsPojo.setId("");
                                 projectsPojo.setReferenceBoardStar("");
+                                projectsPojo.setBackGroundPicture("");
+                                projectsPojo.setIsPicture("");
 
                                 myList.add(projectsPojo);
                                 //hidentxt.setVisibility(View.VISIBLE);
@@ -392,6 +540,8 @@ public class ReferenceBoard extends Fragment implements View.OnClickListener{
                                     projectsPojo.setData(jsonObject.getString("board_name"));
                                     projectsPojo.setId(jsonObject.getString("project_id"));
                                     projectsPojo.setReferenceBoardStar(jsonObject.getString("is_favourite"));
+                                    projectsPojo.setBackGroundPicture(jsonObject.getString("background_picture"));
+                                    projectsPojo.setIsPicture(jsonObject.getString("is_picture"));
                                     myList.add(projectsPojo);
 
                                 }

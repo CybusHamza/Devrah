@@ -77,6 +77,7 @@ public class TeamAdapterMenu extends BaseAdapter {
 
                     Intent intent = new Intent(activity, CreateNewTeamActivity.class);
                     intent.putExtra("teamMemberId", projectsList.get(position).getId());
+                    intent.putExtra("teamAdmin", projectsList.get(position).getTeamAdmin());
                     activity.startActivity(intent);
                 }
 

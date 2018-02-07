@@ -109,7 +109,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         if(!(attachmentList.get(position).getImageFile().equals(""))){
 
             Glide.with(activity)
-                    .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                    .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + attachmentList.get(position).getImageFile())
                     .apply(new RequestOptions().override(180,180).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .skipMemoryCache(true))
                     .into(holder.imgViewAttachments);
@@ -216,7 +216,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                 }
               //  progressBar.setVisibility(View.VISIBLE);
                 Glide.with(activity)
-                        .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                        .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + attachmentList.get(position).getImageFile())
                         .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true)
                                )
                         .listener(new RequestListener<Drawable>() {
@@ -253,7 +253,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                 }
              //   progressBar.setVisibility(View.VISIBLE);
                 Glide.with(activity)
-                        .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                        .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + attachmentList.get(position).getImageFile())
                         .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true))
                         .listener(new RequestListener<Drawable>() {
                             @Override
@@ -290,7 +290,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     }
                    // progressBar.setVisibility(View.VISIBLE);
                     Glide.with(activity)
-                            .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                            .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + attachmentList.get(position).getImageFile())
                             .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width), activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true))
                             .listener(new RequestListener<Drawable>() {
                                 @Override
@@ -327,7 +327,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     }
                   //  progressBar.setVisibility(View.VISIBLE);
                     Glide.with(activity)
-                            .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(position).getImageFile())
+                            .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + attachmentList.get(position).getImageFile())
                             .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width), activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().onlyRetrieveFromCache(true))
                             .listener(new RequestListener<Drawable>() {
                                 @Override
@@ -358,7 +358,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         label.setText(imageName);
         progressBar.setVisibility(View.VISIBLE);
         Glide.with(activity)
-                .load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + imageName)
+                .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + imageName)
                 .apply(new RequestOptions().override(activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_width),activity.getResources().getDimensionPixelSize(R.dimen.attachment_popup_height)).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true))
                 .listener(new RequestListener<Drawable>() {
@@ -391,7 +391,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
                     }
 
                 }else {
-                    Picasso.with(activity).load("http://m1.cybussolutions.com/devrah/uploads/card_uploads/" + attachmentList.get(post[0]).getImageFile()).into(picassoImageTarget(activity, "imageDir", attachmentList.get(post[0]).getImageFile()));
+                    Picasso.with(activity).load(End_Points.IMAGES_BASE_URL+"card_uploads/" + attachmentList.get(post[0]).getImageFile()).into(picassoImageTarget(activity, "imageDir", attachmentList.get(post[0]).getImageFile()));
                     //  Target target=picassoImageTarget(activity, "imageDir",imageName);
                     //Toast.makeText(activity, "Image Saved to the Directory imageDir", Toast.LENGTH_LONG).show();
                     myalertdialog.dismiss();

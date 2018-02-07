@@ -7,6 +7,16 @@ package com.app.devrah.pojo;
 public class NotificationsPojo {
     public String data;
 
+    public String getBase() {
+        return base;
+    }
+
+    public void setBase(String base) {
+        this.base = base;
+    }
+
+    public String base;
+
     public String getProjectCreatedBy() {
         return projectCreatedBy;
     }

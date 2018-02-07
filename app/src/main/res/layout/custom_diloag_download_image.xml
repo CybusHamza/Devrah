@@ -13,6 +13,8 @@
         android:text="Image Name"
         android:textSize="15sp"
         android:padding="16dp"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:background="#b4b2b2"
         android:textColor="#000" />
     <ProgressBar
@@ -39,7 +41,8 @@
         android:layout_centerInParent="true"
         android:layout_width="20dp"
         android:background="@drawable/left_arrow"
-        android:layout_height="20dp" />
+        android:layout_height="20dp"
+        android:visibility="gone"/>
     <ImageView
         android:id="@+id/right"
         android:rotation="180"
@@ -48,7 +51,8 @@
         android:background="@drawable/left_arrow"
         android:layout_marginEnd="2dp"
         android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_height="20dp"
+        android:visibility="gone"/>
     <LinearLayout
         android:layout_below="@+id/imageLoaded"
         android:orientation="horizontal"

@@ -157,6 +157,7 @@ public class LastItemBoardFragment extends Fragment {
         edt = (EditText) customView.findViewById(R.id.input_watever);
         showKeyBoard(edt);
         final TextView addCard = (TextView) customView.findViewById(R.id.btn_add_board);
+       // final TextView addMoreList = (TextView) customView.findViewById(R.id.btn_add_board1);
         final TextView cancelbtn = (TextView) customView.findViewById(R.id.btn_cancel);
         cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +166,23 @@ public class LastItemBoardFragment extends Fragment {
                 alertDialog.dismiss();
             }
         });
+   /* addMoreList.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String projectData = edt.getText().toString();
+            if(!projectData.equals("")) {
+                // adapter.removeFragAt(adapter.getCount()-1);
+                // adapter.notifyDataSetChanged();
+                addNewList(projectData, String.valueOf(adapter.getCount() - 1),"more");
+                hideKeyBoard(edt);
+                alertDialog.dismiss();
+                //    CustomViewPagerAdapter.mFragmentList.remove(CustomViewPagerAdapter.customCount() -1);
+            }else {
+                Toast.makeText(getActivity(),"Please Enter List Name",Toast.LENGTH_SHORT).show();
 
+            }
+        }
+    });*/
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +206,7 @@ public class LastItemBoardFragment extends Fragment {
                 if(!projectData.equals("")) {
                    // adapter.removeFragAt(adapter.getCount()-1);
                     // adapter.notifyDataSetChanged();
-                    addNewList(projectData, String.valueOf(adapter.getCount() - 1));
+                    addNewList(projectData, String.valueOf(adapter.getCount() - 1),"");
                     //    CustomViewPagerAdapter.mFragmentList.remove(CustomViewPagerAdapter.customCount() -1);
                     hideKeyBoard(edt);
                     alertDialog.dismiss();
@@ -209,7 +226,7 @@ public class LastItemBoardFragment extends Fragment {
 
 
     }
-    public void addNewList(final String projectData, final String position){
+    public void addNewList(final String projectData, final String position,final String more){
         ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();

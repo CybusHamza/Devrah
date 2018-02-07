@@ -7,5 +7,5 @@
         android:bottomLeftRadius="5dp" />
     <stroke
         android:width="0.8dp"
-        android:color="@android:color/white" />
+        android:color="#f1f3f4" />
 </shape>

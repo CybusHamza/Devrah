@@ -8,7 +8,11 @@
     android:layout_marginRight="5dp"
 
     android:layout_marginTop="10dp">
-
+    <ImageView
+        android:id="@+id/labelIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/label_icon"/>
 
     <RelativeLayout
         android:id="@+id/labels_row"

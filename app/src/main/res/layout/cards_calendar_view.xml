@@ -170,16 +170,17 @@
         />
     <HorizontalScrollView
         android:layout_below="@id/dateLabel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="5dp"
         android:paddingTop="3dp"
         android:paddingEnd="5dp"
         android:id="@+id/memberScroller"
+        android:layout_alignParentEnd="true"
         >
         <LinearLayout
             android:id="@+id/membersListView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             tools:ignore="Orientation">

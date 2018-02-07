@@ -80,7 +80,6 @@ public class ProjectsActivity extends AppCompatActivity {
 //        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 //                GravityCompat.START);
 
-
         toolbar = (Toolbar) findViewById(R.id.header);
         toolbar.setTitle("Projects");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
@@ -197,6 +196,8 @@ public class ProjectsActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     private void setupTabIcons() {
@@ -268,6 +269,9 @@ public class ProjectsActivity extends AppCompatActivity {
 
         //  adapter.addFrag(new ThreeFragment(), "THREE");
         viewPager.setAdapter(adapter1);
+        Intent intent1=getIntent();
+        if(intent1.hasExtra("showScreen1"))
+            viewPager.setCurrentItem(1);
     }
 
     @Override

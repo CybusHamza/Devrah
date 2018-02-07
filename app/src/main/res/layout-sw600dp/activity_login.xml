@@ -34,7 +34,6 @@
             android:hint="Email"
             android:backgroundTint="#fff"
             android:inputType="textEmailAddress"
-            android:fontFamily="@string/monoSapce"
             android:textSize="13sp"
             android:textColor="#fff"
             android:layout_height="wrap_content"

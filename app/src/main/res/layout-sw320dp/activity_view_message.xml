@@ -17,204 +17,220 @@
 
         android:layout_alignParentStart="true"
         android:layout_below="@+id/header">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/header"
             android:padding="15dp">
+
             <TextView
                 android:id="@+id/to"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:paddingTop="10dp"
                 android:text="To :"
-                android:textSize="13sp"
                 android:textColor="#fff"
-                android:layout_alignParentStart="true" />
+                android:textSize="13sp" />
 
             <EditText
                 android:id="@+id/etEmails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/projectSpinner"
                 android:layout_alignParentTop="true"
-                app:backgroundTint="@color/colorWhite"
-                android:textSize="13sp"
+                android:layout_alignStart="@+id/projectSpinner"
                 android:ems="10"
                 android:textColor="#fff"
-                android:layout_alignStart="@+id/projectSpinner"
-                android:layout_alignEnd="@+id/projectSpinner" />
+                android:textSize="13sp"
+                app:backgroundTint="@color/colorWhite" />
+
             <TextView
                 android:id="@+id/project"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Project"
-                android:textSize="13sp"
-                android:textColor="#fff"
+                android:layout_alignParentStart="true"
                 android:layout_below="@id/etEmails"
-                android:layout_alignParentStart="true" />
+                android:layout_marginTop="15dp"
+                android:text="Project"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
             <EditText
                 android:id="@+id/projectSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="#fff"
-                android:padding="5dp"
-                android:textSize="13sp"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/etEmails"
-                android:background="@drawable/back_spinner"
-                android:layout_toRightOf="@+id/project"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_alignParentEnd="true" />
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/project"
+                android:background="@drawable/back_spinner"
+                android:padding="5dp"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/board"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
-                android:text="Board"
-                android:textSize="13sp"
-                android:textColor="#fff"
+                android:layout_alignParentStart="true"
                 android:layout_below="@id/project"
-                android:layout_alignParentStart="true" />
+                android:layout_marginTop="30dp"
+                android:text="Board"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
             <EditText
                 android:id="@+id/boardSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="#fff"
-                android:padding="5dp"
-                android:textSize="13sp"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/projectSpinner"
-                android:background="@drawable/back_spinner"
-                android:layout_toRightOf="@+id/project"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_alignParentEnd="true" />
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/project"
+                android:background="@drawable/back_spinner"
+                android:padding="5dp"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
-                android:text="Card"
-                android:textSize="13sp"
-                android:textColor="#fff"
+                android:layout_alignParentStart="true"
                 android:layout_below="@id/board"
-                android:layout_alignParentStart="true" />
+                android:layout_marginTop="25dp"
+                android:text="Card"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
             <EditText
                 android:id="@+id/cardSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="#fff"
-                android:padding="5dp"
-                android:textSize="13sp"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/boardSpinner"
-                android:background="@drawable/back_spinner"
-                android:layout_toRightOf="@+id/project"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_alignParentEnd="true" />
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/project"
+                android:background="@drawable/back_spinner"
+                android:padding="5dp"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/subject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/card"
                 android:layout_marginTop="30dp"
                 android:text="Subject"
-                android:textSize="13sp"
                 android:textColor="#fff"
-                android:layout_below="@id/card"
-                android:layout_alignParentStart="true" />
+                android:textSize="13sp" />
+
             <EditText
                 android:id="@+id/etSubject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:padding="10dp"
-                android:textSize="13sp"
-                android:textColor="#fff"
-                app:backgroundTint="@color/colorWhite"
                 android:layout_alignBaseline="@+id/subject"
                 android:layout_alignBottom="@+id/subject"
+                android:layout_alignEnd="@+id/cardSpinner"
                 android:layout_alignStart="@+id/cardSpinner"
-                android:layout_alignEnd="@+id/cardSpinner" />
+                android:ems="10"
+                android:padding="10dp"
+                android:textColor="#fff"
+                android:textSize="13sp"
+                app:backgroundTint="@color/colorWhite" />
+
             <TextView
                 android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/subject"
                 android:layout_marginTop="30dp"
                 android:text="Message *"
-                android:textSize="13sp"
                 android:textColor="#fff"
-                android:layout_below="@id/subject"
-                android:layout_alignParentStart="true" />
+                android:textSize="13sp" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
                 android:id="@+id/textEditorLayout"
-                android:layout_below="@id/message"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+                android:layout_below="@id/message"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
 
 
                 <EditText
                     android:id="@+id/editor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="100.0dip"
-                    android:clickable="false"
-                    android:textColor="#000"
                     android:background="#fff"
+                    android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:inputType="textMultiLine"
-                    />
-
+                    android:minHeight="100.0dip"
+                    android:padding="5dp"
+                    android:textColor="#000" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="15dp"
+                android:layout_below="@+id/textEditorLayout"
                 android:layout_marginStart="10dp"
-                android:layout_below="@+id/textEditorLayout">
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
                 <ImageView
-                    android:src="@drawable/cancel_message"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/cancel_message" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancel"
 
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorWhite" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/reply_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@+id/textEditorLayout"
                 android:layout_alignParentEnd="true"
+                android:layout_below="@+id/textEditorLayout"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
                 <ImageView
-                    android:src="@drawable/send"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/send" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Reply"
 
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorWhite" />
             </LinearLayout>
 
         </RelativeLayout>
