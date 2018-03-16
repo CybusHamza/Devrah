@@ -45,6 +45,7 @@ import com.app.devrah.R;
 import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.Board.WorkBoard;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
+import com.app.devrah.Views.BoardExtended.BoardScreen;
 import com.app.devrah.Views.Main.ProfileActivity;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.squareup.picasso.Picasso;
@@ -252,7 +253,18 @@ public class BoardsAdapter extends BaseAdapter {
                  finalConvertView.setClickable(false);
                 }else {
 
-                    Intent intent = new Intent(activity, BoardExtended.class);
+                    /*Intent intent = new Intent(activity, BoardExtended.class);
+
+                    intent.putExtra("TitleData", projectsList.get(position).getData());
+                    intent.putExtra("p_id", projectsList.get(position).getId());
+                    intent.putExtra("b_id", projectsList.get(position).getBoardID());
+                    intent.putExtra("ptitle", BoardsActivity.ptitle);
+                    intent.putExtra("work_board", "1");
+                    //  intent.putExtra("list_id",projectsList.get(position).getListId());
+                    //intent.putExtra("ptitle",);
+
+                    activity.startActivity(intent);*/
+                    Intent intent = new Intent(activity, BoardScreen.class);
 
                     intent.putExtra("TitleData", projectsList.get(position).getData());
                     intent.putExtra("p_id", projectsList.get(position).getId());

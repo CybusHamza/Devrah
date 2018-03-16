@@ -142,11 +142,15 @@ public class LastItemBoardFragment extends Fragment {
     }
     private void showKeyBoard(EditText title) {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        if (imm != null) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        }
     }
     private void hideKeyBoard(EditText title) {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(title.getWindowToken(), 0);
+        }
     }
     public void showDialog() {
 

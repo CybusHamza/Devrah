@@ -40,6 +40,7 @@ import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
 import com.app.devrah.Views.Board.BoardsActivity;
+import com.app.devrah.Views.BoardExtended.BoardScreen;
 import com.app.devrah.pojo.ProjectsPojo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -243,7 +244,15 @@ public class ReferenceBoardAdapter extends BaseAdapter {
                 }else {
 
                     //Toast.makeText(activity, "hello", Toast.LENGTH_SHORT).showl();
-                    Intent intent = new Intent(activity, BoardExtended.class);
+                   /* Intent intent = new Intent(activity, BoardExtended.class);
+                    intent.putExtra("TitleData", projectsList.get(position).getData());
+                    intent.putExtra("p_id", projectsList.get(position).getId());
+                    intent.putExtra("b_id", projectsList.get(position).getBoardID());
+                    intent.putExtra("ptitle", activity.getIntent().getStringExtra("ptitle"));
+                    intent.putExtra("work_board", "0");
+
+                    activity.startActivity(intent);*/
+                    Intent intent = new Intent(activity, BoardScreen.class);
                     intent.putExtra("TitleData", projectsList.get(position).getData());
                     intent.putExtra("p_id", projectsList.get(position).getId());
                     intent.putExtra("b_id", projectsList.get(position).getBoardID());

@@ -933,7 +933,7 @@ private void getDueDates(final String currentDate){
                                     cardCheckboxPojoList.add(checkBoxPojo);
                                 }
 
-                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,alertDialog,cardCheckboxPojoList);
+                                adapter = new CalendarAdapter(BoardExtended.this, listPojo,cardLabelsPojoList,cardMembersPojoList,cardCoverPojoList,0,alertDialog,cardCheckboxPojoList,BoardExtended.boardId,BoardExtended.projectId,title,projectTitle,isWorkBoard);
                                 lv.setAdapter(adapter);
 
                                 /*try {
@@ -1687,7 +1687,7 @@ private void getDueDates(final String currentDate){
                             if(response.equals("0")){
                                 postions_list.add("1"+"");
                             }
-                            for (int i = 1; i <=Integer.valueOf(response)+1; i++) {
+                            for (int i = 1; i <=Integer.valueOf(response)+1 && !response.equals("0"); i++) {
 
                                 postions_list.add(i+"");
                             }
@@ -1747,6 +1747,24 @@ private void getDueDates(final String currentDate){
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
                         Toast.makeText(BoardExtended.this, "Moved Successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent1 = getIntent();
+                        if(intent1.hasExtra("ScreenName")){
+                            Intent intent = new Intent(BoardExtended.this, NotificationsActivity.class);
+                            finish();
+                            startActivity(intent);
+                        }else if(intent1.hasExtra("activity")){
+                            Intent intent = new Intent(BoardExtended.this, FavouritesActivity.class);
+                            finish();
+                            startActivity(intent);
+                        }else {
+                            Intent intent = new Intent(BoardExtended.this, BoardsActivity.class);
+                            intent.putExtra("pid", p_id);
+
+                            intent.putExtra("ptitle", pTitle);
+                            intent.putExtra("status", "0");
+                            finish();
+                            startActivity(intent);
+                        }
 
                     }
                 }, new Response.ErrorListener() {

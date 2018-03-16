@@ -106,7 +106,7 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         if (convertView == null)
             convertView = inflater.inflate(R.layout.custom_layout_fragment_boards_list, null);
 
-        holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
+       // holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
         holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
 //        holder.memberScrollView = (HorizontalScrollView) convertView.findViewById(R.id.memberScroller);
 //        holder.labelScrollView = (HorizontalScrollView) convertView.findViewById(R.id.labelScroller);

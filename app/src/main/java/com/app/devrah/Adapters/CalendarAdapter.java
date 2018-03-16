@@ -70,8 +70,11 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
     String BoardsListData;
     AlertDialog alertDialog;
     List<CardAssociatedCalendarCheckBox> cardCheckboxPojoList;
+    String boardId;
+    String projectId;
+    String bTitle,pTitle,isWorkBoard;
 
-    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, List<CardAssociatedCalendarCoverPojo> coverList, int membercount, AlertDialog alertDialog,List<CardAssociatedCalendarCheckBox> cardCheckboxPojoList) {
+    public CalendarAdapter(Activity activity, List<CalendarPojo> projectsList, List<CardAssociatedCalendarLabelsPojo> labelList, List<CardAssociatedCalendarMembersPojo> memberList, List<CardAssociatedCalendarCoverPojo> coverList, int membercount, AlertDialog alertDialog,List<CardAssociatedCalendarCheckBox> cardCheckboxPojoList,String boardId,String projectId,String bTitle,String pTitle,String isWorkBoard) {
         this.activity = activity;
         this.projectsList = projectsList;
         this.labelList = labelList;
@@ -80,6 +83,11 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
         this.membercount=membercount;
         this.alertDialog=alertDialog;
         this.cardCheckboxPojoList=cardCheckboxPojoList;
+        this.boardId=boardId;
+        this.projectId=projectId;
+        this.bTitle=bTitle;
+        this.pTitle=pTitle;
+        this.isWorkBoard=isWorkBoard;
      //   this.list_id=list_id;
 
         //  super(activity,R.layout.custom_layout_for_projects,projectsList);
@@ -131,12 +139,12 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             public void onClick(View view) {
                 if(holder.checkBox.isChecked()){
                   //  projectsList.get(position).setIsCardComplete("1");
-                    updateCardCompleted(projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position,"1",projectsList.get(position).getDueDate(),projectsList.get(position).getStartDate());
+                    updateCardCompleted(boardId,projectsList.get(position).getId(),position,"1",projectsList.get(position).getDueDate(),projectsList.get(position).getStartDate());
                    // ((BoardExtended)activity).updateChildFragmentsCardData(projectsList.get(position).getId(),"1");
                     //holder.checkBox.setChecked(false);
                 }else {
                    // projectsList.get(position).setIsCardComplete("0");
-                    updateCardCompleted(projectsList.get(position).getBoardID(),projectsList.get(position).getId(),position,"0",projectsList.get(position).getDueDate(),projectsList.get(position).getStartDate());
+                    updateCardCompleted(boardId,projectsList.get(position).getId(),position,"0",projectsList.get(position).getDueDate(),projectsList.get(position).getStartDate());
                    // holder.checkBox.setChecked(true);
                     //  ((BoardExtended)activity).updateChildFragmentsCardData(projectsList.get(position).getId(),"0");
 
@@ -386,11 +394,11 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
                 intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
                 intent.putExtra("list_id",projectsList.get(position).getListId());
-                intent.putExtra("project_id", BoardExtended.projectId);
-                intent.putExtra("board_id", BoardExtended.boardId);
-                intent.putExtra("board_name", BoardExtended.bTitle);
-                intent.putExtra("project_title", BoardExtended.pTitle);
-                intent.putExtra("work_board", BoardExtended.isWorkBoard);
+                intent.putExtra("project_id", projectId);
+                intent.putExtra("board_id", boardId);
+                intent.putExtra("board_name", bTitle);
+                intent.putExtra("project_title", pTitle);
+                intent.putExtra("work_board", isWorkBoard);
                 intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);
@@ -412,11 +420,11 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
                 intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
                 intent.putExtra("list_id",projectsList.get(position).getListId());
-                intent.putExtra("project_id", BoardExtended.projectId);
-                intent.putExtra("board_id", BoardExtended.boardId);
-                intent.putExtra("board_name", BoardExtended.bTitle);
-                intent.putExtra("project_title", BoardExtended.pTitle);
-                intent.putExtra("work_board", BoardExtended.isWorkBoard);
+                intent.putExtra("project_id", projectId);
+                intent.putExtra("board_id", boardId);
+                intent.putExtra("board_name", bTitle);
+                intent.putExtra("project_title", pTitle);
+                intent.putExtra("work_board", isWorkBoard);
                 intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);
@@ -439,11 +447,11 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
                 intent.putExtra("isSubscribed",memberList.get(position).getMemberSubscribed());
                 intent.putExtra("list_id",projectsList.get(position).getListId());
-                intent.putExtra("project_id", BoardExtended.projectId);
-                intent.putExtra("board_id", BoardExtended.boardId);
-                intent.putExtra("board_name", BoardExtended.bTitle);
-                intent.putExtra("project_title", BoardExtended.pTitle);
-                intent.putExtra("work_board", BoardExtended.isWorkBoard);
+                intent.putExtra("project_id", projectId);
+                intent.putExtra("board_id", boardId);
+                intent.putExtra("board_name", bTitle);
+                intent.putExtra("project_title", pTitle);
+                intent.putExtra("work_board", isWorkBoard);
                 intent.putExtra("fromMyCards","false");
                 activity.finish();
                 activity.startActivity(intent);
@@ -676,7 +684,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                         i.putExtra("cardId",projectsList.get(position).getId());
                         i.putExtra("isComplete",isCompleted);
 
-                        activity.sendBroadcast(i);
+                       // activity.sendBroadcast(i);
 
                         notifyDataSetChanged();
 
@@ -724,8 +732,8 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("boardId",BoardExtended.boardId);
-                params.put("projectid",BoardExtended.projectId);
+                params.put("boardId",boardId);
+                params.put("projectid",projectId);
                 params.put("strt_dt",startDate);
                 params.put("end_dt",dueDate);
                 params.put("card_id",cardId);

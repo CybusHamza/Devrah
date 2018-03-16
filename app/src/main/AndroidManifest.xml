@@ -35,6 +35,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Views.BoardExtended.BoardScreen">
+        </activity>
         <activity android:name=".Views.MainActivity" />
         <activity android:name=".Views.Main.Dashboard" />
         <activity android:name=".Views.Project.ProjectsActivity" />

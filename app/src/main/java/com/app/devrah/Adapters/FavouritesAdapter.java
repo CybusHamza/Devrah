@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.app.devrah.R;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
+import com.app.devrah.Views.BoardExtended.BoardScreen;
 import com.app.devrah.pojo.FavouritesPojo;
 
 import java.util.List;
@@ -78,7 +79,7 @@ public class FavouritesAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if(!projectsList.get(position).getData().equals("No favourites found") && !projectsList.get(position).getBrdid().equals("")) {
 
-                    Intent intent = new Intent(activity, BoardExtended.class);
+                    Intent intent = new Intent(activity, BoardScreen.class);
                     intent.putExtra("TitleData", projectsList.get(position).getData());
                     intent.putExtra("ptitle", projectsList.get(position).getP_name());
                     intent.putExtra("p_id", projectsList.get(position).getP_status());

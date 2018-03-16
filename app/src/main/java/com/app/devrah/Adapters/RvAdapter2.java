@@ -208,7 +208,7 @@ public class RvAdapter2 extends RecyclerView.Adapter<RvAdapter2.RvViewHolder> {
                 new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Confirmation!")
                         .setCancelText("Cancel")
-                        .setConfirmText("OK").setContentText("Do you really want to remove checkbox?")
+                        .setConfirmText("OK").setContentText("Do you really want to delete?")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {

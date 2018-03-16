@@ -82,6 +82,7 @@ import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.Views.Board.BoardsActivity;
 import com.app.devrah.Views.BoardExtended.BoardExtended;
+import com.app.devrah.Views.BoardExtended.BoardScreen;
 import com.app.devrah.Views.ManageMembers.ManageCardMembers;
 import com.app.devrah.Views.MyCards.MyCardsActivity;
 import com.app.devrah.Views.Notifications.NotificationsActivity;
@@ -521,7 +522,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             cbStartDate.setText("Start Date");
             cbStartDate.setVisibility(View.VISIBLE);
         }
-        if(!startTime.equals("")) {
+        if(!startTime.equals("") && !startTime.equals("null")) {
             cbStartTime.setText(startTime);
             cbStartTime.setVisibility(View.VISIBLE);
         }else {
@@ -548,7 +549,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             cbDueDate.setText("Due Date");
             cbDueDate.setVisibility(View.VISIBLE);
         }
-        if(!dueTime.equals("")) {
+        if(!dueTime.equals("") && !dueTime.equals("null")) {
             cbDueTime.setText(dueTime);
             cbDueTime.setVisibility(View.VISIBLE);
         }else{
@@ -1001,7 +1002,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         showDialogCopy();
                         break;
                     case 3:
-                    showDialog("move");
+                        showDialog("move");
                         break;
                     case 4:
                         if(isCardSubscribed.equals("0") || isCardSubscribed.equals("null") || isCardSubscribed.equals("")){
@@ -1604,7 +1605,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });
 
 
-        etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
 
@@ -1669,7 +1670,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
             }
-        });
+        });*/
 /*
         rvLabel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -2031,7 +2032,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             startActivity(intent);
         }else {
             super.onBackPressed();
-            Intent intent=new Intent(CardActivity.this,BoardExtended.class);
+            Intent intent=new Intent(CardActivity.this,BoardScreen.class);
             intent.putExtra("b_id",BoardExtended.boardId);
             intent.putExtra("p_id",BoardExtended.projectId);
             intent.putExtra("TitleData",BoardExtended.bTitle);
@@ -3034,9 +3035,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     if(cardLabelsPojoListstat.toArray().length>0){
                                         LinearLayout linearLayout= (LinearLayout) findViewById(R.id.labelsLayout);
                                         linearLayout.setVisibility(View.VISIBLE);
+                                        labelIcon.setVisibility(View.VISIBLE);
                                     }else {
                                         LinearLayout linearLayout= (LinearLayout) findViewById(R.id.labelsLayout);
                                         linearLayout.setVisibility(View.GONE);
+                                        labelIcon.setVisibility(View.INVISIBLE);
                                     }
                                 }
 
@@ -4411,7 +4414,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(etTitleCopyCard.getText().equals("")){
+                if(etTitleCopyCard.getText().toString().equals("")){
                     Toast.makeText(CardActivity.this,"Error, card name is must!",Toast.LENGTH_LONG).show();
                 }else if(boardSpinner.getSelectedItemPosition()==0 || boardSpinner.getSelectedItemPosition()==-1){
                     Toast.makeText(CardActivity.this,"Error, board name is must!",Toast.LENGTH_LONG).show();
@@ -4818,32 +4821,29 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                         boards_name.add(0,"Select");
                         boards_ids.add(0,"0");
+                        if(!response.equals("false")) {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
 
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    boards_name.add(jsonObject.getString("board_name"));
+                                    boards_ids.add(jsonObject.getString("bid"));
 
-                            for (int i = 0 ; i < jsonArray.length();i++)
-                            {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                boards_name.add(jsonObject.getString("board_name"));
-                                boards_ids.add(jsonObject.getString("bid"));
+                                }
 
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
-                                    (CardActivity.this,R.layout.nothing_selected_spinnerdate,boards_name);
-                            dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
-
-                            boardSpinner.setAdapter(dataAdapter);
-
-                            boardSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener_List());
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                                (CardActivity.this,R.layout.nothing_selected_spinnerdate,boards_name);
+                        dataAdapter.setDropDownViewResource(R.layout.nothing_selected_spinnerdate);
 
+                        boardSpinner.setAdapter(dataAdapter);
+
+                        boardSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener_List());
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -4907,7 +4907,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
-            if(pos!=0)
+            if(pos!=0 & pos!=-1)
             getListNames(boards_ids.get(pos));
           //  getPosition(spinnerGroupIds.get(pos));
 
@@ -5025,7 +5025,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
-            if(pos!=0)
+            if(pos!=-1 && pos!=0)
           getPosition(list_ids.get(pos));
 
 

@@ -1604,6 +1604,7 @@ try {
                     public void onResponse(String response) {
                         ringProgressDialog.dismiss();
                         Toast.makeText(getActivity(), "Moved Successfully", Toast.LENGTH_SHORT).show();
+                        //getActivity().finish();
 
                     }
                 }, new Response.ErrorListener() {

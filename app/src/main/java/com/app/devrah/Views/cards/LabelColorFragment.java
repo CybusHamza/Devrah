@@ -676,6 +676,10 @@ public class LabelColorFragment extends Fragment {
              //   Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
                 String s = etLabelName.getText().toString();
 //
+                if(colorselected==null || colorselected.equals("")){
+                    Toast.makeText(getActivity(),"Please Select label!",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(RVLabelAdapter.index == -1)
                 {
                     addLable(colorselected,s);

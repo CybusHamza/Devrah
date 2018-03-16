@@ -48,7 +48,7 @@ public class FavouritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
         toolbar = (Toolbar) findViewById(R.id.header);
-        toolbar.setTitle("Favourites");
+        toolbar.setTitle("My Favorites");
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 

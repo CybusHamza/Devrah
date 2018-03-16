@@ -7,3 +7,10 @@
 /build
 /captures
 .externalNativeBuild
+/boardview/build.gradle
+app/src/main/res/values-small/
+boardview/build.gradle
+boardview/build/
+boardview/proguard-rules.pro
+boardview/src/
+/boardview/build/intermediates/bundles/debug/res/menu/my_menu_filter.xml

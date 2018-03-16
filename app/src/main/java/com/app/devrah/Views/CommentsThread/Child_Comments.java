@@ -27,12 +27,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -97,10 +103,12 @@ public class Child_Comments extends AppCompatActivity implements callBack{
     String b64,formattedDate;
     ProgressDialog ringProgressDialog;
     String filepath,cardId,parentId,fullName,parentCommentsData,parentProfilePic,parentInitials,parentIsFile,parentFileType;
+    String filter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list__comments);
+        filter="1";
         rv = (RecyclerView) findViewById(R.id.rv);
         toolbar = (Toolbar) findViewById(R.id.header);
         etComments= (EditText) findViewById(R.id.commenttext);
@@ -113,9 +121,29 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                 onBackPressed();
             }
         });
-        toolbar.inflateMenu(R.menu.my_menu);
+        //toolbar.inflateMenu(R.menu.my_menu);
         toolbar.setTitle("Replies");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.inflateMenu(R.menu.my_menu_filter);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                switch (id) {
+                    /*case R.id.action_settings:
+                        return true;
+                    case R.id.action_search:
+                        handleMenuSearch();
+                        return true;*/
+                    case R.id.menu:
+                        changeFilter();
+                        return true;
+                }
+
+                return true;
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);
 
@@ -266,6 +294,79 @@ public class Child_Comments extends AppCompatActivity implements callBack{
         //Add Level 3 Item
 
         rv.setAdapter(rvAdapter);*/
+    }
+    private void changeFilter() {
+        LayoutInflater inflater = LayoutInflater.from(Child_Comments.this);
+        View customView = inflater.inflate(R.layout.filter_asc_desc_layout, null);
+        final AlertDialog alertDialog = new AlertDialog.Builder(Child_Comments.this).create();
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.TOP | Gravity.RIGHT;
+
+        // wlp.width = LayoutParams.MATCH_PARENT;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+
+        // LinearLayout active, inactive;
+        Switch active, inactive;
+        final ImageView imgactive, igminactive,crossIcon;
+        TextView tvHeading;
+        tvHeading= (TextView) customView.findViewById(R.id.tvHeading);
+        active = (Switch) customView.findViewById(R.id.newestFirst);
+        inactive = (Switch) customView.findViewById(R.id.oldestFirst);
+        tvHeading.setText("Change Status Filter");
+
+
+       /* imgactive = (ImageView) customView.findViewById(R.id.activeimg);
+        igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);*/
+        if (filter.equals("1")) {
+            active.setChecked(true);
+            inactive.setChecked(false);
+            //imgactive.setVisibility(View.VISIBLE);
+            active.setClickable(false);
+            //active.setEnabled(false);
+        } else if (filter.equals("0")) {
+            active.setChecked(false);
+            inactive.setChecked(true);
+            // igminactive.setVisibility(View.VISIBLE);
+            inactive.setClickable(false);
+            // inactive.setEnabled(false);
+        }
+        active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter="1";
+                /*imgactive.setVisibility(View.VISIBLE);
+                igminactive.setVisibility(View.GONE);*/
+                alertDialog.dismiss();
+                getComments();
+            }
+        });
+
+        inactive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter="0";
+                /*imgactive.setVisibility(View.GONE);
+                igminactive.setVisibility(View.VISIBLE);*/
+                alertDialog.dismiss();
+                getComments();
+
+            }
+        });
+        crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
+        crossIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+        alertDialog.setView(customView);
+        alertDialog.show();
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -721,6 +822,7 @@ public class Child_Comments extends AppCompatActivity implements callBack{
                 params.put("card_id", cardId);
                 params.put("check_id",checkListId);
                 params.put("id",parentId);
+                params.put("filter",filter);
                 // SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 // String userID = pref.getString("user_id", "");
                 //params.put("userId", userID);

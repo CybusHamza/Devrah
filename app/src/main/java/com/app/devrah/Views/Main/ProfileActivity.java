@@ -223,7 +223,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
       //  Toast.makeText(getApplicationContext(),"Upadte Pro",Toast.LENGTH_SHORT).show();
-        StringRequest request = new StringRequest(Request.Method.POST,"http://m1.cybussolutions.com/devrah/Api_service/updateUserProfile",
+        StringRequest request = new StringRequest(Request.Method.POST,End_Points.UPDATE_USER_PROFILE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

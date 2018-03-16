@@ -3,10 +3,11 @@ package com.app.devrah.Network;
 
 public class End_Points {
 
-    private static final String BASE_URL = "http://demo.cybussolutions.com/kanban/Api_service/";
-    public static final String BASE_URL_FILE_UPLOAD = "http://demo.cybussolutions.com/kanban/";
-    public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
-    private static final String BASE_URL_ACTIVITIES = "http://demo.cybussolutions.com/kanban/Activities/";
+    private static final String BASE_URL = "https://www.devrah.com/Api_service/";
+    public static final String BASE_URL_FILE_UPLOAD = "https://www.devrah.com/";
+   // public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
+    public static final String IMAGES_BASE_URL = "https://www.devrah.com/uploads/";
+    private static final String BASE_URL_ACTIVITIES = "https://www.devrah.com/Activities/";
 
     public static final String LOGIN = BASE_URL + "login";
     public static final String FORGOT_PASSWORD = BASE_URL + "forgot";
