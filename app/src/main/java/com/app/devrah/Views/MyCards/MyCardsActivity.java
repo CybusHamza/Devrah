@@ -474,7 +474,11 @@ public class MyCardsActivity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
-        unregisterReceiver(broadcastReceiver);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     protected void handleMenuSearch() {
@@ -661,7 +665,7 @@ public class MyCardsActivity extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 MyCardsPojo myCardsPojo = new MyCardsPojo();
-                if(tag.equals("reload") && jsonObject.getString("card_id").equals(id)){
+                if(tag.equals("reload") && jsonObject.getString("card_id").equals(id) && jsonObject.getString("project_status").equals("1")){
                     myCardsPojo.setBoardname(jsonObject.getString("board_name"));
                     myCardsPojo.setBoradid(jsonObject.getString("board_id"));
                     myCardsPojo.setCard_name(jsonObject.getString("card_name"));
@@ -686,7 +690,7 @@ public class MyCardsActivity extends AppCompatActivity {
                     listPojo.add(myCardsPojo);
 
 
-                }else if(!tag.equals("reload")){
+                }else if(!tag.equals("reload")&& jsonObject.getString("project_status").equals("1")){
                     myCardsPojo.setBoardname(jsonObject.getString("board_name"));
                     myCardsPojo.setBoradid(jsonObject.getString("board_id"));
                     myCardsPojo.setCard_name(jsonObject.getString("card_name"));

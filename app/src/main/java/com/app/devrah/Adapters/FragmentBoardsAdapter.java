@@ -107,12 +107,12 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             convertView = inflater.inflate(R.layout.custom_layout_fragment_boards_list, null);
 
        // holder.favouriteIcon= (ImageView) convertView.findViewById(R.id.favouriteIcon);
-        holder.attachment= (ImageView) convertView.findViewById(R.id.cardImage);
+        holder.attachment= convertView.findViewById(R.id.cardImage);
 //        holder.memberScrollView = (HorizontalScrollView) convertView.findViewById(R.id.memberScroller);
 //        holder.labelScrollView = (HorizontalScrollView) convertView.findViewById(R.id.labelScroller);
 
-        holder.membersView = (LinearLayout)convertView.findViewById(R.id.membersListView);
-        holder.labelsView = (LinearLayout)convertView.findViewById(R.id.labelsLayout);
+        holder.membersView = convertView.findViewById(R.id.membersListView);
+        holder.labelsView = convertView.findViewById(R.id.labelsLayout);
 
         holder.attachment.setVisibility(View.GONE);
         String cover[]=coverList.get(position).getIsCover();
@@ -145,15 +145,15 @@ public class FragmentBoardsAdapter extends BaseAdapter{
             }
         }*/
 
-        holder.data = (TextView) convertView.findViewById(R.id.tvFragmentBoardsList);
-        holder.nOfAttachments = (TextView) convertView.findViewById(R.id.nOfAttachments);
-        holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
-        holder.lockIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
-        holder.subscribe = (ImageView) convertView.findViewById(R.id.subscribedIcon);
-        holder.descriptionIcon = (ImageView) convertView.findViewById(R.id.descriptionIcon);
-        holder.checkboxIcon = (ImageView) convertView.findViewById(R.id.checkboxIcon);
-        holder.noOfCheckedCheckbox = (TextView) convertView.findViewById(R.id.noOfCheckedCheckbox);
-        holder.dueDate= (TextView) convertView.findViewById(R.id.dateLabel);
+        holder.data = convertView.findViewById(R.id.tvFragmentBoardsList);
+        holder.nOfAttachments = convertView.findViewById(R.id.nOfAttachments);
+        holder.attachmentIcon = convertView.findViewById(R.id.attachmentIcon);
+        holder.lockIcon = convertView.findViewById(R.id.lockedIcon);
+        holder.subscribe = convertView.findViewById(R.id.subscribedIcon);
+        holder.descriptionIcon = convertView.findViewById(R.id.descriptionIcon);
+        holder.checkboxIcon = convertView.findViewById(R.id.checkboxIcon);
+        holder.noOfCheckedCheckbox = convertView.findViewById(R.id.noOfCheckedCheckbox);
+        holder.dueDate= convertView.findViewById(R.id.dateLabel);
         holder.nOfAttachments.setVisibility(View.GONE);
         holder.attachmentIcon.setVisibility(View.GONE);
 
@@ -415,10 +415,10 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         String[] labels=labelList.get(position).getLabels();
         String[] labelNames=labelList.get(position).getLabelText();
         if(labels.length<1){
-            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.labelScroller);
+            HorizontalScrollView scrollView= convertView.findViewById(R.id.labelScroller);
             scrollView.setVisibility(View.GONE);
         }else {
-            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.labelScroller);
+            HorizontalScrollView scrollView= convertView.findViewById(R.id.labelScroller);
             scrollView.setVisibility(View.VISIBLE);
         }
         holder.labelsView.removeAllViews();
@@ -483,10 +483,10 @@ public class FragmentBoardsAdapter extends BaseAdapter{
         String initials[]=memberList.get(position).getInitials();
         String gp_picture[]=memberList.get(position).getGp_pictures();
         if(imageUrl.length<1){
-            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.memberScroller);
+            HorizontalScrollView scrollView= convertView.findViewById(R.id.memberScroller);
             scrollView.setVisibility(View.GONE);
         }else {
-            HorizontalScrollView scrollView= (HorizontalScrollView) convertView.findViewById(R.id.memberScroller);
+            HorizontalScrollView scrollView= convertView.findViewById(R.id.memberScroller);
             scrollView.setVisibility(View.VISIBLE);
         }
         holder.membersView.removeAllViews();

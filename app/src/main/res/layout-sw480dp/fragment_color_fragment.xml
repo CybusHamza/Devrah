@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
- android:background="#fff"
+    android:background="#fff"
     android:clickable="true"
     android:padding="20dp"
 
@@ -18,14 +18,14 @@
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-      />
+        />
 
 
     <!-- TODO: Update blank fragment layout -->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            android:backgroundTint="#000000"
+        android:backgroundTint="#000000"
         android:textColor="#000000"
         android:cursorVisible="true"
         android:focusable="true"
@@ -37,90 +37,90 @@
         android:layout_alignParentStart="true" />
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/laRow1"
-    android:layout_below="@id/etLabelName">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/laRow1"
+        android:layout_below="@id/etLabelName">
 
 
-    <RelativeLayout
-        android:layout_width="75dp"
-        android:layout_height="45dp"
-            android:layout_weight="1"
-        android:layout_marginRight="10dp"
-        android:background="@color/colorAccent"
-
-        android:id="@+id/relativeLayout2"
-        >
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_width="75dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
-            android:layout_gravity="right"
-            android:id="@+id/img2"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:src="@drawable/tick_btn_icon"
-            android:layout_alignParentEnd="true" />
-</RelativeLayout>
-    <RelativeLayout
-        android:layout_width="75dp"
-        android:layout_height="45dp"
-        android:id="@+id/rvOne"
+            android:background="@color/colorAccent"
 
-        android:layout_weight="1"
-        android:layout_marginRight="10dp"
-        android:background="#000"
-        >
+            android:id="@+id/relativeLayout2"
+            >
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/img_one"
-            android:layout_marginRight="10dp"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="right"
-            android:src="@drawable/tick_btn_icon"
-            />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:id="@+id/img2"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tick_btn_icon"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:id="@+id/rvOne"
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="75dp"
-        android:layout_height="45dp"
-        android:background="#000"
-        android:layout_weight="1"
-        android:layout_alignTop="@+id/relativeLayout6"
-        android:layout_alignStart="@+id/relativeLayout7"
-        android:id="@+id/relativeLayout9">
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
-            android:id="@+id/img9"
-            android:visibility="gone"
-            android:layout_gravity="right"
-            android:src="@drawable/tick_btn_icon"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true" />
+            android:background="#000"
+            >
 
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/img_one"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="right"
+                android:src="@drawable/tick_btn_icon"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:background="#000"
+            android:layout_weight="1"
+            android:layout_alignTop="@+id/relativeLayout6"
+            android:layout_alignStart="@+id/relativeLayout7"
+            android:id="@+id/relativeLayout9">
 
 
-</LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:id="@+id/img9"
+                android:visibility="gone"
+                android:layout_gravity="right"
+                android:src="@drawable/tick_btn_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -184,11 +184,11 @@
             android:layout_width="75dp"
             android:layout_height="45dp"
             android:background="#000"
-           android:src="@drawable/background_label_view"
+            android:src="@drawable/background_label_view"
             android:layout_weight="1"
 
             android:id="@+id/relativeLayout5"
->
+            >
 
 
             <ImageView
@@ -293,7 +293,7 @@
         </RelativeLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -330,7 +330,7 @@
             android:layout_height="45dp"
             android:background="@color/colorGreen"
             android:id="@+id/relativeLayout11"
-           android:layout_marginStart="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:layout_below="@+id/relativeLayout2"
             android:layout_alignParentStart="true">
@@ -404,7 +404,7 @@
             android:textColor="#f50b22"
             android:layout_weight="1"
             android:id="@+id/tvCancel"
-             />
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -418,6 +418,6 @@
 
 
 
-</LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

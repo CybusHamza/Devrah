@@ -66,7 +66,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
 
-        lvTeamData = (ListView) findViewById(R.id.lvTeams);
+        lvTeamData = findViewById(R.id.lvTeams);
 
         lvTeamData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -77,7 +77,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar = findViewById(R.id.app_bar);
         toolbar.setTitle("Teams");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         toolbar.setNavigationIcon(R.drawable.back_arrow_white);
@@ -97,7 +97,7 @@ public class MenuActivity extends AppCompatActivity {
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-        createNewTeam = (Button) findViewById(R.id.buttonTeam);
+        createNewTeam = findViewById(R.id.buttonTeam);
 
         createNewTeam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +108,7 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         getMyTeams();
-        mySwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mySwipeRefreshLayout = findViewById(R.id.swiperefresh);
         //   spinnerValues = new String[]{};
         mySwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -125,11 +125,11 @@ public class MenuActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(MenuActivity.this);
         View view = inflater.inflate(R.layout.alert_dialog_for_menu_create_members, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
-        etTeamName = (EditText) view.findViewById(R.id.input_teamName);
-        final EditText etTeamDescription = (EditText) view.findViewById(R.id.input_team_description);
-        TextView tvDone = (TextView) view.findViewById(R.id.addMember);
-        TextView tvDoneMore = (TextView) view.findViewById(R.id.addMember1);
-        TextView tvCanvel = (TextView) view.findViewById(R.id.cancel);
+        etTeamName = view.findViewById(R.id.input_teamName);
+        final EditText etTeamDescription = view.findViewById(R.id.input_team_description);
+        TextView tvDone = view.findViewById(R.id.addMember);
+        TextView tvDoneMore = view.findViewById(R.id.addMember1);
+        TextView tvCanvel = view.findViewById(R.id.cancel);
         showKeyBoard(etTeamName);
 
 

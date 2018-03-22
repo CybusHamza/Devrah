@@ -86,13 +86,13 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         name = new ArrayList<>();
 
         getTeamMembers();
-        toolbar = (Toolbar) findViewById(R.id.header);
+        toolbar = findViewById(R.id.header);
         toolbar.setTitle("Add Members");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
-        edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
+        edtSeach = toolbar.findViewById(R.id.edtSearch);
        // searchBar = (MenuItem)findViewById(R.id.action_search);
         toolbar.inflateMenu(R.menu.search_menu_team_activity);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -119,9 +119,9 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
             }
         });
-        addMember = (Button) findViewById(R.id.btnAddMember);
-        addBulkMember = (Button) findViewById(R.id.btnAddBulk);
-        deleteTeam = (Button) findViewById(R.id.btnDeleteTeam);
+        addMember = findViewById(R.id.btnAddMember);
+        addBulkMember = findViewById(R.id.btnAddBulk);
+        deleteTeam = findViewById(R.id.btnDeleteTeam);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userId = pref.getString("user_id", "");
         if(teamAdmin.equals(userId)){
@@ -129,8 +129,8 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         }else {
             deleteTeam.setVisibility(View.GONE);
         }
-        search = (ImageView) findViewById(R.id.searchBtn);
-        etSearch = (EditText) findViewById(R.id.etSearch);
+        search = findViewById(R.id.searchBtn);
+        etSearch = findViewById(R.id.etSearch);
         etSearch.setVisibility(View.INVISIBLE);
         search.setOnClickListener(this);
         edtSeach.addTextChangedListener(new TextWatcher() {
@@ -236,7 +236,7 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         });
 
 
-        lv = (ListView) findViewById(R.id.membersListView);
+        lv = findViewById(R.id.membersListView);
        /* membersPojoData = new TeamMembersPojo();
         membersPojoData.setData("rizwan");
         listPojo.add(membersPojoData);
@@ -435,9 +435,9 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
     private void addMember() {
         LayoutInflater inflater = LayoutInflater.from(CreateNewTeamActivity.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_add_member, null);
-        member = (AutoCompleteTextView) subView.findViewById(R.id.etMember);
-       TextView save = (TextView) subView.findViewById(R.id.copy);
-        TextView cancel = (TextView) subView.findViewById(R.id.close);
+        member = subView.findViewById(R.id.etMember);
+       TextView save = subView.findViewById(R.id.copy);
+        TextView cancel = subView.findViewById(R.id.close);
         showKeyBoard(member);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();
@@ -680,11 +680,11 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
     private void addBulkMembers() {
         LayoutInflater inflater = LayoutInflater.from(CreateNewTeamActivity.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_add_bulk_members, null);
-        final EditText member = (EditText) subView.findViewById(R.id.etMember);
+        final EditText member = subView.findViewById(R.id.etMember);
 
 
-        TextView save = (TextView) subView.findViewById(R.id.copy);
-        TextView cancel = (TextView) subView.findViewById(R.id.close);
+        TextView save = subView.findViewById(R.id.copy);
+        TextView cancel = subView.findViewById(R.id.close);
 
 
         final AlertDialog alertDialog = new AlertDialog.Builder(CreateNewTeamActivity.this).create();

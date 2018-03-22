@@ -110,7 +110,7 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
 
             Glide.with(activity)
                     .load(End_Points.IMAGES_BASE_URL+"card_uploads/" + attachmentList.get(position).getImageFile())
-                    .apply(new RequestOptions().override(180,180).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .apply(new RequestOptions().override(120,120).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .skipMemoryCache(true))
                     .into(holder.imgViewAttachments);
         }
@@ -178,10 +178,10 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
         builder.setView(dialogView);
         builder.setCancelable(false);
         final int[] post = {pos};
-       final ImageView image= (ImageView) dialogView.findViewById(R.id.imageLoaded);
-       final TextView label= (TextView) dialogView.findViewById(R.id.label);
-        final Button makeCoverBtn= (Button) dialogView.findViewById(R.id.makeCoverBtn);
-        final ProgressBar progressBar=(ProgressBar) dialogView.findViewById(R.id.progress);
+       final ImageView image= dialogView.findViewById(R.id.imageLoaded);
+       final TextView label= dialogView.findViewById(R.id.label);
+        final Button makeCoverBtn= dialogView.findViewById(R.id.makeCoverBtn);
+        final ProgressBar progressBar= dialogView.findViewById(R.id.progress);
         if(isCover.equals("0")){
             makeCoverBtn.setText("Make Cover");
         }else if(isCover.equals("1")){
@@ -199,8 +199,8 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
             }
         });
 
-        ImageView imageLeft= (ImageView) dialogView.findViewById(R.id.left);
-        ImageView imageRight= (ImageView) dialogView.findViewById(R.id.right);
+        ImageView imageLeft= dialogView.findViewById(R.id.left);
+        ImageView imageRight= dialogView.findViewById(R.id.right);
         if(totalPics<2){
             imageLeft.setVisibility(View.INVISIBLE);
             imageRight.setVisibility(View.INVISIBLE);
@@ -353,8 +353,8 @@ public class AttachmentImageAdapter extends RecyclerView.Adapter<ImageAttachment
 
             }
         });
-        Button downloadImageBtn= (Button) dialogView.findViewById(R.id.downloadImageBtn);
-        Button cancelBtn= (Button) dialogView.findViewById(R.id.cancelBtn);
+        Button downloadImageBtn= dialogView.findViewById(R.id.downloadImageBtn);
+        Button cancelBtn= dialogView.findViewById(R.id.cancelBtn);
         label.setText(imageName);
         progressBar.setVisibility(View.VISIBLE);
         Glide.with(activity)

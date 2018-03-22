@@ -140,15 +140,15 @@ public class BoardScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_lib);
-        boardView = (BoardView)findViewById(R.id.boardView);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        addNewList= (Button) findViewById(R.id.buttonAddList);
+        boardView = findViewById(R.id.boardView);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerList = findViewById(R.id.left_drawer);
+        addNewList= findViewById(R.id.buttonAddList);
         Intent intent = this.getIntent();
         b_id = intent.getStringExtra("b_id");
         p_id = intent.getStringExtra("p_id");
         //   list_id = intent.getStringExtra("list_id");
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar = findViewById(R.id.app_bar);
         title = getIntent().getStringExtra("TitleData");
         toolbar.setTitle(title);
         projectTitle = intent.getStringExtra("ptitle");
@@ -175,7 +175,7 @@ public class BoardScreen extends AppCompatActivity {
             dataList.add(new DrawerPojo("Archive Board"));
         }
 
-        edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
+        edtSeach = toolbar.findViewById(R.id.edtSearch);
         edtSeach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -256,7 +256,7 @@ public class BoardScreen extends AppCompatActivity {
                         openDrawer();
                         return true;
                     case R.id.tick:
-                        final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                        final TextView tv = toolbar.findViewById(R.id.toolbar_title);
                         String check=tv.getText().toString();
                         if(!check.equals("")) {
                             tv.clearFocus();
@@ -283,7 +283,7 @@ public class BoardScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(Cancelbtn){
-                    final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                    final TextView tv = toolbar.findViewById(R.id.toolbar_title);
                     tv.setText(title);
                     tv.clearFocus();
                     tv.setCursorVisible(false);
@@ -508,11 +508,11 @@ public class BoardScreen extends AppCompatActivity {
         View customView = layoutInflater.inflate(R.layout.custom_alert_dialog_add_list, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(BoardScreen.this).create();
         alertDialog.setCancelable(false);
-        edt = (EditText) customView.findViewById(R.id.input_watever);
+        edt = customView.findViewById(R.id.input_watever);
         showKeyBoard(edt);
-        final TextView addCard = (TextView) customView.findViewById(R.id.btn_add_board);
+        final TextView addCard = customView.findViewById(R.id.btn_add_board);
         // final TextView addMoreList = (TextView) customView.findViewById(R.id.btn_add_board1);
-        final TextView cancelbtn = (TextView) customView.findViewById(R.id.btn_cancel);
+        final TextView cancelbtn = customView.findViewById(R.id.btn_cancel);
         cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -768,14 +768,14 @@ public class BoardScreen extends AppCompatActivity {
         alertDialog.show();
 
         Button cancel, copy;
-        final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
-        final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
+        final EditText etCardName= customView.findViewById(R.id.etCardName);
+        final TextView tvheading= customView.findViewById(R.id.heading);
         tvheading.setText("Update Board Name");
         etCardName.setText(title);
         etCardName.setSelection(etCardName.getText().length());
         showKeyBoard(etCardName);
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = customView.findViewById(R.id.copy);
+        cancel = customView.findViewById(R.id.close);
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -816,10 +816,10 @@ public class BoardScreen extends AppCompatActivity {
         wmlp.gravity = Gravity.END;
         alertDialog.setView(customView);
         alertDialog.show();
-        final TextView heading= (TextView) customView.findViewById(R.id.header);
-        final ImageView backBtn= (ImageView) customView.findViewById(R.id.backBtnCalender);
-        compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
-        lv= (ListView) customView.findViewById(R.id.listView);
+        final TextView heading= customView.findViewById(R.id.header);
+        final ImageView backBtn= customView.findViewById(R.id.backBtnCalender);
+        compactCalendarView = customView.findViewById(R.id.compactcalendar_view);
+        lv= customView.findViewById(R.id.listView);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
@@ -1564,14 +1564,14 @@ public class BoardScreen extends AppCompatActivity {
 
         TextView cancel, copy;
         final EditText ettitle;
-        heading = (TextView) customView.findViewById(R.id.heading);
-        headingTitle = (TextView) customView.findViewById(R.id.title);
-        sub = (TextView) customView.findViewById(R.id.sub_heading);
-        Postions = (Spinner) customView.findViewById(R.id.position);
-        Projects = (Spinner) customView.findViewById(R.id.projects_group);
-        copy = (TextView) customView.findViewById(R.id.copy);
-        cancel = (TextView) customView.findViewById(R.id.close);
-        ettitle = (EditText) customView.findViewById(R.id.etTitle);
+        heading = customView.findViewById(R.id.heading);
+        headingTitle = customView.findViewById(R.id.title);
+        sub = customView.findViewById(R.id.sub_heading);
+        Postions = customView.findViewById(R.id.position);
+        Projects = customView.findViewById(R.id.projects_group);
+        copy = customView.findViewById(R.id.copy);
+        cancel = customView.findViewById(R.id.close);
+        ettitle = customView.findViewById(R.id.etTitle);
         ettitle.setText(toolbar.getTitle());
         ettitle.setSelection(toolbar.getTitle().length());
         if (data.equals("copy")) {
@@ -1925,7 +1925,7 @@ public class BoardScreen extends AppCompatActivity {
                                     for (int j = 0; j < jsonArrayMembers.length(); j++) {
                                         CardAssociatedMembersPojo membersPojo = new CardAssociatedMembersPojo();
                                         JSONObject jsonArray = jsonArrayMembers.getJSONObject(j);
-                                        if (jsonArray.getString("uid").equals("270")) {
+                                        if (jsonArray.getString("uid").equals(pref.getString("user_id",""))) {
                                             subsribed = jsonArray.getString("subscribed");
                                             isCurrentMemberAssigned = "1";
                                         }
@@ -2324,7 +2324,7 @@ public class BoardScreen extends AppCompatActivity {
             handleMenuSearch();
             return;
         } else if (isEditOpened) {
-            final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+            final TextView tv = toolbar.findViewById(R.id.toolbar_title);
             tv.clearFocus();
             tv.setCursorVisible(false);
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

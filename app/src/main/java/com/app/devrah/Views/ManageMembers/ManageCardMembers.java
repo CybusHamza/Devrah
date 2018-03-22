@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +61,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  */
 public class ManageCardMembers extends Fragment {
     EditText search;
-    GridView currentMember, TeamMember;
+    ListView currentMember;//, TeamMember;
     Spinner Team_list;
     Button Close;
     String b_id,p_id,c_id,l_id;
@@ -121,26 +124,35 @@ public class ManageCardMembers extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.magnage_members_popup1, container, false);
+    public void onStart() {
+        super.onStart();
         Intent intent = getActivity().getIntent();
-
         p_id = intent.getStringExtra("project_id");
         b_id = intent.getStringExtra("board_id");
         c_id = intent.getStringExtra("card_id");
         l_id = intent.getStringExtra("list_id");
+    }
 
-      //  search = (EditText) view.findViewById(R.id.search);
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        currentMember = (GridView) view.findViewById(R.id.grid_view);
-        TeamMember = (GridView) view.findViewById(R.id.grid_view_team);
-        heading = (TextView) view.findViewById(R.id.heading);
+
+        return inflater.inflate(R.layout.magnage_members_popup1, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        currentMember = view.findViewById(R.id.grid_view);
+        //TeamMember = view.findViewById(R.id.grid_view_team);
+        heading = view.findViewById(R.id.heading);
         heading.setText("Manage Card Member");
-        Team_list = (Spinner) view.findViewById(R.id.search_team);
-        btnClose= (Button) view.findViewById(R.id.close);
-        btnSave= (Button) view.findViewById(R.id.save);
+        //Team_list = view.findViewById(R.id.search_team);
+        btnClose= view.findViewById(R.id.close);
+        btnSave= view.findViewById(R.id.save);
         fm = getFragmentManager();
+
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,62 +175,27 @@ public class ManageCardMembers extends Fragment {
         currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-               /* if(membersPojos.size()==1){
-                    Toast.makeText(getActivity(),"You have to keep atleast one user in board!",Toast.LENGTH_LONG).show();
-                }else {*/
-                  /*  new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Remove This member")
-                            .setConfirmText("OK").setContentText("Are You sure you want to remove this member from the project")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismiss();*/
-                                    //teamid = teamListids .get(i);
-                                    if(membersPojos.get(i).getIsCardMember().equals("1")) {
-                                        usertoadd = membersPojos.get(i).getUserId();
+                if(membersPojos.get(i).getIsCardMember().equals("1")) {
+                    usertoadd = membersPojos.get(i).getUserId();
 
-                                        deletemember();
-                                    }else {
-                                        usertoadd = membersPojos.get(i).getUserId();
-                                        addmember();
-                                    }
-                                //}
-                          /*  }).setCancelText("Cancel")
-                            .showCancelButton(true)
-                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
-                                }
-                            })
-                            .show();*/
-//                }
-
+                    deletemember();
+                }else {
+                    usertoadd = membersPojos.get(i).getUserId();
+                    addmember();
+                }
 
             }
         });
 
-      /*  TeamMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int pos=Team_list.getSelectedItemPosition();
-
-                teamid = teamListids .get(pos);
-                usertoadd = listPojo.get(i).getUserId();
 
 
-                addmember();
-
-            }
-        });*/
-
-        getCardmembers();
-
-       // getMyTeams();
-        return view;
     }
 
-
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        getCardmembers();
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -285,7 +262,6 @@ public class ManageCardMembers extends Fragment {
                                     addapter = new team_adapter_cards(getActivity(), membersPojos);
 
                                     currentMember.setAdapter(addapter);
-
                                 }
 
                             } catch (JSONException e) {
@@ -583,7 +559,7 @@ public class ManageCardMembers extends Fragment {
                             }
 
                             addapter = new team_adapter_cards(getActivity(), listPojo);
-                            TeamMember.setAdapter(addapter);
+                            //TeamMember.setAdapter(addapter);
 
 
                         } catch (JSONException e) {

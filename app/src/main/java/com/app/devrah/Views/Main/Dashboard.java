@@ -86,18 +86,18 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
-        tvTime = (TextView) findViewById(R.id.tvTime);
-        tvQuote = (TextView) findViewById(R.id.tvQuote);
-        tvHeloUser = (TextView) findViewById(R.id.heloUserText);
-        tvAuthor = (TextView) findViewById(R.id.tvAuthor);
-        tvAlias = (TextView) findViewById(R.id.alias_img);
-        imgProjects = (ImageView) findViewById(R.id.dashboard_projects);
-        imgFavourites = (ImageView) findViewById(R.id.imageFavourites);
-        imgMyCards = (ImageView) findViewById(R.id.imageView6);
-        imgNotifications = (ImageView) findViewById(R.id.imageNotification);
-        imgInbox = (ImageView) findViewById(R.id.imageInbox);
-        imgMenu = (ImageView) findViewById(R.id.imageMenu);
-        imgProfile = (CircleImageView) findViewById(R.id.imageProfile);
+        tvTime = findViewById(R.id.tvTime);
+        tvQuote = findViewById(R.id.tvQuote);
+        tvHeloUser = findViewById(R.id.heloUserText);
+        tvAuthor = findViewById(R.id.tvAuthor);
+        tvAlias = findViewById(R.id.alias_img);
+        imgProjects = findViewById(R.id.dashboard_projects);
+        imgFavourites = findViewById(R.id.imageFavourites);
+        imgMyCards = findViewById(R.id.imageView6);
+        imgNotifications = findViewById(R.id.imageNotification);
+        imgInbox = findViewById(R.id.imageInbox);
+        imgMenu = findViewById(R.id.imageMenu);
+        imgProfile = findViewById(R.id.imageProfile);
         imgProfile.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         currentImage = pref.getString("profile_pic", "");
@@ -222,7 +222,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                     ProfileArray= new String[]{"Logoff"};
                     LayoutInflater inflater = LayoutInflater.from(Dashboard.this);
                     View subView = inflater.inflate(R.layout.custom_dialog_logoff, null);
-                    final TextView logoff = (TextView) subView.findViewById(R.id.logoff);
+                    final TextView logoff = subView.findViewById(R.id.logoff);
                     final AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
                     alertDialog.setCancelable(true);
                     alertDialog.setCanceledOnTouchOutside(true);
@@ -276,9 +276,9 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 }else {
                     LayoutInflater inflater = LayoutInflater.from(Dashboard.this);
                     View subView = inflater.inflate(R.layout.custom_dialog_edit_profile, null);
-                    final TextView logoff = (TextView) subView.findViewById(R.id.logoff);
-                    final TextView editProfile = (TextView) subView.findViewById(R.id.editProfile);
-                    final TextView changePassword = (TextView) subView.findViewById(R.id.changePass);
+                    final TextView logoff = subView.findViewById(R.id.logoff);
+                    final TextView editProfile = subView.findViewById(R.id.editProfile);
+                    final TextView changePassword = subView.findViewById(R.id.changePass);
                     final AlertDialog alertDialog = new AlertDialog.Builder(Dashboard.this).create();
                     alertDialog.setCancelable(true);
                     alertDialog.setCanceledOnTouchOutside(true);
@@ -436,7 +436,6 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
         };
         newtimer.start();
 
-
 /////////////////////
         CountDownTimer timer = new CountDownTimer(1000000000, 140000) {
 
@@ -457,7 +456,7 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
                 //   int m= c.get(Calendar.SECOND)%10 + 1;
 
 
-                tvQuote.setText('"'+quotes[random]+'"');
+                tvQuote.setText(quotes[random]);
                 tvAuthor.setText(authorName[random]);
 
 
@@ -478,14 +477,14 @@ public class Dashboard extends AppCompatActivity implements  GoogleApiClient.OnC
     private void changePasswordDialog() {
         LayoutInflater inflater = LayoutInflater.from(Dashboard.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_change_password, null);
-        oldPassword = (EditText) subView.findViewById(R.id.oldPass);
-        newPassword = (EditText) subView.findViewById(R.id.etPass);
-        confirmPassword = (EditText) subView.findViewById(R.id.etConfirmPass);
+        oldPassword = subView.findViewById(R.id.oldPass);
+        newPassword = subView.findViewById(R.id.etPass);
+        confirmPassword = subView.findViewById(R.id.etConfirmPass);
 
         alertDialog = new AlertDialog.Builder(Dashboard.this).create();
         alertDialog.setCancelable(false);
-        TextView ok = (TextView) subView.findViewById(R.id.ok);
-        TextView cancel = (TextView) subView.findViewById(R.id.cancel_btn);
+        TextView ok = subView.findViewById(R.id.ok);
+        TextView cancel = subView.findViewById(R.id.cancel_btn);
         showKeyBoard(oldPassword);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override

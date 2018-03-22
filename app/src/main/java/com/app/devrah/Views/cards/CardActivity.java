@@ -13,11 +13,15 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.RecoverySystem;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
@@ -76,6 +80,7 @@ import com.app.devrah.Adapters.RVLabelResultAdapter;
 import com.app.devrah.Adapters.RVMemberResultAdapter;
 import com.app.devrah.Adapters.RVadapterCheckList;
 import com.app.devrah.Adapters.RecyclerViewAdapterComments;
+import com.app.devrah.Adapters.team_adapter_cards;
 import com.app.devrah.Adapters.team_addapter;
 import com.app.devrah.Holders.callBack;
 import com.app.devrah.Network.End_Points;
@@ -102,6 +107,7 @@ import com.mindorks.paracamera.Camera;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -147,6 +153,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     public static Menu menu;
     public static RecyclerView rv, rvLabel, rvLabelResult, rvAttachmentImages,rvMembersResult;
     public static TextView labelAdd;
+    public static String textLabelName;
     static List<String> asliList;
     static List<String> labelNameList;
     static String dueDate,dueTime,startDate,startTime,cardDescription,cardIsComplete;
@@ -217,8 +224,6 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     static  String name,strColor;
     static  int color;
     ProgressDialog ringProgressDialog;
-    ArrayList<MembersPojo> membersPojos;
-    ListView cardMembers ;
     team_addapter addapter;
     AdapterMembers membersAdapter;
     boolean isUpdate =  false;
@@ -245,11 +250,17 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     List<String> spinnerGroupIds;
     List<String> postions_listProjects;
     Spinner Projects;
-
+   // public static String textLabelName;
     Camera camera;
+    int flag;
     static String isCardLocked,isCardSubscribed;
     static ImageView labelIcon;
-
+    //public static String labelid;
+   static ProgressDialog progressBar;
+    ListView currentMember;
+    ArrayList<String> cardMembers;
+    ArrayList<MembersPojo> membersPojos;
+    team_adapter_cards addapterCards;
     public static void showLabelsMenu() {
 
 
@@ -373,10 +384,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         labelNameList = new ArrayList<>();
         asliList = new ArrayList<>();
-        container = (RelativeLayout) findViewById(R.id.fragmentContainer);
-        container1 = (RelativeLayout) findViewById(R.id.fragmentContainer1);
-        rvFiles = (RecyclerView) findViewById(R.id.rv_files_cardscreen);
-        labelIcon= (ImageView) findViewById(R.id.labelIcon);
+        container = findViewById(R.id.fragmentContainer);
+        container1 = findViewById(R.id.fragmentContainer1);
+        rvFiles = findViewById(R.id.rv_files_cardscreen);
+        labelIcon= findViewById(R.id.labelIcon);
         fileList = new ArrayList<>();
         attachmentsList = new ArrayList<>();
         labelName = null;
@@ -387,13 +398,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         membersPojoList = new ArrayList<>();
         // labelNameList = new ArrayList<>();
         colorList = new ArrayList<>();
-        rvAttachmentImages = (RecyclerView) findViewById(R.id.rvImagesAttachment);
+        rvAttachmentImages = findViewById(R.id.rvImagesAttachment);
         resultColorList = new ArrayList<>();
         listt = new ArrayList<>();
 
 
         fm = getSupportFragmentManager();
-        labelAdd = (TextView) findViewById(R.id.tvAddLabel);
+        labelAdd = findViewById(R.id.tvAddLabel);
         Mactivity = CardActivity.this;
 /*        colorList.add(getResources().getColor(R.color.colorAccent));
         colorList.add(getResources().getColor(R.color.colorPrimaryDark));
@@ -424,16 +435,16 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 .setCompression(75)
                 .setImageHeight(1000)// it will try to achieve this height as close as possible maintaining the aspect ratio;
                 .build(CardActivity.this);
-        LACheckList = (LinearLayout) findViewById(R.id.LinearLayoutChecklist);
-        rvCard = (RelativeLayout) findViewById(R.id.bg_card);
-        simpleProgressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
+        LACheckList = findViewById(R.id.LinearLayoutChecklist);
+        rvCard = findViewById(R.id.bg_card);
+        simpleProgressBar = findViewById(R.id.simpleProgressBar);
         simpleProgressBar.setScaleY(3f);    //height of progress bar
-        staticCheckList = (LinearLayout) findViewById(R.id.linearLayoutCheckboxHeading);
-        cbDueDate = (TextView) findViewById(R.id.tvDue);
-        cbDueTime = (TextView) findViewById(R.id.tvDueTime);
-        cbStartDate = (TextView) findViewById(R.id.tvStartDate);
-        cbStartTime = (TextView) findViewById(R.id.tvStartTime);
-        isCompletedBtn=(Button)findViewById(R.id.btnComplete);
+        staticCheckList = findViewById(R.id.linearLayoutCheckboxHeading);
+        cbDueDate = findViewById(R.id.tvDue);
+        cbDueTime = findViewById(R.id.tvDueTime);
+        cbStartDate = findViewById(R.id.tvStartDate);
+        cbStartTime = findViewById(R.id.tvStartTime);
+        isCompletedBtn= findViewById(R.id.btnComplete);
         if(cardIsComplete.equals("1")){
             isCompletedBtn.setText("Unmark Completed");
             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.orange));
@@ -441,9 +452,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             isCompletedBtn.setText("Mark Completed");
             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
-        etCheckList = (EditText) findViewById(R.id.etCheckBox);
+        etCheckList = findViewById(R.id.etCheckBox);
         // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
 
 
         dataList = new ArrayList<>();
@@ -456,26 +467,26 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }else {
             dataList.add(new DrawerPojo("Un-subscribe"));
         }
-       /* if(isCardLocked.equals("0")) {
+        if(isCardLocked.equals("0")) {
             dataList.add(new DrawerPojo("Lock Card"));
         }else {
             dataList.add(new DrawerPojo("Unlock Card"));
-        }*/
+        }
         dataList.add(new DrawerPojo("Delete Card"));
      //   dataList.add(new DrawerPojo("Leave Card"));
 
 
-        rvLabelResult = (RecyclerView) findViewById(R.id.rv_labels_card_screen_result);
-        rvMembersResult = (RecyclerView) findViewById(R.id.rv_members_list);
+        rvLabelResult = findViewById(R.id.rv_labels_card_screen_result);
+        rvMembersResult = findViewById(R.id.rv_members_list);
 //
 //        setTitle();rvChecklist
-        expandableLv = (RecyclerView) findViewById(R.id.rv_recycler_checklist);
+        expandableLv = findViewById(R.id.rv_recycler_checklist);
 
-        rvLabel = (RecyclerView) findViewById(R.id.rv_recycler_labels);
-        tvMembers = (TextView) findViewById(R.id.tvMembers);
-        heading = (ImageView) findViewById(R.id.heading);
+        rvLabel = findViewById(R.id.rv_recycler_labels);
+        tvMembers = findViewById(R.id.tvMembers);
+        heading = findViewById(R.id.heading);
 
-        etDescription = (EditText) findViewById(R.id.description);
+        etDescription = findViewById(R.id.description);
         if(!cardDescription.equals("null"))
             etDescription.setText(cardDescription);
         etDescription.setOnClickListener(new View.OnClickListener() {
@@ -581,15 +592,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
        // collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
        // FABdueDate = (FloatingActionButton) findViewById(R.id.dueDate);
-        FABmembers = (FloatingActionButton) findViewById(R.id.members);
-        FABattachments = (FloatingActionButton) findViewById(R.id.attachments);
-        FABchecklist = (FloatingActionButton) findViewById(R.id.CheckList);
-        FABLabel = (FloatingActionButton) findViewById(R.id.labels);
+        FABmembers = findViewById(R.id.members);
+        FABattachments = findViewById(R.id.attachments);
+        FABchecklist = findViewById(R.id.CheckList);
+        FABLabel = findViewById(R.id.labels);
 
 
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerList = findViewById(R.id.left_drawer);
 
 
 //        collapsingToolbarLayout.setOnClickListener(new View.OnClickListener() {
@@ -603,7 +614,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         CardHeading = getIntent().getStringExtra("CardHeaderData");
         //collapsingToolbarLayout.setTitle(CardHeading);
        // collapsingToolbarLayout.setBackground(getResources().getDrawable(R.drawable.bg_projects));
-        etComment = (EditText) findViewById(R.id.etComment);
+        etComment = findViewById(R.id.etComment);
 
         toolbar.setTitle(CardHeading);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
@@ -632,8 +643,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(CardActivity.this).create();
 
-                LinearLayout linearLayoutCamera = (LinearLayout) view.findViewById(R.id.linearLayoutCamera);
-                LinearLayout otherFiles = (LinearLayout) view.findViewById(R.id.otherFiles);
+                LinearLayout linearLayoutCamera = view.findViewById(R.id.linearLayoutCamera);
+                LinearLayout otherFiles = view.findViewById(R.id.otherFiles);
 
                 linearLayoutCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -702,7 +713,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             Intent intent = new Intent();
                             intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
-                         //   intent.setSelector(Intent.getIntent().removeCategory(););
+                           // intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            //   intent.setSelector(Intent.getIntent().removeCategory(););
 
                             startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
                         }
@@ -750,15 +762,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                // labelNameList.add("");
 
                 RVLabelAdapter.index = -1;
-
-                FragmentManager fm = getSupportFragmentManager();
+                addNewLabelDialogue();
+               /* FragmentManager fm = getSupportFragmentManager();
 
                 LabelColorFragment colorFragment = new LabelColorFragment();
                     LabelColorFragment.textLabelName="";
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.add(R.id.fragmentContainer, colorFragment).addToBackStack("Frag1").commit();
+                fragmentTransaction.replace(R.id.fragmentContainer, colorFragment).addToBackStack("Frag1").commit();
 
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);*/
 //                Fragment fragment = new LabelColorFragment();
             }
         });
@@ -805,14 +817,14 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 intent.putExtra("l_id",list_id);
                 startActivity(intent);*/
 
-                FragmentManager fm = getSupportFragmentManager();
+               // FragmentManager fm = getSupportFragmentManager();
                 fabm.close(true);
-                ManageCardMembers manageCardMembers = new ManageCardMembers();
+               /* ManageCardMembers manageCardMembers = new ManageCardMembers();
                // LabelColorFragment.textLabelName="";
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.add(R.id.fragmentContainer1, manageCardMembers).addToBackStack("Frag3").commit();
-
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainer1, manageCardMembers).commit();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);*/
+               addNewMemberDialogue();
 
             }
         });
@@ -861,7 +873,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             }
         });*/
 
-        fabm = (FloatingActionMenu) findViewById(R.id.menu);
+        fabm = findViewById(R.id.menu);
         fabm.setClosedOnTouchOutside(true);
         fabm.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
@@ -902,13 +914,696 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         });
 
 
-        rv = (RecyclerView) findViewById(R.id.rv_recycler_view);
+        rv = findViewById(R.id.rv_recycler_view);
 
 //        menuChanger(menu,false);
         mDrawerList.addHeaderView(header);
         openDrawer();
 
       //  getChecklistData();
+
+    }
+    private void addNewLabelDialogue(){
+
+
+        final int[] color = new int[1];
+        final String[] lableid = new String[1];
+        final ImageView imgNine;// = new ImageView[1];
+         final EditText etLabelName;
+        final RelativeLayout rOne, rTwo, rThree, rFour, rFive, rSix, rSeven, rEight, rNine,rTen,rEleven;
+        RVLabelAdapter adapter;
+        final ImageView imgOne, imgTwo, imgThree, imgFour, imgFive, imgSix, imgSeven, imgEight, ImgNine,imgTen,imgEleven;
+        List<RelativeLayout> layouts;
+        final List<Integer> myColorList;
+        final List<ImageView> images;
+        final TextView tvDone, tvDelete, tvCancel;
+        final ImageView selectedImageView;
+        final FragmentManager fm;
+        final List<ImageView> visibleImages;
+        final int i;
+        final String[] colorselected = {null};
+        myColorList = new ArrayList<>();
+        myColorList.add(getResources().getColor(R.color.black));
+
+        myColorList.add(getResources().getColor(R.color.colorPrimaryDark));
+        myColorList.add(getResources().getColor(R.color.colorGreen));
+
+        myColorList.add(getResources().getColor(R.color.colorOrangeRed));
+        myColorList.add(getResources().getColor(R.color.colorOrange));
+        myColorList.add(getResources().getColor(R.color.colorYellow));
+        myColorList.add(getResources().getColor(R.color.wierdBlue));
+        myColorList.add(getResources().getColor(R.color.lightGreen));
+        myColorList.add(getResources().getColor(R.color.purple));
+        myColorList.add(getResources().getColor(R.color.green));
+        myColorList.add(getResources().getColor(R.color.pink));
+        // myColorList.add(getResources().getColor(R.color.pink));
+
+        images = new ArrayList<>();
+        layouts = new ArrayList<>();
+        visibleImages = new ArrayList<>();
+        LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
+        View view = inflater.inflate(R.layout.fragment_color_fragment,null);
+        final AlertDialog alertDialog = new  AlertDialog.Builder(CardActivity.this).create();
+        tvDone = view.findViewById(R.id.doneLabelName);
+        tvDelete = view.findViewById(R.id.tvDelete);
+        etLabelName = view.findViewById(R.id.etLabelName);
+
+        tvCancel = view.findViewById(R.id.tvCancel);
+
+        rOne = view.findViewById(R.id.rvOne);
+        rOne.setBackgroundColor(myColorList.get(0));
+        rTwo = view.findViewById(R.id.relativeLayout2);
+        rTwo.setBackgroundColor(myColorList.get(1));
+        rThree = view.findViewById(R.id.relativeLayout3);
+        rThree.setBackgroundColor(myColorList.get(2));
+        rFour = view.findViewById(R.id.relativeLayout4);
+        rFour.setBackgroundColor(myColorList.get(3));
+        rFive = view.findViewById(R.id.relativeLayout5);
+        rFive.setBackgroundColor(myColorList.get(4));
+        rSix = view.findViewById(R.id.relativeLayout6);
+        rSix.setBackgroundColor(myColorList.get(5));
+        rSeven = view.findViewById(R.id.relativeLayout7);
+        rSeven.setBackgroundColor(myColorList.get(6));
+        rNine = view.findViewById(R.id.relativeLayout9);
+        rNine.setBackgroundColor(myColorList.get(8));
+        rEight = view.findViewById(R.id.relativeLayout8);
+        rEight.setBackgroundColor(myColorList.get(7));
+        rTen = view.findViewById(R.id.relativeLayout10);
+        rTen.setBackgroundColor(myColorList.get(9));
+        rEleven = view.findViewById(R.id.relativeLayout11);
+        rEleven.setBackgroundColor(myColorList.get(10));
+
+        imgOne = view.findViewById(R.id.img_one);
+
+        imgTwo = view.findViewById(R.id.img2);
+
+        imgThree = view.findViewById(R.id.img3);
+        imgFour = view.findViewById(R.id.img4);
+        imgFive = view.findViewById(R.id.img5);
+        imgSix = view.findViewById(R.id.img6);
+        imgSeven = view.findViewById(R.id.img7);
+        imgEight = view.findViewById(R.id.img8);
+
+        imgNine = view.findViewById(R.id.img9);
+        imgTen = view.findViewById(R.id.img10);
+        imgEleven = view.findViewById(R.id.img11);
+
+        if (flag == 5) {
+            tvDelete.setVisibility(View.VISIBLE);
+            etLabelName.setText(textLabelName);
+
+
+            if (myColorList.contains(RVLabelAdapter.index)) {
+                i = myColorList.indexOf(RVLabelAdapter.index);
+
+
+                tvDone.setTextColor(myColorList.get(i));
+
+
+                if(RVLabelAdapter.index != -1)
+                {
+                    switch (i) {
+
+                        case 0: {
+
+                            imgOne.setVisibility(View.VISIBLE);
+                            selectedImageView = imgOne;
+                            colorselected[0] = "black";
+                            break;
+
+                        }
+
+
+                        case 1: {
+
+                            imgTwo.setVisibility(View.VISIBLE);
+                            selectedImageView = imgTwo;
+                            colorselected[0] = "blue";
+                            break;
+
+                        }
+
+                        case 2: {
+
+                            imgThree.setVisibility(View.VISIBLE);
+                            selectedImageView = imgThree;
+                            colorselected[0] = "green";
+                            break;
+
+                        }
+                        case 3: {
+
+                            imgFour.setVisibility(View.VISIBLE);
+                            selectedImageView = imgFour;
+                            colorselected[0] = "red";
+                            break;
+
+                        }
+
+                        case 4: {
+
+                            imgFive.setVisibility(View.VISIBLE);
+                            selectedImageView = imgFive;
+
+                            colorselected[0] = "orange";
+                            break;
+
+                        }
+                        case 5: {
+
+                            imgSix.setVisibility(View.VISIBLE);
+                            selectedImageView = imgSix;
+                            colorselected[0] = "yellow";
+                            break;
+
+                        }
+
+                        case 6: {
+
+                            imgSeven.setVisibility(View.VISIBLE);
+                            //  imgSeven.setVisibility(View.VISIBLE);
+                            selectedImageView = imgSeven;
+                            colorselected[0] = "sky-blue";
+                            break;
+
+                        }
+                        case 7: {
+
+                            imgEight.setVisibility(View.VISIBLE);
+                            selectedImageView = imgEight;
+                            colorselected[0] = "green";
+
+                            break;
+
+                        }
+                        case 8: {
+
+                            imgNine.setVisibility(View.VISIBLE);
+                            selectedImageView = imgNine;
+                            colorselected[0] = "purple";
+
+                            break;
+
+                        }
+                        case 9: {
+
+                            imgTen.setVisibility(View.VISIBLE);
+                            selectedImageView = imgTen;
+                            colorselected[0] = "lime";
+
+                            break;
+
+                        }
+                        case 10: {
+
+                            imgEleven.setVisibility(View.VISIBLE);
+                            selectedImageView = imgEleven;
+                            colorselected[0] = "pink";
+
+                            break;
+
+                        }
+                    }
+
+                }
+
+
+                tvDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        new SweetAlertDialog(CardActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Confirmation!")
+                                .setCancelText("Cancel")
+                                .showCancelButton(true)
+                                .setConfirmText("OK").setContentText("Are you sure you want to delete this label")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+
+                                        sDialog.dismiss();
+                                        //deleteLable();
+
+                                    }
+                                } ).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                                .show();
+
+
+
+                    }
+                });
+
+
+            }
+//                tvDone.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        adapter.myList.remove(i);
+//                        adapter.myList.add(i,color);
+//                        adapter.labelNameList.add(i,etLabelName.getText().toString());
+//                        adapter.notifyDataSetChanged();
+//
+//                    }
+//                });
+
+
+        }
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag = 0;
+                alertDialog.dismiss();
+            }
+        });
+
+
+        images.add(imgOne);
+        images.add(imgTwo);
+        images.add(imgThree);
+        images.add(imgFour);
+        images.add(imgFive);
+        images.add(imgSix);
+        images.add(imgSeven);
+        images.add(imgEight);
+        images.add(imgNine);
+        images.add(imgTen);
+        images.add(imgEleven);
+
+
+         String finalColorselected = colorselected[0];
+        tvDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // color;
+                //   Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+                String s = etLabelName.getText().toString();
+//
+                if(colorselected[0] ==null || colorselected[0].equals("")){
+                    Toast.makeText(CardActivity.this,"Please Select label!",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(RVLabelAdapter.index == -1)
+                {
+                    addLable(colorselected[0],s,alertDialog);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
+                    tvDone.setClickable(false);
+                   // alertDialog.dismiss();
+                }
+               /* else
+                {
+                    updateLAble(finalColorselected,s);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
+                    tvDone.setClickable(false);
+
+                }*/
+
+                CardActivity.menuChanger(CardActivity.menu, false);
+
+
+
+            }
+        });
+        rOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgOne.setVisibility(View.VISIBLE);
+
+                //     changeVisibility(imgOne);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgOne) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    //   tvDone.setText(rOne.getBackground().toString());
+                    colorselected[0] = "black";
+                    color[0] = Color.TRANSPARENT;
+
+//                        Drawable background = rOne.getBackground();
+//                        if (background instanceof ColorDrawable)
+//                            color = ((ColorDrawable) background).getColor();
+
+                    color[0] = myColorList.get(0);
+                    tvDone.setTextColor(color[0]);
+
+                }
+
+            }
+        });
+
+
+        rTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgTwo.setVisibility(View.VISIBLE);
+                //changeVisibility(imgTwo);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgTwo) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected[0] = "blue";
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rTwo.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+                    //                  color = myColorList.get(1);
+
+                }
+
+            }
+        });
+
+        rThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgThree.setVisibility(View.VISIBLE);
+                //    changeVisibility(imgThree);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgThree) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rThree.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+                    colorselected[0] = "green";
+//                    color = myColorList.get(2);
+
+                }
+
+            }
+        });
+
+        rFour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgFour.setVisibility(View.VISIBLE);
+                //  changeVisibility(imgFour);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgFour) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    color[0] = Color.TRANSPARENT;
+                    colorselected[0] = "red";
+                    Drawable background = rFour.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+//                    color = myColorList.get(3);
+
+                }
+
+            }
+        });
+
+
+        rFive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgFive.setVisibility(View.VISIBLE);
+                //    changeVisibility(imgFive);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgFive) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected[0] = "orange";
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rFive.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+                    color[0] = myColorList.get(4);
+                }
+
+            }
+        });
+
+        rSix.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgSix.setVisibility(View.VISIBLE);
+                //    changeVisibility(imgSix);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgSix) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+
+                    }
+                    colorselected[0] = "yellow";
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rSix.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+                    color[0] = myColorList.get(5);
+                }
+
+            }
+        });
+
+        rSeven.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgSeven.setVisibility(View.VISIBLE);
+                //     changeVisibility(imgSeven);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgSeven) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    color[0] = Color.TRANSPARENT;
+                    colorselected[0] = "sky-blue";
+                    Drawable background = rSeven.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+                    color[0] = myColorList.get(6);
+                }
+
+            }
+        });
+
+        rEight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgEight.setVisibility(View.VISIBLE);
+                //changeVisibility(imgEight);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgEight) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected[0] = "dark-green";
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rEight.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+                    color[0] = myColorList.get(7);
+
+                }
+
+            }
+        });
+        rNine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgNine.setVisibility(View.VISIBLE);
+                //changeVisibility(imgNine);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgNine) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected[0] = "purple";
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rNine.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+
+                    color[0] = myColorList.get(8);
+
+                }
+
+            }
+        });
+        rTen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgTen.setVisibility(View.VISIBLE);
+                //changeVisibility(imgNine);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgTen) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected[0] = "lime";
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rTen.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+
+                    color[0] = myColorList.get(9);
+
+                }
+
+            }
+        });
+        rEleven.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                imgEleven.setVisibility(View.VISIBLE);
+                //changeVisibility(imgNine);
+                for (ImageView layout : images) {
+                    if (layout.getVisibility() == View.VISIBLE && layout != imgEleven) {
+
+                        visibleImages.add(layout);
+                        layout.setVisibility(View.GONE);
+                    }
+                    colorselected[0] = "pink";
+                    color[0] = Color.TRANSPARENT;
+                    Drawable background = rEleven.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color[0] = ((ColorDrawable) background).getColor();
+                    tvDone.setTextColor(color[0]);
+
+                    color[0] = myColorList.get(10);
+
+                }
+
+            }
+        });
+
+        layouts.add(rOne);
+        layouts.add(rTwo);
+        layouts.add(rThree);
+        layouts.add(rFour);
+        layouts.add(rFive);
+        layouts.add(rSix);
+        layouts.add(rSeven);
+        layouts.add(rEight);
+        layouts.add(rNine);
+        layouts.add(rTen);
+        layouts.add(rEleven);
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
+
+
+
+    public  void addLable(final String lablecolor, final String lableText, final AlertDialog alertDialog) {
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.SAVE_NEW_LABELS_CARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        // Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+
+                        updateUI();
+
+                        labelAdd.setVisibility(View.GONE);
+                        rvLabel.setVisibility(View.GONE);
+
+                        rvLabelResult.setVisibility(View.VISIBLE);
+                        alertDialog.dismiss();
+                       // fm.popBackStack();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+//                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+
+                    Toast.makeText(CardActivity.this, "check your internet connection", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(CardActivity.this, "TimeOut eRROR", Toast.LENGTH_SHORT).show();
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("board_id",BoardExtended.boardId);
+                params.put("projectId",BoardExtended.projectId);
+                params.put("card_id",cardId);
+                params.put("label_text",lableText);
+                params.put("label_color",lablecolor);
+                final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
 
     }
 
@@ -918,16 +1613,16 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         final AlertDialog alertDialog = new  AlertDialog.Builder(CardActivity.this).create();
 
         alertDialog.setCancelable(false);
-        final EditText edt = (EditText)customView.findViewById(R.id.input_watever);
-        final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
-        final TextView addCardAndMore= (TextView)customView.findViewById(R.id.btn_add_board1);
-        final TextView headingtv = (TextView)customView.findViewById(R.id.headingTitle);
+        final EditText edt = customView.findViewById(R.id.input_watever);
+        final TextView addCard = customView.findViewById(R.id.btn_add_board);
+        final TextView addCardAndMore= customView.findViewById(R.id.btn_add_board1);
+        final TextView headingtv = customView.findViewById(R.id.headingTitle);
         headingtv.setText("Add CheckList");
         addCard.setText("Save and Close");
         edt.setText(Checklist);
         edt.setSelection(edt.getText().length());
         showKeyBoard(edt);
-        final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
+        final TextView cancel = customView.findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1011,7 +1706,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             unSubscribe();
                         }
                         break;
-                  /*  case 5:
+                    case 5:
                         String label;
                         if(isCardLocked.equals("1")){
                             new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
@@ -1057,12 +1752,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     .show();
                         }
 
-                        break;*/
-                    case 5:
+                        break;
+                    case 6:
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
-                                .setConfirmText("OK").setContentText("Are You sure to Delete Card ?")
+                                .setConfirmText("OK").setContentText("Are you sure you want to delete this card")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
@@ -1080,7 +1775,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                 })
                                 .show();
                         break;
-                    case 6:
+                    case 7:
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
@@ -1112,7 +1807,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Camera.REQUEST_TAKE_PHOTO ) {
+        if (requestCode == Camera.REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
          //   Uri selectedImage = data.getData();
             //  File imageFile = new File(selectedImage.toString());
@@ -1267,9 +1962,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                     uploadFile.delegate = CardActivity.this;
                     uploadFile.execute(path);
 
-                    ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading File ...", true);
+                    /*ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading File ...", true);
                     ringProgressDialog.setCancelable(false);
-                    ringProgressDialog.show();
+                    ringProgressDialog.show();*/
                 }
             }else {
                 Toast.makeText(this,"file not found",Toast.LENGTH_LONG).show();
@@ -1291,7 +1986,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onResponse(String response) {
                 ringProgressDialog.dismiss();
-                LinearLayout linearLayout= (LinearLayout) findViewById(R.id.checkListLayout);
+                LinearLayout linearLayout= findViewById(R.id.checkListLayout);
                 if(!response.equals("false")) {
 
                     try {
@@ -1479,9 +2174,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
         View view = inflater.inflate(R.layout.custom_alertdialog_card_members_layout, null);
         alertDialog = new AlertDialog.Builder(CardActivity.this).create();
-        lvMembers = (ListView) view.findViewById(R.id.membersListView);
-        TextView tvDone1 = (TextView) view.findViewById(R.id.addMember);
-        TextView addNewMember = (TextView) view.findViewById(R.id.assignNewMemberBtn);
+        lvMembers = view.findViewById(R.id.membersListView);
+        TextView tvDone1 = view.findViewById(R.id.addMember);
+        TextView addNewMember = view.findViewById(R.id.assignNewMemberBtn);
           membersAdapter = new AdapterMembers(CardActivity.this, cardMembersPojoList1);
 
         lvMembers.setAdapter(membersAdapter);
@@ -1508,7 +2203,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                addNewMemberDialogue();
+                //addNewMemberDialogue();
 
             }
         });
@@ -1554,42 +2249,323 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     }
 
     private void addNewMemberDialogue() {
+
         LayoutInflater inflater = LayoutInflater.from(CardActivity.this);
-        View view = inflater.inflate(R.layout.custom_alertdialog_add_new_members_layout, null);
-        alertDialog = new AlertDialog.Builder(CardActivity.this).create();
-        cardMembers = (ListView) view.findViewById(R.id.membersListView);
-        TextView done = (TextView) view.findViewById(R.id.done);
+        View view = inflater.inflate(R.layout.magnage_members_popup1,null);
+        final AlertDialog alertDialog = new  AlertDialog.Builder(CardActivity.this).create();
+        currentMember = view.findViewById(R.id.grid_view);
+        //TeamMember = view.findViewById(R.id.grid_view_team);
+       TextView heading = view.findViewById(R.id.heading);
+        heading.setText("Manage Card Member");
+        //Team_list = view.findViewById(R.id.search_team);
+        Button  btnClose= view.findViewById(R.id.close);
+        Button  btnSave= view.findViewById(R.id.save);
 
-
-        cardMembers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                alertDialog.dismiss();
-                addUser(membersPojos.get(i).getUserId());
-                isUpdate = true;
-
-            }
-        });
-
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                updateUI();
                 alertDialog.dismiss();
             }
         });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              updateUI();
+                alertDialog.dismiss();
+                Toast.makeText(CardActivity.this,"Members managed Successfully !",Toast.LENGTH_LONG).show();
 
+            }
+        });
+        currentMember.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                if(membersPojos.get(i).getIsCardMember().equals("1")) {
+                  String  usertoadd = membersPojos.get(i).getUserId();
 
+                    deletemember(usertoadd);
+                }else {
+                   String usertoadd = membersPojos.get(i).getUserId();
+                    addmember(usertoadd);
+                }
 
-        getmembers();
-
+            }
+        });
+        getCardmembers();
         alertDialog.setView(view);
 //
         alertDialog.show();
     }
+    public void getCardmembers() {
 
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.GET_CARD_MEMBERS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        membersPojos = new ArrayList<>();
+                        cardMembers=new ArrayList<>();
+                        if(response.equals("false")){
+                           /* addapter = new team_adapter_cards(getActivity(), membersPojos);
+
+                            currentMember.setAdapter(addapter);*/
+
+                        }else {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    MembersPojo membersPojo = new MembersPojo();
+
+
+                                    membersPojo.setName(jsonObject.getString("first_name"));
+                                    membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
+                                    membersPojo.setUserId(jsonObject.getString("id"));
+                                    membersPojo.setInetial(jsonObject.getString("initials"));
+                                    membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
+                                    cardMembers.add(jsonObject.getString("id"));
+
+                                    //  membersPojos.add(membersPojo);
+/*
+                                    addapter = new team_addapter(getActivity(), membersPojos);
+
+                                    currentMember.setAdapter(addapter);*/
+
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        getmembers();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("card_id", cardId);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+
+
+    }
+    public void addmember(final String usertoadd) {
+
+
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ASSOSIATE_USER_CARD,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        getCardmembers();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("brd_id",boardId);
+                params.put("prjct_id", projectId);
+                params.put("card_id",cardId);
+                params.put("list_id",list_id);
+
+                SharedPreferences pref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+
+                params.put("userId",usertoadd);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+
+
+    }
+    public void deletemember(final String usertoadd) {
+
+
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.DELETE_CARD_MEMBER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        getCardmembers();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(CardActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("user_id", usertoadd);
+                params.put("card_id",cardId);
+                params.put("list_id",list_id);
+
+                SharedPreferences pref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+
+                params.put("userId", pref.getString("user_id", ""));
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(CardActivity.this);
+        requestQueue.add(request);
+
+
+    }
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        this.menu = menu;
+        CardActivity.menu = menu;
 
         menuChanger(menu, false);
         MenuItem DrawerLabel = menu.findItem(R.id.menu);
@@ -2590,12 +3566,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
 
         final Calendar myCurrentDT = Calendar.getInstance();
-        TextView tvCancel = (TextView) customView.findViewById(R.id.tvCancel);
-        TextView tvDone = (TextView) customView.findViewById(R.id.tvDone);
-        spinnerstartDate = (Spinner) customView.findViewById(R.id.spinnerstartDate);
-        spinnerstartTime = (Spinner) customView.findViewById(R.id.spinnerstartTime);
-        spinnerDate = (Spinner) customView.findViewById(R.id.spinnerDate);
-        spinnerTime = (Spinner) customView.findViewById(R.id.spinnerTime);
+        TextView tvCancel = customView.findViewById(R.id.tvCancel);
+        TextView tvDone = customView.findViewById(R.id.tvDone);
+        spinnerstartDate = customView.findViewById(R.id.spinnerstartDate);
+        spinnerstartTime = customView.findViewById(R.id.spinnerstartTime);
+        spinnerDate = customView.findViewById(R.id.spinnerDate);
+        spinnerTime = customView.findViewById(R.id.spinnerTime);
 
 
         // spinnerDate.setEmptyView(nothingSelectedDate);
@@ -2846,8 +3822,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     public void getmembers() {
 
-
-        ringProgressDialog = ProgressDialog.show(this, "", "Please wait ...", true);
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(CardActivity.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
@@ -2858,34 +3834,46 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                         ringProgressDialog.dismiss();
                         membersPojos = new ArrayList<>();
+                        if(response.equals("false")){
+                            addapterCards = new team_adapter_cards(CardActivity.this, membersPojos);
 
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
+                            currentMember.setAdapter(addapterCards);
+
+                        }else {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
 
 
-                            for (int i = 0; i <= jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                MembersPojo membersPojo = new MembersPojo();
+                                    MembersPojo membersPojo = new MembersPojo();
 
 
-                                membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
-                                membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
-                                membersPojo.setUserId(jsonObject.getString("id"));
-                                membersPojo.setInetial(jsonObject.getString("initials"));
+                                    membersPojo.setName(jsonObject.getString("first_name")+" "+jsonObject.getString("last_name"));
+                                    membersPojo.setProfile_pic(jsonObject.getString("profile_pic"));
+                                    membersPojo.setUserId(jsonObject.getString("id"));
+                                    membersPojo.setInetial(jsonObject.getString("initials"));
+                                    membersPojo.setGp_pic(jsonObject.getString("gp_picture"));
+                                    String isCardMember="0";
+                                    for(int j=0;j<cardMembers.size();j++){
+                                        if(jsonObject.getString("id").equals(cardMembers.get(j))){
+                                            isCardMember="1";
+                                        }
+                                    }
+                                    membersPojo.setIsCardMember(isCardMember);
 
-                                membersPojo.setTick("0");
+                                    membersPojos.add(membersPojo);
 
-                                membersPojos.add(membersPojo);
+                                    addapterCards = new team_adapter_cards(CardActivity.this, membersPojos);
 
-                                 AdapterMembers membersAdapter = new AdapterMembers(CardActivity.this, membersPojos);
+                                    currentMember.setAdapter(addapterCards);
+                                }
 
-                                cardMembers.setAdapter(membersAdapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-
 
                     }
                 }, new Response.ErrorListener() {
@@ -2928,7 +3916,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("board_id", BoardExtended.boardId);
+                params.put("board_id", boardId);
 
                 return params;
             }
@@ -3033,11 +4021,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     RVLabelResultAdapter adapter = new RVLabelResultAdapter(Mactivity, listt, asliList,cardLabelsPojoList);
                                     rvLabelResult.setAdapter(adapter);
                                     if(cardLabelsPojoListstat.toArray().length>0){
-                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.labelsLayout);
+                                        LinearLayout linearLayout= findViewById(R.id.labelsLayout);
                                         linearLayout.setVisibility(View.VISIBLE);
                                         labelIcon.setVisibility(View.VISIBLE);
                                     }else {
-                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.labelsLayout);
+                                        LinearLayout linearLayout= findViewById(R.id.labelsLayout);
                                         linearLayout.setVisibility(View.GONE);
                                         labelIcon.setVisibility(View.INVISIBLE);
                                     }
@@ -3083,10 +4071,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     memberAdapter = new RVMemberResultAdapter(Mactivity,cardMembersPojoList1,cardId,list_id,boardId,projectId);
                                     rvMembersResult.setAdapter(memberAdapter);
                                     if(cardMembersPojoList1.toArray().length>0){
-                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.membersLayout);
+                                        LinearLayout linearLayout= findViewById(R.id.membersLayout);
                                         linearLayout.setVisibility(View.VISIBLE);
                                     }else {
-                                        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.membersLayout);
+                                        LinearLayout linearLayout= findViewById(R.id.membersLayout);
                                         linearLayout.setVisibility(View.GONE);
                                     }
                                    /* if(membersAdapter != null)
@@ -3144,13 +4132,13 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                     rvFiles.setAdapter(adapter);
                                 }
                                 if(attachmentsList.toArray().length>0 || attachmentsList1.toArray().length>0){
-                                    LinearLayout linearLayout= (LinearLayout) findViewById(R.id.imageAttachmentLayout);
-                                    LinearLayout linearLayout1= (LinearLayout) findViewById(R.id.filesAttachmentLayout);
+                                    LinearLayout linearLayout= findViewById(R.id.imageAttachmentLayout);
+                                    LinearLayout linearLayout1= findViewById(R.id.filesAttachmentLayout);
                                     linearLayout.setVisibility(View.VISIBLE);
                                     linearLayout1.setVisibility(View.VISIBLE);
                                 }else {
-                                    LinearLayout linearLayout= (LinearLayout) findViewById(R.id.imageAttachmentLayout);
-                                    LinearLayout linearLayout1= (LinearLayout) findViewById(R.id.filesAttachmentLayout);
+                                    LinearLayout linearLayout= findViewById(R.id.imageAttachmentLayout);
+                                    LinearLayout linearLayout1= findViewById(R.id.filesAttachmentLayout);
                                     linearLayout.setVisibility(View.GONE);
                                     linearLayout1.setVisibility(View.GONE);
                                 }
@@ -4154,8 +5142,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onResponse(String response) {
                 // loading.dismiss();
-
-                ringProgressDialog.dismiss();
+                progressBar.dismiss();
+               // ringProgressDialog.dismiss();
                 if (!(response.equals(""))) {
                     ringProgressDialog.dismiss();
                     getCardList();
@@ -4170,7 +5158,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //   loading.dismiss();
-                ringProgressDialog.dismiss();
+               // ringProgressDialog.dismiss();
+                progressBar.dismiss();
                 String message = null;
                 if (error instanceof NoConnectionError) {
 
@@ -4232,12 +5221,12 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         alertDialog.show();
 
         Button cancel, copy;
-        final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
+        final EditText etCardName= customView.findViewById(R.id.etCardName);
         etCardName.setText(CardHeading);
         etCardName.setSelection(etCardName.getText().length());
         showKeyBoard(etCardName);
-        copy = (Button) customView.findViewById(R.id.copy);
-        cancel = (Button) customView.findViewById(R.id.close);
+        copy = customView.findViewById(R.id.copy);
+        cancel = customView.findViewById(R.id.close);
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -4386,24 +5375,24 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         TextView cancel, copy;
 
-        heading = (TextView) customView.findViewById(R.id.heading);
-        boardHeading= (TextView) customView.findViewById(R.id.boardLabel);
-        listHeading= (TextView) customView.findViewById(R.id.listLabel);
-        etTitleCopyCard= (EditText) customView.findViewById(R.id.etTitle);
+        heading = customView.findViewById(R.id.heading);
+        boardHeading= customView.findViewById(R.id.boardLabel);
+        listHeading= customView.findViewById(R.id.listLabel);
+        etTitleCopyCard= customView.findViewById(R.id.etTitle);
         etTitleCopyCard.setText(CardHeading);
         etTitleCopyCard.setSelection(etTitleCopyCard.getText().length());
         showKeyBoard(etTitleCopyCard);
-        Projects=(Spinner) customView.findViewById(R.id.projectSpinner);
-        boardSpinner= (Spinner) customView.findViewById(R.id.boardSpinner);
-        listSpinner= (Spinner) customView.findViewById(R.id.listSpinner);
-        positionSpinner= (Spinner) customView.findViewById(R.id.positionSpinner);
-        checklistcb= (CheckBox) customView.findViewById(R.id.checklistcb);
-        labelcb= (CheckBox) customView.findViewById(R.id.labelcb);
-        attachmentcb= (CheckBox) customView.findViewById(R.id.attachmentcb);
-        membercb= (CheckBox) customView.findViewById(R.id.memberscb);
+        Projects= customView.findViewById(R.id.projectSpinner);
+        boardSpinner= customView.findViewById(R.id.boardSpinner);
+        listSpinner= customView.findViewById(R.id.listSpinner);
+        positionSpinner= customView.findViewById(R.id.positionSpinner);
+        checklistcb= customView.findViewById(R.id.checklistcb);
+        labelcb= customView.findViewById(R.id.labelcb);
+        attachmentcb= customView.findViewById(R.id.attachmentcb);
+        membercb= customView.findViewById(R.id.memberscb);
         setupUI(customView.findViewById(R.id.relativelayout),etTitleCopyCard);
-        copy = (TextView) customView.findViewById(R.id.copy);
-        cancel = (TextView) customView.findViewById(R.id.close);
+        copy = customView.findViewById(R.id.copy);
+        cancel = customView.findViewById(R.id.close);
 
 
         //getSpinnerData();
@@ -4539,16 +5528,16 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         TextView cancel, copy;
 
-        heading = (TextView) customView.findViewById(R.id.heading);
-        boardHeading= (TextView) customView.findViewById(R.id.boardLabel);
-        listHeading= (TextView) customView.findViewById(R.id.listLabel);
+        heading = customView.findViewById(R.id.heading);
+        boardHeading= customView.findViewById(R.id.boardLabel);
+        listHeading= customView.findViewById(R.id.listLabel);
 
-        boardSpinner= (Spinner) customView.findViewById(R.id.boardSpinner);
-        Projects= (Spinner) customView.findViewById(R.id.projectSpinner);
-        listSpinner= (Spinner) customView.findViewById(R.id.listSpinner);
-        positionSpinner= (Spinner) customView.findViewById(R.id.positionSpinner);
-        copy = (TextView) customView.findViewById(R.id.copy);
-        cancel = (TextView) customView.findViewById(R.id.close);
+        boardSpinner= customView.findViewById(R.id.boardSpinner);
+        Projects= customView.findViewById(R.id.projectSpinner);
+        listSpinner= customView.findViewById(R.id.listSpinner);
+        positionSpinner= customView.findViewById(R.id.positionSpinner);
+        copy = customView.findViewById(R.id.copy);
+        cancel = customView.findViewById(R.id.close);
 
 
         //getSpinnerData();
@@ -5097,11 +6086,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     }
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
     public String uploadFile(final String selectedFilePath,File file) throws IOException {
 
@@ -5290,7 +6276,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
     @Override
     public void processFinish(String output) {
-
+        /*ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading File ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();*/
        // ringProgressDialog.dismiss();
         if(output.equals("200"))
         {
@@ -5306,7 +6294,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }
         else
         {
-            ringProgressDialog.dismiss();
+            progressBar.dismiss();
+           // ringProgressDialog.dismiss();
             Toast.makeText(mcontext, "upload error", Toast.LENGTH_SHORT).show();
 
         }
@@ -5385,7 +6374,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         requestQueue.add(request);
     }
 
-    static class  UploadFile extends AsyncTask<String,Void,String>
+    static class  UploadFile extends AsyncTask<String,Integer,String> implements RecoverySystem.ProgressListener
     {
         public callBack delegate = null;
         private String upLoadServerUri = null;
@@ -5395,8 +6384,23 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         @Override
         protected void onPreExecute() {
 
-
+            progressBar = new ProgressDialog(activity);
+            progressBar.setCancelable(true);
+            progressBar.setMessage("File uploading ...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressBar.setProgress(0);
+            progressBar.setSecondaryProgress(100);
+            progressBar.setMax(100);
+            progressBar.show();
             super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]);
+            progressBar.setSecondaryProgress(values[0]);
+          //  super.onProgressUpdate(values);
         }
 
         @Override
@@ -5412,7 +6416,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             byte[] buffer;
             int maxBufferSize = 1 * 1024 * 1024;
             File sourceFile = new File(fileName);
-
+            long filesize=sourceFile.length();
+            filesize = filesize / 1024;
 
             if (!sourceFile.isFile()) {
 
@@ -5457,14 +6462,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
                     // read file and write it into form...
                     bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
+                    long total = 0;
                     while (bytesRead > 0) {
-
+                        total += bytesRead;
                         dos.write(buffer, 0, bufferSize);
                         bytesAvailable = fileInputStream.available();
                         bufferSize = Math.min(bytesAvailable, maxBufferSize);
                         bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
+                        long dataUploaded = ((total / 1024) * 100 ) /filesize ;
+                        publishProgress((int) dataUploaded);
                     }
 
                     // send multipart form data necesssary after file data...
@@ -5505,12 +6511,17 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 return serverResponseCode+"";
             }
         }
-
+        
         @Override
         protected void onPostExecute(String s) {
             delegate.processFinish(s);
+            progressBar.dismiss();
         }
 
+        @Override
+        public void onProgress(int progress) {
+            progressBar.setProgress(progress);
+        }
     }
 }
 

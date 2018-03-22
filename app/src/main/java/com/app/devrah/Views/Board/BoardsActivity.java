@@ -147,13 +147,13 @@ public class BoardsActivity extends AppCompatActivity {
         ptitle=projectTitle;
         status = intent.getStringExtra("status");
         pstatus=status;
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerList = findViewById(R.id.left_drawer);
 //      drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 //      GravityCompat.START);
 
 
-        toolbar = (Toolbar) findViewById(R.id.header);
+        toolbar = findViewById(R.id.header);
         toolbar.setTitle(projectTitle);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
        /* final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
@@ -228,7 +228,7 @@ public class BoardsActivity extends AppCompatActivity {
         logo = getLayoutInflater().inflate(R.layout.search_bar, null);
         toolbar.addView(logo);
         logo.setVisibility(View.INVISIBLE);
-        edtSeach = (EditText) toolbar.findViewById(R.id.edtSearch);
+        edtSeach = toolbar.findViewById(R.id.edtSearch);
         toolbar.inflateMenu(R.menu.search_menu);
 
         openDrawer();
@@ -259,7 +259,7 @@ public class BoardsActivity extends AppCompatActivity {
                       //  Toast.makeText(getApplicationContext(), "Menu", Toast.LENGTH_LONG).show();
                         return true;
                     case R.id.tick:
-                        final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                        final TextView tv = toolbar.findViewById(R.id.toolbar_title);
                         String check=tv.getText().toString();
                         if(!check.equals("")) {
                             tv.clearFocus();
@@ -285,7 +285,7 @@ public class BoardsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(Cancelbtn){
-                    final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+                    final TextView tv = toolbar.findViewById(R.id.toolbar_title);
                     tv.setText(projectTitle);
                     tv.clearFocus();
                     tv.setCursorVisible(false);
@@ -316,10 +316,10 @@ public class BoardsActivity extends AppCompatActivity {
         });
 
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         setupTabIcons();
@@ -514,7 +514,7 @@ public class BoardsActivity extends AppCompatActivity {
             handleMenuSearch();
             return;
         } else if (isEditOpened) {
-            final TextView tv = (TextView) toolbar.findViewById(R.id.toolbar_title);
+            final TextView tv = toolbar.findViewById(R.id.toolbar_title);
             tv.clearFocus();
             tv.setCursorVisible(false);
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -554,15 +554,15 @@ public class BoardsActivity extends AppCompatActivity {
         alertDialog.show();
 
         TextView cancel, copy;
-        final EditText etCardName= (EditText) customView.findViewById(R.id.etCardName);
-        final TextView tvheading= (TextView) customView.findViewById(R.id.heading);
+        final EditText etCardName= customView.findViewById(R.id.etCardName);
+        final TextView tvheading= customView.findViewById(R.id.heading);
         tvheading.setText("Update Project Name");
         etCardName.setText(projectTitle);
         etCardName.setSelection(etCardName.getText().length());
         showKeyBoard(etCardName);
 
-        copy = (TextView) customView.findViewById(R.id.copy);
-        cancel = (TextView) customView.findViewById(R.id.close);
+        copy = customView.findViewById(R.id.copy);
+        cancel = customView.findViewById(R.id.close);
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -601,8 +601,8 @@ public class BoardsActivity extends AppCompatActivity {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.putExtra("bid",boardId);
         intent.putExtra("pos",position);
-        this.boardId=boardId;
-        this.position=position;
+        BoardsActivity.boardId =boardId;
+        BoardsActivity.position =position;
         startActivityForResult(intent, 2);
     }
     public void uploadImage1(String boardId,String projectId,int position){
@@ -610,13 +610,13 @@ public class BoardsActivity extends AppCompatActivity {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.putExtra("bid",boardId);
         intent.putExtra("pos",position);
-        this.boardId=boardId;
-        this.position=position;
+        BoardsActivity.boardId =boardId;
+        BoardsActivity.position =position;
         startActivityForResult(intent, 3);
     }
     public void data(String boardId,int position){
-        this.boardId=boardId;
-        this.position=position;
+        BoardsActivity.boardId =boardId;
+        BoardsActivity.position =position;
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -913,10 +913,10 @@ public class BoardsActivity extends AppCompatActivity {
         wmlp.gravity = Gravity.END;
         alertDialog.setView(customView);
         alertDialog.show();
-        final TextView heading= (TextView) customView.findViewById(R.id.header);
-        final ImageView backBtn= (ImageView) customView.findViewById(R.id.backBtnCalender);
-        compactCalendarView = (CompactCalendarView)customView.findViewById(R.id.compactcalendar_view);
-        lv= (ListView) customView.findViewById(R.id.listView);
+        final TextView heading= customView.findViewById(R.id.header);
+        final ImageView backBtn= customView.findViewById(R.id.backBtnCalender);
+        compactCalendarView = customView.findViewById(R.id.compactcalendar_view);
+        lv= customView.findViewById(R.id.listView);
         // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
         // Use constants provided by Java Calendar class
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
@@ -1446,15 +1446,15 @@ public class BoardsActivity extends AppCompatActivity {
         final ImageView imgactive, igminactive, imgcomplete,crossIcon;
 
 
-        active = (Switch) customView.findViewById(R.id.active);
-        inactive = (Switch) customView.findViewById(R.id.inactive);
-        complete = (Switch) customView.findViewById(R.id.completed);
+        active = customView.findViewById(R.id.active);
+        inactive = customView.findViewById(R.id.inactive);
+        complete = customView.findViewById(R.id.completed);
 
 
         /*imgactive = (ImageView) customView.findViewById(R.id.activeimg);
         igminactive = (ImageView) customView.findViewById(R.id.inactiveimg);
         imgcomplete = (ImageView) customView.findViewById(R.id.complete);*/
-        crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
+        crossIcon = customView.findViewById(R.id.crossIcon);
         crossIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1541,13 +1541,13 @@ public class BoardsActivity extends AppCompatActivity {
         TextView cancel, copy;
         final EditText ettitle;
 
-        heading = (TextView) customView.findViewById(R.id.heading);
-        headingTitle = (TextView) customView.findViewById(R.id.title);
-        sub = (TextView) customView.findViewById(R.id.sub_heading);
-        ettitle = (EditText) customView.findViewById(R.id.etTitle);
-        project_groups = (Spinner) customView.findViewById(R.id.projects_group);
-        copy = (TextView) customView.findViewById(R.id.copy);
-        cancel = (TextView) customView.findViewById(R.id.close);
+        heading = customView.findViewById(R.id.heading);
+        headingTitle = customView.findViewById(R.id.title);
+        sub = customView.findViewById(R.id.sub_heading);
+        ettitle = customView.findViewById(R.id.etTitle);
+        project_groups = customView.findViewById(R.id.projects_group);
+        copy = customView.findViewById(R.id.copy);
+        cancel = customView.findViewById(R.id.close);
         ettitle.setText(toolbar.getTitle());
         ettitle.setSelection(toolbar.getTitle().length());
         if (action.equals("copy"))

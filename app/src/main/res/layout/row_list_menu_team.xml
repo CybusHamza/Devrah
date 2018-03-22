@@ -13,7 +13,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="12dp"
-    android:layout_marginRight="12dp"
+    android:layout_marginRight="42dp"
     android:gravity="center_vertical"
    android:maxLines="6"
     android:ellipsize="marquee"
@@ -21,7 +21,15 @@
     android:textColor="#fff"
     android:textSize="13sp"
     android:fontFamily="@string/monoSapce"/>
-
+    <ImageView
+        android:id="@+id/editIcon"
+        android:layout_width="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_height="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/edit_icon_white"
+        />
     <TextView
         android:id="@+id/tvProjectsData"
         android:layout_width="match_parent"

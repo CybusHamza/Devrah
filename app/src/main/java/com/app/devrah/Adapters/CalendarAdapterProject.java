@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
@@ -46,6 +45,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -105,7 +105,6 @@ public class CalendarAdapterProject extends BaseAdapter implements View.OnTouchL
         return position;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 

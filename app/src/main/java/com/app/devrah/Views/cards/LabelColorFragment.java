@@ -7,9 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -81,7 +86,6 @@ public class LabelColorFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     public static LabelColorFragment newInstance(String param1, String param2) {
         LabelColorFragment fragment = new LabelColorFragment();
         Bundle args = new Bundle();
@@ -110,7 +114,7 @@ public class LabelColorFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
@@ -143,50 +147,62 @@ public class LabelColorFragment extends Fragment {
         images = new ArrayList<>();
         layouts = new ArrayList<>();
         visibleImages = new ArrayList<>();
-        View view = inflater.inflate(R.layout.fragment_color_fragment, container, false);
+        final View view = inflater.inflate(R.layout.fragment_color_fragment, container, false);
 
-        tvDone = (TextView) view.findViewById(R.id.doneLabelName);
-        tvDelete = (TextView) view.findViewById(R.id.tvDelete);
-        etLabelName = (EditText) view.findViewById(R.id.etLabelName);
-        tvCancel = (TextView) view.findViewById(R.id.tvCancel);
 
-        rOne = (RelativeLayout) view.findViewById(R.id.rvOne);
+
+
+        return view;
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tvDone = view.findViewById(R.id.doneLabelName);
+        tvDelete = view.findViewById(R.id.tvDelete);
+        etLabelName = view.findViewById(R.id.etLabelName);
+
+        tvCancel = view.findViewById(R.id.tvCancel);
+
+        rOne = view.findViewById(R.id.rvOne);
         rOne.setBackgroundColor(myColorList.get(0));
-        rTwo = (RelativeLayout) view.findViewById(R.id.relativeLayout2);
+        rTwo = view.findViewById(R.id.relativeLayout2);
         rTwo.setBackgroundColor(myColorList.get(1));
-        rThree = (RelativeLayout) view.findViewById(R.id.relativeLayout3);
+        rThree = view.findViewById(R.id.relativeLayout3);
         rThree.setBackgroundColor(myColorList.get(2));
-        rFour = (RelativeLayout) view.findViewById(R.id.relativeLayout4);
+        rFour = view.findViewById(R.id.relativeLayout4);
         rFour.setBackgroundColor(myColorList.get(3));
-        rFive = (RelativeLayout) view.findViewById(R.id.relativeLayout5);
+        rFive = view.findViewById(R.id.relativeLayout5);
         rFive.setBackgroundColor(myColorList.get(4));
-        rSix = (RelativeLayout) view.findViewById(R.id.relativeLayout6);
+        rSix = view.findViewById(R.id.relativeLayout6);
         rSix.setBackgroundColor(myColorList.get(5));
-        rSeven = (RelativeLayout) view.findViewById(R.id.relativeLayout7);
+        rSeven = view.findViewById(R.id.relativeLayout7);
         rSeven.setBackgroundColor(myColorList.get(6));
-        rNine = (RelativeLayout) view.findViewById(R.id.relativeLayout9);
+        rNine = view.findViewById(R.id.relativeLayout9);
         rNine.setBackgroundColor(myColorList.get(8));
-        rEight = (RelativeLayout) view.findViewById(R.id.relativeLayout8);
+        rEight = view.findViewById(R.id.relativeLayout8);
         rEight.setBackgroundColor(myColorList.get(7));
-        rTen = (RelativeLayout) view.findViewById(R.id.relativeLayout10);
+        rTen = view.findViewById(R.id.relativeLayout10);
         rTen.setBackgroundColor(myColorList.get(9));
-        rEleven = (RelativeLayout) view.findViewById(R.id.relativeLayout11);
+        rEleven = view.findViewById(R.id.relativeLayout11);
         rEleven.setBackgroundColor(myColorList.get(10));
 
-        imgOne = (ImageView) view.findViewById(R.id.img_one);
+        imgOne = view.findViewById(R.id.img_one);
 
-        imgTwo = (ImageView) view.findViewById(R.id.img2);
+        imgTwo = view.findViewById(R.id.img2);
 
-        imgThree = (ImageView) view.findViewById(R.id.img3);
-        imgFour = (ImageView) view.findViewById(R.id.img4);
-        imgFive = (ImageView) view.findViewById(R.id.img5);
-        imgSix = (ImageView) view.findViewById(R.id.img6);
-        imgSeven = (ImageView) view.findViewById(R.id.img7);
-        imgEight = (ImageView) view.findViewById(R.id.img8);
+        imgThree = view.findViewById(R.id.img3);
+        imgFour = view.findViewById(R.id.img4);
+        imgFive = view.findViewById(R.id.img5);
+        imgSix = view.findViewById(R.id.img6);
+        imgSeven = view.findViewById(R.id.img7);
+        imgEight = view.findViewById(R.id.img8);
 
-        imgNine = (ImageView) view.findViewById(R.id.img9);
-        imgTen = (ImageView) view.findViewById(R.id.img10);
-        imgEleven = (ImageView) view.findViewById(R.id.img11);
+        imgNine = view.findViewById(R.id.img9);
+        imgTen = view.findViewById(R.id.img10);
+        imgEleven = view.findViewById(R.id.img11);
 
         if (flag == 5) {
             tvDelete.setVisibility(View.VISIBLE);
@@ -202,108 +218,108 @@ public class LabelColorFragment extends Fragment {
 
                 if(RVLabelAdapter.index != -1)
                 {
-                switch (i) {
+                    switch (i) {
 
-                    case 0: {
+                        case 0: {
 
-                        imgOne.setVisibility(View.VISIBLE);
-                        selectedImageView = imgOne;
-                        colorselected = "black";
-                        break;
+                            imgOne.setVisibility(View.VISIBLE);
+                            selectedImageView = imgOne;
+                            colorselected = "black";
+                            break;
 
+                        }
+
+
+                        case 1: {
+
+                            imgTwo.setVisibility(View.VISIBLE);
+                            selectedImageView = imgTwo;
+                            colorselected = "blue";
+                            break;
+
+                        }
+
+                        case 2: {
+
+                            imgThree.setVisibility(View.VISIBLE);
+                            selectedImageView = imgThree;
+                            colorselected = "green";
+                            break;
+
+                        }
+                        case 3: {
+
+                            imgFour.setVisibility(View.VISIBLE);
+                            selectedImageView = imgFour;
+                            colorselected = "red";
+                            break;
+
+                        }
+
+                        case 4: {
+
+                            imgFive.setVisibility(View.VISIBLE);
+                            selectedImageView = imgFive;
+
+                            colorselected = "orange";
+                            break;
+
+                        }
+                        case 5: {
+
+                            imgSix.setVisibility(View.VISIBLE);
+                            selectedImageView = imgSix;
+                            colorselected = "yellow";
+                            break;
+
+                        }
+
+                        case 6: {
+
+                            imgSeven.setVisibility(View.VISIBLE);
+                            //  imgSeven.setVisibility(View.VISIBLE);
+                            selectedImageView = imgSeven;
+                            colorselected = "sky-blue";
+                            break;
+
+                        }
+                        case 7: {
+
+                            imgEight.setVisibility(View.VISIBLE);
+                            selectedImageView = imgEight;
+                            colorselected = "green";
+
+                            break;
+
+                        }
+                        case 8: {
+
+                            imgNine.setVisibility(View.VISIBLE);
+                            selectedImageView = imgNine;
+                            colorselected = "purple";
+
+                            break;
+
+                        }
+                        case 9: {
+
+                            imgTen.setVisibility(View.VISIBLE);
+                            selectedImageView = imgTen;
+                            colorselected = "lime";
+
+                            break;
+
+                        }
+                        case 10: {
+
+                            imgEleven.setVisibility(View.VISIBLE);
+                            selectedImageView = imgEleven;
+                            colorselected = "pink";
+
+                            break;
+
+                        }
                     }
-
-
-                    case 1: {
-
-                        imgTwo.setVisibility(View.VISIBLE);
-                        selectedImageView = imgTwo;
-                        colorselected = "blue";
-                        break;
-
-                    }
-
-                    case 2: {
-
-                        imgThree.setVisibility(View.VISIBLE);
-                        selectedImageView = imgThree;
-                        colorselected = "green";
-                        break;
-
-                    }
-                    case 3: {
-
-                        imgFour.setVisibility(View.VISIBLE);
-                        selectedImageView = imgFour;
-                           colorselected = "red";
-                        break;
-
-                    }
-
-                    case 4: {
-
-                        imgFive.setVisibility(View.VISIBLE);
-                        selectedImageView = imgFive;
-
-                        colorselected = "orange";
-                        break;
-
-                    }
-                    case 5: {
-
-                        imgSix.setVisibility(View.VISIBLE);
-                        selectedImageView = imgSix;
-                        colorselected = "yellow";
-                        break;
-
-                    }
-
-                    case 6: {
-
-                        imgSeven.setVisibility(View.VISIBLE);
-                        //  imgSeven.setVisibility(View.VISIBLE);
-                        selectedImageView = imgSeven;
-                        colorselected = "sky-blue";
-                        break;
-
-                    }
-                    case 7: {
-
-                        imgEight.setVisibility(View.VISIBLE);
-                        selectedImageView = imgEight;
-                        colorselected = "green";
-
-                        break;
-
-                    }
-                    case 8: {
-
-                        imgNine.setVisibility(View.VISIBLE);
-                        selectedImageView = imgNine;
-                        colorselected = "purple";
-
-                        break;
-
-                    }
-                    case 9: {
-
-                        imgTen.setVisibility(View.VISIBLE);
-                        selectedImageView = imgTen;
-                        colorselected = "lime";
-
-                        break;
-
-                    }
-                    case 10: {
-
-                        imgEleven.setVisibility(View.VISIBLE);
-                        selectedImageView = imgEleven;
-                        colorselected = "pink";
-
-                        break;
-
-                    }
-                }
 
                 }
 
@@ -341,7 +357,6 @@ public class LabelColorFragment extends Fragment {
 
 
             }
-
 //                tvDone.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -379,11 +394,51 @@ public class LabelColorFragment extends Fragment {
         images.add(imgEleven);
 
 
+
+
+        tvDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // color;
+                //   Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+                String s = etLabelName.getText().toString();
+//
+                if(colorselected==null || colorselected.equals("")){
+                    Toast.makeText(getActivity(),"Please Select label!",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(RVLabelAdapter.index == -1)
+                {
+                    addLable(colorselected,s);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
+                    tvDone.setClickable(false);
+                }
+                else
+                {
+                    updateLAble(colorselected,s);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
+                    tvDone.setClickable(false);
+
+                }
+
+                CardActivity.menuChanger(CardActivity.menu, false);
+
+
+
+            }
+        });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         rOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 imgOne.setVisibility(View.VISIBLE);
+
                 //     changeVisibility(imgOne);
                 for (ImageView layout : images) {
                     if (layout.getVisibility() == View.VISIBLE && layout != imgOne) {
@@ -668,45 +723,6 @@ public class LabelColorFragment extends Fragment {
         layouts.add(rNine);
         layouts.add(rTen);
         layouts.add(rEleven);
-
-        tvDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // color;
-             //   Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
-                String s = etLabelName.getText().toString();
-//
-                if(colorselected==null || colorselected.equals("")){
-                    Toast.makeText(getActivity(),"Please Select label!",Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(RVLabelAdapter.index == -1)
-                {
-                    addLable(colorselected,s);
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
-                    tvDone.setClickable(false);
-                }
-                else
-                {
-                    updateLAble(colorselected,s);
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(etLabelName.getWindowToken(), 0);
-                    tvDone.setClickable(false);
-
-                }
-
-                CardActivity.menuChanger(CardActivity.menu, false);
-
-
-
-            }
-        });
-
-
-        return view;
-
-
     }
 
     public  void updateLAble(final String lablecolor, final String lableText) {
@@ -786,6 +802,7 @@ public class LabelColorFragment extends Fragment {
         requestQueue.add(request);
 
     }
+
 
     public  void addLable(final String lablecolor, final String lableText) {
         StringRequest request = new StringRequest(Request.Method.POST, End_Points.SAVE_NEW_LABELS_CARD,

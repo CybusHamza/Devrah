@@ -25,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class team_adapter_cards extends BaseAdapter {
 
     Activity activity;
-    ArrayList<MembersPojo> memberssList;
+    private ArrayList<MembersPojo> memberssList;
     private LayoutInflater inflater;
 
 
@@ -60,10 +60,10 @@ public class team_adapter_cards extends BaseAdapter {
         if (view == null)
             view = inflater.inflate(R.layout.card_member_grid_view, null);
 
-        holder.name = (TextView) view.findViewById(R.id.alias);
-        holder.alias_img = (TextView) view.findViewById(R.id.alias_img);
-        holder.imgProfile = (CircleImageView) view.findViewById(R.id.img);
-        holder.tick = (ImageView) view.findViewById(R.id.tickMember);
+        holder.name = view.findViewById(R.id.alias);
+        holder.alias_img = view.findViewById(R.id.alias_img);
+        holder.imgProfile = view.findViewById(R.id.img);
+        holder.tick = view.findViewById(R.id.tickMember);
 
         MembersPojo membersPojo = memberssList.get(i);
 
@@ -93,10 +93,8 @@ public class team_adapter_cards extends BaseAdapter {
         }else {
             holder.tick.setVisibility(View.GONE);
         }
-
         return view;
     }
-
     public static class ViewHolder{
         TextView name,alias_img ;
         CircleImageView imgProfile;
