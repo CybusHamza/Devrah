@@ -18,4 +18,6 @@
     <dimen name="attachment_popup_width">345dp</dimen>
     <dimen name="attachment_popup_height">300dp</dimen>
     <item name="testlist" type="dimen" format="float">0.55</item>
+    <dimen name="plus_button_width">80dp</dimen>
+    <dimen name="plus_button_height">80dp</dimen>
 </resources>

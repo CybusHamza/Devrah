@@ -119,12 +119,12 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_work_board, container, false);
-        lvWBoard = (ListView)view.findViewById(R.id.lvRBoard);
-        addBoard = (Button)view.findViewById(R.id.buttonAddRBoard);
-        search = (ImageView)view.findViewById(R.id.searchBar);
-        etSearch = (EditText)view.findViewById(R.id.etSearchWBoard);
-        tvWorkBoard = (TextView)view.findViewById(R.id.tvReferenceBoard);
-        mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        lvWBoard = view.findViewById(R.id.lvRBoard);
+        addBoard = view.findViewById(R.id.buttonAddRBoard);
+        search = view.findViewById(R.id.searchBar);
+        etSearch = view.findViewById(R.id.etSearchWBoard);
+        tvWorkBoard = view.findViewById(R.id.tvReferenceBoard);
+        mySwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         //   spinnerValues = new String[]{};
         mySwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -147,7 +147,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         projectid = bundle.getString("pid");
 
         search.setOnClickListener(this);
-        edtSeach = (EditText) getActivity().findViewById(R.id.edtSearch);
+        edtSeach = getActivity().findViewById(R.id.edtSearch);
 
         edtSeach.addTextChangedListener(new TextWatcher() {
             @Override
@@ -276,10 +276,10 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
         final AlertDialog alertDialog = new  AlertDialog.Builder(getContext()).create();
 
             alertDialog.setCancelable(false);
-        edt = (EditText)customView.findViewById(R.id.input_watever);
+        edt = customView.findViewById(R.id.input_watever);
         showKeyBoard(edt);
-        final TextView addCard = (TextView)customView.findViewById(R.id.btn_add_board);
-        final TextView addBoardAndMore = (TextView)customView.findViewById(R.id.btn_add_board1);
+        final TextView addCard = customView.findViewById(R.id.btn_add_board);
+        final TextView addBoardAndMore = customView.findViewById(R.id.btn_add_board1);
         addBoardAndMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -303,7 +303,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
                 }
             }
         });
-        final TextView cancel = (TextView)customView.findViewById(R.id.btn_cancel);
+        final TextView cancel = customView.findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -456,7 +456,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -544,7 +544,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
 
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("image", b64);
                 map.put("name", dateAndTime);
@@ -620,7 +620,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("board_id", boardid);
@@ -742,7 +742,7 @@ public class WorkBoard extends Fragment implements View.OnClickListener {
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);

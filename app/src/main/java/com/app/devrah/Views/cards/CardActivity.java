@@ -261,6 +261,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     ArrayList<String> cardMembers;
     ArrayList<MembersPojo> membersPojos;
     team_adapter_cards addapterCards;
+    static int totalSelectedFiles=0;
+    Intent selectedData=null;
+    static int countUploaded=0;
     public static void showLabelsMenu() {
 
 
@@ -713,7 +716,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                             Intent intent = new Intent();
                             intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
-                           // intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                             //   intent.setSelector(Intent.getIntent().removeCategory(););
 
                             startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
@@ -1757,7 +1760,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
-                                .setConfirmText("OK").setContentText("Are you sure you want to delete this card")
+                                .setConfirmText("OK").setContentText("Are you sure you want to delete this card \n")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
@@ -1779,7 +1782,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Alert!")
                                 .setCancelText("Cancel")
-                                .setConfirmText("OK").setContentText("Do you really want to leave card "+CardHeading)
+                                .setConfirmText("OK").setContentText("Do you really want to leave card "+CardHeading+"\n")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
@@ -1807,6 +1810,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        totalSelectedFiles=0;
+        selectedData=null;
+        countUploaded=0;
         if (requestCode == Camera.REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
          //   Uri selectedImage = data.getData();
@@ -1943,32 +1949,69 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         if (requestCode == 2 && resultCode == RESULT_OK) {
             //Bitmap photo = (Bitmap) data.getData().getPath();
 
-            Uri selectedImageUri = data.getData();
-            Bitmap bitmap=BitmapFactory.decodeFile(imagepath);
+            Uri selectedImageUri=null;
+            if(null != data.getClipData()) { // checking multiple selection or not
+                totalSelectedFiles=data.getClipData().getItemCount();
+                selectedData=data;
 
-            String path = "";
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                path  = getPath(CardActivity.this, selectedImageUri);
-            }
+              //  for(int i = 0; i < data.getClipData().getItemCount(); i++) {
+                     selectedImageUri =data.getClipData().getItemAt(0).getUri();
+                    Bitmap bitmap=BitmapFactory.decodeFile(imagepath);
 
-            if(path!=null && !path.equals("")) {
-                if(path.contains(".mp4")){
-                    Toast.makeText(activity,"File format is not supported",Toast.LENGTH_LONG).show();
-                }else {
-                    fileName = path.split("/");
-                    file = fileName[fileName.length - 1];
+                    String path = "";
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        path  = getPath(CardActivity.this, selectedImageUri);
+                    }
 
-                    UploadFile uploadFile = new UploadFile();
-                    uploadFile.delegate = CardActivity.this;
-                    uploadFile.execute(path);
+                    if(path!=null && !path.equals("")) {
+                        if(path.contains(".mp4")){
+                            Toast.makeText(activity,"File format is not supported",Toast.LENGTH_LONG).show();
+                        }else {
+                            fileName = path.split("/");
+                            file = fileName[fileName.length - 1];
+
+                            UploadFile uploadFile = new UploadFile();
+                            uploadFile.delegate = CardActivity.this;
+                            uploadFile.execute(path);
+                            countUploaded++;
 
                     /*ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading File ...", true);
                     ringProgressDialog.setCancelable(false);
                     ringProgressDialog.show();*/
+                        }
+                    }else {
+                        Toast.makeText(this,"file not found",Toast.LENGTH_LONG).show();
+                    }
+               // }
+            } else {
+                 selectedImageUri = data.getData();
+                Bitmap bitmap=BitmapFactory.decodeFile(imagepath);
+
+                String path = "";
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    path  = getPath(CardActivity.this, selectedImageUri);
                 }
-            }else {
-                Toast.makeText(this,"file not found",Toast.LENGTH_LONG).show();
+
+                if(path!=null && !path.equals("")) {
+                    if(path.contains(".mp4")){
+                        Toast.makeText(activity,"File format is not supported",Toast.LENGTH_LONG).show();
+                    }else {
+                        fileName = path.split("/");
+                        file = fileName[fileName.length - 1];
+
+                        UploadFile uploadFile = new UploadFile();
+                        uploadFile.delegate = CardActivity.this;
+                        uploadFile.execute(path);
+
+                    /*ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading File ...", true);
+                    ringProgressDialog.setCancelable(false);
+                    ringProgressDialog.show();*/
+                    }
+                }else {
+                    Toast.makeText(this,"file not found",Toast.LENGTH_LONG).show();
+                }
             }
+
 
 
         }
@@ -4059,14 +4102,15 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                                         cardMembersPojoList1.add(membersPojo);
                                     }
                                     if(isMember.equals("1")){
-                                      if(dataList.size()==5){
+                                      if(dataList.size()==6){
                                             dataList.add(new DrawerPojo("Leave Card"));
                                         }
                                     }
                                     else {
-                                        if(dataList.size()==6)
-                                        dataList.remove(5);
+                                        if(dataList.size()==7)
+                                        dataList.remove(6);
                                     }
+                                    DrawerAdapter.notifyDataSetChanged();
                                    rvMembersResult.setLayoutManager(new LinearLayoutManager(Mactivity, LinearLayoutManager.HORIZONTAL, true));
                                     memberAdapter = new RVMemberResultAdapter(Mactivity,cardMembersPojoList1,cardId,list_id,boardId,projectId);
                                     rvMembersResult.setAdapter(memberAdapter);
@@ -5142,7 +5186,38 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             @Override
             public void onResponse(String response) {
                 // loading.dismiss();
-                progressBar.dismiss();
+               if(countUploaded==totalSelectedFiles){
+                   progressBar.dismiss();
+               }
+                if(countUploaded<totalSelectedFiles){
+
+                    Uri  selectedImageUri =selectedData.getClipData().getItemAt(countUploaded).getUri();
+                    Bitmap bitmap=BitmapFactory.decodeFile(imagepath);
+
+                    String path = "";
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        path  = getPath(CardActivity.this, selectedImageUri);
+                    }
+
+                    if(path!=null && !path.equals("")) {
+                        if(path.contains(".mp4")){
+                            Toast.makeText(activity,"File format is not supported",Toast.LENGTH_LONG).show();
+                        }else {
+                            fileName = path.split("/");
+                            file = fileName[fileName.length - 1];
+
+                            UploadFile uploadFile = new UploadFile();
+                            uploadFile.delegate = CardActivity.this;
+                            uploadFile.execute(path);
+                            countUploaded++;
+                    /*ringProgressDialog = ProgressDialog.show(activity, "Please wait ...", "Uploading File ...", true);
+                    ringProgressDialog.setCancelable(false);
+                    ringProgressDialog.show();*/
+                        }
+                    }else {
+                        Toast.makeText(CardActivity.this,"file not found",Toast.LENGTH_LONG).show();
+                    }
+                }
                // ringProgressDialog.dismiss();
                 if (!(response.equals(""))) {
                     ringProgressDialog.dismiss();
@@ -6280,6 +6355,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();*/
        // ringProgressDialog.dismiss();
+
         if(output.equals("200"))
         {
             String fileType;
@@ -6299,6 +6375,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             Toast.makeText(mcontext, "upload error", Toast.LENGTH_SHORT).show();
 
         }
+
     }
 
     private void addnewChecklist(final String Checklist) {
@@ -6374,7 +6451,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         requestQueue.add(request);
     }
 
-    static class  UploadFile extends AsyncTask<String,Integer,String> implements RecoverySystem.ProgressListener
+     static class  UploadFile extends AsyncTask<String,Integer,String> implements RecoverySystem.ProgressListener
     {
         public callBack delegate = null;
         private String upLoadServerUri = null;
@@ -6383,15 +6460,25 @@ public class CardActivity extends AppCompatActivity  implements callBack {
 
         @Override
         protected void onPreExecute() {
-
+            if(countUploaded==0)
             progressBar = new ProgressDialog(activity);
-            progressBar.setCancelable(true);
-            progressBar.setMessage("File uploading ...");
-            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressBar.setProgress(0);
-            progressBar.setSecondaryProgress(100);
-            progressBar.setMax(100);
-            progressBar.show();
+            if(!progressBar.isShowing()) {
+                // progressBar.dismiss();
+                progressBar.setCancelable(false);
+                progressBar.setMessage("File uploading ..." + (countUploaded + 1) + "/" + totalSelectedFiles);
+                progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressBar.setProgress(0);
+                progressBar.setSecondaryProgress(100);
+                progressBar.setMax(100);
+                progressBar.show();
+            }else {
+                progressBar.setCancelable(false);
+                progressBar.setMessage("File uploading ..." + (countUploaded + 1) + "/" + totalSelectedFiles);
+                progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressBar.setProgress(0);
+                progressBar.setSecondaryProgress(100);
+                progressBar.setMax(100);
+            }
             super.onPreExecute();
         }
 
@@ -6515,7 +6602,9 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         @Override
         protected void onPostExecute(String s) {
             delegate.processFinish(s);
-            progressBar.dismiss();
+            if(countUploaded==totalSelectedFiles) {
+                progressBar.dismiss();
+            }
         }
 
         @Override

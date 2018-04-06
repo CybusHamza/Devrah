@@ -31,8 +31,8 @@
         android:id="@+id/boardView" />
     <Button
         android:id="@+id/buttonAddList"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/plus_button_width"
+        android:layout_height="@dimen/plus_button_height"
         android:background="@drawable/plus_btn"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"

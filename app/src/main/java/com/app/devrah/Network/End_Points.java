@@ -148,6 +148,7 @@ public class End_Points {
     public static final String ACTIVITIES_DATA = BASE_URL_ACTIVITIES + "system_activities/";
     public static final String NOTIFICATIONS_DATA = BASE_URL_ACTIVITIES + "system_notifications/";
     public static final String UPDATE_TEAM_NAME = BASE_URL + "updateTeamName";
+    public static final String UPDATE_COLOUMN_POSITION = BASE_URL + "updateListsColumnPosition";
 
 
 }

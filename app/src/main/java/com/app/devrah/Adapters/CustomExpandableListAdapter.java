@@ -119,7 +119,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean hasStableIds() {
         return true;
     }
-
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
@@ -129,10 +128,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_view_group_header, null);
         }
-
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
-        ImageView ivGroupIndicator = (ImageView) convertView
+        ImageView ivGroupIndicator = convertView
                 .findViewById(R.id.ivGroupIndicator);
        ivGroupIndicator.setSelected(isExpanded);
         lblListHeader.setTypeface(null, Typeface.BOLD);
@@ -147,6 +145,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final String child = (String) getChild(groupPosition, childPosition);
+
         final String[] text=child.split(",");
         final String childText=text[0];
         final String childStatus=text[1];
@@ -168,10 +167,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.custom_layout_group_projects_list_item, null);
         }
-        TextView txtListChild = (TextView) convertView
+        TextView txtListChild = convertView
                 .findViewById(R.id.tvProjectsData);
 
-        ImageView isactive = (ImageView) convertView.findViewById(R.id.icon_active);
+        ImageView isactive = convertView.findViewById(R.id.icon_active);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,9 +187,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
 
         txtListChild.setText(childText);
-        TextView statusList = (TextView) convertView
+        TextView statusList = convertView
                 .findViewById(R.id.btnActive);
-        TextView description = (TextView) convertView
+        TextView description = convertView
                 .findViewById(R.id.tvDescription);
         if(!projectDescription.equals("null")){
             description.setText(projectDescription);
@@ -214,7 +213,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
         //  return null;
     }
-
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;

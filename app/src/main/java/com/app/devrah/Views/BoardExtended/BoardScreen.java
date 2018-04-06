@@ -400,6 +400,39 @@ public class BoardScreen extends AppCompatActivity {
             @Override
             public void endDrag(View view, int i, int i1) {
                 Log.e("End Drag Column",String.valueOf(i1));
+                if(i!=i1) {
+
+                    ArrayList<ChildObjModel> projectsList = data.get(i).projectsList;
+                    ArrayList<ChildObjModel> projectsList1 = data.get(i1).projectsList;
+
+
+                    MainModelObj obj=mainModelObjs.get(i1);
+                    MainModelObj obj1=mainModelObjs.get(i);
+                    mainModelObjs.set(i, obj);
+                    mainModelObjs.set(i1, obj1);
+                    data.set(i, new SimpleBoardAdapter.SimpleColumn(mainModelObjs.get(i).getList_name(), projectsList1, mainModelObjs));
+                    data.set(i1, new SimpleBoardAdapter.SimpleColumn(mainModelObjs.get(i1).getList_name(), projectsList, mainModelObjs));
+
+                    // String array1=mainModelObjs.get(i).getId()+"%"+String.valueOf(i);
+                    //String array2=mainModelObjs.get(i1).getId()+"%"+String.valueOf(i1);
+                    StringBuilder arrayFinal = null;
+                    for (int j = 0; j < mainModelObjs.size(); j++) {
+                        if (j == 0) {
+                            arrayFinal = new StringBuilder(mainModelObjs.get(j).getId() + "%" + (j + 1));
+                        } else {
+                            arrayFinal.append(",").append(mainModelObjs.get(j).getId()).append("%").append(j + 1);
+                        }
+                    }
+                    updateListPosition(arrayFinal.toString());
+                    boardAdapter = new SimpleBoardAdapter(getApplicationContext(),BoardScreen.this,data,b_id,p_id,mainModelObjs,boardView);
+                    boardView.setAdapter(boardAdapter);
+                    boardView.scrollToList(i1);
+//                    boardView.scrollToList();
+
+
+
+                }
+
             }
         });
 
@@ -586,6 +619,7 @@ public class BoardScreen extends AppCompatActivity {
 
                             boardAdapter = new SimpleBoardAdapter(getApplicationContext(),BoardScreen.this,data,b_id,p_id,mainModelObjs,boardView);
                             boardView.setAdapter(boardAdapter);
+                          boardView.scrollToList(mainModelObjs.size()-1);
                         }
                         //   ParentBoardExtendedFragment.addPageAt(CustomViewPagerAdapter.customCount());
 
@@ -1703,6 +1737,77 @@ public class BoardScreen extends AppCompatActivity {
                 params.put("updt_txt", updatedText);
                 params.put("board_id", b_id);
                 params.put("userId", pref.getString("user_id",""));
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardScreen.this);
+        requestQueue.add(request);
+
+
+    }
+    public void updateListPosition(final String updatedArrayList) {
+        final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+        StringRequest request = new StringRequest(Request.Method.POST, com.app.devrah.Network.End_Points.UPDATE_COLOUMN_POSITION,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                      //  ringProgressDialog.dismiss();
+                   // Toast.makeText(BoardScreen.this,response,Toast.LENGTH_LONG).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    new SweetAlertDialog(BoardScreen.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("check your internet connection")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                } else if (error instanceof TimeoutError) {
+
+                    new SweetAlertDialog(BoardScreen.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error!")
+                            .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                //String boardId[]={b_id};
+                //String projectId[]={p_id};
+
+                params.put("lists_arr", updatedArrayList);
+                params.put("brd_id", b_id);
+                params.put("prjct_id",p_id);
+                params.put("userId",pref.getString("user_id",""));
                 return params;
             }
         };

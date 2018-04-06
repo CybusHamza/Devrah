@@ -126,8 +126,8 @@
      </GridView>-->
     <Button
         android:id="@+id/buttonAddMember"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/plus_button_width"
+        android:layout_height="@dimen/plus_button_height"
         android:background="@drawable/plus_btn"
         android:layout_gravity="end"
         android:layout_marginTop="50dp"

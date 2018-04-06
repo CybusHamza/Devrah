@@ -7,7 +7,7 @@
 
     <com.allyants.boardview.BoardView
         xmlns:boardview="http://schemas.android.com/apk/res-auto/com.allyants.boardview"
-        boardview:boardItemBackground="@color/colorPrimary"
+        boardview:boardItemBackground="@drawable/background_card_layout_cards"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/boardView" />
