@@ -111,11 +111,11 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list__comments);
         filter="1";
-        rv = (RecyclerView) findViewById(R.id.rv);
-        toolbar = (Toolbar) findViewById(R.id.header);
-        etComments= (EditText) findViewById(R.id.commenttext);
-        sendComments= (ImageView) findViewById(R.id.send);
-        sendAttachment= (ImageView) findViewById(R.id.attachmentIcon);
+        rv = findViewById(R.id.rv);
+        toolbar = findViewById(R.id.header);
+        etComments= findViewById(R.id.commenttext);
+        sendComments= findViewById(R.id.send);
+        sendAttachment= findViewById(R.id.attachmentIcon);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow_white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,8 +205,8 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(Child_Inner_Comments.this).create();
 
-                LinearLayout linearLayoutCamera = (LinearLayout) view.findViewById(R.id.linearLayoutCamera);
-                LinearLayout otherFiles = (LinearLayout) view.findViewById(R.id.otherFiles);
+                LinearLayout linearLayoutCamera = view.findViewById(R.id.linearLayoutCamera);
+                LinearLayout otherFiles = view.findViewById(R.id.otherFiles);
 
                 linearLayoutCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -329,9 +329,9 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
         Switch active, inactive;
         final ImageView imgactive, igminactive,crossIcon;
         TextView tvHeading;
-        tvHeading= (TextView) customView.findViewById(R.id.tvHeading);
-        active = (Switch) customView.findViewById(R.id.newestFirst);
-        inactive = (Switch) customView.findViewById(R.id.oldestFirst);
+        tvHeading= customView.findViewById(R.id.tvHeading);
+        active = customView.findViewById(R.id.newestFirst);
+        inactive = customView.findViewById(R.id.oldestFirst);
         tvHeading.setText("Change Status Filter");
 
 
@@ -372,7 +372,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
 
             }
         });
-        crossIcon = (ImageView) customView.findViewById(R.id.crossIcon);
+        crossIcon = customView.findViewById(R.id.crossIcon);
         crossIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -694,7 +694,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
 
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("image", b64);
                 map.put("name", formattedDate);
@@ -837,7 +837,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("card_id", cardId);
@@ -911,7 +911,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("card_id",CardActivity.cardId);
@@ -987,7 +987,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("card_id",CardActivity.cardId);
