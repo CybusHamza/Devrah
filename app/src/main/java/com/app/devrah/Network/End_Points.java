@@ -3,11 +3,17 @@ package com.app.devrah.Network;
 
 public class End_Points {
 
-    private static final String BASE_URL = "https://www.devrah.com/Api_service/";
-    public static final String BASE_URL_FILE_UPLOAD = "https://www.devrah.com/";
+//    private static final String BASE_URL = "https://www.devrah.com/Api_service/";
+//    public static final String BASE_URL_FILE_UPLOAD = "https://www.devrah.com/";
+//   // public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
+//    public static final String IMAGES_BASE_URL = "https://www.devrah.com/uploads/";
+//    private static final String BASE_URL_ACTIVITIES = "https://www.devrah.com/Activities/";
+
+ private static final String BASE_URL = "http://demo.cybussolutions.com/kanban/Api_service/";
+    public static final String BASE_URL_FILE_UPLOAD = "http://demo.cybussolutions.com/kanban/";
    // public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
-    public static final String IMAGES_BASE_URL = "https://www.devrah.com/uploads/";
-    private static final String BASE_URL_ACTIVITIES = "https://www.devrah.com/Activities/";
+    public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
+    private static final String BASE_URL_ACTIVITIES = "http://demo.cybussolutions.com/kanban/Activities/";
 
     public static final String LOGIN = BASE_URL + "login";
     public static final String FORGOT_PASSWORD = BASE_URL + "forgot";
@@ -44,7 +50,8 @@ public class End_Points {
     public static final String GET_REFRENCE_BOARD = BASE_URL + "getRefrenceBoardsByProjects";
     public static final String ADD_WORK_BOARD = BASE_URL + "addNewWorkBoard";
     public static final String  GET_ALL_BOARD_LIST = BASE_URL + "getBoardAllLists";
-    public static final String  GET_CARDS_FOR_LIST = BASE_URL + "cardsAssociationList";
+   // public static final String  GET_CARDS_FOR_LIST = BASE_URL + "cardsAssociationList";
+    public static final String  GET_CARDS_FOR_LIST = BASE_URL + "cardsAssociationList1";
 
     public static final String UPDATE_USER_PROFILE= BASE_URL + "updateUserProfile";
     public static final String ADD_NEW_REFERENCE_BOARD= BASE_URL + "addNewReferenceBoard";

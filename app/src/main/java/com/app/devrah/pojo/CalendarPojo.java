@@ -7,6 +7,16 @@ public class CalendarPojo {
     public String data;
     public String boardID;
 
+    public String getCardCompletionDate() {
+        return cardCompletionDate;
+    }
+
+    public void setCardCompletionDate(String cardCompletionDate) {
+        this.cardCompletionDate = cardCompletionDate;
+    }
+
+    public String cardCompletionDate;
+
     public String getCardAssignedMemberId() {
         return cardAssignedMemberId;
     }

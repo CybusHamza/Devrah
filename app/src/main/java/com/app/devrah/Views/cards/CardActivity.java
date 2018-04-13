@@ -156,7 +156,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     public static String textLabelName;
     static List<String> asliList;
     static List<String> labelNameList;
-    static String dueDate,dueTime,startDate,startTime,cardDescription,cardIsComplete;
+    static String dueDate,dueTime,startDate,startTime,cardDescription,cardIsComplete,cardCompletionDate;
     static RVLabelAdapter rvAdapterLabel;
     RVMemberResultAdapter memberAdapter;
     static List<Integer> colorList;
@@ -362,6 +362,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         dueTime = intent.getStringExtra("cardduetime");
         startDate = intent.getStringExtra("cardstartdate");
         startTime = intent.getStringExtra("cardstarttime");
+        cardCompletionDate = intent.getStringExtra("cardCompletionDate");
         cardDescription = intent.getStringExtra("cardDescription");
         cardIsComplete = intent.getStringExtra("isComplete");
         isCardLocked = intent.getStringExtra("isLocked");
@@ -451,9 +452,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         if(cardIsComplete.equals("1")){
             isCompletedBtn.setText("Unmark Completed");
             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.orange));
+            cbStartTime.setText(cardCompletionDate);
         }else if(cardIsComplete.equals("0")){
             isCompletedBtn.setText("Mark Completed");
             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            cbStartTime.setText("Completed Date");
         }
         etCheckList = findViewById(R.id.etCheckBox);
         // checklistAddBtn = (Button)findViewById(R.id.addChecklist);
@@ -536,11 +539,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             cbStartDate.setText("Start Date");
             cbStartDate.setVisibility(View.VISIBLE);
         }
-        if(!startTime.equals("") && !startTime.equals("null")) {
-            cbStartTime.setText(startTime);
+        if(!cardCompletionDate.equals("") && !cardCompletionDate.equals("null") && cardIsComplete.equals("1")) {
+            cbStartTime.setText(cardCompletionDate);
             cbStartTime.setVisibility(View.VISIBLE);
         }else {
-            cbStartTime.setText("Start Time");
+            cbStartTime.setText("Completed Date");
             cbStartTime.setVisibility(View.VISIBLE);
         }
 
@@ -862,8 +865,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         cbStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCompletedBtn.getText().equals("Mark Completed"))
-                pickATime("startTime");
+                /*if(isCompletedBtn.getText().equals("Mark Completed"))
+                pickATime("startTime");*/
             }
         });
 
@@ -4437,9 +4440,11 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         if(isCompleted.equals("1")){
                             isCompletedBtn.setText("Unmark Completed");
                             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.orange));
+                            cbStartTime.setText(response);
                         }else if(isCompleted.equals("0")){
                             isCompletedBtn.setText("Mark Completed");
                             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            cbStartTime.setText("Completed Date");
                         }
                         Toast.makeText(activity, "Card is updated", Toast.LENGTH_SHORT).show();
 
@@ -6608,8 +6613,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
         }
 
         @Override
-        public void onProgress(int progress) {
-            progressBar.setProgress(progress);
+            public void onProgress(int progress) {
+                progressBar.setProgress(progress);
         }
     }
 }

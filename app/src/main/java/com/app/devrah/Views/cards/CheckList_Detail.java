@@ -43,6 +43,7 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.app.devrah.Views.cards.CardActivity.CardHeading;
+import static com.app.devrah.Views.cards.CardActivity.cardCompletionDate;
 import static com.app.devrah.Views.cards.CardActivity.cardDescription;
 import static com.app.devrah.Views.cards.CardActivity.cardId;
 import static com.app.devrah.Views.cards.CardActivity.cardIsComplete;
@@ -112,6 +113,7 @@ public class CheckList_Detail extends AppCompatActivity {
                 intent.putExtra("board_id",BoardExtended.boardId);
                 intent.putExtra("project_title",BoardExtended.pTitle);
                 intent.putExtra("work_board", BoardExtended.isWorkBoard);
+                intent.putExtra("cardCompletionDate",cardCompletionDate);
                 if(isFromMyCardsScreen.equals("board"))
                     intent.putExtra("projectStatus", projectStatus);
                 startActivity(intent);
@@ -440,6 +442,7 @@ public class CheckList_Detail extends AppCompatActivity {
         intent.putExtra("board_id",BoardExtended.boardId);
         intent.putExtra("project_title",BoardExtended.pTitle);
         intent.putExtra("work_board", BoardExtended.isWorkBoard);
+        intent.putExtra("cardCompletionDate", cardCompletionDate);
         if(isFromMyCardsScreen.equals("board"))
             intent.putExtra("projectStatus", projectStatus);
         startActivity(intent);

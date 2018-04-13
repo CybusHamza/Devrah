@@ -59,6 +59,7 @@ import com.app.devrah.R;
 import com.app.devrah.Views.cards.CardActivity;
 import com.app.devrah.pojo.CommentsPojo;
 import com.app.devrah.pojo.Level;
+import com.mindorks.paracamera.Camera;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,6 +105,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
     ProgressDialog ringProgressDialog;
     String filepath,cardId,parentId,fullName,parentCommentsData,parentProfilePic,parentInitials,parentIsFile,parentFileType;
     String filter;
+    Camera camera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,15 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
         toolbar.setTitle("Replies");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.inflateMenu(R.menu.my_menu_filter);
+        camera = new Camera.Builder()
+                .resetToCorrectOrientation(true)// it will rotate the camera bitmap to the correct orientation from meta data
+                .setTakePhotoRequestCode(1)
+                .setDirectory("pics")
+                .setName("ali_" + System.currentTimeMillis())
+                .setImageFormat(Camera.IMAGE_JPEG)
+                .setCompression(75)
+                .setImageHeight(1000)// it will try to achieve this height as close as possible maintaining the aspect ratio;
+                .build(Child_Inner_Comments.this);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -226,8 +237,11 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
                         }
 
                         else {
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, 1);
+                            try {
+                                camera.takePicture();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             alertDialog.dismiss();
 
                         }
@@ -379,7 +393,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
             Uri selectedImage = data.getData();
             //  File imageFile = new File(selectedImage.toString());
 
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            Bitmap bitmap = camera.getCameraBitmap();
             Uri tempUri = getImageUri(getApplicationContext(), bitmap);
 
             String picturePath=getPathFromURI(tempUri);

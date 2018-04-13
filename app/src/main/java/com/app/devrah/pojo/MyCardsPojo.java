@@ -144,4 +144,14 @@ public class MyCardsPojo {
 
     String isCardLocked;
     String cardDescription;
+
+    public String getCardCompletionDate() {
+        return cardCompletionDate;
+    }
+
+    public void setCardCompletionDate(String cardCompletionDate) {
+        this.cardCompletionDate = cardCompletionDate;
+    }
+
+    String cardCompletionDate;
 }

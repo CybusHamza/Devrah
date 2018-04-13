@@ -658,6 +658,7 @@ public class MyCardsActivity extends AppCompatActivity {
                     myCardsPojo.setIsCardLocked("");
                     myCardsPojo.setIsCardSubscribed("");
                     myCardsPojo.setCardDescription("");
+                    myCardsPojo.setCardCompletionDate("");
 
                     listPojo.add(myCardsPojo);
             }
@@ -682,6 +683,7 @@ public class MyCardsActivity extends AppCompatActivity {
                     myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
                     myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
                     myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                    myCardsPojo.setCardCompletionDate(jsonObject.getString("card_completion_date"));
                     myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
                     myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
                     myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));
@@ -706,6 +708,7 @@ public class MyCardsActivity extends AppCompatActivity {
                     myCardsPojo.setStartDate(jsonObject.getString("card_start_date"));
                     myCardsPojo.setDueTime(jsonObject.getString("card_due_time"));
                     myCardsPojo.setStartTime(jsonObject.getString("card_start_time"));
+                    myCardsPojo.setCardCompletionDate(jsonObject.getString("card_completion_date"));
                     myCardsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
                     myCardsPojo.setIsCardLocked(jsonObject.getString("is_locked"));
                     myCardsPojo.setIsCardSubscribed(jsonObject.getString("subscribed"));

@@ -92,6 +92,7 @@ import java.util.TimeZone;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.app.devrah.Network.End_Points.GET_ALL_BOARD_LIST;
+import static com.app.devrah.Network.End_Points.GET_CARDS_FOR_LIST;
 
 public class BoardScreen extends AppCompatActivity {
     ProgressDialog ringProgressDialog;
@@ -339,6 +340,7 @@ public class BoardScreen extends AppCompatActivity {
                     intent.putExtra("cardduetime", dataInner.get(column_pos).projectsList.get(item_pos).getCard_due_time());
                     intent.putExtra("cardstartdate", dataInner.get(column_pos).projectsList.get(item_pos).getCard_start_date());
                     intent.putExtra("cardstarttime", dataInner.get(column_pos).projectsList.get(item_pos).getCard_start_time());
+                    intent.putExtra("cardCompletionDate", dataInner.get(column_pos).projectsList.get(item_pos).getCardCompletionDate());
                     intent.putExtra("cardDescription", dataInner.get(column_pos).projectsList.get(item_pos).getCard_description());
                     intent.putExtra("isComplete", dataInner.get(column_pos).projectsList.get(item_pos).getCard_is_complete());
                     intent.putExtra("isLocked", dataInner.get(column_pos).projectsList.get(item_pos).getIs_locked());
@@ -362,6 +364,7 @@ public class BoardScreen extends AppCompatActivity {
                     intent.putExtra("cardstarttime", data.get(column_pos).projectsList.get(item_pos).getCard_start_time());
                     intent.putExtra("cardDescription", data.get(column_pos).projectsList.get(item_pos).getCard_description());
                     intent.putExtra("isComplete", data.get(column_pos).projectsList.get(item_pos).getCard_is_complete());
+                    intent.putExtra("cardCompletionDate", data.get(column_pos).projectsList.get(item_pos).getCardCompletionDate());
                     intent.putExtra("isLocked", data.get(column_pos).projectsList.get(item_pos).getIs_locked());
                     intent.putExtra("isSubscribed", data.get(column_pos).projectsList.get(item_pos).getSubscribed());
                     intent.putExtra("list_id", data.get(column_pos).projectsList.get(item_pos).getList_id());
@@ -479,6 +482,7 @@ public class BoardScreen extends AppCompatActivity {
                         projectsPojo.setIs_locked(projectsList.get(i1).getIs_locked());
                         projectsPojo.setSubscribed(projectsList.get(i1).getSubscribed());
                         projectsPojo.setList_id(projectsList.get(i1).getList_id());
+                        projectsPojo.setCardCompletionDate(projectsList.get(i1).getCardCompletionDate());
                         // projectsPojo.setCardAssignedMemberId(jsonObject.getString("crd_assigned_membr_id"));
                         projectsPojo.setnOfAttachments(String.valueOf(projectsList.get(i1).getnOfAttachments()));
                         projectsPojo.setAssigned_to(projectsList.get(i1).getAssigned_to());
@@ -489,9 +493,13 @@ public class BoardScreen extends AppCompatActivity {
                         projectsPojo.setMemberSubscribed(projectsList.get(i1).getMemberSubscribed());
                         String cardName = projectsList.get(i1).getCard_name();
                         String cardId = projectsList.get(i1).getCardId();
-
-                        data.get(i3).projectsList.add(i2, projectsPojo);
-                        data.get(i).projectsList.remove(i1);
+                        if(i1<i2) {
+                            data.get(i3).projectsList.add(i2 + 1, projectsPojo);
+                            data.get(i).projectsList.remove(i1);
+                        }else {
+                            data.get(i3).projectsList.add(i2, projectsPojo);
+                            data.get(i).projectsList.remove(i1+1);
+                        }
                         moveCard(cardId, mainModelObjs.get(i3).getId(), cardName, i2, i3);
                     }
                 }else {
@@ -514,6 +522,7 @@ public class BoardScreen extends AppCompatActivity {
                     projectsPojo.setIs_locked(projectsList.get(i1).getIs_locked());
                     projectsPojo.setSubscribed(projectsList.get(i1).getSubscribed());
                     projectsPojo.setList_id(projectsList.get(i1).getList_id());
+                    projectsPojo.setCardCompletionDate(projectsList.get(i1).getCardCompletionDate());
                     // projectsPojo.setCardAssignedMemberId(jsonObject.getString("crd_assigned_membr_id"));
                     projectsPojo.setnOfAttachments(String.valueOf(projectsList.get(i1).getnOfAttachments()));
                     projectsPojo.setAssigned_to(projectsList.get(i1).getAssigned_to());
@@ -525,9 +534,15 @@ public class BoardScreen extends AppCompatActivity {
                     String cardName = projectsList.get(i1).getCard_name();
                     String cardId = projectsList.get(i1).getCardId();
 
-                    data.get(i3).projectsList.add(i2, projectsPojo);
-                    data.get(i).projectsList.remove(i1);
+                    if(i1<i2) {
+                        data.get(i3).projectsList.add(i2 + 1, projectsPojo);
+                        data.get(i).projectsList.remove(i1);
+                    }else {
+                        data.get(i3).projectsList.add(i2, projectsPojo);
+                        data.get(i).projectsList.remove(i1+1);
+                    }
                     moveCard(cardId, mainModelObjs.get(i3).getId(), cardName, i2, i3);
+
                 }
 
 
@@ -1046,6 +1061,7 @@ public class BoardScreen extends AppCompatActivity {
                                     projectsPojo.setDueDate(jsonObject.getString("card_end_date"));
                                     projectsPojo.setDuetTime(jsonObject.getString("card_due_time"));
                                     projectsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                                    projectsPojo.setCardCompletionDate(jsonObject.getString("card_completion_date"));
                                     projectsPojo.setCardDescription(jsonObject.getString("card_description"));
                                     projectsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
                                     projectsPojo.setStartTime(jsonObject.getString("card_start_time"));
@@ -1832,6 +1848,8 @@ public class BoardScreen extends AppCompatActivity {
                         Toast.makeText(BoardScreen.this, "Moved Successfully", Toast.LENGTH_SHORT).show();
                         String[] res=response.split(",");
                         data.get(columnPos).projectsList.get(positionOfCard).setCardId(res[1]);
+                        boardAdapter = new SimpleBoardAdapter(getApplicationContext(),BoardScreen.this,data,b_id,p_id,mainModelObjs,boardView);
+                        boardView.setAdapter(boardAdapter);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -1859,7 +1877,7 @@ public class BoardScreen extends AppCompatActivity {
 
                 params.put("move_boardsList", b_id);
                 params.put("move_boardsList_opt", listId);
-                params.put("move_boardsList_pos_opt", String.valueOf(positionOfCard));
+                params.put("move_boardsList_pos_opt", String.valueOf(positionOfCard+1));
 
                 params.put("menu_form_mv_cpy_nm_title", CardHeading);
                 params.put("u_id", pref.getString("user_id",""));
@@ -1961,9 +1979,8 @@ public class BoardScreen extends AppCompatActivity {
       /* final ProgressDialog ringProgressDialog = ProgressDialog.show(getContext(), "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();*/
-        String BASE_URL = "https://www.devrah.com/Api_service/";
         final SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        StringRequest request = new StringRequest(Request.Method.POST, BASE_URL + "cardsAssociationList1",
+        StringRequest request = new StringRequest(Request.Method.POST, GET_CARDS_FOR_LIST,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -2001,6 +2018,7 @@ public class BoardScreen extends AppCompatActivity {
                                     projectsPojo.setCard_end_date(jsonObjectCards.getString("card_end_date"));
                                     projectsPojo.setCard_due_time(jsonObjectCards.getString("card_due_time"));
                                     projectsPojo.setCard_start_date(jsonObjectCards.getString("card_start_date"));
+                                    projectsPojo.setCardCompletionDate(jsonObjectCards.getString("card_completion_date"));
                                     projectsPojo.setCard_description(jsonObjectCards.getString("card_description"));
                                     projectsPojo.setCard_is_complete(jsonObjectCards.getString("card_is_complete"));
                                     projectsPojo.setCard_start_time(jsonObjectCards.getString("card_start_time"));

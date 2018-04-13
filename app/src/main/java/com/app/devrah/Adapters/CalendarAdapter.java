@@ -388,6 +388,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
                 intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
                 intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardCompletionDate", projectsList.get(position).getCardCompletionDate());
                 intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
                 intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
@@ -414,6 +415,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
                 intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
                 intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardCompletionDate", projectsList.get(position).getCardCompletionDate());
                 intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
                 intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());
@@ -441,6 +443,7 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                 intent.putExtra("cardduetime",projectsList.get(position).getDuetTime());
                 intent.putExtra("cardstartdate",projectsList.get(position).getStartDate());
                 intent.putExtra("cardstarttime",projectsList.get(position).getStartTime());
+                intent.putExtra("cardCompletionDate", projectsList.get(position).getCardCompletionDate());
                 intent.putExtra("cardDescription",projectsList.get(position).getCardDescription());
                 intent.putExtra("isComplete",projectsList.get(position).getIsCardComplete());
                 intent.putExtra("isLocked",projectsList.get(position).getIsCardLocked());

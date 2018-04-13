@@ -1107,6 +1107,7 @@ public class BoardsActivity extends AppCompatActivity {
                                     projectsPojo.setDueDate(jsonObject.getString("card_end_date"));
                                     projectsPojo.setDuetTime(jsonObject.getString("card_due_time"));
                                     projectsPojo.setStartDate(jsonObject.getString("card_start_date"));
+                                    projectsPojo.setCardCompletionDate(jsonObject.getString("card_completion_date"));
                                     projectsPojo.setCardDescription(jsonObject.getString("card_description"));
                                     projectsPojo.setIsCardComplete(jsonObject.getString("card_is_complete"));
                                     projectsPojo.setStartTime(jsonObject.getString("card_start_time"));
