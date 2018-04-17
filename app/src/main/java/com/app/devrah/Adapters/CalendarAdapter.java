@@ -256,6 +256,18 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
        }*/
         if(projectsList.get(position).getIsCardComplete().equals("1") && !holder.dueDate.getText().equals("")){
             holder.dueDate.setBackground(activity.getResources().getDrawable(R.drawable.bg_green_login));
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd");
+            Date myDate = null;
+            try {
+                String myTime=projectsList.get(position).getCardCompletionDate();
+                myDate = dateFormat.parse(myTime);
+                SimpleDateFormat timeFormat = new SimpleDateFormat("dd MMM,yy");
+                String finalDate = timeFormat.format(myDate);
+                holder.dueDate.setText( finalDate );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }else if (!projectsList.get(position).getIsCardComplete().equals("1") && !holder.dueDate.getText().equals("")) {
             SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss", Locale.getDefault());
 
@@ -678,9 +690,10 @@ public class CalendarAdapter extends BaseAdapter implements View.OnTouchListener
                     public void onResponse(String response) {
                         if(isCompleted.equals("1")){
                             projectsList.get(position).setIsCardComplete("1");
-                            }else if(isCompleted.equals("0")){
+                            projectsList.get(position).setCardCompletionDate(response);
+                        }else if(isCompleted.equals("0")){
                             projectsList.get(position).setIsCardComplete("0");
-                            }
+                        }
                         Intent i = new Intent("updateComplete");
                         // Data you need to pass to activity
                         i.putExtra("cardId",projectsList.get(position).getId());

@@ -14,6 +14,7 @@ public class End_Points {
    // public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
     public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
     private static final String BASE_URL_ACTIVITIES = "http://demo.cybussolutions.com/kanban/Activities/";
+    private static final String BASE_URL_NOTIFICATIONS = "http://demo.cybussolutions.com/kanban/api/Notifications/";
 
     public static final String LOGIN = BASE_URL + "login";
     public static final String FORGOT_PASSWORD = BASE_URL + "forgot";
@@ -75,7 +76,8 @@ public class End_Points {
     public static final String GET_BOARD_MEMBERS= BASE_URL + "getAllBoardMembers";
     public static final String ADD_BOARD_MEMBERS= BASE_URL + "associateUserWithBoard";
     public static final String DELETE_BOARD_MEMBERS= BASE_URL + "deleteBoardMember";
-    public static final String NOTIFICATIONS= BASE_URL + "system_notifications";
+    // public static final String NOTIFICATIONS= BASE_URL + "system_notifications";
+    public static final String NOTIFICATIONS = BASE_URL_NOTIFICATIONS + "getNotification";
     public static final String ACITITIES_DATA= BASE_URL + "activity_logs_data";
     public static final String DELETE_LIST= BASE_URL + "deleteList";
     public static final String UPDATE_COLOR_BG_LIST= BASE_URL + "updateBgList";

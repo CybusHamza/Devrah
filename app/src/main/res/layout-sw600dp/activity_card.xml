@@ -445,6 +445,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/checklist_border_outer"
                         android:dividerHeight="5dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_width="match_parent"/>
                 </LinearLayout>
 

@@ -351,7 +351,7 @@ public class CardActivity extends AppCompatActivity  implements callBack {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
-        RVLabelAdapter adapter = new RVLabelAdapter();
+      //  RVLabelAdapter adapter = new RVLabelAdapter();
 
         activity = CardActivity.this;
         Intent intent=  getIntent();
@@ -540,7 +540,18 @@ public class CardActivity extends AppCompatActivity  implements callBack {
             cbStartDate.setVisibility(View.VISIBLE);
         }
         if(!cardCompletionDate.equals("") && !cardCompletionDate.equals("null") && cardIsComplete.equals("1")) {
-            cbStartTime.setText(cardCompletionDate);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd");
+            Date myDate = null;
+            try {
+                String myTime=cardCompletionDate;
+                myDate = dateFormat.parse(myTime);
+                SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MMM-yy");
+                String finalDate = timeFormat.format(myDate);
+                cbStartTime.setText(finalDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             cbStartTime.setVisibility(View.VISIBLE);
         }else {
             cbStartTime.setText("Completed Date");
@@ -4440,7 +4451,20 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                         if(isCompleted.equals("1")){
                             isCompletedBtn.setText("Unmark Completed");
                             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.orange));
-                            cbStartTime.setText(response);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                    "yyyy-MM-dd");
+                            Date myDate = null;
+                            try {
+                                String myTime=response;
+                                myDate = dateFormat.parse(myTime);
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MMM-yy");
+                                String finalDate = timeFormat.format(myDate);
+                                cbStartTime.setText(finalDate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            cardCompletionDate=response;
+                            //cbStartTime.setText(response);
                         }else if(isCompleted.equals("0")){
                             isCompletedBtn.setText("Mark Completed");
                             isCompletedBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

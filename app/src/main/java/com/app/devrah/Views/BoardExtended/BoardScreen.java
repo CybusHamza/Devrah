@@ -449,7 +449,7 @@ public class BoardScreen extends AppCompatActivity {
             @Override
             public void startDrag(View view, int i, int i1) {
                 Log.e("Start Drag Item","Item: "+String.valueOf(i1)+"; Column:"+String.valueOf(i));
-                Log.e("size",String.valueOf(listPojo.size()));
+//                Log.e("size",String.valueOf(listPojo.size()));
 
             }
 
@@ -534,13 +534,13 @@ public class BoardScreen extends AppCompatActivity {
                     String cardName = projectsList.get(i1).getCard_name();
                     String cardId = projectsList.get(i1).getCardId();
 
-                    if(i1<i2) {
-                        data.get(i3).projectsList.add(i2 + 1, projectsPojo);
-                        data.get(i).projectsList.remove(i1);
-                    }else {
+                   // if(i1<i2) {
                         data.get(i3).projectsList.add(i2, projectsPojo);
-                        data.get(i).projectsList.remove(i1+1);
-                    }
+                        data.get(i).projectsList.remove(i1);
+                    //}else {
+                      //  data.get(i3).projectsList.add(i2, projectsPojo);
+                       // data.get(i).projectsList.remove(i1+1);
+                    //}
                     moveCard(cardId, mainModelObjs.get(i3).getId(), cardName, i2, i3);
 
                 }

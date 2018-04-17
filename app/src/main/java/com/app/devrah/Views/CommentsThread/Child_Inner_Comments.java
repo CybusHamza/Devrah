@@ -390,7 +390,7 @@ public class Child_Inner_Comments extends AppCompatActivity implements callBack{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
-            Uri selectedImage = data.getData();
+           // Uri selectedImage = data.getData();
             //  File imageFile = new File(selectedImage.toString());
 
             Bitmap bitmap = camera.getCameraBitmap();

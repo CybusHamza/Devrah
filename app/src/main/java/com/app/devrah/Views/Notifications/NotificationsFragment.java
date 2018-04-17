@@ -149,7 +149,7 @@ public void getNotifications() {
          ringProgressDialog.setCancelable(false);
          ringProgressDialog.show();
 
-         StringRequest request = new StringRequest(Request.Method.POST, End_Points.NOTIFICATIONS_DATA,
+         StringRequest request = new StringRequest(Request.Method.POST, End_Points.NOTIFICATIONS,
                  new Response.Listener<String>() {
                          @Override
                          public void onResponse(String response) {
@@ -160,9 +160,8 @@ public void getNotifications() {
                              cardlistPojo = new ArrayList<>();
                              SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");*/
                              try {
-                                 JSONObject jsonObject=new JSONObject(response);
-                                 JSONArray jsonArrayProjectMembers=jsonObject.getJSONArray("project_members");
-                                 if(jsonArrayProjectMembers.length()<1){
+
+                                 if(response.equals("")){
                                      listPojo = new ArrayList<>();
                                      NotificationsPojo notificationsPojo = new NotificationsPojo();
                                      notificationsPojo.setUserName("");
@@ -186,155 +185,44 @@ public void getNotifications() {
                                      notificationsPojo.setLabel("");
                                      notificationsPojo.setBase("No notification found");
                                      listPojo.add(notificationsPojo);
-                                 }
-                                 if(jsonArrayProjectMembers.length()>0){
-                                     for (int i=0;i<jsonArrayProjectMembers.length();i++){
-                                         JSONObject object=jsonArrayProjectMembers.getJSONObject(i);
-                                         NotificationsPojo notificationsPojo = new NotificationsPojo();
-                                       //  if(object.getString("action_done").equals("1"))
-                                         notificationsPojo.setData(object.getString("name"));
-                                         notificationsPojo.setDate(object.getString("action_datetime"));
-                                         notificationsPojo.setUserName(object.getString("action_by"));
-                                         notificationsPojo.setProjectTitle(object.getString("name"));
-                                         notificationsPojo.setBoardId("0");
-                                         notificationsPojo.setCardId("");
-                                         notificationsPojo.setCardDueDate("");
-                                         notificationsPojo.setCardStartDate("");
-                                         notificationsPojo.setCardDueTime("");
-                                         notificationsPojo.setCardStartTime("");
-                                         notificationsPojo.setCardDescription("");
-                                         notificationsPojo.setIsComplete("");
-                                         notificationsPojo.setIsSubscribed("");
-                                         notificationsPojo.setIsLocked("");
-                                         notificationsPojo.setListId("");
-                                         notificationsPojo.setBoard_name("");
-                                         notificationsPojo.setLabel(" added you in");
-                                         notificationsPojo.setBase("Project");
-                                         listPojo.add(notificationsPojo);
+                                     adapter = new NotificationAdapter(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
+                                     lv.setAdapter(adapter);
+                                 }else {
+                                   //  JSONObject jsonObject = new JSONObject(response);
+                                     JSONArray jsonArray = new JSONArray(response);
+                                     if (jsonArray.length() > 0) {
+                                         for (int i = 0; i < jsonArray.length(); i++) {
+                                             JSONObject object = jsonArray.getJSONObject(i);
+                                             NotificationsPojo notificationsPojo = new NotificationsPojo();
+                                           //  if(object.getString("title").equals("Project")) {
+                                                 //  if(object.getString("action_done").equals("1"))
+                                              //   notificationsPojo.setData(object.getString("name"));
+                                                 notificationsPojo.setDate(object.getString("dateTime"));
+                                                // notificationsPojo.setUserName(object.getString("action_by"));
+                                               //  notificationsPojo.setProjectTitle(object.getString("name"));
+                                                 notificationsPojo.setProjectId(object.getString("project_id"));
+                                                 notificationsPojo.setBoardId(object.getString("board_id"));
+                                                 notificationsPojo.setCardId(object.getString("card_id"));
+                                                 notificationsPojo.setCardDueDate("");
+                                                 notificationsPojo.setCardStartDate("");
+                                                 notificationsPojo.setCardDueTime("");
+                                                 notificationsPojo.setCardStartTime("");
+                                                 notificationsPojo.setCardDescription("");
+                                                 notificationsPojo.setIsComplete("");
+                                                 notificationsPojo.setIsSubscribed("");
+                                                 notificationsPojo.setIsLocked("");
+                                                 notificationsPojo.setListId(object.getString("list_id"));
+                                                 notificationsPojo.setBoard_name("");
+                                                 notificationsPojo.setLabel(object.getString("text"));
+                                                 notificationsPojo.setBase(object.getString("title"));
+                                                 listPojo.add(notificationsPojo);
+                                             //}
+                                         }
                                      }
+
+                                     adapter = new NotificationAdapter(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
+                                     lv.setAdapter(adapter);
                                  }
-                                 /*JSONObject mainObject = new JSONObject(response);
-                                 if(mainObject.getString("project_notifications").equals("false") && mainObject.getString("boards_notifications").equals("false") && mainObject.getString("card_notifications").equals("false")){
-                                     NotificationsPojo notificationsPojo = new NotificationsPojo();
-                                     notificationsPojo.setUserName("");
-                                     notificationsPojo.setData("");
-                                     notificationsPojo.setDate("");
-                                     notificationsPojo.setProjectId("");
-                                     notificationsPojo.setProjectTitle("");
-                                     notificationsPojo.setBoardId("");
-                                     notificationsPojo.setCardId("");
-                                     notificationsPojo.setCardDueDate("");
-                                     notificationsPojo.setCardStartDate("");
-                                     notificationsPojo.setCardDueTime("");
-                                     notificationsPojo.setCardStartTime("");
-                                     notificationsPojo.setCardDescription("");
-                                     notificationsPojo.setIsComplete("");
-                                     notificationsPojo.setIsSubscribed("");
-                                     notificationsPojo.setProjectCreatedBy("");
-                                     notificationsPojo.setIsLocked("");
-                                     notificationsPojo.setListId("");
-                                     notificationsPojo.setBoard_name("");
-                                     notificationsPojo.setLabel("No notification found");
-                                     listPojo.add(notificationsPojo);
-                                 }
-                                 if(!mainObject.getString("project_notifications").equals("false")) {
-                                 JSONArray jsonArrayProjectNotifications = mainObject.getJSONArray("project_notifications");
-                                 for (int i = 0; i < jsonArrayProjectNotifications.length(); i++) {
-                                     JSONObject jsonObject = jsonArrayProjectNotifications.getJSONObject(i);
-
-                                     NotificationsPojo notificationsPojo = new NotificationsPojo();
-                                     notificationsPojo.setUserName(jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"));
-                                     notificationsPojo.setData(jsonObject.getString("project_name"));
-                                     notificationsPojo.setDate(jsonObject.getString("project_assigned_on"));
-                                     notificationsPojo.setProjectId(jsonObject.getString("project_id"));
-                                     notificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
-                                     notificationsPojo.setProjectCreatedBy(jsonObject.getString("project_created_by"));
-                                     notificationsPojo.setBoardId("0");
-                                     notificationsPojo.setCardId("");
-                                     notificationsPojo.setCardDueDate("");
-                                     notificationsPojo.setCardStartDate("");
-                                     notificationsPojo.setCardDueTime("");
-                                     notificationsPojo.setCardStartTime("");
-                                     notificationsPojo.setCardDescription("");
-                                     notificationsPojo.setIsComplete("");
-                                     notificationsPojo.setIsSubscribed("");
-                                     notificationsPojo.setIsLocked("");
-                                     notificationsPojo.setListId("");
-                                     notificationsPojo.setBoard_name("");
-                                     notificationsPojo.setLabel(" added you to the project ");
-
-
-                                     listPojo.add(notificationsPojo);
-                                     // getLabelsList(jsonObject.getString("id"));
-
-                                 }
-                             }
-                                 if(!mainObject.getString("boards_notifications").equals("false")) {
-                                 JSONArray jsonArrayBoardNotifications = mainObject.getJSONArray("boards_notifications");
-                                 for (int i = 0; i < jsonArrayBoardNotifications.length(); i++) {
-                                     JSONObject jsonObject = jsonArrayBoardNotifications.getJSONObject(i);
-
-                                     NotificationsPojo boardnotificationsPojo = new NotificationsPojo();
-                                     boardnotificationsPojo.setUserName(jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"));
-                                     boardnotificationsPojo.setData(jsonObject.getString("board_name"));
-                                     boardnotificationsPojo.setProjectId(jsonObject.getString("project_id"));
-                                     boardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
-                                     boardnotificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
-                                     boardnotificationsPojo.setDate(jsonObject.getString("board_assigned_on"));
-                                     boardnotificationsPojo.setBoardType(jsonObject.getString("board_type_id"));
-                                     boardnotificationsPojo.setProjectCreatedBy("");
-                                     boardnotificationsPojo.setCardId("");
-                                     boardnotificationsPojo.setCardDueDate("");
-                                     boardnotificationsPojo.setCardStartDate("");
-                                     boardnotificationsPojo.setCardDueTime("");
-                                     boardnotificationsPojo.setCardStartTime("");
-                                     boardnotificationsPojo.setCardDescription("");
-                                     boardnotificationsPojo.setIsComplete("");
-                                     boardnotificationsPojo.setIsSubscribed("");
-                                     boardnotificationsPojo.setIsLocked("");
-                                     boardnotificationsPojo.setListId("");
-                                     boardnotificationsPojo.setBoard_name("");
-                                     boardnotificationsPojo.setLabel(" added you to the board ");
-
-                                     listPojo.add(boardnotificationsPojo);
-                                     // getLabelsList(jsonObject.getString("id"));
-
-                                 }
-                             }
-                                 if(!mainObject.getString("card_notifications").equals("false")) {
-                                     JSONArray jsonArrayCardNotifications = mainObject.getJSONArray("card_notifications");
-                                     for (int i = 0; i < jsonArrayCardNotifications.length(); i++) {
-                                         JSONObject jsonObject = jsonArrayCardNotifications.getJSONObject(i);
-
-                                         NotificationsPojo cardnotificationsPojo = new NotificationsPojo();
-                                         cardnotificationsPojo.setUserName(jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"));
-                                         cardnotificationsPojo.setData(jsonObject.getString("card_name"));
-                                         cardnotificationsPojo.setCardId(jsonObject.getString("card_id"));
-                                         cardnotificationsPojo.setCardDueDate(jsonObject.getString("card_end_date"));
-                                         cardnotificationsPojo.setCardStartDate(jsonObject.getString("card_start_date"));
-                                         cardnotificationsPojo.setCardDueTime(jsonObject.getString("card_due_time"));
-                                         cardnotificationsPojo.setCardStartTime(jsonObject.getString("card_start_time"));
-                                         cardnotificationsPojo.setCardDescription(jsonObject.getString("card_description"));
-                                         cardnotificationsPojo.setIsComplete(jsonObject.getString("card_is_complete"));
-                                         cardnotificationsPojo.setIsSubscribed(jsonObject.getString("subscribed"));
-                                         cardnotificationsPojo.setIsLocked(jsonObject.getString("is_locked"));
-                                         cardnotificationsPojo.setDate(jsonObject.getString("card_assigned_on"));
-                                         cardnotificationsPojo.setProjectId(jsonObject.getString("project_id"));
-                                         cardnotificationsPojo.setProjectTitle(jsonObject.getString("project_name"));
-                                         cardnotificationsPojo.setBoardId(jsonObject.getString("board_id"));
-                                         cardnotificationsPojo.setListId(jsonObject.getString("list_id"));
-                                         cardnotificationsPojo.setBoard_name(jsonObject.getString("board_name"));
-                                         cardnotificationsPojo.setLabel(" added you to the card ");
-                                         cardnotificationsPojo.setProjectCreatedBy("");
-
-                                         listPojo.add(cardnotificationsPojo);
-                                         // getLabelsList(jsonObject.getString("id"));
-
-                                     }
-                                 }*/
-
-                                 adapter=new NotificationAdapter(getActivity(),listPojo/*,boardlistPojo,cardlistPojo*/);
-                                 lv.setAdapter(adapter);
 
                              }catch (Exception e){
                                  e.printStackTrace();
@@ -384,7 +272,11 @@ public void getNotifications() {
                                 SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                 String userId = pref.getString("user_id", "");
 
-                                params.put("userId", userId);
+                                params.put("user_id", userId);
+                                params.put("project_id", "0");
+                                params.put("board_id", "0");
+                                params.put("card_id", "0");
+                                params.put("sort_type", "DESC");
                                 // params.put("password",strPassword );
                                 return params;
                         }
