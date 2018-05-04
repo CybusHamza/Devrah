@@ -267,8 +267,8 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
                 params.put("list_id",listId);
 
                 SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-
-                params.put("userId",usertoadd);
+                params.put("userId", pref.getString("user_id", ""));
+                params.put("usr_id",usertoadd);
 
                 return params;
             }
@@ -343,7 +343,8 @@ public class RVMemberResultAdapter extends RecyclerView.Adapter<ViewHolderMember
                 params.put("user_id", usertoadd);
                 params.put("card_id",cardId);
                 params.put("list_id",listId);
-
+                params.put("project_id",projectId);
+                params.put("board_id",boardId);
                 SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
                 params.put("userId", pref.getString("user_id", ""));

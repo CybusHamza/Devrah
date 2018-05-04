@@ -6,6 +6,106 @@ package com.app.devrah.pojo;
 
 public class AcitivitiesPojo {
     public String data;
+    public String projectTitle;
+
+    public String getProjectTitle() {
+        return projectTitle;
+    }
+
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
+    }
+
+    public String getCardDueDate() {
+        return cardDueDate;
+    }
+
+    public void setCardDueDate(String cardDueDate) {
+        this.cardDueDate = cardDueDate;
+    }
+
+    public String getCardStartDate() {
+        return cardStartDate;
+    }
+
+    public void setCardStartDate(String cardStartDate) {
+        this.cardStartDate = cardStartDate;
+    }
+
+    public String getCardDueTime() {
+        return cardDueTime;
+    }
+
+    public void setCardDueTime(String cardDueTime) {
+        this.cardDueTime = cardDueTime;
+    }
+
+    public String getCardStartTime() {
+        return cardStartTime;
+    }
+
+    public void setCardStartTime(String cardStartTime) {
+        this.cardStartTime = cardStartTime;
+    }
+
+    public String getCardDescription() {
+        return cardDescription;
+    }
+
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
+
+    public String getIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsComplete(String isComplete) {
+        this.isComplete = isComplete;
+    }
+
+    public String getIsSubscribed() {
+        return isSubscribed;
+    }
+
+    public void setIsSubscribed(String isSubscribed) {
+        this.isSubscribed = isSubscribed;
+    }
+
+    public String getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(String isLocked) {
+        this.isLocked = isLocked;
+    }
+
+    public String getBoard_name() {
+        return board_name;
+    }
+
+    public void setBoard_name(String board_name) {
+        this.board_name = board_name;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    String cardDueDate;
+    String cardStartDate;
+    String cardDueTime;
+    String cardStartTime;
+    String cardDescription;
+    String isComplete;
+    String isSubscribed;
+    String isLocked;
+    String board_name;
+    public String label;
 
     public String getBase() {
         return base;

@@ -24,9 +24,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.devrah.Adapters.ActivitiesAdpater;
+import com.app.devrah.Adapters.NotificationAdapter;
 import com.app.devrah.Network.End_Points;
 import com.app.devrah.R;
 import com.app.devrah.pojo.AcitivitiesPojo;
+import com.app.devrah.pojo.NotificationsPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -157,221 +159,52 @@ public class ActivitiesFragment extends Fragment implements View.OnClickListener
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
+
                         try {
-                            listPojo = new ArrayList<>();
-                            JSONObject jsonObject=new JSONObject(response);
-                            JSONArray jsonArrayProjectGroups=jsonObject.getJSONArray("project_groups");
-                            JSONArray jsonArrayProjects=jsonObject.getJSONArray("projects");
-                            JSONArray jsonArrayProjectMembers=jsonObject.getJSONArray("project_members");
-                            if(jsonArrayProjectGroups.length()<1 && jsonArrayProjects.length()<1 && jsonArrayProjectMembers.length()<1){
+
+                            if(response.equals("") || response.equals("[]")){
+                               listPojo=new ArrayList<>();
+                            }else {
                                 listPojo = new ArrayList<>();
-                                AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
-                                acitivitiesPojo.setData("");
-                                acitivitiesPojo.setDate("");
-                                acitivitiesPojo.setUserName("");
-                                acitivitiesPojo.setDataArray("");
-                                acitivitiesPojo.setProjectId("");
-                                acitivitiesPojo.setBoardId("");
-                                acitivitiesPojo.setListId("");
-                                acitivitiesPojo.setCardId("");
-                                acitivitiesPojo.setBase("No Data Found");
-                                listPojo.add(acitivitiesPojo);
-                                adapter=new ActivitiesAdpater(getActivity(),listPojo);
-                                lv.setAdapter(adapter);
+                                //  JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = new JSONArray(response);
+                                if (jsonArray.length() > 0) {
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        AcitivitiesPojo notificationsPojo = new AcitivitiesPojo();
+                                        //  if(object.getString("title").equals("Project")) {
+                                        //  if(object.getString("action_done").equals("1"))
+                                        //   notificationsPojo.setData(object.getString("name"));
+                                        notificationsPojo.setDate(object.getString("dateTime"));
+                                        // notificationsPojo.setUserName(object.getString("action_by"));
+                                        //  notificationsPojo.setProjectTitle(object.getString("name"));
+                                        notificationsPojo.setProjectId(object.getString("project_id"));
+                                        notificationsPojo.setBoardId(object.getString("board_id"));
+                                        notificationsPojo.setCardId(object.getString("card_id"));
+                                        notificationsPojo.setCardDueDate("");
+                                        notificationsPojo.setCardStartDate("");
+                                        notificationsPojo.setCardDueTime("");
+                                        notificationsPojo.setCardStartTime("");
+                                        notificationsPojo.setCardDescription("");
+                                        notificationsPojo.setIsComplete("");
+                                        notificationsPojo.setIsSubscribed("");
+                                        notificationsPojo.setIsLocked("");
+                                        notificationsPojo.setListId(object.getString("list_id"));
+                                        notificationsPojo.setBoard_name("");
+                                        notificationsPojo.setLabel(object.getString("text"));
+                                        notificationsPojo.setBase(object.getString("title"));
+                                        listPojo.add(notificationsPojo);
+                                        //}
+                                    }
+                                }
+                                getActivitiesData1();
+                               /* adapter = new ActivitiesAdpater(getActivity(), listPojo*//*,boardlistPojo,cardlistPojo*//*);
+                                lv.setAdapter(adapter);*/
                             }
 
-                            if(jsonArrayProjectGroups.length()>0){
-                                for (int i=0;i<jsonArrayProjectGroups.length();i++){
-                                    JSONObject object=jsonArrayProjectGroups.getJSONObject(i);
-                                    AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
-                                    if(object.getString("action_done").equals("1"))
-                                    acitivitiesPojo.setData("added");
-                                    else if(object.getString("action_done").equals("2"))
-                                        acitivitiesPojo.setData("updated");
-                                    else if(object.getString("action_done").equals("3"))
-                                        acitivitiesPojo.setData("removed "+object.getString("action_user")+" from");
-                                    acitivitiesPojo.setDate(object.getString("action_datetime"));
-                                    acitivitiesPojo.setUserName(object.getString("action_by"));
-                                    acitivitiesPojo.setDataArray(object.getString("name"));
-                                    acitivitiesPojo.setBase("Project Group");
-                                    acitivitiesPojo.setProjectId("");
-                                    acitivitiesPojo.setBoardId("");
-                                    acitivitiesPojo.setListId("");
-                                    acitivitiesPojo.setCardId("");
-                                    listPojo.add(acitivitiesPojo);
-                                }
-                            }
-                            if(jsonArrayProjects.length()>0){
-                                for (int i=0;i<jsonArrayProjects.length();i++){
-                                    JSONObject object=jsonArrayProjects.getJSONObject(i);
-                                    AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
-                                    if(object.getString("action_done").equals("1"))
-                                        acitivitiesPojo.setData("added");
-                                    else if(object.getString("action_done").equals("2"))
-                                        acitivitiesPojo.setData("updated");
-                                    else if(object.getString("action_done").equals("3"))
-                                        acitivitiesPojo.setData("removed "+object.getString("action_user")+" from");
-                                    acitivitiesPojo.setDate(object.getString("action_datetime"));
-                                    acitivitiesPojo.setUserName(object.getString("action_by"));
-                                    acitivitiesPojo.setDataArray(object.getString("name"));
-                                    acitivitiesPojo.setBase("Project");
-                                    acitivitiesPojo.setProjectId("");
-                                    acitivitiesPojo.setBoardId("");
-                                    acitivitiesPojo.setListId("");
-                                    acitivitiesPojo.setCardId("");
-                                    listPojo.add(acitivitiesPojo);
-                                }
-                            }
-                            if(jsonArrayProjectMembers.length()>0){
-                                for (int i=0;i<jsonArrayProjectMembers.length();i++){
-                                    JSONObject object=jsonArrayProjectMembers.getJSONObject(i);
-                                    AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
-                                    if(object.getString("action_done").equals("1"))
-                                        acitivitiesPojo.setData("added "+object.getString("action_user")+" in");
-                                    else if(object.getString("action_done").equals("2"))
-                                        acitivitiesPojo.setData("updated");
-                                    else if(object.getString("action_done").equals("3"))
-                                        acitivitiesPojo.setData("removed "+object.getString("action_user")+" from");
-                                    acitivitiesPojo.setDate(object.getString("action_datetime"));
-                                    acitivitiesPojo.setUserName(object.getString("action_by"));
-                                    acitivitiesPojo.setDataArray(object.getString("name"));
-                                    acitivitiesPojo.setBase("Project");
-                                    acitivitiesPojo.setProjectId("");
-                                    acitivitiesPojo.setBoardId("");
-                                    acitivitiesPojo.setListId("");
-                                    acitivitiesPojo.setCardId("");
-                                    listPojo.add(acitivitiesPojo);
-                                }
-                            }
-                            adapter=new ActivitiesAdpater(getActivity(),listPojo);
-                            lv.setAdapter(adapter);
-                        } catch (JSONException e) {
+                        }catch (Exception e){
                             e.printStackTrace();
                         }
-
-                       /* if(!response.equals("false")){
-                            listPojo = new ArrayList<>();
-                            try {
-                                JSONArray jsonArray=new JSONArray(response);
-                                for (int i=0;i<jsonArray.length();i++){
-                                    JSONObject jsonObject=jsonArray.getJSONObject(i);
-                                    AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
-                                    if(jsonObject.get("remarks").equals("Save_projects"))
-                                        acitivitiesPojo.setData("added project");
-                                    else  if(jsonObject.get("remarks").equals("save_project_groups"))
-                                        acitivitiesPojo.setData("added group");
-                                    else
-                                    acitivitiesPojo.setData(jsonObject.getString("remarks"));
-                                    acitivitiesPojo.setDate(jsonObject.getString("action_time"));
-                                    acitivitiesPojo.setUserName(jsonObject.getString("first_name")+ " " + jsonObject.getString("last_name"));
-                                     if(!(jsonObject.getString("project_id").equals("null")) && jsonObject.getString("board_id").equals("null") && jsonObject.getString("list_id").equals("null") && jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("Insert") && (jsonObject.getString("table_name").equals("projects") || jsonObject.getString("table_name").equals("project_groups"))) {
-                                        //String dataArray = jsonObject.getString("data_array");
-                                        String dataArray=jsonObject.getString("data_array");
-                                        JSONObject jsonObject1=new JSONObject(dataArray);
-                                         if(jsonObject1.has("project_name"))
-                                             acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
-                                         else if(jsonObject1.has("pg_name"))
-                                             acitivitiesPojo.setDataArray(jsonObject1.getString("pg_name"));
-                                         else
-                                             acitivitiesPojo.setDataArray("");
-
-                                         acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
-                                         acitivitiesPojo.setBoardId("");
-                                         acitivitiesPojo.setListId("");
-                                         acitivitiesPojo.setCardId("");
-                                       // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
-//                                    if(!dataArray.equals("null")) {
-//                                        String[] subString = dataArray.split(",");
-//                                        String[] finalString = subString[0].split(":");
-                                       // acitivitiesPojo.setDataArray(dataArray);
-                                    }
-                                    else if(!(jsonObject.getString("project_id").equals("null")) && !jsonObject.getString("board_id").equals("null") && jsonObject.getString("list_id").equals("null") && jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert") && jsonObject.getString("table_name").equals("boards")) {
-                                        //String dataArray = jsonObject.getString("data_array");
-                                        String dataArray=jsonObject.getString("data_array");
-                                        JSONObject jsonObject1=new JSONObject(dataArray);
-                                         if(jsonObject1.has("board_name"))
-                                             acitivitiesPojo.setDataArray(jsonObject1.getString("board_name"));
-                                         else
-                                             acitivitiesPojo.setDataArray("");
-                                        acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
-                                        acitivitiesPojo.setBoardId(jsonObject.getString("board_id"));
-                                        acitivitiesPojo.setListId("");
-                                        acitivitiesPojo.setCardId("");
-                                        // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
-//                                    if(!dataArray.equals("null")) {
-//                                        String[] subString = dataArray.split(",");
-//                                        String[] finalString = subString[0].split(":");
-                                        // acitivitiesPojo.setDataArray(dataArray);
-                                    }
-                                     else if(!(jsonObject.getString("project_id").equals("null")) && !jsonObject.getString("board_id").equals("null") && !jsonObject.getString("list_id").equals("null") && jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert") && jsonObject.getString("table_name").equals("lists")) {
-                                         //String dataArray = jsonObject.getString("data_array");
-                                         String dataArray=jsonObject.getString("data_array");
-                                         JSONObject jsonObject1=new JSONObject(dataArray);
-                                         if(jsonObject1.has("list_name"))
-                                         acitivitiesPojo.setDataArray(jsonObject1.getString("list_name"));
-                                         else
-                                             acitivitiesPojo.setDataArray("");
-                                         acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
-                                         acitivitiesPojo.setBoardId(jsonObject.getString("board_id"));
-                                         acitivitiesPojo.setListId(jsonObject.getString("list_id"));
-                                         acitivitiesPojo.setCardId("");
-                                         // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
-//                                    if(!dataArray.equals("null")) {
-//                                        String[] subString = dataArray.split(",");
-//                                        String[] finalString = subString[0].split(":");
-                                         // acitivitiesPojo.setDataArray(dataArray);
-                                     }else if(!(jsonObject.getString("project_id").equals("null")) && !jsonObject.getString("board_id").equals("null") && !jsonObject.getString("list_id").equals("null") && !jsonObject.getString("card_id").equals("null") && jsonObject.getString("action").equals("insert") && jsonObject.getString("table_name").equals("cards")) {
-                                         //String dataArray = jsonObject.getString("data_array");
-                                         String dataArray=jsonObject.getString("data_array");
-                                         JSONObject jsonObject1=new JSONObject(dataArray);
-                                         if(jsonObject1.has("card_name"))
-                                         acitivitiesPojo.setDataArray(jsonObject1.getString("card_name"));
-                                         else
-                                         acitivitiesPojo.setDataArray("");
-                                         acitivitiesPojo.setProjectId(jsonObject.getString("project_id"));
-                                         acitivitiesPojo.setBoardId(jsonObject.getString("board_id"));
-                                         acitivitiesPojo.setListId(jsonObject.getString("list_id"));
-                                         acitivitiesPojo.setCardId(jsonObject.getString("card_id"));
-                                         // acitivitiesPojo.setDataArray(jsonObject1.getString("project_name"));
-//                                    if(!dataArray.equals("null")) {
-//                                        String[] subString = dataArray.split(",");
-//                                        String[] finalString = subString[0].split(":");
-                                         // acitivitiesPojo.setDataArray(dataArray);
-                                     }else {
-                                         acitivitiesPojo.setDataArray("");
-                                         acitivitiesPojo.setProjectId("");
-                                         acitivitiesPojo.setBoardId("");
-                                         acitivitiesPojo.setListId("");
-                                         acitivitiesPojo.setCardId("");
-                                     }
-                                    //}
-
-                                    listPojo.add(acitivitiesPojo);
-                                }
-
-                                adapter=new ActivitiesAdpater(getActivity(),listPojo);
-                                lv.setAdapter(adapter);
-
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-
-                        }
-                        if(response.equals("false")){
-                            listPojo = new ArrayList<>();
-                            AcitivitiesPojo acitivitiesPojo=new AcitivitiesPojo();
-                            acitivitiesPojo.setData("");
-                            acitivitiesPojo.setDate("");
-                            acitivitiesPojo.setUserName("");
-                            acitivitiesPojo.setDataArray("No data found");
-                            acitivitiesPojo.setProjectId("");
-                            acitivitiesPojo.setBoardId("");
-                            acitivitiesPojo.setListId("");
-                            acitivitiesPojo.setCardId("");
-                            listPojo.add(acitivitiesPojo);
-                            adapter=new ActivitiesAdpater(getActivity(),listPojo);
-                            lv.setAdapter(adapter);
-                        }*/
 
 
                     }
@@ -418,9 +251,11 @@ public class ActivitiesFragment extends Fragment implements View.OnClickListener
                 SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 String userId = pref.getString("user_id", "");
 
-                params.put("userId", userId);
-               // params.put("project_id", "");
-                // params.put("password",strPassword );
+                params.put("user_id", userId);
+                params.put("project_id", "0");
+                params.put("board_id", "0");
+                params.put("card_id", "0");
+                params.put("sort_type", "DESC");
                 return params;
             }
         };
@@ -434,5 +269,150 @@ public class ActivitiesFragment extends Fragment implements View.OnClickListener
 
 
     }
+    public void getActivitiesData1() {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
 
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ACTIVITIES_DATA1,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        try {
+
+                            if((response.equals("") || response.equals("[]")) && listPojo.size()<1){
+                                //listPojo = new ArrayList<>();
+                                AcitivitiesPojo notificationsPojo = new AcitivitiesPojo();
+                                notificationsPojo.setUserName("");
+                                notificationsPojo.setData("");
+                                notificationsPojo.setDate("");
+                                notificationsPojo.setProjectId("");
+                                notificationsPojo.setProjectTitle("");
+                                notificationsPojo.setBoardId("");
+                                notificationsPojo.setCardId("");
+                                notificationsPojo.setCardDueDate("");
+                                notificationsPojo.setCardStartDate("");
+                                notificationsPojo.setCardDueTime("");
+                                notificationsPojo.setCardStartTime("");
+                                notificationsPojo.setCardDescription("");
+                                notificationsPojo.setIsComplete("");
+                                notificationsPojo.setIsSubscribed("");
+                                notificationsPojo.setProjectCreatedBy("");
+                                notificationsPojo.setIsLocked("");
+                                notificationsPojo.setListId("");
+                                notificationsPojo.setBoard_name("");
+                                notificationsPojo.setLabel("");
+                                notificationsPojo.setBase("No activities found");
+                                listPojo.add(notificationsPojo);
+                              //  adapter = new ActivitiesAdpater(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
+                               // lv.setAdapter(adapter);
+                            }else {
+                               // listPojo = new ArrayList<>();
+                                //  JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = new JSONArray(response);
+                                if (jsonArray.length() > 0) {
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        AcitivitiesPojo notificationsPojo = new AcitivitiesPojo();
+                                        //  if(object.getString("title").equals("Project")) {
+                                        //  if(object.getString("action_done").equals("1"))
+                                        //   notificationsPojo.setData(object.getString("name"));
+                                        notificationsPojo.setDate(object.getString("dateTime"));
+                                        // notificationsPojo.setUserName(object.getString("action_by"));
+                                        //  notificationsPojo.setProjectTitle(object.getString("name"));
+                                        notificationsPojo.setProjectId(object.getString("project_id"));
+                                        notificationsPojo.setBoardId(object.getString("board_id"));
+                                        notificationsPojo.setCardId(object.getString("card_id"));
+                                        notificationsPojo.setCardDueDate("");
+                                        notificationsPojo.setCardStartDate("");
+                                        notificationsPojo.setCardDueTime("");
+                                        notificationsPojo.setCardStartTime("");
+                                        notificationsPojo.setCardDescription("");
+                                        notificationsPojo.setIsComplete("");
+                                        notificationsPojo.setIsSubscribed("");
+                                        notificationsPojo.setIsLocked("");
+                                        notificationsPojo.setListId(object.getString("list_id"));
+                                        notificationsPojo.setBoard_name("");
+                                        notificationsPojo.setLabel(object.getString("text"));
+                                        notificationsPojo.setBase(object.getString("title"));
+                                        listPojo.add(notificationsPojo);
+                                        //}
+                                    }
+                                }
+
+
+                            }
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        adapter = new ActivitiesAdpater(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
+                        lv.setAdapter(adapter);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
+
+                    Toast.makeText(getContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
+
+//             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+//                     .setTitleText("Error!")
+//                     .setConfirmText("OK").setContentText("No Internet Connection")
+//                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                         @Override
+//                         public void onClick(SweetAlertDialog sDialog) {
+//                             sDialog.dismiss();
+//                         }
+//                     })
+//                     .show();
+                } else if (error instanceof TimeoutError) {
+
+                    Toast.makeText(getActivity().getApplicationContext(), "Timeout Error", Toast.LENGTH_SHORT).show();
+
+//             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+//                     .setTitleText("Error!")
+//                     .setConfirmText("OK").setContentText("Connection TimeOut! Please check your internet connection.")
+//                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                         @Override
+//                         public void onClick(SweetAlertDialog sDialog) {
+//                             sDialog.dismiss();
+//                         }
+//                     })
+//                     .show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
+
+                params.put("user_id", userId);
+                params.put("project_id", "0");
+                params.put("board_id", "0");
+                params.put("card_id", "0");
+                params.put("sort_type", "DESC");
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
+
+
+    }
 }

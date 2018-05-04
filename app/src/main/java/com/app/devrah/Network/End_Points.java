@@ -9,12 +9,12 @@ public class End_Points {
 //    public static final String IMAGES_BASE_URL = "https://www.devrah.com/uploads/";
 //    private static final String BASE_URL_ACTIVITIES = "https://www.devrah.com/Activities/";
 
- private static final String BASE_URL = "http://demo.cybussolutions.com/kanban/Api_service/";
-    public static final String BASE_URL_FILE_UPLOAD = "http://demo.cybussolutions.com/kanban/";
+    private static final String BASE_URL = "http://m2.cybussolutions.com/kanban/Api_service/";
+    public static final String BASE_URL_FILE_UPLOAD = "http://m2.cybussolutions.com/kanban/";
    // public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
-    public static final String IMAGES_BASE_URL = "http://demo.cybussolutions.com/kanban/uploads/";
-    private static final String BASE_URL_ACTIVITIES = "http://demo.cybussolutions.com/kanban/Activities/";
-    private static final String BASE_URL_NOTIFICATIONS = "http://demo.cybussolutions.com/kanban/api/Notifications/";
+    public static final String IMAGES_BASE_URL = "http://m2.cybussolutions.com/kanban/uploads/";
+    private static final String BASE_URL_ACTIVITIES = "http://m2.cybussolutions.com/kanban/api/Activities_Mobile/";
+    private static final String BASE_URL_NOTIFICATIONS = "http://m2.cybussolutions.com/kanban/api/Notifications/";
 
     public static final String LOGIN = BASE_URL + "login";
     public static final String FORGOT_PASSWORD = BASE_URL + "forgot";
@@ -92,7 +92,7 @@ public class End_Points {
     public static final String MAKE_COVER= BASE_URL + "makeCover";
     public static final String UPDATE_LABLE= BASE_URL + "updateLabelById";
     public static final String DELETE_LABLE= BASE_URL + "deleteCardLabelById";
-    public static final String ASSOSIATE_USER_CARD= BASE_URL + "associateUserWithCard";
+    public static final String ASSOSIATE_USER_CARD= BASE_URL + "associateUserWithCards";
     public static final String DELETE_USER_CARD= BASE_URL + "deleteUserFromCard";
     public static final String GET_CHECKLIST_DATA= BASE_URL + "getCheckListData";
     public static final String UPDATE_DUE_DATES_BY_ID= BASE_URL + "updateDueDatesById";
@@ -124,7 +124,8 @@ public class End_Points {
     public static final String UPDATE_LIST_NAME= BASE_URL + "updateListName";
     public static final String DELETE_BOARD= BASE_URL + "deleteBoard";
     public static final String GET_CARD_MEMBERS= BASE_URL + "getCardMembers";
-    public static final String DELETE_CARD_MEMBER= BASE_URL + "deleteCardMember";
+   // public static final String DELETE_CARD_MEMBER= BASE_URL + "deleteCardMember";
+    public static final String DELETE_CARD_MEMBER= BASE_URL + "deleteUserFromCard";
     public static final String GET_WORK_BOARD_TO_MEMBERS= BASE_URL + "getWorkBoardToMembers";
     public static final String GET_REFERENCE_BOARD_TO_MEMBERS= BASE_URL + "getReferenceBoardToMembers";
     public static final String GET_POSITION_LIST= BASE_URL + "getPostionofList";
@@ -146,7 +147,8 @@ public class End_Points {
     public static final String ASSIGN_LABEL_BY_ID = BASE_URL + "reAssignLabelById";
     public static final String SEARCH_USER_TEAM = BASE_URL + "searchUserTeam";
 
-    public static final String DELETE_PROJECT= BASE_URL + "delete_project";
+    //public static final String DELETE_PROJECT= BASE_URL + "delete_project";
+    public static final String DELETE_PROJECT= BASE_URL + "ProjectDelete";
     public static final String GET_ALL_BOARDS_BY_PROJECT= BASE_URL + "getBoardsByProjects";
     public static final String ARCHIVE_BOARD= BASE_URL + "boardCardsCheck";
     public static final String GET_DUE_DATE_PROJECT= BASE_URL + "getDueDateProject";
@@ -154,7 +156,9 @@ public class End_Points {
     public static final String UPDATE_BG_BOARD = BASE_URL + "saveSpecificBoardBackground";
     public static final String UPDATE_BG_BOARD_IMG = BASE_URL + "updateNewComputerBgImage";
     public static final String DELETE_TEAM = BASE_URL + "DeleteTeam";
-    public static final String ACTIVITIES_DATA = BASE_URL_ACTIVITIES + "system_activities/";
+   // public static final String ACTIVITIES_DATA = BASE_URL_ACTIVITIES + "system_activities/";
+    public static final String ACTIVITIES_DATA = BASE_URL_ACTIVITIES + "getAtivities";
+    public static final String ACTIVITIES_DATA1 = BASE_URL_ACTIVITIES + "getAllAtivities";
     public static final String NOTIFICATIONS_DATA = BASE_URL_ACTIVITIES + "system_notifications/";
     public static final String UPDATE_TEAM_NAME = BASE_URL + "updateTeamName";
     public static final String UPDATE_COLOUMN_POSITION = BASE_URL + "updateListsColumnPosition";

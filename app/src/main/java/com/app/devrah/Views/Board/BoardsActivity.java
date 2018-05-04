@@ -1369,9 +1369,9 @@ public class BoardsActivity extends AppCompatActivity {
 
                         ringProgressDialog.dismiss();
 
-                        if(response.equals("1")){
+                        if(response.equals("0")){
                             Toast.makeText(BoardsActivity.this,"You cannot delete this project",Toast.LENGTH_LONG).show();
-                        }else if(response.equals("{\"project_left\":1}")) {
+                        }else if(response.equals("1")) {
                             Intent intent = new Intent(BoardsActivity.this, ProjectsActivity.class);
                             finish();
                             startActivity(intent);
@@ -1760,11 +1760,13 @@ public class BoardsActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
                 int pos = project_groups.getSelectedItemPosition();
 
                 params.put("project_id", projectID);
                 params.put("group_id", spinnerGroupIds.get(pos));
+                params.put("userId", userId);
                 return params;
             }
         };

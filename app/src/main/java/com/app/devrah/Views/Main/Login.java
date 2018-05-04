@@ -82,9 +82,9 @@ public class Login extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        etEmail = (EditText) findViewById(R.id.input_email);
-        etPsw = (EditText) findViewById(R.id.input_password);
-        tvForgotPass = (TextView) findViewById(R.id.forgotPassword);
+        etEmail = findViewById(R.id.input_email);
+        etPsw = findViewById(R.id.input_password);
+        tvForgotPass = findViewById(R.id.forgotPassword);
         tvForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,8 +92,8 @@ public class Login extends AppCompatActivity implements
             }
         });
         isClicked=false;
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnSignUp = (TextView) findViewById(R.id.btn_signup);
+        btnLogin = findViewById(R.id.btn_login);
+        btnSignUp = findViewById(R.id.btn_signup);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String cbValue= pref.getString("Checkbox_value","");
@@ -121,7 +121,7 @@ public class Login extends AppCompatActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
       //  mGoogleApiClient.connect();
-        googleSignIn = (ImageView) findViewById(R.id.imgViewGSignIn);
+        googleSignIn = findViewById(R.id.imgViewGSignIn);
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,12 +207,12 @@ public class Login extends AppCompatActivity implements
         // canvas.setMode(CanvasView.Mode.TEXT);
         LayoutInflater inflater = LayoutInflater.from(Login.this);
         View subView = inflater.inflate(R.layout.custom_dialog_for_forgot_password, null);
-        final EditText email = (EditText) subView.findViewById(R.id.etEmail);
+        final EditText email = subView.findViewById(R.id.etEmail);
         alertDialog = new AlertDialog.Builder(Login.this).create();
         alertDialog.setCancelable(false);
 
-        TextView ok = (TextView) subView.findViewById(R.id.ok);
-        TextView cancel = (TextView) subView.findViewById(R.id.cancel_btn);
+        TextView ok = subView.findViewById(R.id.ok);
+        TextView cancel = subView.findViewById(R.id.cancel_btn);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -379,7 +379,7 @@ public class Login extends AppCompatActivity implements
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("user_name", strEmail);
@@ -573,7 +573,7 @@ public class Login extends AppCompatActivity implements
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
 
 
@@ -692,7 +692,7 @@ public class Login extends AppCompatActivity implements
                 }
         ) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> map = new HashMap<String, String>();
 
                 map.put("forgot_email",email);

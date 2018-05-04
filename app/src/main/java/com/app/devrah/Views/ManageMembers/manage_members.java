@@ -781,7 +781,9 @@ public class manage_members extends AppCompatActivity {
 
                 params.put("member_id", usertoadd);
                 params.put("project_id",p_id);
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
+                params.put("userId", pref.getString("user_id", ""));
                 return params;
             }
         };

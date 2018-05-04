@@ -47,196 +47,194 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Rizwan Butt on 14-Jun-17.
  */
 
-public class NotificationsFragment extends Fragment implements View.OnClickListener{
+public class NotificationsFragment extends Fragment implements View.OnClickListener {
 
-        Button btnAddProject;
-        View view;
-        NotificationAdapter adapter;
-        List<NotificationsPojo> listPojo;
-        List<boardNotificationsPojo> boardlistPojo;
-        List<cardNotificationsPojo> cardlistPojo;
-        NotificationsPojo projectPojoData;
-        ListView lv;
-        EditText edt;
+    Button btnAddProject;
+    View view;
+    NotificationAdapter adapter;
+    List<NotificationsPojo> listPojo;
+    List<boardNotificationsPojo> boardlistPojo;
+    List<cardNotificationsPojo> cardlistPojo;
+    NotificationsPojo projectPojoData;
+    ListView lv;
+    EditText edt;
 
-        String projectData;
-
-
+    String projectData;
 
 
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
-private static final String ARG_PARAM1 = "param1";
-private static final String ARG_PARAM2 = "param2";
-
-private String mParam1;
-private String mParam2;
+    private String mParam1;
+    private String mParam2;
 
 
-private NotificationsFragment.OnFragmentInteractionListener mListener;
+    private NotificationsFragment.OnFragmentInteractionListener mListener;
 
-public NotificationsFragment() {
+    public NotificationsFragment() {
         // Required empty public constructor
-        }
+    }
 
-/**
- * Use this factory method to create a new instance of
- * this fragment using the provided parameters.
- *
- * @param param1 Parameter 1.
- * @param param2 Parameter 2.
- * @return A new instance of fragment Projects.
- */
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment Projects.
+     */
 // TODO: Rename and change types and number of parameters
-public static NotificationsFragment newInstance(String param1, String param2) {
+    public static NotificationsFragment newInstance(String param1, String param2) {
         NotificationsFragment fragment = new NotificationsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-        }
+    }
 
-@Override
-public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-        mParam1 = getArguments().getString(ARG_PARAM1);
-        mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        }
+    }
 
-@Override
-public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                         Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_notifications, container, false);
         // btnAddProject = (Button)view.findViewById(R.id.buttonAddProject);
 
-        lv = (ListView)view.findViewById(R.id.notificationsListView);
+        lv = (ListView) view.findViewById(R.id.notificationsListView);
 
         getNotifications();
-        return  view;
-        }
+        return view;
+    }
 
 
-// TODO: Rename method, update argument and hook method into UI event
-public void onButtonPressed(Uri uri) {
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-        mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction(uri);
 
         }
-        }
+    }
 
 
-@Override
-public void onDetach() {
+    @Override
+    public void onDetach() {
         super.onDetach();
         mListener = null;
-        }
+    }
 
-@Override
-public void onClick(View v) {
-        }
+    @Override
+    public void onClick(View v) {
+    }
 
 
-public interface OnFragmentInteractionListener {
-    void onFragmentInteraction(Uri uri);
-}
-public void getNotifications() {
-         final ProgressDialog ringProgressDialog;
-         ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
-         ringProgressDialog.setCancelable(false);
-         ringProgressDialog.show();
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
+    }
 
-         StringRequest request = new StringRequest(Request.Method.POST, End_Points.NOTIFICATIONS,
-                 new Response.Listener<String>() {
-                         @Override
-                         public void onResponse(String response) {
+    public void getNotifications() {
+        final ProgressDialog ringProgressDialog;
+        ringProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait ...", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
 
-                             ringProgressDialog.dismiss();
-                             listPojo = new ArrayList<>();
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.NOTIFICATIONS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+                        listPojo = new ArrayList<>();
                           /*   boardlistPojo = new ArrayList<>();
                              cardlistPojo = new ArrayList<>();
                              SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");*/
-                             try {
+                        try {
 
-                                 if(response.equals("")){
-                                     listPojo = new ArrayList<>();
-                                     NotificationsPojo notificationsPojo = new NotificationsPojo();
-                                     notificationsPojo.setUserName("");
-                                     notificationsPojo.setData("");
-                                     notificationsPojo.setDate("");
-                                     notificationsPojo.setProjectId("");
-                                     notificationsPojo.setProjectTitle("");
-                                     notificationsPojo.setBoardId("");
-                                     notificationsPojo.setCardId("");
-                                     notificationsPojo.setCardDueDate("");
-                                     notificationsPojo.setCardStartDate("");
-                                     notificationsPojo.setCardDueTime("");
-                                     notificationsPojo.setCardStartTime("");
-                                     notificationsPojo.setCardDescription("");
-                                     notificationsPojo.setIsComplete("");
-                                     notificationsPojo.setIsSubscribed("");
-                                     notificationsPojo.setProjectCreatedBy("");
-                                     notificationsPojo.setIsLocked("");
-                                     notificationsPojo.setListId("");
-                                     notificationsPojo.setBoard_name("");
-                                     notificationsPojo.setLabel("");
-                                     notificationsPojo.setBase("No notification found");
-                                     listPojo.add(notificationsPojo);
-                                     adapter = new NotificationAdapter(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
-                                     lv.setAdapter(adapter);
-                                 }else {
-                                   //  JSONObject jsonObject = new JSONObject(response);
-                                     JSONArray jsonArray = new JSONArray(response);
-                                     if (jsonArray.length() > 0) {
-                                         for (int i = 0; i < jsonArray.length(); i++) {
-                                             JSONObject object = jsonArray.getJSONObject(i);
-                                             NotificationsPojo notificationsPojo = new NotificationsPojo();
-                                           //  if(object.getString("title").equals("Project")) {
-                                                 //  if(object.getString("action_done").equals("1"))
-                                              //   notificationsPojo.setData(object.getString("name"));
-                                                 notificationsPojo.setDate(object.getString("dateTime"));
-                                                // notificationsPojo.setUserName(object.getString("action_by"));
-                                               //  notificationsPojo.setProjectTitle(object.getString("name"));
-                                                 notificationsPojo.setProjectId(object.getString("project_id"));
-                                                 notificationsPojo.setBoardId(object.getString("board_id"));
-                                                 notificationsPojo.setCardId(object.getString("card_id"));
-                                                 notificationsPojo.setCardDueDate("");
-                                                 notificationsPojo.setCardStartDate("");
-                                                 notificationsPojo.setCardDueTime("");
-                                                 notificationsPojo.setCardStartTime("");
-                                                 notificationsPojo.setCardDescription("");
-                                                 notificationsPojo.setIsComplete("");
-                                                 notificationsPojo.setIsSubscribed("");
-                                                 notificationsPojo.setIsLocked("");
-                                                 notificationsPojo.setListId(object.getString("list_id"));
-                                                 notificationsPojo.setBoard_name("");
-                                                 notificationsPojo.setLabel(object.getString("text"));
-                                                 notificationsPojo.setBase(object.getString("title"));
-                                                 listPojo.add(notificationsPojo);
-                                             //}
-                                         }
-                                     }
+                            if (response.equals("")) {
+                                listPojo = new ArrayList<>();
+                                NotificationsPojo notificationsPojo = new NotificationsPojo();
+                                notificationsPojo.setUserName("");
+                                notificationsPojo.setData("");
+                                notificationsPojo.setDate("");
+                                notificationsPojo.setProjectId("");
+                                notificationsPojo.setProjectTitle("");
+                                notificationsPojo.setBoardId("");
+                                notificationsPojo.setCardId("");
+                                notificationsPojo.setCardDueDate("");
+                                notificationsPojo.setCardStartDate("");
+                                notificationsPojo.setCardDueTime("");
+                                notificationsPojo.setCardStartTime("");
+                                notificationsPojo.setCardDescription("");
+                                notificationsPojo.setIsComplete("");
+                                notificationsPojo.setIsSubscribed("");
+                                notificationsPojo.setProjectCreatedBy("");
+                                notificationsPojo.setIsLocked("");
+                                notificationsPojo.setListId("");
+                                notificationsPojo.setBoard_name("");
+                                notificationsPojo.setLabel("");
+                                notificationsPojo.setBase("No notification found");
+                                listPojo.add(notificationsPojo);
+                                adapter = new NotificationAdapter(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
+                                lv.setAdapter(adapter);
+                            } else {
+                                //  JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = new JSONArray(response);
+                                if (jsonArray.length() > 0) {
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        NotificationsPojo notificationsPojo = new NotificationsPojo();
+                                        //  if(object.getString("title").equals("Project")) {
+                                        //  if(object.getString("action_done").equals("1"))
+                                        //   notificationsPojo.setData(object.getString("name"));
+                                        notificationsPojo.setDate(object.getString("dateTime"));
+                                        // notificationsPojo.setUserName(object.getString("action_by"));
+                                        //  notificationsPojo.setProjectTitle(object.getString("name"));
+                                        notificationsPojo.setProjectId(object.getString("project_id"));
+                                        notificationsPojo.setBoardId(object.getString("board_id"));
+                                        notificationsPojo.setCardId(object.getString("card_id"));
+                                        notificationsPojo.setCardDueDate("");
+                                        notificationsPojo.setCardStartDate("");
+                                        notificationsPojo.setCardDueTime("");
+                                        notificationsPojo.setCardStartTime("");
+                                        notificationsPojo.setCardDescription("");
+                                        notificationsPojo.setIsComplete("");
+                                        notificationsPojo.setIsSubscribed("");
+                                        notificationsPojo.setIsLocked("");
+                                        notificationsPojo.setListId(object.getString("list_id"));
+                                        notificationsPojo.setBoard_name("");
+                                        notificationsPojo.setLabel(object.getString("text"));
+                                        notificationsPojo.setBase(object.getString("title"));
+                                        listPojo.add(notificationsPojo);
+                                        //}
+                                    }
+                                }
 
-                                     adapter = new NotificationAdapter(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
-                                     lv.setAdapter(adapter);
-                                 }
+                                adapter = new NotificationAdapter(getActivity(), listPojo/*,boardlistPojo,cardlistPojo*/);
+                                lv.setAdapter(adapter);
+                            }
 
-                             }catch (Exception e){
-                                 e.printStackTrace();
-                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                         }
-                 }, new Response.ErrorListener() {
-                 @Override
-                 public void onErrorResponse(VolleyError error) {
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-                         ringProgressDialog.dismiss();
-                         if (error instanceof NoConnectionError) {
+                ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError) {
 
-                                 Toast.makeText(getContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "check your internet connection", Toast.LENGTH_SHORT).show();
 
 //             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
 //                     .setTitleText("Error!")
@@ -248,9 +246,9 @@ public void getNotifications() {
 //                         }
 //                     })
 //                     .show();
-                         } else if (error instanceof TimeoutError) {
+                } else if (error instanceof TimeoutError) {
 
-                                 Toast.makeText(getActivity().getApplicationContext(), "Timeout Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Timeout Error", Toast.LENGTH_SHORT).show();
 
 //             new SweetAlertDialog(getActivity().getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
 //                     .setTitleText("Error!")
@@ -262,34 +260,34 @@ public void getNotifications() {
 //                         }
 //                     })
 //                     .show();
-                                }
-                        }
-                }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
 
-                                Map<String, String> params = new HashMap<>();
-                                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                String userId = pref.getString("user_id", "");
+                Map<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String userId = pref.getString("user_id", "");
 
-                                params.put("user_id", userId);
-                                params.put("project_id", "0");
-                                params.put("board_id", "0");
-                                params.put("card_id", "0");
-                                params.put("sort_type", "DESC");
-                                // params.put("password",strPassword );
-                                return params;
-                        }
-                };
-                request.setRetryPolicy(new DefaultRetryPolicy(
-                        10000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                params.put("user_id", userId);
+                params.put("project_id", "0");
+                params.put("board_id", "0");
+                params.put("card_id", "0");
+                params.put("sort_type", "DESC");
+                // params.put("password",strPassword );
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-                RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-                requestQueue.add(request);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(request);
 
 
-        }
+    }
 
 }

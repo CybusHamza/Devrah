@@ -2524,9 +2524,10 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("card_id",cardId);
                 params.put("list_id",list_id);
 
-                SharedPreferences pref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                SharedPreferences pref = activity.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id", ""));
 
-                params.put("userId",usertoadd);
+                params.put("usr_id",usertoadd);
 
                 return params;
             }
@@ -2601,6 +2602,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("user_id", usertoadd);
                 params.put("card_id",cardId);
                 params.put("list_id",list_id);
+                params.put("project_id",projectId);
+                params.put("board_id",boardId);
 
                 SharedPreferences pref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
@@ -3308,7 +3311,8 @@ public class CardActivity extends AppCompatActivity  implements callBack {
                 params.put("cardId",cardId);
                 params.put("boardId",BoardExtended.boardId);
                 params.put("projectId",BoardExtended.projectId);
-
+                final SharedPreferences pref = activity.getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                params.put("userId", pref.getString("user_id",""));
                 return params;
             }
         };

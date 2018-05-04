@@ -325,7 +325,8 @@ public class CheckList_Detail extends AppCompatActivity {
         ringProgressDialog = ProgressDialog.show(CheckList_Detail.this, "", "Please wait ...", true);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_CHECKITEM, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, End_Points.ADD_CHECKITEM,
+                new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

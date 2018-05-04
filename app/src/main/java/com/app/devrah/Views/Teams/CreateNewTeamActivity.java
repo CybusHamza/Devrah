@@ -897,11 +897,11 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 Map<String, String> params = new HashMap<>();
                 params.put("teamid", teamId);
                 params.put("userids", usertobeAddedId);
-
+                params.put("userId", pref.getString("user_id", ""));
                 return params;
             }
         };
@@ -980,11 +980,11 @@ public class CreateNewTeamActivity extends AppCompatActivity implements View.OnC
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
+                final SharedPreferences pref = getApplicationContext().getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 Map<String, String> params = new HashMap<>();
                 params.put("teamids", teamId);
                 params.put("members", members);
-
+                params.put("userId", pref.getString("user_id", ""));
                 return params;
             }
         };

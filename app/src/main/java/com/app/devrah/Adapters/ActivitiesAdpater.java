@@ -67,7 +67,8 @@ public class ActivitiesAdpater extends BaseAdapter {
         holder.data = (TextView) convertView.findViewById(R.id.activities_data);
         holder.date = (TextView) convertView.findViewById(R.id.date);
         holder.base = (TextView) convertView.findViewById(R.id.tvProjectsData);
-        holder.data.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()+ "</b>"+" "+"<font color=#C3C3C3>" +projectsList.get(position).getData()+ "</font>"+" "+"<b> <u>"+projectsList.get(position).getDataArray()+ "</u></b> "));
+      //  holder.data.setText(Html.fromHtml("<b>" + projectsList.get(position).getUserName()+ "</b>"+" "+"<font color=#C3C3C3>" +projectsList.get(position).getData()+ "</font>"+" "+"<b> <u>"+projectsList.get(position).getDataArray()+ "</u></b> "));
+        holder.data.setText(Html.fromHtml(projectsList.get(position).getLabel()));
         String date=Html.fromHtml(projectsList.get(position).getDate().replace("<br/>"," ")).toString();
         holder.date.setText(date);
 //        if(projectsList.get(position).getDataArray().equals("No data found")  && projectsList.get(position).getProjectId().equals("") && projectsList.get(position).getBoardId().equals("")&& projectsList.get(position).getListId().equals("")&& projectsList.get(position).getCardId().equals("")){
